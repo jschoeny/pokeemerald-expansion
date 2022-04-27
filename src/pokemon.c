@@ -7295,8 +7295,10 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
     u16 learnedMoves[4];
     u8 numMoves = 0;
     u16 species = GetMonData(mon, MON_DATA_SPECIES, 0);
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, 0);
     int i, j, k;
+    u8 type;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         learnedMoves[i] = GetMonData(mon, MON_DATA_MOVE1 + i, 0);
@@ -7320,8 +7322,24 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
                 for (k = 0; k < numMoves && moves[k] != gLevelUpLearnsets[species][i].move; k++)
                     ;
 
-                if (k == numMoves)
-                    moves[numMoves++] = gLevelUpLearnsets[species][i].move;
+                if (k == numMoves) {
+                    if(gLevelUpLearnsets[species][i].move > MOVES_PH_START)
+                    {
+                        type = personality % (NUMBER_OF_MON_TYPES - 1);
+                        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+                        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
+                            if(personality >> 8 % 3 == 2) {
+                                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+                                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+                            }
+                        }
+                        moves[numMoves++] = gPlaceholderMoves[gLevelUpLearnsets[species][i].move - (MOVES_PH_START + 1)].move[type];
+                    }
+                    else
+                    {
+                        moves[numMoves++] = gLevelUpLearnsets[species][i].move;
+                    }
+                }
             }
         }
     }
