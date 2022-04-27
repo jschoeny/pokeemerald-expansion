@@ -1851,6 +1851,7 @@ const s8 gNatureStatTable[NUM_NATURES][NUM_NATURE_STATS] =
 #include "data/pokemon/experience_tables.h"
 #include "data/pokemon/base_stats.h"
 #include "data/pokemon/level_up_learnsets.h"
+#include "data/pokemon/move_placeholder_replace.h"
 #include "data/pokemon/evolution.h"
 #include "data/pokemon/level_up_learnset_pointers.h"
 #include "data/pokemon/form_species_tables.h"
@@ -3878,6 +3879,24 @@ u16 GiveMoveToMon(struct Pokemon *mon, u16 move)
 static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
 {
     s32 i;
+
+    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
+    u8 type;
+
+    if(move > MOVES_PH_START) {
+        type = personality % (NUMBER_OF_MON_TYPES - 1);
+        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
+            if(personality >> 8 % 3 == 2) {
+                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            }
+        }
+
+        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
+    }
+
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         u16 existingMove = GetBoxMonData(boxMon, MON_DATA_MOVE1 + i, NULL);
@@ -3896,6 +3915,23 @@ static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
 u16 GiveMoveToBattleMon(struct BattlePokemon *mon, u16 move)
 {
     s32 i;
+
+    u16 species = mon->species;
+    u32 personality = mon->personality;
+    u8 type;
+
+    if(move > MOVES_PH_START) {
+        type = personality % (NUMBER_OF_MON_TYPES - 1);
+        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
+            if(personality >> 8 % 3 == 2) {
+                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            }
+        }
+
+        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
+    }
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
@@ -3983,6 +4019,23 @@ void DeleteFirstMoveAndGiveMoveToMon(struct Pokemon *mon, u16 move)
     u8 pp[MAX_MON_MOVES];
     u8 ppBonuses;
 
+    u16 species = GetBoxMonData(mon->box, MON_DATA_SPECIES, NULL);
+    u32 personality = GetBoxMonData(mon->box, MON_DATA_PERSONALITY, NULL);
+    u8 type;
+
+    if(move > MOVES_PH_START) {
+        type = personality % (NUMBER_OF_MON_TYPES - 1);
+        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
+            if(personality >> 8 % 3 == 2) {
+                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            }
+        }
+
+        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
+    }
+
     for (i = 0; i < MAX_MON_MOVES - 1; i++)
     {
         moves[i] = GetMonData(mon, MON_DATA_MOVE2 + i, NULL);
@@ -4009,6 +4062,23 @@ void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
     u16 moves[MAX_MON_MOVES];
     u8 pp[MAX_MON_MOVES];
     u8 ppBonuses;
+
+    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
+    u8 type;
+
+    if(move > MOVES_PH_START) {
+        type = personality % (NUMBER_OF_MON_TYPES - 1);
+        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
+            if(personality >> 8 % 3 == 2) {
+                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            }
+        }
+
+        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
+    }
 
     for (i = 0; i < MAX_MON_MOVES - 1; i++)
     {
