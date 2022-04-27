@@ -3112,6 +3112,7 @@ void SwitchInClearSetData(void)
 void FaintClearSetData(void)
 {
     s32 i;
+    u8 type1, type2;
 
     for (i = 0; i < NUM_BATTLE_STATS; i++)
         gBattleMons[gActiveBattler].statStages[i] = DEFAULT_STAT_STAGE;
@@ -3197,8 +3198,16 @@ void FaintClearSetData(void)
 
     gBattleResources->flags->flags[gActiveBattler] = 0;
 
-    gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
-    gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    type1 = gBattleMons[gActiveBattler].personality % (NUMBER_OF_MON_TYPES - 1);
+    type1 = (type1 >= TYPE_MYSTERY) ? type1 + 1 : type1;
+    type2 = type1;
+    if(gBaseStats[gBattleMons[gActiveBattler].species].type1 != gBaseStats[gBattleMons[gActiveBattler].species].type2) {
+        type2 = (gBattleMons[gActiveBattler].personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+        type2 = (type2 >= TYPE_MYSTERY) ? type2 + 1 : type2;
+    }
+
+    gBattleMons[gActiveBattler].type1 = type1;
+    gBattleMons[gActiveBattler].type2 = type2;
     gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
 
     ClearBattlerMoveHistory(gActiveBattler);
@@ -3252,6 +3261,7 @@ static void DoBattleIntro(void)
 {
     s32 i;
     u8 *state = &gBattleStruct->introState;
+    u8 type1, type2;
 
     switch (*state)
     {
@@ -3295,8 +3305,17 @@ static void DoBattleIntro(void)
             else
             {
                 memcpy(&gBattleMons[gActiveBattler], &gBattleResources->bufferB[gActiveBattler][4], sizeof(struct BattlePokemon));
-                gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
-                gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+
+                type1 = gBattleMons[gActiveBattler].personality % (NUMBER_OF_MON_TYPES - 1);
+                type1 = (type1 >= TYPE_MYSTERY) ? type1 + 1 : type1;
+                type2 = type1;
+                if(gBaseStats[gBattleMons[gActiveBattler].species].type1 != gBaseStats[gBattleMons[gActiveBattler].species].type2) {
+                    type2 = (gBattleMons[gActiveBattler].personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
+                    type2 = (type2 >= TYPE_MYSTERY) ? type2 + 1 : type2;
+                }
+
+                gBattleMons[gActiveBattler].type1 = type1;
+                gBattleMons[gActiveBattler].type2 = type2;
                 gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
                 gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
                 gBattleStruct->hpOnSwitchout[GetBattlerSide(gActiveBattler)] = gBattleMons[gActiveBattler].hp;
