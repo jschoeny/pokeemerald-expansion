@@ -243,7 +243,7 @@ static void HandleInputChooseAction(void)
     else
         gPlayerDpadHoldFrames = 0;
 
-    if (JOY_NEW(A_BUTTON))
+    if (JOY_NEW(A_BUTTON) || (JOY_NEW(B_BUTTON) && gActionSelectionCursor[gActiveBattler] == 3 && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER)))
     {
         PlaySE(SE_SELECT);
         TryHideLastUsedBall();
@@ -323,6 +323,13 @@ static void HandleInputChooseAction(void)
             PlaySE(SE_SELECT);
             BtlController_EmitTwoReturnValues(BUFFER_B, B_ACTION_CANCEL_PARTNER, 0);
             PlayerBufferExecCompleted();
+        }
+        else if(JOY_NEW(B_BUTTON) && gActionSelectionCursor[gActiveBattler] != 3 && !(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
+        {
+            PlaySE(SE_SELECT);
+            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
+            gActionSelectionCursor[gActiveBattler] = 3;
+            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
         }
     }
     else if (JOY_NEW(START_BUTTON))
