@@ -274,7 +274,12 @@ PlayersHouse_2F_EventScript_GameCube::
 
 PlayersHouse_2F_Text_ClockIsStopped:
 	.string "The clock is stopped…\p"
-	.string "Better set it and start it!$"
+	.string "Oh! It appears to have settings on\n"
+	.string "the back to randomize the game!$"
+
+PlayersHouse_2F_Text_StartClock:
+	.string "Randomizer options have been set!\p"
+	.string "Time to set the clock!$"
 
 PlayersHouse_2F_Text_HowDoYouLikeYourRoom:
 	.string "MOM: {PLAYER}, how do you like your\n"
