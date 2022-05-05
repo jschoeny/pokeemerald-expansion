@@ -1,6 +1,16 @@
 SootopolisCity_Mart_MapScripts::
 	.byte 0
 
+SootopolisCity_Mart_EventScript_Clerk_Bottom::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart 0
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
 SootopolisCity_Mart_EventScript_Clerk::
 	lock
 	faceplayer
@@ -13,12 +23,7 @@ SootopolisCity_Mart_EventScript_Clerk::
 
 	.align 2
 SootopolisCity_Mart_Pokemart:
-	.2byte ITEM_ULTRA_BALL
-	.2byte ITEM_HYPER_POTION
-	.2byte ITEM_MAX_POTION
-	.2byte ITEM_FULL_HEAL
-	.2byte ITEM_REVIVE
-	.2byte ITEM_MAX_REPEL
+	.2byte ITEM_DIVE_BALL
 	.2byte ITEM_X_ATTACK
 	.2byte ITEM_X_DEFENSE
 	.2byte ITEM_SHADOW_MAIL
@@ -74,4 +79,3 @@ SootopolisCity_Mart_Text_FullRestoreItemOfDreams:
 SootopolisCity_Mart_Text_DidSomethingAwaken:
 	.string "This weather…\n"
 	.string "Did something awaken?$"
-

@@ -46,6 +46,36 @@ LilycoveCity_DepartmentStoreRooftop_PokemartDecor_ClearOutSale:
 	release
 	end
 
+LilycoveCity_DepartmentStoreRooftop_EventScript_SketchyMan::
+	lock
+	faceplayer
+	message gText_HowMayIServeYou
+	waitmessage
+	pokemart LilycoveCity_DepartmentStoreRooftop_Pokemart_SketchyManGoods
+	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
+	release
+	end
+
+	.align 2
+LilycoveCity_DepartmentStoreRooftop_Pokemart_SketchyManGoods:
+	.2byte ITEM_DAMP_ROCK
+	.2byte ITEM_HEAT_ROCK
+	.2byte ITEM_SMOOTH_ROCK
+	.2byte ITEM_ICY_ROCK
+	.2byte ITEM_LIGHT_CLAY
+	.2byte ITEM_EVIOLITE
+	.2byte ITEM_FOCUS_SASH
+	.2byte ITEM_ASSAULT_VEST
+	.2byte ITEM_LEFTOVERS
+	.2byte ITEM_WEAKNESS_POLICY
+	.2byte ITEM_CHOICE_BAND
+	.2byte ITEM_CHOICE_SCARF
+	.2byte ITEM_CHOICE_SPECS
+	.2byte ITEM_LIFE_ORB
+	.2byte 0
+	release
+	end
+
 LilycoveCity_DepartmentStoreRooftop_EventScript_Man::
 	lock
 	faceplayer
