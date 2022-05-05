@@ -327,6 +327,24 @@ void PlayCry_ByMode(u16 species, s8 pan, u8 mode)
     }
 }
 
+void PlayCry_ByMode_Personality(u16 species, s8 pan, u8 mode, u32 pid)
+{
+    u8 pitchOff = 16;
+    if(pid > 0)
+        pitchOff = (pid >> 16) & 0x1F;
+    if (mode == CRY_MODE_DOUBLES)
+    {
+        PlayCryInternalPitch(species, pan, CRY_VOLUME, CRY_PRIORITY_NORMAL, mode, pitchOff);
+    }
+    else
+    {
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 85);
+        PlayCryInternalPitch(species, pan, CRY_VOLUME, CRY_PRIORITY_NORMAL, mode, pitchOff);
+        gPokemonCryBGMDuckingCounter = 2;
+        RestoreBGMVolumeAfterPokemonCry();
+    }
+}
+
 // Used when releasing multiple Pokémon at once in battle.
 void PlayCry_ReleaseDouble(u16 species, s8 pan, u8 mode)
 {
@@ -366,6 +384,11 @@ void PlayCry_Script(u16 species, u8 mode)
 }
 
 void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
+{
+    PlayCryInternalPitch(species, pan, volume, priority, mode, 16);
+}
+
+void PlayCryInternalPitch(u16 species, s8 pan, s8 volume, u8 priority, u8 mode, u8 pitchOff)
 {
     bool32 reverse;
     u32 release;
@@ -449,6 +472,9 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
         pitch = 15000;
         break;
     }
+
+    pitch = pitch + ((pitchOff - 16) * 64);
+    length = length + 96 - (pitchOff * 3);
 
     SetPokemonCryVolume(volume);
     SetPokemonCryPanpot(pan);

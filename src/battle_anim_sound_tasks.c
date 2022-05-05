@@ -135,6 +135,7 @@ void SoundTask_PlayCryHighPitch(u8 taskId)
 {
     u16 species = 0;
     s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
+    u32 pid = 0;
     if (IsContest())
     {
         if (gBattleAnimArgs[0] == ANIM_ATTACKER)
@@ -165,14 +166,18 @@ void SoundTask_PlayCryHighPitch(u8 taskId)
             return;
         }
 
-        if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
+        if (GetBattlerSide(battlerId) != B_SIDE_PLAYER) {
             species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
-        else
+            pid = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PERSONALITY);
+        }
+        else {
             species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+            pid = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PERSONALITY);
+        }
     }
 
     if (species != SPECIES_NONE)
-        PlayCry_ByMode(species, pan, CRY_MODE_HIGH_PITCH);
+        PlayCry_ByMode_Personality(species, pan, CRY_MODE_HIGH_PITCH, pid);
 
     DestroyAnimVisualTask(taskId);
 }
@@ -181,6 +186,7 @@ void SoundTask_PlayDoubleCry(u8 taskId)
 {
     u16 species = 0;
     s8 pan = BattleAnimAdjustPanning(SOUND_PAN_ATTACKER);
+    u32 pid = 0;
     if (IsContest())
     {
         if (gBattleAnimArgs[0] == ANIM_ATTACKER)
@@ -211,10 +217,14 @@ void SoundTask_PlayDoubleCry(u8 taskId)
             return;
         }
 
-        if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
+        if (GetBattlerSide(battlerId) != B_SIDE_PLAYER) {
             species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
-        else
+            pid = GetMonData(&gEnemyParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PERSONALITY);
+        }
+        else {
             species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_SPECIES);
+            pid = GetMonData(&gPlayerParty[gBattlerPartyIndexes[battlerId]], MON_DATA_PERSONALITY);
+        }
     }
 
     gTasks[taskId].data[0] = gBattleAnimArgs[1];
@@ -224,9 +234,9 @@ void SoundTask_PlayDoubleCry(u8 taskId)
     if (species != SPECIES_NONE)
     {
         if (gBattleAnimArgs[1] == DOUBLE_CRY_GROWL)
-            PlayCry_ByMode(species, pan, CRY_MODE_GROWL_1);
+            PlayCry_ByMode_Personality(species, pan, CRY_MODE_GROWL_1, pid);
         else // DOUBLE_CRY_ROAR
-            PlayCry_ByMode(species, pan, CRY_MODE_ROAR_1);
+            PlayCry_ByMode_Personality(species, pan, CRY_MODE_ROAR_1, pid);
 
         gTasks[taskId].func = SoundTask_PlayDoubleCry_Step;
     }

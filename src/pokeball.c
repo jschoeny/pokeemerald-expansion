@@ -865,9 +865,9 @@ static void Task_PlayCryWhenReleasedFromBall(u8 taskId)
     case 1:
         // Play single cry
         if (ShouldPlayNormalMonCry(mon) == TRUE)
-            PlayCry_ByMode(species, pan, CRY_MODE_NORMAL);
+            PlayCry_ByMode_Personality(species, pan, CRY_MODE_NORMAL, GetMonData(mon, MON_DATA_PERSONALITY, NULL));
         else
-            PlayCry_ByMode(species, pan, CRY_MODE_WEAK);
+            PlayCry_ByMode_Personality(species, pan, CRY_MODE_WEAK, GetMonData(mon, MON_DATA_PERSONALITY, NULL));
         gBattleSpritesDataPtr->healthBoxesData[battlerId].waitForCry = FALSE;
         DestroyTask(taskId);
         break;
