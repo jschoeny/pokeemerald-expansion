@@ -503,6 +503,13 @@ struct SaveBlock2
     /*0x57C*/ struct RankingHall2P hallRecords2P[FRONTIER_LVL_MODE_COUNT][HALL_RECORDS_COUNT]; // From record mixing.
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
+              u16 optionsRandomizerType:2;      // OPTIONS_RANDOMIZER_TYPE_[NORMAL/1_1/1_2/RAND]
+              u16 optionsRandomizerAbility:2;   // OPTIONS_RANDOMIZER_ABILITY_[NORMAL/TYPE/SPECIES/PERSONALITY]
+              u16 optionsRandomizerMoves:2;     // OPTIONS_RANDOMIZER_MOVES_[NORMAL/TYPE/SPECIES/PERSONALITY]
+              u16 optionsRandomizerWild:2;      // OPTIONS_RANDOMIZER_WILD_[NORMAL/SPECIES/MAP/RAND]
+              u16 optionsRandomizerTrainer:2;   // OPTIONS_RANDOMIZER_TRAINER_[NORMAL/SPECIES/TRAINER/RAND]
+              u16 optionsRandomizerPalette:1;     // whether to change the palette for mon type changes
+              u16 optionsRandomizerChallenge:1;     // whether to force trainer to use champion AI
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;

@@ -51,6 +51,7 @@ extern const u8 EventScript_ResetAllMapFlags[];
 static void ClearFrontierRecord(void);
 static void WarpToTruck(void);
 static void ResetMiniGamesRecords(void);
+static void ResetRandomizerOptions(void);
 
 EWRAM_DATA bool8 gDifferentSaveFile = FALSE;
 EWRAM_DATA bool8 gEnableContestDebugging = FALSE;
@@ -204,6 +205,7 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
+    ResetRandomizerOptions();
 }
 
 static void ResetMiniGamesRecords(void)
@@ -212,4 +214,15 @@ static void ResetMiniGamesRecords(void)
     SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);
     ResetPokemonJumpRecords();
     CpuFill16(0, &gSaveBlock2Ptr->berryPick, sizeof(struct BerryPickingResults));
+}
+
+static void ResetRandomizerOptions(void)
+{
+    gSaveBlock2Ptr->optionsRandomizerType = OPTIONS_RANDOMIZER_TYPE_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerAbility = OPTIONS_RANDOMIZER_ABILITY_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerMoves = OPTIONS_RANDOMIZER_MOVES_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerWild = OPTIONS_RANDOMIZER_WILD_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerTrainer = OPTIONS_RANDOMIZER_TRAINER_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerPalette = TRUE;
+    gSaveBlock2Ptr->optionsRandomizerChallenge = FALSE;
 }
