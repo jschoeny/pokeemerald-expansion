@@ -21,6 +21,7 @@
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
+#include "data/pokemon/pokemon_type_colors.h"
 
 // iwram
 u32 gMonShrinkDuration;
@@ -101,6 +102,8 @@ static void TimerBallOpenParticleAnimation(u8);
 static void PremierBallOpenParticleAnimation(u8);
 static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite);
 static void SpriteCB_PokeBlock_Throw(struct Sprite *);
+static void TypeParticleAnimation(u8 taskId);
+static void TypeParticleAnimation_Step1(struct Sprite *sprite);
 
 struct CaptureStar
 {
@@ -216,6 +219,16 @@ static const struct CompressedSpritePalette sBallParticlePalettes[] =
     [BALL_PARK]     = {gBattleAnimSpritePal_CircleImpact,   TAG_PARTICLES_PARKBALL},
     [BALL_BEAST]    = {gBattleAnimSpritePal_CircleImpact,   TAG_PARTICLES_BEASTBALL},
     [BALL_CHERISH]  = {gBattleAnimSpritePal_Particles2,     TAG_PARTICLES_CHERISHBALL},
+};
+
+static const struct CompressedSpriteSheet sTypeParticleSpriteSheet =
+{
+    gBattleAnimSpriteGfx_Sparkle3, 0x0200, ANIM_TAG_SPARKLE_3
+};
+
+static const struct CompressedSpritePalette sTypeParticlePalette =
+{
+    gBattleAnimSpritePal_Sparkle3, ANIM_TAG_SPARKLE_3
 };
 
 static const union AnimCmd sAnim_RegularBall[] =
@@ -578,6 +591,17 @@ static const struct SpriteTemplate sBallParticleSpriteTemplates[POKEBALL_COUNT] 
         .affineAnims = gDummySpriteAffineAnimTable,
         .callback = SpriteCallbackDummy,
     },
+};
+
+static const struct SpriteTemplate sTypeParticleSpriteTemplate =
+{
+    .tileTag = ANIM_TAG_SPARKLE_3,
+    .paletteTag = ANIM_TAG_SPARKLE_3,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
 };
 
 const u16 gBallOpenFadeColors[] =
@@ -1849,6 +1873,103 @@ static void IncrBallParticleCount(void)
         gBattleSpritesDataPtr->animationData->numBallParticles++;
 }
 
+static void TypeParticleAnimation(u8 taskId)
+{
+    u8 typeSpriteId;
+    u8 x, y, i;
+    u8 typeId;
+    u8 tBattler = gTasks[taskId].data[3];
+
+    if(gBattleSpritesDataPtr->animationData->numBallParticles > 0)
+        return;
+
+    typeId = gTasks[taskId].data[15];
+    for(i = 0; i < 2; i++)
+    {
+        x = gTasks[taskId].data[1];
+        y = gTasks[taskId].data[2];
+
+        typeSpriteId = CreateSprite(&sTypeParticleSpriteTemplate,
+            x,
+            y,
+            5);
+
+        if (typeSpriteId != MAX_SPRITES)
+        {
+            IncrBallParticleCount();
+            StartSpriteAnim(&gSprites[typeSpriteId], 0);
+
+            gSprites[typeSpriteId].callback = TypeParticleAnimation_Step1;
+            gSprites[typeSpriteId].oam.priority = 5;
+            gSprites[typeSpriteId].data[0] = 64 + (i * 8);
+            gSprites[typeSpriteId].data[1] = x;
+            gSprites[typeSpriteId].data[2] = y;
+            gSprites[typeSpriteId].data[3] = i;
+            gSprites[typeSpriteId].data[4] = gSprites[typeSpriteId].oam.tileNum;
+            gSprites[typeSpriteId].data[5] = tBattler;
+        }
+    }
+
+    if (!gMain.inBattle)
+        gSprites[typeSpriteId].data[7] = 1;
+
+    DestroyTask(taskId);
+}
+
+static void TypeParticleAnimation_Step1(struct Sprite *sprite)
+{
+    const s8 posX[8] = {8, -8, 18, -18, 28, -11, 5, -23};
+    const s8 posY[8] = {0, 10, 20, -10, 0, 8, -8, 15};
+    const s8 tNum[8] = {0, 1, 1, 2, 2, 2, 1, 0};
+    u8 battler = sprite->data[5];
+    s8 pos = (64 - sprite->data[0]) / 16;
+    if(pos < 0)
+        pos = 0;
+
+    pos = ((pos * 2) + sprite->data[3]) % 8;
+
+    if(sprite->data[0] % 16 < 2)
+        sprite->invisible = TRUE;
+    else
+        sprite->invisible = FALSE;
+
+    sprite->oam.tileNum = sprite->data[4] + (tNum[pos] * 4);
+    sprite->x = sprite->data[1] + posX[pos];
+    sprite->y = sprite->data[2] + posY[pos];
+
+    sprite->data[0]--;
+    if (sprite->data[0] == 0)
+    {
+        if (!gMain.inBattle)
+        {
+            if (sprite->data[7] == 1)
+                DestroySpriteAndFreeResources(sprite);
+            else
+                DestroySprite(sprite);
+        }
+        else
+        {
+            s32 i;
+            gBattleSpritesDataPtr->animationData->numBallParticles--;
+            if (gBattleSpritesDataPtr->animationData->numBallParticles == 0)
+            {
+                for (i = 0; i < NUMBER_OF_MON_TYPES; i++)
+                {
+                    FreeSpriteTilesByTag(sTypeParticleSpriteSheet.tag);
+                    FreeSpritePaletteByTag(sTypeParticlePalette.tag);
+                }
+
+                gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
+                DestroySprite(sprite);
+            }
+            else
+            {
+                DestroySprite(sprite);
+            }
+        }
+    }
+}
+
 static void PokeBallOpenParticleAnimation(u8 taskId)
 {
     u8 spriteId;
@@ -2483,12 +2604,18 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
     bool8 isShiny;
     u32 otId, personality;
     u32 shinyValue;
-    u8 taskCirc, taskDgnl;
+    u8 taskCirc, taskDgnl, taskType;
+    u8 x, y;
+    u8 type1, type2;
+    u16 palOffset, species;
 
     isShiny = FALSE;
     gBattleSpritesDataPtr->healthBoxesData[battler].triedShinyMonAnim = TRUE;
     otId = GetMonData(mon, MON_DATA_OT_ID);
     personality = GetMonData(mon, MON_DATA_PERSONALITY);
+    type1 = GetMonType(mon, FALSE);
+    type2 = GetMonType(mon, TRUE);
+    species = GetMonData(mon, MON_DATA_SPECIES);
 
     if (IsBattlerSpriteVisible(battler))
     {
@@ -2510,6 +2637,27 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
             gTasks[taskDgnl].tBattler = battler;
             gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
             gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+            return;
+        }
+        else if(gBaseStats[species].type1 != type1 || gBaseStats[species].type2 != type2)
+        {
+            if (GetSpriteTileStartByTag(sTypeParticleSpriteSheet.tag) == 0xFFFF)
+            {
+                LoadCompressedSpriteSheetUsingHeap(&sTypeParticleSpriteSheet);
+                palOffset = LoadCompressedSpritePaletteUsingHeap_Offset(&sTypeParticlePalette);
+                ChangePalette(palOffset, (1 << 1) | (1 << 7) | (1 << 8) | (1 << 9), 200, gMonTypeColor[type1][0],
+                    gMonTypeColor[type1][1], gMonTypeColor[type1][2]);
+                ChangePalette(palOffset, (1 << 3) | (1 << 4) | (1 << 5), 200, gMonTypeColor[type2][0],
+                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]);
+            }
+
+            x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
+            y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y);
+            taskType = CreateTask(TypeParticleAnimation, 10);
+            gTasks[taskType].data[1] = x;
+            gTasks[taskType].data[2] = y;
+            gTasks[taskType].data[3] = battler;
+            gTasks[taskType].data[15] = type1;
             return;
         }
     }
