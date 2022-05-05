@@ -2537,7 +2537,17 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 
     sPartyMenuInternal->numActions = 0;
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
-    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
+
+    // Add HM moves to action list
+    //for (j = 0; sFieldHMMoves[j] != FIELD_MOVE_TERMINATOR; j++)
+    for(j = ITEM_HM01 - ITEM_TM01; j <= ITEM_HM08 - ITEM_TM01; j++)
+    {
+        if(CanMonLearnTMHM(&mons[slotId], j - NUM_TECHNICAL_MACHINES) && CheckBagHasItem(j + ITEM_TM01, 1))
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + ITEM_TM01 - ITEM_HM01 + MENU_FIELD_MOVES);
+            break;
+        }
+    }
 
     // Add field moves to action list
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -2546,7 +2556,7 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         {
             if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j])
             {
-                AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES);
+                AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES_NOT_HM);
                 break;
             }
         }
