@@ -34,6 +34,7 @@
 #include "constants/songs.h"
 #include "constants/rgb.h"
 #include "constants/items.h"
+#include "data/pokemon/pokemon_type_colors.h"
 
 extern struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
@@ -211,9 +212,11 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
 {
     u8 name[20];
     u16 currSpecies;
-    u32 trainerId, personality;
+    u32 trainerId, personality, paletteOffset;
     const struct CompressedSpritePalette* pokePal;
     u8 ID;
+    u8 type1, type2;
+    u8 shift = 16;
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
@@ -270,6 +273,45 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     gMultiuseSpriteTemplate.affineAnims = gDummySpriteAffineAnimTable;
     sEvoStructPtr->preEvoSpriteId = ID = CreateSprite(&gMultiuseSpriteTemplate, 120, 64, 30);
 
+    paletteOffset = 0x110;
+    shift = (personality >> 16) & 0x1F;
+
+    type1 = GetMonTypeFromPersonality(currSpecies, personality, FALSE);
+    type2 = GetMonTypeFromPersonality(currSpecies, personality, TRUE);
+    if(type1 != gBaseStats[currSpecies].type1)
+    {
+        ChangePalette(paletteOffset,
+            gMonTypeColorIndexesPrimary[currSpecies],
+            PALETTE_COEFF_FULL,
+            (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
+            gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+        );
+        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+    }
+    if(type2 != gBaseStats[currSpecies].type2)
+    {
+        if(type2 == type1)
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesSecondary[currSpecies],
+                PALETTE_COEFF_2ND,
+                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
+        else
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesSecondary[currSpecies],
+                PALETTE_COEFF_FULL,
+                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
+    }
+
     gSprites[ID].callback = SpriteCallbackDummy_2;
     gSprites[ID].oam.paletteNum = 1;
     gSprites[ID].invisible = TRUE;
@@ -287,6 +329,38 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     gSprites[ID].callback = SpriteCallbackDummy_2;
     gSprites[ID].oam.paletteNum = 2;
     gSprites[ID].invisible = TRUE;
+
+    paletteOffset = 0x120;
+
+    type1 = GetMonTypeFromPersonality(postEvoSpecies, personality, FALSE);
+    type2 = GetMonTypeFromPersonality(postEvoSpecies, personality, TRUE);
+    if(type1 != gBaseStats[postEvoSpecies].type1)
+    {
+        ChangePalette(paletteOffset,
+            gMonTypeColorIndexesPrimary[postEvoSpecies],
+            PALETTE_COEFF_FULL, gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+        );
+        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+    }
+    if(type2 != gBaseStats[postEvoSpecies].type2)
+    {
+        if(type2 == type1)
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesSecondary[postEvoSpecies],
+                PALETTE_COEFF_2ND, gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
+        else
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesSecondary[postEvoSpecies],
+                PALETTE_COEFF_FULL, gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
+    }
 
     LoadEvoSparkleSpriteAndPal();
 

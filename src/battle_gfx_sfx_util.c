@@ -26,6 +26,7 @@
 #include "constants/battle_config.h"
 #include "constants/rgb.h"
 #include "constants/battle_palace.h"
+#include "data/pokemon/pokemon_type_colors.h"
 
 extern const u8 gBattlePalaceNatureToMoveTarget[];
 extern const u8 * const gBattleAnims_General[];
@@ -566,6 +567,9 @@ bool8 IsBattleSEPlaying(u8 battlerId)
 static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 opponent)
 {
     u32 monsPersonality, currentPersonality, otId, species, paletteOffset, position;
+    u8 type1, type2;
+    u8 shift = 16;
+
     const void *lzPaletteData;
     struct Pokemon *illusionMon = GetIllusionMonPtr(battlerId);
     if (illusionMon != NULL)
@@ -585,6 +589,8 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
 
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
+    shift = (monsPersonality >> 16) & 0x1F;
+
     if (opponent)
     {
         HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
@@ -614,6 +620,42 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
         paletteOffset = 0x100 + battlerId * 16;
         LZDecompressWram(lzPaletteData, gBattleStruct->castformPalette[CASTFORM_NORMAL]);
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
+    }
+
+    type1 = GetMonTypeFromPersonality(species, monsPersonality, FALSE);
+    type2 = GetMonTypeFromPersonality(species, monsPersonality, TRUE);
+    if(type1 != gBaseStats[species].type1)
+    {
+        ChangePalette(paletteOffset,
+            gMonTypeColorIndexesPrimary[species],
+            PALETTE_COEFF_FULL,
+            (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
+            gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+        );
+        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+    }
+    if(type2 != gBaseStats[species].type2)
+    {
+        if(type2 == type1)
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesSecondary[species],
+                PALETTE_COEFF_2ND,
+                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
+        else
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesSecondary[species],
+                PALETTE_COEFF_FULL,
+                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
     }
 
     // transform's pink color

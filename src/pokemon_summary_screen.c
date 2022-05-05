@@ -48,6 +48,8 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/battle_config.h"
+#include "util.h"
+#include "data/pokemon/pokemon_type_colors.h"
 
 enum {
     PSS_PAGE_INFO,
@@ -3976,6 +3978,9 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 {
     const struct CompressedSpritePalette *pal;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    u32 paletteOffset;
+    u8 type1, type2, paletteIndex;
+    u8 shift = 16;
 
     switch (*state)
     {
@@ -4010,8 +4015,49 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         return 0xFF;
     case 1:
         pal = GetMonSpritePalStructFromOtIdPersonality(summary->species2, summary->OTID, summary->pid);
-        LoadCompressedSpritePalette(pal);
+        paletteIndex = LoadCompressedSpritePalette(pal);
         SetMultiuseSpriteTemplateToPokemon(pal->tag, B_POSITION_OPPONENT_LEFT);
+
+        paletteOffset = (paletteIndex * 16) + 0x100;
+
+        shift = (summary->pid >> 16) & 0x1F;
+
+        type1 = GetMonTypeFromPersonality(summary->species2, summary->pid, FALSE);
+        type2 = GetMonTypeFromPersonality(summary->species2, summary->pid, TRUE);
+        if(type1 != gBaseStats[summary->species2].type1)
+        {
+            ChangePalette(paletteOffset,
+                gMonTypeColorIndexesPrimary[summary->species2],
+                PALETTE_COEFF_FULL,
+                (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
+                gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+            );
+            CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        }
+        if(type2 != gBaseStats[summary->species2].type2)
+        {
+            if(type2 == type1)
+            {
+                ChangePalette(paletteOffset,
+                    gMonTypeColorIndexesSecondary[summary->species2],
+                    PALETTE_COEFF_2ND,
+                    (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                );
+                CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+            }
+            else
+            {
+                ChangePalette(paletteOffset,
+                    gMonTypeColorIndexesSecondary[summary->species2],
+                    PALETTE_COEFF_FULL,
+                    (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                );
+                CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+            }
+        }
+
         (*state)++;
         return 0xFF;
     }

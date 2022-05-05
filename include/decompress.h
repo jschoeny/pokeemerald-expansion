@@ -12,9 +12,10 @@ u16 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src);
 void LoadCompressedSpriteSheetOverrideBuffer(const struct CompressedSpriteSheet *src, void *buffer);
 bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet* src);
 
-void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src);
+u8 LoadCompressedSpritePalette(const struct CompressedSpritePalette *src);
 void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *a, void *buffer);
 bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette *src);
+u16 LoadCompressedSpritePaletteUsingHeap_Offset(const struct CompressedSpritePalette *src);
 
 void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species);
 

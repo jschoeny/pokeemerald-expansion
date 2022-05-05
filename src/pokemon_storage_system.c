@@ -40,6 +40,8 @@
 #include "constants/moves.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "data/pokemon/pokemon_type_colors.h"
+#include "util.h"
 
 /*
     NOTE: This file is large. Some general groups of functions have
@@ -3991,10 +3993,57 @@ static void LoadDisplayMonGfx(u16 species, u32 pid)
 
     if (species != SPECIES_NONE)
     {
+        u8 type1, type2;
+        u8 shift = 16;
+
         LoadSpecialPokePic(&gMonFrontPicTable[species], sStorage->tileBuffer, species, pid, TRUE);
         LZ77UnCompWram(sStorage->displayMonPalette, sStorage->displayMonPalBuffer);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalBuffer, sStorage->displayMonPalOffset, 0x20);
+
+        type1 = GetMonTypeFromPersonality(species, pid, FALSE);
+        type2 = GetMonTypeFromPersonality(species, pid, TRUE);
+        shift = (pid >> 16) & 0x1F;
+        if(type1 != gBaseStats[species].type1)
+        {
+            ChangePalette(sStorage->displayMonPalOffset,
+                gMonTypeColorIndexesPrimary[species],
+                PALETTE_COEFF_FULL,
+                (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
+                gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+            );
+            CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset,
+                gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32
+            );
+        }
+        if(type2 != gBaseStats[species].type2)
+        {
+            if(type2 == type1)
+            {
+                ChangePalette(sStorage->displayMonPalOffset,
+                    gMonTypeColorIndexesSecondary[species],
+                    PALETTE_COEFF_2ND,
+                    (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                );
+                CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset,
+                    gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32
+                );
+            }
+            else
+            {
+                ChangePalette(sStorage->displayMonPalOffset,
+                    gMonTypeColorIndexesSecondary[species],
+                    PALETTE_COEFF_FULL,
+                    (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
+                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                );
+                CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset,
+                    gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32
+                );
+            }
+        }
+
         sStorage->displayMonSprite->invisible = FALSE;
     }
     else

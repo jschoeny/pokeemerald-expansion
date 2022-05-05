@@ -9,6 +9,9 @@
 #define GET_BASE_SPECIES_ID(speciesId) (GetFormSpeciesId(speciesId, 0))
 #define FORM_SPECIES_END (0xffff)
 
+#define PALETTE_COEFF_FULL 0xFF
+#define PALETTE_COEFF_2ND 0x20
+
 struct PokemonSubstruct0
 {
     /*0x00*/ u16 species;
