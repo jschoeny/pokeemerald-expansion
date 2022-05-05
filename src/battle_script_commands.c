@@ -5659,7 +5659,7 @@ static void Cmd_switchindataupdate(void)
     gBattleMons[gActiveBattler].type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
     gBattleMons[gActiveBattler].type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
     gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
-    gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+    gBattleMons[gActiveBattler].ability = GetAbilityBySpeciesPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum, gBattleMons[gActiveBattler].personality);
 
     // check knocked off item
     i = GetBattlerSide(gActiveBattler);
@@ -7349,7 +7349,10 @@ static void Cmd_recordability(void)
 
 void BufferMoveToLearnIntoBattleTextBuff2(void)
 {
-    PREPARE_MOVE_BUFFER(gBattleTextBuff2, gMoveToLearn);
+    u16 m = gMoveToLearn;
+    if(m > MOVES_COUNT)
+        m = MOVES_COUNT;
+    PREPARE_MOVE_BUFFER(gBattleTextBuff2, m);
 }
 
 static void Cmd_buffermovetolearn(void)
