@@ -49,6 +49,7 @@
 #include "tv.h"
 #include "window.h"
 #include "constants/event_objects.h"
+#include "constants/items.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(void);
@@ -1725,6 +1726,27 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
         if (!species)
             break;
         if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && MonKnowsMove(&gPlayerParty[i], moveId) == TRUE)
+        {
+            gSpecialVar_Result = i;
+            gSpecialVar_0x8004 = species;
+            break;
+        }
+    }
+    return FALSE;
+}
+
+bool8 ScrCmd_checkpartycanlearnhm(struct ScriptContext *ctx)
+{
+    u8 i;
+    u16 hmId = VarGet(ScriptReadHalfword(ctx)) - ITEM_TM01;
+
+    gSpecialVar_Result = PARTY_SIZE;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
+        if (!species)
+            break;
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && CanMonLearnTMHM(&gPlayerParty[i], hmId - NUM_TECHNICAL_MACHINES) == TRUE)
         {
             gSpecialVar_Result = i;
             gSpecialVar_0x8004 = species;
