@@ -3260,6 +3260,7 @@ static void DoBattleIntro(void)
     s32 i;
     u8 *state = &gBattleStruct->introState;
     u8 type1, type2;
+    u16 ability;
 
     switch (*state)
     {
@@ -3306,11 +3307,12 @@ static void DoBattleIntro(void)
 
                 type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
                 type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+                ability = GetAbilityBySpeciesPersonality(gBattleMons[gActiveBattler].species,gBattleMons[gActiveBattler].abilityNum,gBattleMons[gActiveBattler].personality);
 
                 gBattleMons[gActiveBattler].type1 = type1;
                 gBattleMons[gActiveBattler].type2 = type2;
                 gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
-                gBattleMons[gActiveBattler].ability = GetAbilityBySpecies(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum);
+                gBattleMons[gActiveBattler].ability = ability;
                 gBattleStruct->hpOnSwitchout[GetBattlerSide(gActiveBattler)] = gBattleMons[gActiveBattler].hp;
                 gBattleMons[gActiveBattler].status2 = 0;
                 for (i = 0; i < NUM_BATTLE_STATS; i++)

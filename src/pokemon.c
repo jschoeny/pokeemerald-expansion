@@ -50,6 +50,7 @@
 #include "constants/trainers.h"
 #include "constants/weather.h"
 #include "constants/battle_config.h"
+#include "data/pokemon/ability_placeholder_replace.h"
 
 struct SpeciesItem
 {
@@ -5177,6 +5178,39 @@ u16 GetAbilityBySpecies(u16 species, u8 abilityNum)
     }
     
     return gLastUsedAbility;
+}
+
+u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
+{
+    u16 ability;
+    u8 i;
+    u8 setting = gSaveBlock2Ptr->optionsRandomizerAbility;
+
+    if(setting == OPTIONS_RANDOMIZER_ABILITY_SPECIES)
+    {
+        ability = ((0x1C * species) + 0xD4) % ABILITIES_COUNT;
+        for(i = 1; i < abilityNum; i++)
+            ability = ((0x1C * (ability)) + 0xD4) % ABILITIES_COUNT;
+        return ability;
+    }
+
+    if(setting == OPTIONS_RANDOMIZER_ABILITY_PERSONALITY)
+    {
+        ability = ((0x1C * ((personality >> 2) % ABILITIES_COUNT)) + 0xD4) % ABILITIES_COUNT;
+        for(i = 1; i < abilityNum; i++)
+            ability = ((0x1C * (ability)) + 0xD4) % ABILITIES_COUNT;
+        return ability;
+    }
+
+    ability = GetAbilityBySpecies(species, abilityNum);
+    if(ability <= ABILITIES_PH_START)
+        return ability;
+
+    if(setting == OPTIONS_RANDOMIZER_ABILITY_NORMAL)
+        return gPlaceholderAbilities[PH_ABILITY(ability)].ability[gBaseStats[species].type1];
+
+    if(setting == OPTIONS_RANDOMIZER_ABILITY_TYPE)
+        return gPlaceholderAbilities[PH_ABILITY(ability)].ability[GetMonTypeFromPersonality(species, personality, FALSE)];
 }
 
 u16 GetMonAbility(struct Pokemon *mon)

@@ -4416,6 +4416,7 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
 #define tSpecies    data[1]
 #define tAbilityNum data[2]
 #define tMonId      data[3]
+#define tMonPid     GetMonData(&gPlayerParty[tMonId], MON_DATA_PERSONALITY, NULL)
 #define tOldFunc    4
 
 void Task_AbilityCapsule(u8 taskId)
@@ -4428,10 +4429,14 @@ void Task_AbilityCapsule(u8 taskId)
     {
     case 0:
         // Can't use.
-        if (gBaseStats[tSpecies].abilities[0] == gBaseStats[tSpecies].abilities[1]
+        if ((gSaveBlock2Ptr->optionsRandomizerAbility <= OPTIONS_RANDOMIZER_ABILITY_SPECIES
+            || tAbilityNum > 1
+            || !tSpecies
+            ) &&
+            (gBaseStats[tSpecies].abilities[0] == gBaseStats[tSpecies].abilities[1]
             || gBaseStats[tSpecies].abilities[1] == 0
             || tAbilityNum > 1
-            || !tSpecies)
+            || !tSpecies))
         {
             gPartyMenuUseExitCallback = FALSE;
             PlaySE(SE_SELECT);
@@ -4442,7 +4447,7 @@ void Task_AbilityCapsule(u8 taskId)
         }
         gPartyMenuUseExitCallback = TRUE;
         GetMonNickname(&gPlayerParty[tMonId], gStringVar1);
-        StringCopy(gStringVar2, gAbilityNames[GetAbilityBySpecies(tSpecies, tAbilityNum)]);
+        StringCopy(gStringVar2, gAbilityNames[GetAbilityBySpeciesPersonality(tSpecies, tAbilityNum, tMonPid)]);
         StringExpandPlaceholders(gStringVar4, askText);
         PlaySE(SE_SELECT);
         DisplayPartyMenuMessage(gStringVar4, 1);
@@ -4510,6 +4515,7 @@ void ItemUseCB_AbilityCapsule(u8 taskId, TaskFunc task)
 #undef tSpecies
 #undef tAbilityNum
 #undef tMonId
+#undef tMonPid
 #undef tOldFunc
 
 static void Task_DisplayHPRestoredMessage(u8 taskId)

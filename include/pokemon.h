@@ -269,6 +269,11 @@ struct PlaceholderMove
     u16 move[NUMBER_OF_MON_TYPES];
 };
 
+struct PlaceholderAbility
+{
+    u16 ability[NUMBER_OF_MON_TYPES];
+};
+
 struct Evolution
 {
     u16 method;
@@ -302,6 +307,7 @@ extern struct SpriteTemplate gMultiuseSpriteTemplate;
 
 extern const struct BattleMove gBattleMoves[];
 extern const struct PlaceholderMove gPlaceholderMoves[];
+extern const struct PlaceholderAbility gPlaceholderAbilities[];
 extern const u8 gFacilityClassToPicIndex[];
 extern const u8 gFacilityClassToTrainerClass[];
 extern const struct BaseStats gBaseStats[];
@@ -378,6 +384,7 @@ u8 CalculateEnemyPartyCount(void);
 u8 GetMonsStateToDoubles(void);
 u8 GetMonsStateToDoubles_2(void);
 u16 GetAbilityBySpecies(u16 species, u8 abilityNum);
+u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality);
 u16 GetMonAbility(struct Pokemon *mon);
 void CreateSecretBaseEnemyParty(struct SecretBase *secretBaseRecord);
 u8 GetSecretBaseTrainerPicIndex(void);

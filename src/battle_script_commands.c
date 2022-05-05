@@ -11642,6 +11642,7 @@ static void Cmd_healpartystatus(void)
         {
             u16 species = GetMonData(&party[i], MON_DATA_SPECIES2);
             u8 abilityNum = GetMonData(&party[i], MON_DATA_ABILITY_NUM);
+            u32 personality = GetMonData(&party[i], MON_DATA_PERSONALITY);
 
             if (species != SPECIES_NONE && species != SPECIES_EGG)
             {
@@ -11654,7 +11655,7 @@ static void Cmd_healpartystatus(void)
                          && !(gAbsentBattlerFlags & gBitTable[gActiveBattler]))
                     ability = GetBattlerAbility(gActiveBattler);
                 else
-                    ability = GetAbilityBySpecies(species, abilityNum);
+                    ability = GetAbilityBySpeciesPersonality(species, abilityNum, personality);
 
                 if (ability != ABILITY_SOUNDPROOF)
                     toHeal |= (1 << i);
