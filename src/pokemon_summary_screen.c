@@ -3896,13 +3896,8 @@ static void SetMonTypeIcons(void)
     else
     {
         u8 type1, type2;
-        type1 = summary->pid % (NUMBER_OF_MON_TYPES - 1);
-        type1 = (type1 >= TYPE_MYSTERY) ? type1 + 1 : type1;
-        type2 = type1;
-        if(gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2) {
-            type2 = (summary->pid >> 4) % (NUMBER_OF_MON_TYPES - 1);
-            type2 = (type2 >= TYPE_MYSTERY) ? type2 + 1 : type2;
-        }
+        type1 = GetMonTypeFromPersonality(summary->species, summary->pid, FALSE);
+        type2 = GetMonTypeFromPersonality(summary->species, summary->pid, TRUE);
 
         SetTypeSpritePosAndPal(type1, 120, 48, SPRITE_ARR_ID_TYPE);
         if (type1 != type2)

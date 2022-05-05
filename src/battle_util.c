@@ -2008,8 +2008,8 @@ u8 GetImprisonedMovesCount(u8 battlerId, u16 move)
 
 void RestoreBattlerOriginalTypes(u8 battlerId)
 {
-    gBattleMons[battlerId].type1 = gBaseStats[gBattleMons[battlerId].species].type1;
-    gBattleMons[battlerId].type2 = gBaseStats[gBattleMons[battlerId].species].type2;
+    gBattleMons[battlerId].type1 = GetMonTypeFromPersonality(gBattleMons[battlerId].species, gBattleMons[battlerId].personality, FALSE);
+    gBattleMons[battlerId].type2 = GetMonTypeFromPersonality(gBattleMons[battlerId].species, gBattleMons[battlerId].personality, TRUE);
 }
 
 void TryToApplyMimicry(u8 battlerId, bool8 various)
@@ -9171,16 +9171,18 @@ u16 CalcTypeEffectivenessMultiplier(u16 move, u8 moveType, u8 battlerAtk, u8 bat
     return modifier;
 }
 
-u16 CalcPartyMonTypeEffectivenessMultiplier(u16 move, u16 speciesDef, u16 abilityDef)
+u16 CalcPartyMonTypeEffectivenessMultiplier(u16 move, u16 speciesDef, u32 personality, u16 abilityDef)
 {
     u16 modifier = UQ_4_12(1.0);
     u8 moveType = gBattleMoves[move].type;
+    u8 type1 = GetMonTypeFromPersonality(speciesDef, personality, FALSE);
+    u8 type2 = GetMonTypeFromPersonality(speciesDef, personality, TRUE);
 
     if (move != MOVE_STRUGGLE && moveType != TYPE_MYSTERY)
     {
-        MulByTypeEffectiveness(&modifier, move, moveType, 0, gBaseStats[speciesDef].type1, 0, FALSE);
-        if (gBaseStats[speciesDef].type2 != gBaseStats[speciesDef].type1)
-            MulByTypeEffectiveness(&modifier, move, moveType, 0, gBaseStats[speciesDef].type2, 0, FALSE);
+        MulByTypeEffectiveness(&modifier, move, moveType, 0, type1, 0, FALSE);
+        if (type2 != type1)
+            MulByTypeEffectiveness(&modifier, move, moveType, 0, type2, 0, FALSE);
 
         if (moveType == TYPE_GROUND && abilityDef == ABILITY_LEVITATE && !(gFieldStatuses & STATUS_FIELD_GRAVITY))
             modifier = UQ_4_12(0.0);

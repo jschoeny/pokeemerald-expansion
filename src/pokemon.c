@@ -3880,23 +3880,6 @@ static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
 {
     s32 i;
 
-    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
-    u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
-    u8 type;
-
-    if(move > MOVES_PH_START) {
-        type = personality % (NUMBER_OF_MON_TYPES - 1);
-        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
-            if(personality >> 8 % 3 == 2) {
-                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-            }
-        }
-
-        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
-    }
-
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         u16 existingMove = GetBoxMonData(boxMon, MON_DATA_MOVE1 + i, NULL);
@@ -3918,20 +3901,7 @@ u16 GiveMoveToBattleMon(struct BattlePokemon *mon, u16 move)
 
     u16 species = mon->species;
     u32 personality = mon->personality;
-    u8 type;
-
-    if(move > MOVES_PH_START) {
-        type = personality % (NUMBER_OF_MON_TYPES - 1);
-        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
-            if(personality >> 8 % 3 == 2) {
-                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-            }
-        }
-
-        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
-    }
+    u8 type1, type2;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
@@ -3975,8 +3945,8 @@ void GiveBoxMonInitialMoveset(struct BoxPokemon *boxMon)
             break;
         if (gLevelUpLearnsets[species][i].level == 0)
             continue;
-        if (GiveMoveToBoxMon(boxMon, gLevelUpLearnsets[species][i].move) == MON_HAS_MAX_MOVES)
-            DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, gLevelUpLearnsets[species][i].move);
+        if (GiveMoveToBoxMon(boxMon, GetPlaceholderMoveBoxMon(boxMon, gLevelUpLearnsets[species][i].move, i)) == MON_HAS_MAX_MOVES)
+            DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, GetPlaceholderMoveBoxMon(boxMon, gLevelUpLearnsets[species][i].move, i));
     }
 }
 
@@ -4004,7 +3974,7 @@ u16 MonTryLearningNewMove(struct Pokemon *mon, bool8 firstMove)
 
     if (gLevelUpLearnsets[species][sLearningMoveTableID].level == level)
     {
-        gMoveToLearn = gLevelUpLearnsets[species][sLearningMoveTableID].move;
+        gMoveToLearn = GetPlaceholderMoveMon(mon, gLevelUpLearnsets[species][sLearningMoveTableID].move, sLearningMoveTableID);
         sLearningMoveTableID++;
         retVal = GiveMoveToMon(mon, gMoveToLearn);
     }
@@ -4018,23 +3988,6 @@ void DeleteFirstMoveAndGiveMoveToMon(struct Pokemon *mon, u16 move)
     u16 moves[MAX_MON_MOVES];
     u8 pp[MAX_MON_MOVES];
     u8 ppBonuses;
-
-    u16 species = GetBoxMonData(mon->box, MON_DATA_SPECIES, NULL);
-    u32 personality = GetBoxMonData(mon->box, MON_DATA_PERSONALITY, NULL);
-    u8 type;
-
-    if(move > MOVES_PH_START) {
-        type = personality % (NUMBER_OF_MON_TYPES - 1);
-        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
-            if(personality >> 8 % 3 == 2) {
-                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-            }
-        }
-
-        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
-    }
 
     for (i = 0; i < MAX_MON_MOVES - 1; i++)
     {
@@ -4062,23 +4015,6 @@ void DeleteFirstMoveAndGiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
     u16 moves[MAX_MON_MOVES];
     u8 pp[MAX_MON_MOVES];
     u8 ppBonuses;
-
-    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
-    u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
-    u8 type;
-
-    if(move > MOVES_PH_START) {
-        type = personality % (NUMBER_OF_MON_TYPES - 1);
-        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
-            if(personality >> 8 % 3 == 2) {
-                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-            }
-        }
-
-        move = gPlaceholderMoves[move - (MOVES_PH_START + 1)].move[type];
-    }
 
     for (i = 0; i < MAX_MON_MOVES - 1; i++)
     {
@@ -5389,8 +5325,8 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->spDefense = GetMonData(src, MON_DATA_SPDEF, NULL);
     dst->abilityNum = GetMonData(src, MON_DATA_ABILITY_NUM, NULL);
     dst->otId = GetMonData(src, MON_DATA_OT_ID, NULL);
-    dst->type1 = gBaseStats[dst->species].type1;
-    dst->type2 = gBaseStats[dst->species].type2;
+    dst->type1 = GetMonType(src, FALSE);
+    dst->type2 = GetMonType(src, TRUE);
     dst->type3 = TYPE_MYSTERY;
     dst->ability = GetAbilityBySpecies(dst->species, dst->abilityNum);
     GetMonData(src, MON_DATA_NICKNAME, nickname);
@@ -6506,8 +6442,8 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                     for (j = 0; j < PARTY_SIZE; j++)
                     {
                         u16 currSpecies = GetMonData(&gPlayerParty[j], MON_DATA_SPECIES, NULL);
-                        if (gBaseStats[currSpecies].type1 == TYPE_DARK
-                         || gBaseStats[currSpecies].type2 == TYPE_DARK)
+                        if (GetMonType(&gPlayerParty[j], FALSE) == TYPE_DARK
+                         || GetMonType(&gPlayerParty[j], TRUE) == TYPE_DARK)
                         {
                             targetSpecies = gEvolutionTable[species][i].targetSpecies;
                             break;
@@ -7295,10 +7231,8 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
     u16 learnedMoves[4];
     u8 numMoves = 0;
     u16 species = GetMonData(mon, MON_DATA_SPECIES, 0);
-    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, 0);
     int i, j, k;
-    u8 type;
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         learnedMoves[i] = GetMonData(mon, MON_DATA_MOVE1 + i, 0);
@@ -7323,22 +7257,7 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
                     ;
 
                 if (k == numMoves) {
-                    if(gLevelUpLearnsets[species][i].move > MOVES_PH_START)
-                    {
-                        type = personality % (NUMBER_OF_MON_TYPES - 1);
-                        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-                        if(gBaseStats[species].type1 != gBaseStats[species].type2) {
-                            if(personality >> 8 % 3 == 2) {
-                                type = (personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-                                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
-                            }
-                        }
-                        moves[numMoves++] = gPlaceholderMoves[gLevelUpLearnsets[species][i].move - (MOVES_PH_START + 1)].move[type];
-                    }
-                    else
-                    {
-                        moves[numMoves++] = gLevelUpLearnsets[species][i].move;
-                    }
+                    moves[numMoves++] = GetPlaceholderMoveMon(mon, gLevelUpLearnsets[species][i].move, i);
                 }
             }
         }
@@ -8324,11 +8243,141 @@ u16 MonTryLearningNewMoveEvolution(struct Pokemon *mon, bool8 firstMove)
     {
         while (gLevelUpLearnsets[species][sLearningMoveTableID].level == 0 || gLevelUpLearnsets[species][sLearningMoveTableID].level == level)
         {
-            gMoveToLearn = gLevelUpLearnsets[species][sLearningMoveTableID].move;
+            gMoveToLearn = GetPlaceholderMoveMon(mon, gLevelUpLearnsets[species][sLearningMoveTableID].move, sLearningMoveTableID);
             sLearningMoveTableID++;
             return GiveMoveToMon(mon, gMoveToLearn);
         }
         sLearningMoveTableID++;
     }
     return 0;
+}
+
+u8 GetMonType(struct Pokemon *mon, bool8 secondType)
+{
+    return GetBoxMonType(&mon->box, secondType);
+}
+
+u8 GetBoxMonType(struct BoxPokemon *boxMon, bool8 secondType)
+{
+    u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
+    u32 personality = GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL);
+    u8 type = GetMonTypeFromPersonality(species, personality, secondType);
+
+    return type;
+}
+
+u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType)
+{
+    u8 type;
+    u8 setting = gSaveBlock2Ptr->optionsRandomizerType;
+
+    if(setting == OPTIONS_RANDOMIZER_TYPE_NORMAL)
+    {
+        type = gBaseStats[species].type1;
+        if(secondType)
+            type = gBaseStats[species].type2;
+        return type;
+    }
+
+    if(setting == OPTIONS_RANDOMIZER_TYPE_1_1) {
+        type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        if(secondType && gBaseStats[species].type1 != gBaseStats[species].type2) {
+            type = (personality >> 13) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        }
+        return type;
+    }
+
+    if(!secondType) {
+        type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+        type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+
+        if(setting == OPTIONS_RANDOMIZER_TYPE_RAND)
+        {
+            type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+            type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        }
+        else
+            type = gBaseStats[species].type1;
+    }
+    else {
+        if(setting == OPTIONS_RANDOMIZER_TYPE_1_2)
+        {
+            type = (personality >> 13) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        }
+        else if(setting == OPTIONS_RANDOMIZER_TYPE_RAND)
+        {
+            type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+            type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+            type = ((0x4 * type) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+        }
+        else
+            type = gBaseStats[species].type2;
+    }
+
+    return type;
+}
+
+u32 GetPlaceholderMoveMon(struct Pokemon *mon, u32 move, u8 offset)
+{
+    return GetPlaceholderMoveBoxMon(&mon->box, move, offset);
+}
+
+u32 GetPlaceholderMoveBoxMon(struct BoxPokemon *boxMon, u32 move, u8 offset)
+{
+    return GetPlaceholderMoveFromPersonality(
+        GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL),
+        GetBoxMonData(boxMon, MON_DATA_PERSONALITY, NULL),
+        move, offset
+    );
+}
+
+u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8 offset)
+{
+    u32 newMove = MOVE_NONE;
+    u8 type1, type2;
+    u8 setting = gSaveBlock2Ptr->optionsRandomizerMoves;
+    u8 i;
+
+    if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL) {
+        if(move < MOVES_PH_START)
+            return move;
+        type1 = gBaseStats[species].type1;
+        type2 = gBaseStats[species].type2;
+    }
+    else if(setting == OPTIONS_RANDOMIZER_MOVES_TYPE) {
+        if(move < MOVES_PH_START)
+            return move;
+        type1 = GetMonTypeFromPersonality(species, personality, FALSE);
+        type2 = GetMonTypeFromPersonality(species, personality, TRUE);
+    }
+
+    if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL || setting == OPTIONS_RANDOMIZER_MOVES_TYPE)
+    {
+        if((personality + offset) % 3 > 0)
+            newMove = gPlaceholderMoves[PH_MOVE(move)].move[type1];
+        else
+            newMove = gPlaceholderMoves[PH_MOVE(move)].move[type2];
+    }
+    else if(setting == OPTIONS_RANDOMIZER_MOVES_SPECIES)
+    {
+        newMove = (((0x2A * (species % MOVES_COUNT)) + 0x7F) % (MOVES_COUNT - 1)) + 1;
+        for(i = 0; i < offset; i++)
+        {
+            newMove = (((0x2A * newMove) + 0x7F) % (MOVES_COUNT - 1)) + 1;
+        }
+    }
+    else if(setting == OPTIONS_RANDOMIZER_MOVES_PERSONALITY)
+    {
+        newMove = (((0x2A * ((personality >> 9) % MOVES_COUNT)) + 0x7F) % (MOVES_COUNT - 1)) + 1;
+        for(i = 0; i < offset; i++)
+        {
+            newMove = (((0x2A * newMove) + 0x7F) % (MOVES_COUNT - 1)) + 1;
+        }
+    }
+    return newMove;
 }

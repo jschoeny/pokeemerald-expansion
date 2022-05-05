@@ -1924,6 +1924,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 {
                     SetMonData(&party[i], MON_DATA_MOVE1 + j, &partyData[i].moves[j]);
                     SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[partyData[i].moves[j]].pp);
+                        u32 move = GetPlaceholderMoveFromPersonality(species, personalityValue, partyData[i].moves[j], j);
+                        SetMonData(&party[i], MON_DATA_MOVE1 + j, &move);
+                        SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[move].pp);
                 }
                 break;
             }
@@ -3198,13 +3201,8 @@ void FaintClearSetData(void)
 
     gBattleResources->flags->flags[gActiveBattler] = 0;
 
-    type1 = gBattleMons[gActiveBattler].personality % (NUMBER_OF_MON_TYPES - 1);
-    type1 = (type1 >= TYPE_MYSTERY) ? type1 + 1 : type1;
-    type2 = type1;
-    if(gBaseStats[gBattleMons[gActiveBattler].species].type1 != gBaseStats[gBattleMons[gActiveBattler].species].type2) {
-        type2 = (gBattleMons[gActiveBattler].personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-        type2 = (type2 >= TYPE_MYSTERY) ? type2 + 1 : type2;
-    }
+    type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
+    type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
 
     gBattleMons[gActiveBattler].type1 = type1;
     gBattleMons[gActiveBattler].type2 = type2;
@@ -3306,13 +3304,8 @@ static void DoBattleIntro(void)
             {
                 memcpy(&gBattleMons[gActiveBattler], &gBattleResources->bufferB[gActiveBattler][4], sizeof(struct BattlePokemon));
 
-                type1 = gBattleMons[gActiveBattler].personality % (NUMBER_OF_MON_TYPES - 1);
-                type1 = (type1 >= TYPE_MYSTERY) ? type1 + 1 : type1;
-                type2 = type1;
-                if(gBaseStats[gBattleMons[gActiveBattler].species].type1 != gBaseStats[gBattleMons[gActiveBattler].species].type2) {
-                    type2 = (gBattleMons[gActiveBattler].personality >> 4) % (NUMBER_OF_MON_TYPES - 1);
-                    type2 = (type2 >= TYPE_MYSTERY) ? type2 + 1 : type2;
-                }
+                type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
+                type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
 
                 gBattleMons[gActiveBattler].type1 = type1;
                 gBattleMons[gActiveBattler].type2 = type2;

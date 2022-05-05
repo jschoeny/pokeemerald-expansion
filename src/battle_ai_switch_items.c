@@ -370,6 +370,7 @@ static bool8 FindMonWithFlagsAndSuperEffective(u16 flags, u8 moduloPercent)
 
     for (i = firstId; i < lastId; i++)
     {
+        u32 personality;
         u16 species;
         u16 monAbility;
 
@@ -389,12 +390,13 @@ static bool8 FindMonWithFlagsAndSuperEffective(u16 flags, u8 moduloPercent)
             continue;
 
         species = GetMonData(&party[i], MON_DATA_SPECIES);
+        personality = GetMonData(&party[i], MON_DATA_PERSONALITY);
         if (GetMonData(&party[i], MON_DATA_ABILITY_NUM) != 0)
             monAbility = gBaseStats[species].abilities[1];
         else
             monAbility = gBaseStats[species].abilities[0];
 
-        CalcPartyMonTypeEffectivenessMultiplier(gLastLandedMoves[gActiveBattler], species, monAbility);
+        CalcPartyMonTypeEffectivenessMultiplier(gLastLandedMoves[gActiveBattler], species, personality, monAbility);
         if (gMoveResultFlags & flags)
         {
             battlerIn1 = gLastHitBy[gActiveBattler];
@@ -616,10 +618,11 @@ static u32 GestBestMonOffensive(struct Pokemon *party, int firstId, int lastId, 
             if (!(gBitTable[i] & invalidMons) && !(gBitTable[i] & bits))
             {
                 u16 species = GetMonData(&party[i], MON_DATA_SPECIES);
+                u32 personality = GetMonData(&party[i], MON_DATA_PERSONALITY);
                 u32 typeDmg = UQ_4_12(1.0);
 
-                u8 atkType1 = gBaseStats[species].type1;
-                u8 atkType2 = gBaseStats[species].type2;
+                u8 atkType1 = GetMonTypeFromPersonality(species, personality, FALSE);
+                u8 atkType2 = GetMonTypeFromPersonality(species, personality, TRUE);
                 u8 defType1 = gBattleMons[opposingBattler].type1;
                 u8 defType2 = gBattleMons[opposingBattler].type2;
 

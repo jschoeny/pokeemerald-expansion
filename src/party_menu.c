@@ -4844,7 +4844,10 @@ static void Task_LearnedMove(u8 taskId)
             RemoveBagItem(item, 1);
     }
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[move[0]]);
+    if(move[0] > MOVES_PH_START)
+        StringCopy(gStringVar2, gText_NewMove);
+    else
+        StringCopy(gStringVar2, gMoveNames[move[0]]);
     StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);

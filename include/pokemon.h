@@ -469,5 +469,11 @@ u8 GetFormIdFromFormSpeciesId(u16 formSpeciesId);
 u16 GetFormChangeTargetSpecies(struct Pokemon *mon, u16 method, u32 arg);
 u16 GetFormChangeTargetSpeciesBoxMon(struct BoxPokemon *mon, u16 method, u32 arg);
 u16 MonTryLearningNewMoveEvolution(struct Pokemon *mon, bool8 firstMove);
+u8 GetMonType(struct Pokemon *mon, bool8 secondType);
+u8 GetBoxMonType(struct BoxPokemon *boxMon, bool8 secondType);
+u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType);
+u32 GetPlaceholderMoveMon(struct Pokemon *mon, u32 move, u8 offset);
+u32 GetPlaceholderMoveBoxMon(struct BoxPokemon *boxMon, u32 move, u8 offset);
+u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8 offset);
 
 #endif // GUARD_POKEMON_H
