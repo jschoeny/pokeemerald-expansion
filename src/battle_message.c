@@ -1340,7 +1340,7 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_PLAYERPAIDPRIZEMONEY - BATTLESTRINGS_TABLE_START] = sText_PlayerPaidPrizeMoney,
 };
 
-const u16 gMentalHerbCureStringIds[] = 
+const u16 gMentalHerbCureStringIds[] =
 {
     [B_MSG_MENTALHERBCURE_INFATUATION] = STRINGID_ATKGOTOVERINFATUATION,
     [B_MSG_MENTALHERBCURE_TAUNT]       = STRINGID_BUFFERENDS,
@@ -1355,7 +1355,7 @@ const u16 gTerrainStringIds[] =
     STRINGID_TERRAINBECOMESMISTY, STRINGID_TERRAINBECOMESGRASSY, STRINGID_TERRAINBECOMESELECTRIC, STRINGID_TERRAINBECOMESPSYCHIC
 };
 
-const u16 gTerrainEndingStringIds[] = 
+const u16 gTerrainEndingStringIds[] =
 {
     STRINGID_MISTYTERRAINENDS, STRINGID_GRASSYTERRAINENDS, STRINGID_ELECTRICTERRAINENDS, STRINGID_PSYCHICTERRAINENDS
 };
@@ -2128,9 +2128,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
-        .fgColor = TEXT_DYNAMIC_COLOR_4,
+        .fgColor = TEXT_DYNAMIC_COLOR_1,
         .bgColor = TEXT_DYNAMIC_COLOR_5,
-        .shadowColor = TEXT_DYNAMIC_COLOR_6,
+        .shadowColor = TEXT_DYNAMIC_COLOR_1 - 1,
     },
     [B_WIN_SWITCH_PROMPT] = {
         .fillValue = PIXEL_FILL(0xE),
@@ -2420,9 +2420,9 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
         .letterSpacing = 0,
         .lineSpacing = 0,
         .speed = 0,
-        .fgColor = TEXT_DYNAMIC_COLOR_4,
+        .fgColor = TEXT_DYNAMIC_COLOR_1,
         .bgColor = TEXT_DYNAMIC_COLOR_5,
-        .shadowColor = TEXT_DYNAMIC_COLOR_6,
+        .shadowColor = TEXT_DYNAMIC_COLOR_1 - 1,
     },
     [B_WIN_SWITCH_PROMPT] = {
         .fillValue = PIXEL_FILL(0xE),
@@ -3837,6 +3837,76 @@ void SetPpNumbersPaletteInMoveSelection(void)
 
     CpuCopy16(&gPlttBufferUnfaded[92], &gPlttBufferFaded[92], sizeof(u16));
     CpuCopy16(&gPlttBufferUnfaded[91], &gPlttBufferFaded[91], sizeof(u16));
+}
+
+#define POS1 90
+#define POS2 89
+#define COL_SUPER_EFFECTIVE 2
+#define COL_NOT_VERY_EFFECTIVE 0
+#define COL_NO_EFFECT 4
+#define COL_NORMAL 6
+#define IS_DOUBLE_BATTLE (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+#define IS_SINGLE_BATTLE !(IS_DOUBLE_BATTLE)
+#define FOE(bank) ((bank ^ BIT_SIDE) & BIT_SIDE)
+#define BATTLER_ALIVE(bank) (gBattleMons[bank].hp > 0)
+#define PARTNER(bank) (bank ^ BIT_FLANK)
+void SetTypePaletteInMoveSelection(bool8 handleInputChooseTarget)
+{
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleResources->bufferA[gActiveBattler][4]);
+    const u16 *palPtr = gTypeTextPalette;
+    u8 var = COL_NORMAL;
+    u8 moveResult = 0;
+    u8 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
+    u8 moveType = gBattleMoves[move].type;
+    u16 modifier = UQ_4_12(1.0);
+    u8 type1;
+    u8 type2;
+
+
+    if(!IS_MOVE_STATUS(move))
+    {
+        if (IS_SINGLE_BATTLE)
+        {
+            type1 = gBattleMons[FOE(gActiveBattler)].type1;
+            type2 = gBattleMons[FOE(gActiveBattler)].type2;
+            modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type1)) + UQ_4_12_ROUND);
+            if (type2 != type1)
+                modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type2)) + UQ_4_12_ROUND);
+        }
+    	else if (handleInputChooseTarget)
+        {
+            type1 = gBattleMons[GetBattlerPosition(gMultiUsePlayerCursor)].type1;
+            type2 = gBattleMons[GetBattlerPosition(gMultiUsePlayerCursor)].type2;
+            modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type1)) + UQ_4_12_ROUND);
+            if (type2 != type1)
+                modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type2)) + UQ_4_12_ROUND);
+        }
+    	else if (CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) <= 1) //Only 1 enemy left
+    	{
+    		u8 bankDef = FOE(gActiveBattler);
+    		if (!BATTLER_ALIVE(bankDef))
+    			bankDef = PARTNER(bankDef);
+
+            type1 = gBattleMons[bankDef].type1;
+            type2 = gBattleMons[bankDef].type2;
+            modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type1)) + UQ_4_12_ROUND);
+            if (type2 != type1)
+                modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type2)) + UQ_4_12_ROUND);
+    	}
+
+        if(modifier > UQ_4_12(1.0))
+    		var = COL_SUPER_EFFECTIVE;
+        else if(modifier < UQ_4_12(1.0) && modifier > UQ_4_12(0.0))
+    		var = COL_NOT_VERY_EFFECTIVE;
+    	else if (modifier == UQ_4_12(0.0))
+    		var = COL_NO_EFFECT;
+    }
+
+    gPlttBufferUnfaded[POS1] = palPtr[(var * 2) + 0];
+    gPlttBufferUnfaded[POS2] = palPtr[(var * 2) + 2];
+
+    CpuCopy16(&gPlttBufferUnfaded[POS1], &gPlttBufferFaded[POS1], sizeof(u16));
+    CpuCopy16(&gPlttBufferUnfaded[POS2], &gPlttBufferFaded[POS2], sizeof(u16));
 }
 
 u8 GetCurrentPpToMaxPpState(u8 currentPp, u8 maxPp)
