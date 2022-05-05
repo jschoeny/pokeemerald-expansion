@@ -63,6 +63,9 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "cable_club.h"
+#include "data/pokemon/randomizer_table.h"
+
+#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 110) / 100) + 1) : lvl)
 
 extern const struct BgTemplate gBattleBgTemplates[];
 extern const struct WindowTemplate *const gBattleWindowTemplates[];
@@ -1825,6 +1828,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
     u8 fixedIV;
     s32 i, j;
     u8 monsCount;
+    u16 species;
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
     if (trainerNum == TRAINER_SECRET_BASE)
         return 0;
@@ -1835,6 +1841,12 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
     {
         if (firstTrainer == TRUE)
             ZeroEnemyPartyMons();
+
+        if(gSaveBlock2Ptr->optionsRandomizerChallenge)
+        {
+            if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
+                trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
+        }
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         {
@@ -1866,43 +1878,134 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             case 0:
             {
                 const struct TrainerMonNoItemDefaultMoves *partyData = gTrainers[trainerNum].party.NoItemDefaultMoves;
+                species = partyData[i].species;
+                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+                {
+                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
+                {
+                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                {
+                    species = Random() % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
 
-                for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
-                    nameHash += gSpeciesNames[partyData[i].species][j];
+                for (j = 0; gSpeciesNames[species][j] != EOS; j++)
+                    nameHash += gSpeciesNames[species][j];
+
+                if(partyData[i].pid == 0)
+                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                else
+                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+
+                if(gSaveBlock2Ptr->optionsRandomizerChallenge == FALSE)
+                {
+                    if(trainerNum == TRAINER_BRENDAN_ROUTE_103_MUDKIP
+                        || trainerNum == TRAINER_BRENDAN_ROUTE_103_TORCHIC
+                        || trainerNum == TRAINER_BRENDAN_ROUTE_103_TREECKO
+                        || trainerNum == TRAINER_MAY_ROUTE_103_MUDKIP
+                        || trainerNum == TRAINER_MAY_ROUTE_103_TORCHIC
+                        || trainerNum == TRAINER_MAY_ROUTE_103_TREECKO)
+                    {
+                        u32 move = MOVE_NONE;
+                        SetMonData(&party[i], MON_DATA_MOVE3, &move);
+                        SetMonData(&party[i], MON_DATA_PP3, &gBattleMoves[move].pp);
+                    }
+                }
                 break;
             }
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
             {
                 const struct TrainerMonNoItemCustomMoves *partyData = gTrainers[trainerNum].party.NoItemCustomMoves;
+                species = partyData[i].species;
+                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+                {
+                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
+                {
+                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                {
+                    species = Random() % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
 
-                for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
-                    nameHash += gSpeciesNames[partyData[i].species][j];
+                for (j = 0; gSpeciesNames[species][j] != EOS; j++)
+                    nameHash += gSpeciesNames[species][j];
+
+                if(partyData[i].pid == 0)
+                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                else
+                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
-                for (j = 0; j < MAX_MON_MOVES; j++)
+                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_NORMAL)
                 {
-                    SetMonData(&party[i], MON_DATA_MOVE1 + j, &partyData[i].moves[j]);
-                    SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[partyData[i].moves[j]].pp);
+                    for (j = 0; j < MAX_MON_MOVES; j++)
+                    {
+                        u32 move = GetPlaceholderMoveFromPersonality(species, personalityValue, partyData[i].moves[j], j);
+                        SetMonData(&party[i], MON_DATA_MOVE1 + j, &move);
+                        SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[move].pp);
+                    }
                 }
                 break;
             }
             case F_TRAINER_PARTY_HELD_ITEM:
             {
                 const struct TrainerMonItemDefaultMoves *partyData = gTrainers[trainerNum].party.ItemDefaultMoves;
+                species = partyData[i].species;
+                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+                {
+                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
+                {
+                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                {
+                    species = Random() % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
 
-                for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
-                    nameHash += gSpeciesNames[partyData[i].species][j];
+                for (j = 0; gSpeciesNames[species][j] != EOS; j++)
+                    nameHash += gSpeciesNames[species][j];
+
+                if(partyData[i].pid == 0)
+                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                else
+                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
                 SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
                 break;
@@ -1910,23 +2013,48 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
             {
                 const struct TrainerMonItemCustomMoves *partyData = gTrainers[trainerNum].party.ItemCustomMoves;
+                species = partyData[i].species;
+                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+                {
+                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
+                {
+                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
+                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                {
+                    species = Random() % NUM_SPECIES_RAND;
+                    if(species >= NUM_SPECIES_RAND_START)
+                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+                }
 
-                for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; j++)
-                    nameHash += gSpeciesNames[partyData[i].species][j];
+                for (j = 0; gSpeciesNames[species][j] != EOS; j++)
+                    nameHash += gSpeciesNames[species][j];
+
+                if(partyData[i].pid == 0)
+                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                else
+                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
                 SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
 
-                for (j = 0; j < MAX_MON_MOVES; j++)
+                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_NORMAL)
                 {
-                    SetMonData(&party[i], MON_DATA_MOVE1 + j, &partyData[i].moves[j]);
-                    SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[partyData[i].moves[j]].pp);
+                    for (j = 0; j < MAX_MON_MOVES; j++)
+                    {
                         u32 move = GetPlaceholderMoveFromPersonality(species, personalityValue, partyData[i].moves[j], j);
                         SetMonData(&party[i], MON_DATA_MOVE1 + j, &move);
                         SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[move].pp);
+                    }
                 }
                 break;
             }

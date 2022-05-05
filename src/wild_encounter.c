@@ -23,6 +23,7 @@
 #include "constants/items.h"
 #include "constants/layouts.h"
 #include "constants/weather.h"
+#include "data/pokemon/randomizer_table.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -265,6 +266,7 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     return wildMonIndex;
 }
 
+#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 110) / 100) + 1) : lvl)
 static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
 {
     u8 min;
@@ -283,6 +285,8 @@ static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
         min = wildPokemon->maxLevel;
         max = wildPokemon->minLevel;
     }
+    min = CHALLENGE_LEVEL(min);
+    max = CHALLENGE_LEVEL(max);
     range = max - min + 1;
     rand = Random() % range;
 
@@ -418,6 +422,8 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
 {
     u8 wildMonIndex = 0;
     u8 level;
+    u16 species;
+    u16 headerId = GetCurrentMapWildMonHeaderId();
 
     switch (area)
     {
@@ -464,7 +470,27 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_ROOM_WILD_MONS && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    species = wildMonInfo->wildPokemon[wildMonIndex].species;
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES)
+    {
+        species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+    {
+        species = ((0x1A4 * (species + headerId)) + 0xB2) % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+    {
+        species = Random() % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+
+    CreateWildMon(species, level);
     return TRUE;
 }
 

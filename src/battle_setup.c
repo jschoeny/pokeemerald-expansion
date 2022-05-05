@@ -550,10 +550,65 @@ void BattleSetup_StartLegendaryBattle(void)
     case SPECIES_DEOXYS:
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_DEOXYS);
         break;
+    case SPECIES_ARTICUNO:
+    case SPECIES_ZAPDOS:
+    case SPECIES_MOLTRES:
+    case SPECIES_MEWTWO:
     case SPECIES_LUGIA:
     case SPECIES_HO_OH:
+    case SPECIES_RAIKOU:
+    case SPECIES_ENTEI:
+    case SPECIES_SUICUNE:
+    case SPECIES_UXIE:
+    case SPECIES_MESPRIT:
+    case SPECIES_AZELF:
+    case SPECIES_DIALGA:
+    case SPECIES_PALKIA:
+    case SPECIES_HEATRAN:
+    case SPECIES_GIRATINA:
+    case SPECIES_GIRATINA_ORIGIN:
+    case SPECIES_CRESSELIA:
+    case SPECIES_COBALION:
+    case SPECIES_TERRAKION:
+    case SPECIES_VIRIZION:
+    case SPECIES_ARCEUS:
+    case SPECIES_CELEBI:
+    case SPECIES_COSMOEM:
+    case SPECIES_COSMOG:
+    case SPECIES_DARKRAI:
+    case SPECIES_DIANCIE:
+    case SPECIES_GENESECT:
+    case SPECIES_JIRACHI:
+    case SPECIES_KYUREM:
+    case SPECIES_LANDORUS:
+    case SPECIES_LUNALA:
+    case SPECIES_MANAPHY:
+    case SPECIES_MARSHADOW:
+    case SPECIES_MELOETTA:
+    case SPECIES_NAGANADEL:
+    case SPECIES_NECROZMA:
+    case SPECIES_POIPOLE:
+    case SPECIES_RESHIRAM:
+    case SPECIES_SHAYMIN:
+    case SPECIES_SHAYMIN_SKY:
+    case SPECIES_SOLGALEO:
+    case SPECIES_TAPU_BULU:
+    case SPECIES_TAPU_FINI:
+    case SPECIES_TAPU_KOKO:
+    case SPECIES_TAPU_LELE:
+    case SPECIES_THUNDURUS:
+    case SPECIES_TORNADUS:
+    case SPECIES_VICTINI:
+    case SPECIES_VOLCANION:
+    case SPECIES_ZEKROM:
+    case SPECIES_ZYGARDE:
+    case SPECIES_ZAMAZENTA:
+    case SPECIES_ZACIAN:
+    case SPECIES_ETERNATUS:
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RG_VS_LEGEND);
         break;
+    case SPECIES_REGIGIGAS:
+        CreateBattleStartTask(B_TRANSITION_GRID_SQUARES, MUS_VS_REGI);
     case SPECIES_MEW:
         CreateBattleStartTask(B_TRANSITION_GRID_SQUARES, MUS_VS_MEW);
         break;
@@ -757,6 +812,12 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     u8 i;
     u8 sum;
     u32 count = numMons;
+
+    if(gSaveBlock2Ptr->optionsRandomizerChallenge)
+    {
+        if(opponentId >= TRAINER_SIDNEY && opponentId <= TRAINER_JUAN_1)
+            opponentId = (opponentId - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
+    }
 
     if (gTrainers[opponentId].partySize < count)
         count = gTrainers[opponentId].partySize;

@@ -20,6 +20,8 @@
 #include "constants/moves.h"
 #include "constants/items.h"
 
+extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
+
 #define AI_ACTION_DONE          0x0001
 #define AI_ACTION_FLEE          0x0002
 #define AI_ACTION_WATCH         0x0004
@@ -102,6 +104,7 @@ void BattleAI_SetupItems(void)
 {
     s32 i;
     u8 *data = (u8 *)BATTLE_HISTORY;
+    u16 trainerNum = gTrainerBattleOpponent_A;
 
     for (i = 0; i < sizeof(struct BattleHistory); i++)
         data[i] = 0;
@@ -114,12 +117,47 @@ void BattleAI_SetupItems(void)
             )
        )
     {
+        if(gSaveBlock2Ptr->optionsRandomizerChallenge)
+        {
+            if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
+                trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
+        }
+
         for (i = 0; i < MAX_TRAINER_ITEMS; i++)
         {
-            if (gTrainers[gTrainerBattleOpponent_A].items[i] != 0)
+            if (gTrainers[trainerNum].items[i] != 0)
             {
-                BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = gTrainers[gTrainerBattleOpponent_A].items[i];
+                BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = gTrainers[trainerNum].items[i];
                 BATTLE_HISTORY->itemsNo++;
+            }
+        }
+        if(gSaveBlock2Ptr->optionsRandomizerChallenge)
+        {
+            u8 i, j;
+            u16 species;
+            if (BATTLE_HISTORY->itemsNo < MAX_BATTLERS_COUNT) {
+                BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = ITEM_SUPER_POTION;
+                BATTLE_HISTORY->itemsNo++;
+            }
+            if(BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo - 1] != ITEM_MEGA_RING)
+            {
+                for(i = PARTY_SIZE - 1; i > 0; i--)
+                {
+                    species = GetMonData(&gEnemyParty[i], MON_DATA_SPECIES);
+                    for(j = 0; j < EVOS_PER_MON; j++)
+                    {
+                        if(gEvolutionTable[species][j].method == EVO_MEGA_EVOLUTION)
+                        {
+                            if(BATTLE_HISTORY->itemsNo == MAX_BATTLERS_COUNT)
+                                BATTLE_HISTORY->itemsNo--;
+                            BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = ITEM_MEGA_RING;
+                            BATTLE_HISTORY->itemsNo++;
+                            SetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, &gEvolutionTable[species][j].param);
+                            goto FOUND;
+                        }
+                    }
+                }
+                FOUND:
             }
         }
     }
@@ -161,6 +199,8 @@ void BattleAI_SetupFlags(void)
         AI_THINKING_STRUCT->aiFlags = GetAiScriptsInBattleFactory();
     else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
         AI_THINKING_STRUCT->aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
+    else if (gSaveBlock2Ptr->optionsRandomizerChallenge)
+        AI_THINKING_STRUCT->aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING;
     else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         AI_THINKING_STRUCT->aiFlags = gTrainers[gTrainerBattleOpponent_A].aiFlags | gTrainers[gTrainerBattleOpponent_B].aiFlags;
     else

@@ -23,6 +23,7 @@
 #include "window.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
+#include "data/pokemon/randomizer_table.h"
 
 #define STARTER_MON_COUNT   3
 
@@ -355,9 +356,33 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 // .text
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
+    u16 value;
+    u16 species;
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
-    return sStarterMon[chosenStarterId];
+
+    species = sStarterMon[chosenStarterId];
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
+        || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+    {
+        species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+    {
+        u8 i;
+        value = gSaveBlock2Ptr->playerTrainerId[0]
+              | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+        species = ((0x1A4 * value) + 0xB2) % NUM_SPECIES_RAND;
+        for(i = 0; i < chosenStarterId; i++) {
+            species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+        }
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+
+    return species;
 }
 
 static void VblankCB_StarterChoose(void)
