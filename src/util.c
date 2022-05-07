@@ -3,6 +3,7 @@
 #include "sprite.h"
 #include "palette.h"
 #include "constants/rgb.h"
+#include "mgba_printf/mgba.h"
 
 const u32 gBitTable[] =
 {
@@ -278,13 +279,35 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
     }
 }
 
-void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturation, u8 brightness)
+void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturation, u8 luminosity)
 {
-    u16 i;
+    u16 i, maxLum, minLum;
+    maxLum = 0;
+    minLum = 255;
 
-    if(gSaveBlock2Ptr->optionsRandomizerPalette == FALSE)
+    if(gSaveBlock2Ptr->optionsRandomizerPalette == FALSE || destColors == 0)
         return;
 
+    for (i = 0; i < 16; i++)
+    {
+        if((1 << i) & destColors)
+        {
+            u16 index = i + palOffset;
+            struct PlttData *data1 = (struct PlttData *)&gPlttBufferUnfaded[index];
+            u8 r = data1->r * 8;
+            u8 g = data1->g * 8;
+            u8 b = data1->b * 8;
+			u8 maxVal = r;
+			u8 minVal = r;
+            if(g > maxVal) {maxVal = g;} else {minVal = g;}
+            if(b > maxVal) {maxVal = b;} else if(b < minVal) {minVal = b;}
+            if((maxVal + minVal) / 2 > maxLum)
+                maxLum = (maxVal + minVal)/2;
+            if((maxVal + minVal) / 2 < minLum)
+                minLum = (maxVal + minVal)/2;
+        }
+    }
+    MgbaPrintf(MGBA_LOG_INFO, "MaxLum: %d, MinLum: %d", maxLum, minLum);
     for (i = 0; i < 16; i++)
     {
         if((1 << i) & destColors) {
@@ -294,43 +317,92 @@ void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturatio
             s8 g = data1->g;
             s8 b = data1->b;
 
-            u8 cMax = r; //Also value/brightness
+            u8 cMax = r;
             u8 cMin = r;
-            u8 s = 0;
+            s16 s = 0;
             u8 c = 0;
             u8 x = 0;
+            u8 l = 0;
+            u8 delta = 0;
+            s8 lSign = 0;
+            s8 m = 0;
+            u16 coeff_s = 0;
+            u16 coeff_l = 0;
+
+            // MgbaPrintf(MGBA_LOG_INFO, "Color: (%d, %d, %d)", r * 8, g * 8, b * 8);
 
             if(g > cMax) {cMax = g;} else {cMin = g;}
             if(b > cMax) {cMax = b;} else if(b < cMin) {cMin = b;}
-            cMax = cMax * 8;
-            cMin = cMin * 8;
-            if(cMax != 0) {s = ((cMax-cMin)*255)/cMax;}
+            delta = (cMax * 8) - (cMin * 8);
+            l = ((cMax * 8) + (cMin * 8)) / 2;
+            // MgbaPrintf(MGBA_LOG_INFO, "l = %d", l);
+            // MgbaPrintf(MGBA_LOG_INFO, "delta = %d", delta);
+            if((2 * l) - 255 < 0)
+                lSign = -1;
+            else if((2 * l) - 255 > 0)
+                lSign = 1;
+            if(delta != 0) {
+                s = delta / (255 - (lSign * ((2 * l) - 255)));
+            }
+            // MgbaPrintf(MGBA_LOG_INFO, "s = %d", s);
+            coeff_s = 10 * coeff;
+            coeff_l = 4 * coeff;
 
-            s = s + (((saturation - s) * (12 * coeff) / 255) >> 4);
-            cMax = cMax + (((brightness - cMax) * (7 * coeff) / 255) >> 4);
-            if(cMax + ((cMax * cMax) / (8 * 255)) < 255)
-                cMax = cMax + ((cMax * cMax) / (8 * 255));
-            else
-                cMax = 255;
-            if(cMax > 8)
-                cMax = cMax - 8;
-            else
-                cMax = 0;
+        	if(luminosity - maxLum > 30) {
+        		coeff_l = 8 * coeff;
+        		if(coeff < 0xFF) {
+        			coeff_s = 15 * coeff;
+        			l += (luminosity - maxLum)/4;
+        		}
+        		else
+        			l += (luminosity - maxLum)/8;
+        	}
+        	else if(minLum - luminosity > 30) {
+        		coeff_l = 8 * coeff;
+        		if(coeff < 0xFF) {
+        			coeff_s = 15 * coeff;
+        			l -= (minLum - luminosity)/4;
+        		}
+        		else
+        			l -= (minLum - luminosity)/8;
 
-            c = (cMax * s) / 255;
+        	}
+
+            s = s + (((saturation - s) * coeff_s / 255) >> 4);
+            l = l + (((luminosity - l) * coeff_l / 255) >> 4);
+
+            // MgbaPrintf(MGBA_LOG_INFO, "s = %d", s);
+            // MgbaPrintf(MGBA_LOG_INFO, "l = %d", l);
+
+            // if(l + ((l * l) / (8 * 255)) < 255)
+            //     l = l + ((l * l) / (8 * 255));
+            // else
+            //     l = 255;
+            // if(l > 8)
+            //     l = l - 8;
+            // else
+            //     l = 0;
+
+            c = ((255 - (lSign * ((2 * l) - 255)) ) * s) / 255;
+            // MgbaPrintf(MGBA_LOG_INFO, "c = %d", c);
             if((((255*hue) / 42) % (255*2)) - 255 > 0)
                 x = (c * (255 - ((((255*hue) / 42) % (255*2)) - 255))) / 255;
             else
                 x = (c * (255 + ((((255*hue) / 42) % (255*2)) - 255))) / 255;
+            // MgbaPrintf(MGBA_LOG_INFO, "x = %d", x);
 
-            if(hue > 0 && hue < 42)             {r = (c+cMax-c); g = (x+cMax-c); b = (cMax-c);}
-            else if(hue >= 42 && hue < 85)      {r = (x+cMax-c); g = (c+cMax-c); b = (cMax-c);}
-            else if(hue >= 85 && hue < 127)     {r = (cMax-c); g = (c+cMax-c); b = (x+cMax-c);}
-            else if(hue >= 127 && hue < 170)    {r = (cMax-c); g = (x+cMax-c); b = (c+cMax-c);}
-            else if(hue >= 170 && hue < 212)    {r = (x+cMax-c); g = (cMax-c); b = (c+cMax-c);}
-            else if(hue >= 212 && hue < 256)    {r = (c+cMax-c); g = (cMax-c); b = (x+cMax-c);}
-            else                                {r = (c+cMax-c); g = (x+cMax-c); b = (cMax-c);}
+            m = l - ((255 * c) / 2) / 255;
+            // MgbaPrintf(MGBA_LOG_INFO, "m = %d", m);
 
+            if(hue > 0 && hue < 42)             {r = (c+m); g = (x+m); b = (m);}
+            else if(hue >= 42 && hue < 85)      {r = (x+m); g = (c+m); b = (m);}
+            else if(hue >= 85 && hue < 127)     {r = (m); g = (c+m); b = (x+m);}
+            else if(hue >= 127 && hue < 170)    {r = (m); g = (x+m); b = (c+m);}
+            else if(hue >= 170 && hue < 212)    {r = (x+m); g = (m); b = (c+m);}
+            else if(hue >= 212 && hue < 256)    {r = (c+m); g = (m); b = (x+m);}
+            else                                {r = (c+m); g = (x+m); b = (m);}
+
+            // MgbaPrintf(MGBA_LOG_INFO, "Color: (%d, %d, %d)", (r & 255)/8, (g & 255)/8, (b & 255)/8);
             gPlttBufferFaded[index] = RGB((r & 255)/8, (g & 255)/8, (b & 255)/8);
         }
     }

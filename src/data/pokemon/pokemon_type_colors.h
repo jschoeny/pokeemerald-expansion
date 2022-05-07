@@ -2552,26 +2552,28 @@ static const u16 gMonTypeColorIndexesSecondary[NUM_SPECIES] =
     [SPECIES_CALYREX_SHADOW_RIDER] = 0,
 };
 
-//Hues, Saturation, Brightness
+//Hue, Saturation, Luminosity
 static const u8 gMonTypeColor[NUMBER_OF_MON_TYPES][3] =
 {
-    [TYPE_NORMAL] = {42,66,171},
-    [TYPE_FIGHTING] = {9,181,153},
-    [TYPE_FLYING] = {166,71,209},
-    [TYPE_POISON] = {205,112,184},
-    [TYPE_GROUND] = {26,156,191},
-    [TYPE_ROCK] = {37,74,143},
-    [TYPE_BUG] = {60,140,161},
-    [TYPE_GHOST] = {184,138,184},
-    [TYPE_STEEL] = {171,10,184},
-    [TYPE_MYSTERY] = {115,71,173},
-    [TYPE_FIRE] = {14,201,240},
-    [TYPE_WATER] = {150,184,232},
-    [TYPE_GRASS] = {71,153,199},
-    [TYPE_ELECTRIC] = {29,127,229},
-    [TYPE_PSYCHIC] = {244,176,232},
-    [TYPE_ICE] = {146,133,247},
-    [TYPE_DRAGON] = {195,115,51},
-    [TYPE_DARK] = {156,51,89},
-    [TYPE_FAIRY] = {247,89,232}
+    //   TYPE              H    S    L              H    S    L
+    //                   /255 /255 /255            deg   %    %
+    [TYPE_NORMAL] =     {  42,  36, 148 },    // {  59,  21,  58 }
+    [TYPE_FIGHTING] =   {   9, 153,  71 },    // {  13,  60,  28 }
+    [TYPE_FLYING] =     { 166,  99, 181 },    // { 234,  39,  71 }
+    [TYPE_POISON] =     { 213,  79, 114 },    // { 301,  31,  45 }
+    [TYPE_GROUND] =     {  26, 122, 133 },    // {  37,  48,  52 }
+    [TYPE_ROCK] =       {  19,  31, 105 },    // {  27,  12,  41 }
+    [TYPE_BUG] =        {  60,  97, 117 },    // {  85,  38,  46 }
+    [TYPE_GHOST] =      { 184, 105, 135 },    // { 260,  41,  53 }
+    [TYPE_STEEL] =      { 171,  13, 210 },    // { 241,   5,  82 }
+    [TYPE_MYSTERY] =    { 115,  59, 148 },    // { 162,  23,  58 }
+    [TYPE_FIRE] =       {  17, 219, 145 },    // {  24,  86,  57 }
+    [TYPE_WATER] =      { 150, 199, 148 },    // { 212,  78,  58 }
+    [TYPE_GRASS] =      {  71, 132, 140 },    // { 100,  52,  55 }
+    [TYPE_ELECTRIC] =   {  33, 209, 179 },    // {  47,  82,  70 }
+    [TYPE_PSYCHIC] =    { 236, 158, 156 },    // { 333,  62,  61 }
+    [TYPE_ICE] =        { 146, 232, 214 },    // { 206,  91,  84 }
+    [TYPE_DRAGON] =     { 162,  69, 102 },    // { 230,  27,  40 }
+    [TYPE_DARK] =       { 156,  28,  56 },    // { 220,  11,  22 }
+    [TYPE_FAIRY] =      { 247, 163, 204 }     // { 349,  64,  80 }
 };
