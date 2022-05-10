@@ -3922,6 +3922,8 @@ static void Cmd_getexp(void)
             gBattleScripting.getexpState++;
             gBattleStruct->expGetterMonId = 0;
             gBattleStruct->sentInPokes = sentIn;
+            gBattleStruct->expShareSecondLoopSentInPokes = sentIn;
+            gBattleStruct->expShareSecondLoop = FALSE;
         }
         // fall through
     case 2: // set exp value to the poke in expgetter_id and print message
@@ -3966,10 +3968,26 @@ static void Cmd_getexp(void)
 
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP) && !GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_IS_EGG))
                 {
-                    if (gBattleStruct->sentInPokes & 1)
-                        gBattleMoveDamage = *exp;
-                    else
+                    if (gBattleStruct->sentInPokes & 1) {
+                        if(gBattleStruct->expShareSecondLoopSentInPokes == 0) { // Skip for second loop
+                            *(&gBattleStruct->sentInPokes) >>= 1;
+                            gBattleScripting.getexpState = 5;
+                            gBattleMoveDamage = 0; // used for exp
+                            break;
+                        }
+                        else {
+                            gBattleMoveDamage = *exp;
+                        }
+                    }
+                    else if(gBattleStruct->expShareSecondLoopSentInPokes == 0) //Second run through just for exp share
                         gBattleMoveDamage = 0;
+                    else if(gSaveBlock2Ptr->expShare) {
+                        gBattleStruct->expShareSecondLoop = TRUE;
+                        *(&gBattleStruct->sentInPokes) >>= 1;
+                        gBattleScripting.getexpState = 5;
+                        gBattleMoveDamage = 0; // used for exp
+                        break;
+                    }
 
                     // only give exp share bonus in later gens if the mon wasn't sent out
                     if ((gSaveBlock2Ptr->expShare) && ((gBattleMoveDamage == 0) || (B_SPLIT_EXP < GEN_6)))
@@ -4030,7 +4048,8 @@ static void Cmd_getexp(void)
                     PREPARE_STRING_BUFFER(gBattleTextBuff2, i);
                     PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff3, 6, gBattleMoveDamage);
 
-                    PrepareStringBattle(STRINGID_PKMNGAINEDEXP, gBattleStruct->expGetterBattlerId);
+                    if(gBattleStruct->sentInPokes & 1)
+                        PrepareStringBattle(STRINGID_PKMNGAINEDEXP, gBattleStruct->expGetterBattlerId);
                     MonGainEVs(&gPlayerParty[gBattleStruct->expGetterMonId], gBattleMons[gBattlerFainted].species);
                 }
                 gBattleStruct->sentInPokes >>= 1;
@@ -4117,8 +4136,20 @@ static void Cmd_getexp(void)
             gBattleStruct->expGetterMonId++;
             if (gBattleStruct->expGetterMonId < PARTY_SIZE)
                 gBattleScripting.getexpState = 2; // loop again
-            else
-                gBattleScripting.getexpState = 6; // we're done
+            else {
+                if(gBattleStruct->expShareSecondLoop && gBattleStruct->expShareSecondLoopSentInPokes != 0) {
+                    PrepareStringBattle(STRINGID_TEAMGAINEDEXP, gBattleStruct->expGetterBattlerId);
+
+                    gBattleStruct->sentInPokes = gBattleStruct->expShareSecondLoopSentInPokes;
+                    gBattleStruct->expShareSecondLoopSentInPokes = 0;
+                    gBattleStruct->expGetterMonId -= PARTY_SIZE;
+
+                    gBattleScripting.getexpState = 2; // loop again
+                    break;
+                }
+                else
+                    gBattleScripting.getexpState = 6; // we're done
+            }
         }
         break;
     case 6: // increment instruction
