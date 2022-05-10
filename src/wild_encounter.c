@@ -69,7 +69,7 @@ static const struct WildPokemon sWildFeebas = {20, 25, SPECIES_FEEBAS};
 
 static const u16 sRoute119WaterTileData[] =
 {
-//yMin, yMax, numSpots in previous sections 
+//yMin, yMax, numSpots in previous sections
      0,  45,  0,
     46,  91,  NUM_FISHING_SPOTS_1,
     92, 139,  NUM_FISHING_SPOTS_1 + NUM_FISHING_SPOTS_2,
@@ -147,7 +147,7 @@ static bool8 CheckFeebas(void)
             feebasSpots[i] = FeebasRandom() % NUM_FISHING_SPOTS;
             if (feebasSpots[i] == 0)
                 feebasSpots[i] = NUM_FISHING_SPOTS;
-            
+
             // < 1 below is a pointless check, it will never be TRUE.
             // >= 4 to skip fishing spots 1-3, because these are inaccessible
             // spots at the top of the map, at (9,7), (7,13), and (15,16).
@@ -845,18 +845,59 @@ bool8 DoesCurrentMapHaveFishingMons(void)
 void FishingWildEncounter(u8 rod)
 {
     u16 species;
+    u16 headerId = GetCurrentMapWildMonHeaderId();
 
     if (CheckFeebas() == TRUE)
     {
         u8 level = ChooseWildMonLevel(&sWildFeebas);
 
         species = sWildFeebas.species;
+
+        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES)
+        {
+            species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+        {
+            species = ((0x1A4 * (species + headerId)) + 0xB2) % NUM_SPECIES_RAND;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+        {
+            species = Random() % NUM_SPECIES_RAND;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        
         CreateWildMon(species, level);
     }
     else
     {
-        species = GenerateFishingWildMon(gWildMonHeaders[GetCurrentMapWildMonHeaderId()].fishingMonsInfo, rod);
+        species = GenerateFishingWildMon(gWildMonHeaders[headerId].fishingMonsInfo, rod);
     }
+
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES)
+    {
+        species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+    {
+        species = ((0x1A4 * (species + headerId)) + 0xB2) % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+    {
+        species = Random() % NUM_SPECIES_RAND;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+
     IncrementGameStat(GAME_STAT_FISHING_CAPTURES);
     SetPokemonAnglerSpecies(species);
     gIsFishingEncounter = TRUE;
