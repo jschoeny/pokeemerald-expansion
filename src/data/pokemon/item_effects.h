@@ -568,6 +568,7 @@ const u8 *const gItemEffectTable[] =
     [ITEM_SHINY_STONE - ITEM_POTION]      = gItemEffect_EvoItem,
     [ITEM_DUSK_STONE - ITEM_POTION]       = gItemEffect_EvoItem,
     [ITEM_DAWN_STONE - ITEM_POTION]       = gItemEffect_EvoItem,
+    [ITEM_LINKING_CORD - ITEM_POTION]     = gItemEffect_EvoItem,
     [ITEM_SWEET_APPLE - ITEM_POTION]      = gItemEffect_EvoItem,
     [ITEM_TART_APPLE - ITEM_POTION]       = gItemEffect_EvoItem,
     [ITEM_CRACKED_POT - ITEM_POTION]      = gItemEffect_EvoItem,

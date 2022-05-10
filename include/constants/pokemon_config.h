@@ -165,6 +165,8 @@
     #define ITEM_YELLOW_NECTAR       10129
     #define ITEM_PINK_NECTAR         10130
     #define ITEM_PURPLE_NECTAR       10131
+
+    #define ITEM_LINKING_CORD        10132
 #endif // ITEM_EXPANSION
 
 #ifndef BATTLE_ENGINE

@@ -10118,4 +10118,16 @@ const struct Item gItems[] =
         .type = ITEM_USE_BAG_MENU,
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
+
+    [ITEM_LINKING_CORD] =
+    {
+        .name = _("Linking Cord"),
+        .itemId = ITEM_LINKING_CORD,
+        .price = 1000,
+        .description = sDawnStoneDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
+        .flingPower = 80,
+    },
 };

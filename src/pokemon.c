@@ -6560,11 +6560,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
                 break;
             case EVO_TRADE_ITEM:
                 if (gEvolutionTable[species][i].param == heldItem)
-                {
-                    heldItem = ITEM_NONE;
-                    SetMonData(mon, MON_DATA_HELD_ITEM, &heldItem);
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
-                }
                 break;
             case EVO_TRADE_SPECIFIC_MON:
                 if (gEvolutionTable[species][i].param == tradePartnerSpecies)
@@ -6579,6 +6575,14 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
         {
             switch (gEvolutionTable[species][i].method)
             {
+            case EVO_TRADE:
+                if (evolutionItem == ITEM_LINKING_CORD)
+                    targetSpecies = gEvolutionTable[species][i].targetSpecies;
+                break;
+            case EVO_TRADE_ITEM:
+                if (evolutionItem == ITEM_LINKING_CORD && gEvolutionTable[species][i].param == heldItem)
+                    targetSpecies = gEvolutionTable[species][i].targetSpecies;
+                break;
             case EVO_ITEM:
                 if (gEvolutionTable[species][i].param == evolutionItem)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;

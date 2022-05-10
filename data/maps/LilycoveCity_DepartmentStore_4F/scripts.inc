@@ -75,6 +75,7 @@ LilycoveCity_DepartmentStore_4F_Pokemart_EvolutionItems:
 	.2byte ITEM_SHINY_STONE
 	.2byte ITEM_DUSK_STONE
 	.2byte ITEM_DAWN_STONE
+	.2byte ITEM_LINKING_CORD
 	.2byte ITEM_SWEET_APPLE
 	.2byte ITEM_TART_APPLE
 	.2byte ITEM_CRACKED_POT
