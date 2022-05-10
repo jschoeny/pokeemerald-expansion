@@ -97,6 +97,7 @@ static void PlayerCmdEnd(void);
 
 static void PlayerBufferRunCommand(void);
 static void HandleInputChooseTarget(void);
+static void HandleInputChooseTarget_Step1(void);
 static void HandleInputChooseMove(void);
 static void MoveSelectionCreateCursorAt(u8 cursorPos, u8 arg1);
 static void MoveSelectionDestroyCursorAt(u8 cursorPos);
@@ -361,6 +362,12 @@ static void UnusedEndBounceEffect(void)
 
 static void HandleInputChooseTarget(void)
 {
+    SetTypePaletteInMoveSelection(TRUE);
+    gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseTarget_Step1;
+}
+
+static void HandleInputChooseTarget_Step1(void)
+{
     s32 i;
     static const u8 identities[MAX_BATTLERS_COUNT] = {B_POSITION_PLAYER_LEFT, B_POSITION_PLAYER_RIGHT, B_POSITION_OPPONENT_RIGHT, B_POSITION_OPPONENT_LEFT};
     u16 move = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_MOVE1 + gMoveSelectionCursor[gActiveBattler]);
@@ -402,6 +409,7 @@ static void HandleInputChooseTarget(void)
     else if (JOY_NEW(DPAD_LEFT | DPAD_UP))
     {
         PlaySE(SE_SELECT);
+        SetTypePaletteInMoveSelection(TRUE);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCb_HideAsMoveTarget;
 
         if (gBattleMoves[move].target == (MOVE_TARGET_USER | MOVE_TARGET_ALLY))
@@ -451,6 +459,7 @@ static void HandleInputChooseTarget(void)
     else if (JOY_NEW(DPAD_RIGHT | DPAD_DOWN))
     {
         PlaySE(SE_SELECT);
+        SetTypePaletteInMoveSelection(TRUE);
         gSprites[gBattlerSpriteIds[gMultiUsePlayerCursor]].callback = SpriteCb_HideAsMoveTarget;
 
         if (gBattleMoves[move].target == (MOVE_TARGET_USER | MOVE_TARGET_ALLY))
@@ -1679,7 +1688,7 @@ static void MoveSelectionDisplayMoveType(void)
     u8 *txtPtr;
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleResources->bufferA[gActiveBattler][4]);
 
-    SetTypePaletteInMoveSelection(gBattlerControllerFuncs[gActiveBattler] == HandleInputChooseTarget);
+    SetTypePaletteInMoveSelection(FALSE);
     txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
     *(txtPtr)++ = EXT_CTRL_CODE_BEGIN;
     *(txtPtr)++ = EXT_CTRL_CODE_FONT;
