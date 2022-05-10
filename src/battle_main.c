@@ -1901,7 +1901,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0)
+                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                     nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
                 else
                     nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
@@ -1952,7 +1952,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0)
+                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                     nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
                 else
                     nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
@@ -1998,7 +1998,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0)
+                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                     nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
                 else
                     nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
@@ -2036,7 +2036,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0)
+                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                     nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
                 else
                     nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
