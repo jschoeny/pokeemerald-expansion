@@ -424,6 +424,8 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     u8 level;
     u16 species;
     u16 headerId = GetCurrentMapWildMonHeaderId();
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
     switch (area)
     {
@@ -471,20 +473,18 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         return FALSE;
 
     species = wildMonInfo->wildPokemon[wildMonIndex].species;
-    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES)
-    {
-        species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
+        species = ((0x1A4 * ((species + value) % NUM_SPECIES_RAND)) + 0xB2) % NUM_SPECIES_RAND;
         if(species >= NUM_SPECIES_RAND_START)
             species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
     }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
-    {
-        species = ((0x1A4 * (species + headerId)) + 0xB2) % NUM_SPECIES_RAND;
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP) {
+        species = ((0x1A4 * ((species + headerId + value) % NUM_SPECIES_RAND)) + 0xB2) % NUM_SPECIES_RAND;
         if(species >= NUM_SPECIES_RAND_START)
             species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
     }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
-    {
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND) {
         species = Random() % NUM_SPECIES_RAND;
         if(species >= NUM_SPECIES_RAND_START)
             species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
@@ -846,6 +846,8 @@ void FishingWildEncounter(u8 rod)
 {
     u16 species;
     u16 headerId = GetCurrentMapWildMonHeaderId();
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
     if (CheckFeebas() == TRUE)
     {
@@ -853,49 +855,43 @@ void FishingWildEncounter(u8 rod)
 
         species = sWildFeebas.species;
 
-        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES)
-        {
-            species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
+        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
+            species = ((0x1A4 * ((species + value) % NUM_SPECIES_RAND)) + 0xB2) % NUM_SPECIES_RAND;
             if(species >= NUM_SPECIES_RAND_START)
                 species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
-        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
-        {
-            species = ((0x1A4 * (species + headerId)) + 0xB2) % NUM_SPECIES_RAND;
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP) {
+            species = ((0x1A4 * ((species + headerId + value) % NUM_SPECIES_RAND)) + 0xB2) % NUM_SPECIES_RAND;
             if(species >= NUM_SPECIES_RAND_START)
                 species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
-        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
-        {
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND) {
             species = Random() % NUM_SPECIES_RAND;
             if(species >= NUM_SPECIES_RAND_START)
                 species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
-        
+
         CreateWildMon(species, level);
     }
     else
     {
         species = GenerateFishingWildMon(gWildMonHeaders[headerId].fishingMonsInfo, rod);
-    }
 
-    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES)
-    {
-        species = ((0x1A4 * species) + 0xB2) % NUM_SPECIES_RAND;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
-    {
-        species = ((0x1A4 * (species + headerId)) + 0xB2) % NUM_SPECIES_RAND;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
-    {
-        species = Random() % NUM_SPECIES_RAND;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
+            species = ((0x1A4 * ((species + value) % NUM_SPECIES_RAND)) + 0xB2) % NUM_SPECIES_RAND;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP) {
+            species = ((0x1A4 * ((species + headerId + value) % NUM_SPECIES_RAND)) + 0xB2) % NUM_SPECIES_RAND;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND) {
+            species = Random() % NUM_SPECIES_RAND;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
     }
 
     IncrementGameStat(GAME_STAT_FISHING_CAPTURES);
