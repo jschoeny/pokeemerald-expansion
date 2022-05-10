@@ -660,7 +660,7 @@ struct BattleStruct
 #define SET_STATCHANGER(statId, stage, goesDown)(gBattleScripting.statChanger = (statId) + ((stage) << 3) + (goesDown << 7))
 #define SET_STATCHANGER2(dst, statId, stage, goesDown)(dst = (statId) + ((stage) << 3) + (goesDown << 7))
 
-// NOTE: The members of this struct have hard-coded offsets 
+// NOTE: The members of this struct have hard-coded offsets
 //       in include/constants/battle_script_commands.h
 struct BattleScripting
 {
@@ -732,6 +732,7 @@ struct BattleAnimationInfo
     u8 field_9_x40:1;
     u8 field_9_x80:1;
     u8 numBallParticles;
+    u8 numTypeParticleTasks;
     u8 field_B;
     s16 ballSubpx;
     u8 field_E;

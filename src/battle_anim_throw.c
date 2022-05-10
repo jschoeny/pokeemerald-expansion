@@ -103,6 +103,7 @@ static void PremierBallOpenParticleAnimation(u8);
 static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite);
 static void SpriteCB_PokeBlock_Throw(struct Sprite *);
 static void TypeParticleAnimation(u8 taskId);
+static void TypeParticleAnimation_Wait(u8 taskId);
 static void TypeParticleAnimation_Step1(struct Sprite *sprite);
 
 struct CaptureStar
@@ -1877,13 +1878,26 @@ static void TypeParticleAnimation(u8 taskId)
 {
     u8 typeSpriteId;
     u8 x, y, i;
-    u8 typeId;
+    u8 type1, type2;
+    u16 palOffset;
     u8 tBattler = gTasks[taskId].data[3];
 
     if(gBattleSpritesDataPtr->animationData->numBallParticles > 0)
         return;
 
-    typeId = gTasks[taskId].data[15];
+    if(gBattleSpritesDataPtr->animationData->numTypeParticleTasks > 0)
+        return;
+
+    type1 = gTasks[taskId].data[5];
+    type2 = gTasks[taskId].data[6];
+
+    palOffset = LoadCompressedSpritePaletteUsingHeap_Offset(&sTypeParticlePalette);
+    ChangePalette(palOffset, (1 << 1) | (1 << 7) | (1 << 8) | (1 << 9), 200,
+        gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]);
+    ChangePalette(palOffset, (1 << 3) | (1 << 4) | (1 << 5), 200,
+        gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]);
+
+
     for(i = 0; i < 2; i++)
     {
         x = gTasks[taskId].data[1];
@@ -1896,7 +1910,7 @@ static void TypeParticleAnimation(u8 taskId)
 
         if (typeSpriteId != MAX_SPRITES)
         {
-            IncrBallParticleCount();
+            gTasks[taskId].data[12]++;
             StartSpriteAnim(&gSprites[typeSpriteId], 0);
 
             gSprites[typeSpriteId].callback = TypeParticleAnimation_Step1;
@@ -1907,13 +1921,29 @@ static void TypeParticleAnimation(u8 taskId)
             gSprites[typeSpriteId].data[3] = i;
             gSprites[typeSpriteId].data[4] = gSprites[typeSpriteId].oam.tileNum;
             gSprites[typeSpriteId].data[5] = tBattler;
+            gSprites[typeSpriteId].data[6] = taskId;
+            gSprites[typeSpriteId].data[12] = 0;
         }
     }
 
     if (!gMain.inBattle)
         gSprites[typeSpriteId].data[7] = 1;
 
-    DestroyTask(taskId);
+    gBattleSpritesDataPtr->animationData->numTypeParticleTasks++;
+    gTasks[taskId].func = TypeParticleAnimation_Wait;
+
+}
+
+static void TypeParticleAnimation_Wait(u8 taskId)
+{
+    u8 tBattler = gTasks[taskId].data[3];
+    if (gTasks[taskId].data[12] == 0)
+    {
+        gBattleSpritesDataPtr->healthBoxesData[tBattler].finishedShinyMonAnim = TRUE;
+        gBattleSpritesDataPtr->animationData->numTypeParticleTasks--;
+        FreeSpritePaletteByTag(sTypeParticlePalette.tag);
+        DestroyTask(taskId);
+    }
 }
 
 static void TypeParticleAnimation_Step1(struct Sprite *sprite)
@@ -1940,32 +1970,21 @@ static void TypeParticleAnimation_Step1(struct Sprite *sprite)
     sprite->data[0]--;
     if (sprite->data[0] == 0)
     {
+        gTasks[sprite->data[6]].data[12]--;
         if (!gMain.inBattle)
         {
             if (sprite->data[7] == 1)
                 DestroySpriteAndFreeResources(sprite);
             else
+            {
+                FreeSpriteOamMatrix(sprite);
                 DestroySprite(sprite);
+            }
         }
         else
         {
-            s32 i;
-            gBattleSpritesDataPtr->animationData->numBallParticles--;
-            if (gBattleSpritesDataPtr->animationData->numBallParticles == 0)
-            {
-                for (i = 0; i < NUMBER_OF_MON_TYPES; i++)
-                {
-                    FreeSpriteTilesByTag(sTypeParticleSpriteSheet.tag);
-                    FreeSpritePaletteByTag(sTypeParticlePalette.tag);
-                }
-
-                gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
-                DestroySprite(sprite);
-            }
-            else
-            {
-                DestroySprite(sprite);
-            }
+            FreeSpriteOamMatrix(sprite);
+            DestroySprite(sprite);
         }
     }
 }
@@ -2599,6 +2618,9 @@ void AnimTask_SetTargetToEffectBattler(u8 taskId)
 #define sPhase  data[1] // For encircling stars
 #define sTimer  data[1] // For diagnoal stars
 
+#define FOE(bank) (bank % 2 == 1)
+
+#define IS_DOUBLE_BATTLE (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
 void TryShinyAnimation(u8 battler, struct Pokemon *mon)
 {
     bool8 isShiny;
@@ -2607,7 +2629,7 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
     u8 taskCirc, taskDgnl, taskType;
     u8 x, y;
     u8 type1, type2;
-    u16 palOffset, species;
+    u16 species;
 
     isShiny = FALSE;
     gBattleSpritesDataPtr->healthBoxesData[battler].triedShinyMonAnim = TRUE;
@@ -2639,16 +2661,11 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
             gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
             return;
         }
-        else if(gBaseStats[species].type1 != type1 || gBaseStats[species].type2 != type2)
+        else if(FOE(battler) && (gBaseStats[species].type1 != type1 || gBaseStats[species].type2 != type2))
         {
             if (GetSpriteTileStartByTag(sTypeParticleSpriteSheet.tag) == 0xFFFF)
             {
                 LoadCompressedSpriteSheetUsingHeap(&sTypeParticleSpriteSheet);
-                palOffset = LoadCompressedSpritePaletteUsingHeap_Offset(&sTypeParticlePalette);
-                ChangePalette(palOffset, (1 << 1) | (1 << 7) | (1 << 8) | (1 << 9), 200, gMonTypeColor[type1][0],
-                    gMonTypeColor[type1][1], gMonTypeColor[type1][2]);
-                ChangePalette(palOffset, (1 << 3) | (1 << 4) | (1 << 5), 200, gMonTypeColor[type2][0],
-                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]);
             }
 
             x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
@@ -2657,7 +2674,8 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
             gTasks[taskType].data[1] = x;
             gTasks[taskType].data[2] = y;
             gTasks[taskType].data[3] = battler;
-            gTasks[taskType].data[15] = type1;
+            gTasks[taskType].data[5] = type1;
+            gTasks[taskType].data[6] = type2;
             return;
         }
     }
@@ -2957,4 +2975,3 @@ static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
         sprite->callback = SpriteCB_Ball_Bounce_Step;
     }
 }
-
