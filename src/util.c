@@ -307,7 +307,7 @@ void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturatio
                 minLum = (maxVal + minVal)/2;
         }
     }
-    MgbaPrintf(MGBA_LOG_INFO, "MaxLum: %d, MinLum: %d", maxLum, minLum);
+
     for (i = 0; i < 16; i++)
     {
         if((1 << i) & destColors) {
@@ -329,14 +329,11 @@ void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturatio
             u16 coeff_s = 0;
             u16 coeff_l = 0;
 
-            // MgbaPrintf(MGBA_LOG_INFO, "Color: (%d, %d, %d)", r * 8, g * 8, b * 8);
-
             if(g > cMax) {cMax = g;} else {cMin = g;}
             if(b > cMax) {cMax = b;} else if(b < cMin) {cMin = b;}
             delta = (cMax * 8) - (cMin * 8);
             l = ((cMax * 8) + (cMin * 8)) / 2;
-            // MgbaPrintf(MGBA_LOG_INFO, "l = %d", l);
-            // MgbaPrintf(MGBA_LOG_INFO, "delta = %d", delta);
+
             if((2 * l) - 255 < 0)
                 lSign = -1;
             else if((2 * l) - 255 > 0)
@@ -344,7 +341,7 @@ void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturatio
             if(delta != 0) {
                 s = delta / (255 - (lSign * ((2 * l) - 255)));
             }
-            // MgbaPrintf(MGBA_LOG_INFO, "s = %d", s);
+
             coeff_s = 10 * coeff;
             coeff_l = 4 * coeff;
 
@@ -371,28 +368,14 @@ void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturatio
             s = s + (((saturation - s) * coeff_s / 255) >> 4);
             l = l + (((luminosity - l) * coeff_l / 255) >> 4);
 
-            // MgbaPrintf(MGBA_LOG_INFO, "s = %d", s);
-            // MgbaPrintf(MGBA_LOG_INFO, "l = %d", l);
-
-            // if(l + ((l * l) / (8 * 255)) < 255)
-            //     l = l + ((l * l) / (8 * 255));
-            // else
-            //     l = 255;
-            // if(l > 8)
-            //     l = l - 8;
-            // else
-            //     l = 0;
-
             c = ((255 - (lSign * ((2 * l) - 255)) ) * s) / 255;
-            // MgbaPrintf(MGBA_LOG_INFO, "c = %d", c);
+
             if((((255*hue) / 42) % (255*2)) - 255 > 0)
                 x = (c * (255 - ((((255*hue) / 42) % (255*2)) - 255))) / 255;
             else
                 x = (c * (255 + ((((255*hue) / 42) % (255*2)) - 255))) / 255;
-            // MgbaPrintf(MGBA_LOG_INFO, "x = %d", x);
 
             m = l - ((255 * c) / 2) / 255;
-            // MgbaPrintf(MGBA_LOG_INFO, "m = %d", m);
 
             if(hue > 0 && hue < 42)             {r = (c+m); g = (x+m); b = (m);}
             else if(hue >= 42 && hue < 85)      {r = (x+m); g = (c+m); b = (m);}
@@ -402,7 +385,6 @@ void ChangePalette(u16 palOffset, u16 destColors, u8 coeff, u8 hue, u8 saturatio
             else if(hue >= 212 && hue < 256)    {r = (c+m); g = (m); b = (x+m);}
             else                                {r = (c+m); g = (x+m); b = (m);}
 
-            // MgbaPrintf(MGBA_LOG_INFO, "Color: (%d, %d, %d)", (r & 255)/8, (g & 255)/8, (b & 255)/8);
             gPlttBufferFaded[index] = RGB((r & 255)/8, (g & 255)/8, (b & 255)/8);
         }
     }
