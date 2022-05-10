@@ -4004,7 +4004,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid)
         type1 = GetMonTypeFromPersonality(species, pid, FALSE);
         type2 = GetMonTypeFromPersonality(species, pid, TRUE);
         shift = (pid >> 16) & 0x1F;
-        if(type1 != gBaseStats[species].type1)
+        if(type1 != gBaseStats[species].type1 || type2 != gBaseStats[species].type2)
         {
             ChangePalette(sStorage->displayMonPalOffset,
                 gMonTypeColorIndexesPrimary[species],
@@ -4015,9 +4015,7 @@ static void LoadDisplayMonGfx(u16 species, u32 pid)
             CpuCopy32(gPlttBufferFaded + sStorage->displayMonPalOffset,
                 gPlttBufferUnfaded + sStorage->displayMonPalOffset, 32
             );
-        }
-        if(type2 != gBaseStats[species].type2)
-        {
+
             if(type2 == type1)
             {
                 ChangePalette(sStorage->displayMonPalOffset,

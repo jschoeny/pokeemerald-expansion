@@ -624,7 +624,7 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
 
     type1 = GetMonTypeFromPersonality(species, monsPersonality, FALSE);
     type2 = GetMonTypeFromPersonality(species, monsPersonality, TRUE);
-    if(type1 != gBaseStats[species].type1)
+    if(type1 != gBaseStats[species].type1 || type2 != gBaseStats[species].type2)
     {
         ChangePalette(paletteOffset,
             gMonTypeColorIndexesPrimary[species],
@@ -633,9 +633,7 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
             gMonTypeColor[type1][1], gMonTypeColor[type1][2]
         );
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
-    }
-    if(type2 != gBaseStats[species].type2)
-    {
+        
         if(type2 == type1)
         {
             ChangePalette(paletteOffset,

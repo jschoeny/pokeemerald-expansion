@@ -278,7 +278,7 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
 
     type1 = GetMonTypeFromPersonality(currSpecies, personality, FALSE);
     type2 = GetMonTypeFromPersonality(currSpecies, personality, TRUE);
-    if(type1 != gBaseStats[currSpecies].type1)
+    if(type1 != gBaseStats[currSpecies].type1 || type2 != gBaseStats[currSpecies].type2)
     {
         ChangePalette(paletteOffset,
             gMonTypeColorIndexesPrimary[currSpecies],
@@ -287,9 +287,7 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
             gMonTypeColor[type1][1], gMonTypeColor[type1][2]
         );
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
-    }
-    if(type2 != gBaseStats[currSpecies].type2)
-    {
+
         if(type2 == type1)
         {
             ChangePalette(paletteOffset,
@@ -334,16 +332,14 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
 
     type1 = GetMonTypeFromPersonality(postEvoSpecies, personality, FALSE);
     type2 = GetMonTypeFromPersonality(postEvoSpecies, personality, TRUE);
-    if(type1 != gBaseStats[postEvoSpecies].type1)
+    if(type1 != gBaseStats[postEvoSpecies].type1 || type2 != gBaseStats[postEvoSpecies].type2)
     {
         ChangePalette(paletteOffset,
             gMonTypeColorIndexesPrimary[postEvoSpecies],
             PALETTE_COEFF_FULL, gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]
         );
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
-    }
-    if(type2 != gBaseStats[postEvoSpecies].type2)
-    {
+
         if(type2 == type1)
         {
             ChangePalette(paletteOffset,
@@ -636,7 +632,7 @@ static void CreateShedinja(u16 preEvoSpecies, struct Pokemon* mon)
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_HELD_ITEM, &data);
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_MARKINGS, &data);
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_ENCRYPT_SEPARATOR, &data);
-        
+
         #if P_SHEDINJA_BALL >= GEN_4
         SetMonData(&gPlayerParty[gPlayerPartyCount], MON_DATA_POKEBALL, &ball);
         RemoveBagItem(ball, 1);

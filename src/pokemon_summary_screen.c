@@ -4010,7 +4010,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
 
         type1 = GetMonTypeFromPersonality(summary->species2, summary->pid, FALSE);
         type2 = GetMonTypeFromPersonality(summary->species2, summary->pid, TRUE);
-        if(type1 != gBaseStats[summary->species2].type1)
+        if(type1 != gBaseStats[summary->species2].type1 || type2 != gBaseStats[summary->species2].type2)
         {
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesPrimary[summary->species2],
@@ -4019,9 +4019,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                 gMonTypeColor[type1][1], gMonTypeColor[type1][2]
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
-        }
-        if(type2 != gBaseStats[summary->species2].type2)
-        {
+
             if(type2 == type1)
             {
                 ChangePalette(paletteOffset,
