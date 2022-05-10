@@ -14466,7 +14466,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
     .pid = 0,
     .species = SPECIES_GEODUDE,
     .heldItem = ITEM_NONE,
-    .moves = {MOVE_TACKLE, MOVE_DEFENSE_CURL, MOVE_ROCK_THROW, MOVE_ROCK_TOMB}
+    .moves = {MOVE_TACKLE, MOVE_DEFENSE_CURL, MOVE_STEALTH_ROCK, MOVE_ROCK_TOMB}
     },
     {
     .iv = 100,
@@ -14474,7 +14474,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
     .pid = 0,
     .species = SPECIES_KABUTO,
     .heldItem = ITEM_NONE,
-    .moves = {MOVE_ABSORB, MOVE_HARDEN, MOVE_LEER, MOVE_ROCK_TOMB}
+    .moves = {MOVE_ABSORB, MOVE_AERIAL_ACE, MOVE_LEER, MOVE_ROCK_TOMB}
     },
     {
     .iv = 100,

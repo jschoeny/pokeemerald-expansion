@@ -133,11 +133,22 @@ void BattleAI_SetupItems(void)
         }
         if(gSaveBlock2Ptr->optionsRandomizerChallenge)
         {
-            u8 i, j;
+            u8 i, j, avgLevel;
             u16 species;
-            if (BATTLE_HISTORY->itemsNo < MAX_BATTLERS_COUNT) {
-                BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = ITEM_SUPER_POTION;
-                BATTLE_HISTORY->itemsNo++;
+            j = 0;
+            avgLevel = 0;
+            for(i = 0; i < PARTY_SIZE; i++)
+            {
+                if(GetMonData(&gEnemyParty[i], MON_DATA_SPECIES) != SPECIES_NONE) {
+                    avgLevel += GetMonData(&gEnemyParty[i], MON_DATA_LEVEL);
+                    j += 1;
+                }
+            }
+            if(avgLevel / j >= 15) {
+                if (BATTLE_HISTORY->itemsNo < MAX_BATTLERS_COUNT) {
+                    BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = ITEM_SUPER_POTION;
+                    BATTLE_HISTORY->itemsNo++;
+                }
             }
             if(BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo - 1] != ITEM_MEGA_RING)
             {

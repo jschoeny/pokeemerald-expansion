@@ -3837,6 +3837,8 @@ static void Cmd_jumpbasedontype(void)
     }
 }
 
+static bool32 NoAliveMonsForOpponent(void);
+
 static void Cmd_getexp(void)
 {
     u16 item;
@@ -3893,6 +3895,16 @@ static void Cmd_getexp(void)
             #else
                 calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
             #endif
+
+            if(gSaveBlock2Ptr->optionsRandomizerChallenge && !NoAliveMonsForOpponent()) {
+                gBattleStruct->storedExp += calculatedExp;
+                gBattleScripting.getexpState = 6;
+                break;
+            }
+            else {
+                calculatedExp += gBattleStruct->storedExp;
+                gBattleStruct->storedExp = 0;
+            }
 
             #if B_SPLIT_EXP < GEN_6
                 if (viaExpShare) // at least one mon is getting exp via exp share

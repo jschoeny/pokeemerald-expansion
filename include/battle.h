@@ -609,6 +609,7 @@ struct BattleStruct
     u8 skyDropTargets[MAX_BATTLERS_COUNT]; // For Sky Drop, to account for if multiple Pokemon use Sky Drop in a double battle.
     u8 expShareSecondLoopSentInPokes;
     bool8 expShareSecondLoop;
+    u32 storedExp;
 };
 
 #define F_DYNAMIC_TYPE_1 (1 << 6)
