@@ -5185,10 +5185,12 @@ u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
     u16 ability;
     u8 i;
     u8 setting = gSaveBlock2Ptr->optionsRandomizerAbility;
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
     if(setting == OPTIONS_RANDOMIZER_ABILITY_SPECIES)
     {
-        ability = ((0x1C * species) + 0xD4) % ABILITIES_COUNT;
+        ability = ((0x1C * ((species + value) % ABILITIES_COUNT)) + 0xD4) % ABILITIES_COUNT;
         for(i = 1; i < abilityNum; i++)
             ability = ((0x1C * (ability)) + 0xD4) % ABILITIES_COUNT;
         return ability;
@@ -5217,7 +5219,8 @@ u16 GetMonAbility(struct Pokemon *mon)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 abilityNum = GetMonData(mon, MON_DATA_ABILITY_NUM, NULL);
-    return GetAbilityBySpecies(species, abilityNum);
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+    return GetAbilityBySpeciesPersonality(species, abilityNum, personality);
 }
 
 void CreateSecretBaseEnemyParty(struct SecretBase *secretBaseRecord)
@@ -5362,7 +5365,7 @@ void PokemonToBattleMon(struct Pokemon *src, struct BattlePokemon *dst)
     dst->type1 = GetMonType(src, FALSE);
     dst->type2 = GetMonType(src, TRUE);
     dst->type3 = TYPE_MYSTERY;
-    dst->ability = GetAbilityBySpecies(dst->species, dst->abilityNum);
+    dst->ability = GetAbilityBySpeciesPersonality(dst->species, dst->abilityNum, dst->personality);
     GetMonData(src, MON_DATA_NICKNAME, nickname);
     StringCopy_Nickname(dst->nickname, nickname);
     GetMonData(src, MON_DATA_OT_NAME, dst->otName);
@@ -8210,11 +8213,12 @@ u16 GetFormChangeTargetSpeciesBoxMon(struct BoxPokemon *mon, u16 method, u32 arg
     const struct FormChange *formChanges = gFormChangeTablePointers[species];
     u16 heldItem;
     u32 ability;
+    u32 personality = GetBoxMonData(mon, MON_DATA_PERSONALITY, NULL);
 
     if (formChanges != NULL)
     {
         heldItem = GetBoxMonData(mon, MON_DATA_HELD_ITEM, NULL);
-        ability = GetAbilityBySpecies(species, GetBoxMonData(mon, MON_DATA_ABILITY_NUM, NULL));
+        ability = GetAbilityBySpeciesPersonality(species, GetBoxMonData(mon, MON_DATA_ABILITY_NUM, NULL), personality);
 
         for (i = 0; formChanges[i].method != FORM_CHANGE_END; i++)
         {
@@ -8376,6 +8380,8 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
     u8 type1, type2;
     u8 setting = gSaveBlock2Ptr->optionsRandomizerMoves;
     u8 i;
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
     if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL) {
         if(move < MOVES_PH_START)
@@ -8399,7 +8405,7 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
     }
     else if(setting == OPTIONS_RANDOMIZER_MOVES_SPECIES)
     {
-        newMove = (((0x2A * (species % MOVES_COUNT)) + 0x7F) % (MOVES_COUNT - 1)) + 1;
+        newMove = (((0x2A * ((species + value) % MOVES_COUNT)) + 0x7F) % (MOVES_COUNT - 1)) + 1;
         for(i = 0; i < offset; i++)
         {
             newMove = (((0x2A * newMove) + 0x7F) % (MOVES_COUNT - 1)) + 1;
