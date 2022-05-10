@@ -1892,6 +1892,7 @@ bool8 ScrCmd_cleartrainerflag(struct ScriptContext *ctx)
     return FALSE;
 }
 
+#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 110) / 100) + 1) : lvl)
 bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 {
     u16 species = ScriptReadHalfword(ctx);
@@ -1903,12 +1904,12 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 
     if(species2 == SPECIES_NONE)
     {
-        CreateScriptedWildMon(species, level, item);
+        CreateScriptedWildMon(species, CHALLENGE_LEVEL(level), item);
         gIsScriptedWildDouble = FALSE;
     }
     else
-    { 
-        CreateScriptedDoubleWildMon(species, level, item, species2, level2, item2);
+    {
+        CreateScriptedDoubleWildMon(species, CHALLENGE_LEVEL(level), item, species2, CHALLENGE_LEVEL(level2), item2);
         gIsScriptedWildDouble = TRUE;
     }
 

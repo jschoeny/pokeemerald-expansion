@@ -1910,19 +1910,16 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
                 CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
-                if(gSaveBlock2Ptr->optionsRandomizerChallenge == FALSE)
+                if(trainerNum == TRAINER_BRENDAN_ROUTE_103_MUDKIP
+                    || trainerNum == TRAINER_BRENDAN_ROUTE_103_TORCHIC
+                    || trainerNum == TRAINER_BRENDAN_ROUTE_103_TREECKO
+                    || trainerNum == TRAINER_MAY_ROUTE_103_MUDKIP
+                    || trainerNum == TRAINER_MAY_ROUTE_103_TORCHIC
+                    || trainerNum == TRAINER_MAY_ROUTE_103_TREECKO)
                 {
-                    if(trainerNum == TRAINER_BRENDAN_ROUTE_103_MUDKIP
-                        || trainerNum == TRAINER_BRENDAN_ROUTE_103_TORCHIC
-                        || trainerNum == TRAINER_BRENDAN_ROUTE_103_TREECKO
-                        || trainerNum == TRAINER_MAY_ROUTE_103_MUDKIP
-                        || trainerNum == TRAINER_MAY_ROUTE_103_TORCHIC
-                        || trainerNum == TRAINER_MAY_ROUTE_103_TREECKO)
-                    {
-                        u32 move = MOVE_NONE;
-                        SetMonData(&party[i], MON_DATA_MOVE3, &move);
-                        SetMonData(&party[i], MON_DATA_PP3, &gBattleMoves[move].pp);
-                    }
+                    u32 move = MOVE_NONE;
+                    SetMonData(&party[i], MON_DATA_MOVE3, &move);
+                    SetMonData(&party[i], MON_DATA_PP3, &gBattleMoves[move].pp);
                 }
                 break;
             }
