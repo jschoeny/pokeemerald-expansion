@@ -48,6 +48,8 @@ SkyPillar_Top_EventScript_Rayquaza::
 	playmoncry SPECIES_RAYQUAZA, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, SkyPillar_Top_EventScript_TotemRayquaza
 	setwildbattle SPECIES_RAYQUAZA, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle
@@ -60,6 +62,10 @@ SkyPillar_Top_EventScript_Rayquaza::
 	setflag FLAG_DEFEATED_RAYQUAZA
 	releaseall
 	end
+
+SkyPillar_Top_EventScript_TotemRayquaza::
+	settotemboost 1, 3, 3, 3, 3, 3, 3
+	return
 
 SkyPillar_Top_EventScript_DefeatedRayquaza::
 	setflag FLAG_DEFEATED_RAYQUAZA

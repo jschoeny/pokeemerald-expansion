@@ -61,6 +61,8 @@ DesertRuins_EventScript_Regirock::
 	playmoncry SPECIES_REGIROCK, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, DesertRuins_EventScript_TotemRegirock
 	setwildbattle SPECIES_REGIROCK, 40
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
@@ -73,6 +75,10 @@ DesertRuins_EventScript_Regirock::
 	setflag FLAG_DEFEATED_REGIROCK
 	release
 	end
+
+DesertRuins_EventScript_TotemRegirock::
+	settotemboost 1, 2, 2, 2, 2, 2, 2
+	return
 
 DesertRuins_EventScript_DefeatedRegirock::
 	setflag FLAG_DEFEATED_REGIROCK

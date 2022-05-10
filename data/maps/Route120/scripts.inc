@@ -193,6 +193,8 @@ Route120_EventScript_StevenBattleKecleon::
 	playmoncry SPECIES_KECLEON, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, Route120_EventScript_TotemKecleon
 	setwildbattle SPECIES_KECLEON, 30
 	setvar VAR_0x8009, 0
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
@@ -204,6 +206,10 @@ Route120_EventScript_StevenBattleKecleon::
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, Route120_EventScript_RemoveBridgeKecleonPostBattle
 	goto Route120_EventScript_StevenGiveDeconScope
 	end
+
+Route120_EventScript_TotemKecleon::
+	settotemboost 1, 1, 1, 0, 1, 1
+	return
 
 Route120_EventScript_RemoveBridgeKecleonPostBattle::
 	fadescreenswapbuffers FADE_TO_BLACK

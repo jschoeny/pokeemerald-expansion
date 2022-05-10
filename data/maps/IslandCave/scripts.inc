@@ -94,6 +94,8 @@ IslandCave_EventScript_Regice::
 	playmoncry SPECIES_REGICE, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, IslandCave_EventScript_TotemRegice
 	setwildbattle SPECIES_REGICE, 40
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
@@ -106,6 +108,10 @@ IslandCave_EventScript_Regice::
 	setflag FLAG_DEFEATED_REGICE
 	release
 	end
+
+IslandCave_EventScript_TotemRegice::
+	settotemboost 1, 2, 2, 2, 2, 2, 2
+	return
 
 IslandCave_EventScript_DefeatedRegice::
 	setflag FLAG_DEFEATED_REGICE

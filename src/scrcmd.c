@@ -2354,3 +2354,9 @@ bool8 ScrCmd_warpwhitefade(struct ScriptContext *ctx)
     ResetInitialPlayerAvatarState();
     return TRUE;
 }
+
+bool8 ScrCmd_checkchallengemode(struct ScriptContext *ctx)
+{
+    gSpecialVar_Result = (gSaveBlock2Ptr->optionsRandomizerChallenge ? TRUE : FALSE);
+    return FALSE;
+}

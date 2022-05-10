@@ -61,6 +61,8 @@ AncientTomb_EventScript_Registeel::
 	playmoncry SPECIES_REGISTEEL, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, AncientTomb_EventScript_TotemRegisteel
 	setwildbattle SPECIES_REGISTEEL, 40
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
@@ -73,6 +75,10 @@ AncientTomb_EventScript_Registeel::
 	setflag FLAG_DEFEATED_REGISTEEL
 	release
 	end
+
+AncientTomb_EventScript_TotemRegisteel::
+	settotemboost 1, 2, 2, 2, 2, 2, 2
+	return
 
 AncientTomb_EventScript_DefeatedRegisteel::
 	setflag FLAG_DEFEATED_REGISTEEL

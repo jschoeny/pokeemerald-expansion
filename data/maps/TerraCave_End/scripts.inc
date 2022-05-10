@@ -34,6 +34,8 @@ TerraCave_End_EventScript_Groudon::
 	playmoncry SPECIES_GROUDON, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, TerraCave_End_EventScript_TotemGroudon
 	setvar VAR_LAST_TALKED, LOCALID_GROUDON
 	setwildbattle SPECIES_GROUDON, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
@@ -49,6 +51,10 @@ TerraCave_End_EventScript_Groudon::
 	setflag FLAG_DEFEATED_GROUDON
 	releaseall
 	end
+
+TerraCave_End_EventScript_TotemGroudon::
+	settotemboost 1, 3, 3, 3, 3, 3, 3
+	return
 
 TerraCave_End_EventScript_DefeatedGroudon::
 	setvar VAR_SHOULD_END_ABNORMAL_WEATHER, 1

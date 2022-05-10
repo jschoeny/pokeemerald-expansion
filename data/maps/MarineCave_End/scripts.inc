@@ -34,6 +34,8 @@ MarineCave_End_EventScript_Kyogre::
 	playmoncry SPECIES_KYOGRE, CRY_MODE_ENCOUNTER
 	delay 40
 	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, MarineCave_End_EventScript_TotemKyogre
 	setvar VAR_LAST_TALKED, LOCALID_KYOGRE
 	setwildbattle SPECIES_KYOGRE, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
@@ -49,6 +51,10 @@ MarineCave_End_EventScript_Kyogre::
 	setflag FLAG_DEFEATED_KYOGRE
 	releaseall
 	end
+
+MarineCave_End_EventScript_TotemKyogre::
+	settotemboost 1, 3, 3, 3, 3, 3, 3
+	return
 
 MarineCave_End_EventScript_DefeatedKyogre::
 	setvar VAR_SHOULD_END_ABNORMAL_WEATHER, 1
