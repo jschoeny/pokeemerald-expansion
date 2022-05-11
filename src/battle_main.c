@@ -1881,19 +1881,19 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 species = partyData[i].species;
                 if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
                 {
-                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
                 {
-                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                 {
-                    species = Random() % NUM_SPECIES_RAND;
+                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
@@ -1929,19 +1929,19 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 species = partyData[i].species;
                 if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
                 {
-                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
                 {
-                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                 {
-                    species = Random() % NUM_SPECIES_RAND;
+                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
@@ -1975,19 +1975,19 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 species = partyData[i].species;
                 if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
                 {
-                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
                 {
-                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                 {
-                    species = Random() % NUM_SPECIES_RAND;
+                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
@@ -2013,19 +2013,19 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 species = partyData[i].species;
                 if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
                 {
-                    species = ((0x1A4 * (species + value)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
                 {
-                    species = ((0x1A4 * (species + value + trainerNum)) + 0xB2) % NUM_SPECIES_RAND;
+                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
                 else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
                 {
-                    species = Random() % NUM_SPECIES_RAND;
+                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
                     if(species >= NUM_SPECIES_RAND_START)
                         species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
                 }
