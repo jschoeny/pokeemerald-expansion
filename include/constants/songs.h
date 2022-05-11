@@ -121,7 +121,7 @@
 #define SE_BALL_TRAY_BALL             115 // SE_TB_KON
 #define SE_BALL_TRAY_EXIT             116 // SE_TB_KARA
 #define SE_GLASS_FLUTE                117 // SE_BIDORO
-// Move SFX 
+// Move SFX
 #define SE_M_THUNDERBOLT              118 // SE_W085
 #define SE_M_THUNDERBOLT2             119 // SE_W085B
 #define SE_M_HARDEN                   120 // SE_W231
@@ -252,7 +252,7 @@
 #define SE_M_STAT_DECREASE            245 // SE_W287B
 #define SE_M_HAZE                     246 // SE_W114
 #define SE_M_HYPER_BEAM2              247 // SE_W063B
-// FRLG SFX 
+// FRLG SFX
 #define SE_RG_DOOR                    248 // SE_RG_W_DOOR
 #define SE_RG_CARD_FLIP               249 // SE_RG_CARD1
 #define SE_RG_CARD_FLIPPING           250 // SE_RG_CARD2
@@ -267,8 +267,8 @@
 #define SE_RG_HELP_ERROR              259 // SE_RG_HELP_NG
 #define SE_RG_DEOXYS_MOVE             260 // SE_RG_DEOMOV
 #define SE_RG_POKE_JUMP_SUCCESS       261 // SE_RG_EXCELLENT
-#define SE_RG_POKE_JUMP_FAILURE       262 // SE_RG_NAWAMISS 
-// New Emerald SFX 
+#define SE_RG_POKE_JUMP_FAILURE       262 // SE_RG_NAWAMISS
+// New Emerald SFX
 #define SE_POKENAV_CALL               263 // SE_TOREEYE
 #define SE_POKENAV_HANG_UP            264 // SE_TOREOFF
 #define SE_ARENA_TIMEUP1              265 // SE_HANTEI1
@@ -329,7 +329,7 @@
 #define PH_NURSE_HELD                 319
 #define PH_NURSE_SOLO                 320
 
-// Ruby & Sapphire Music 
+// Ruby & Sapphire Music
 #define MUS_LITTLEROOT_TEST           321 // MUS_TETSUJI
 #define MUS_GSC_ROUTE38               322 // MUS_FIELD13
 #define MUS_CAUGHT                    323 // MUS_KACHI22
@@ -448,7 +448,7 @@
 #define MUS_VS_ELITE_FOUR             436 // MUS_BATTLE38
 #define MUS_VS_AQUA_MAGMA_LEADER      437 // MUS_BATTLE30
 
-// FireRed & LeafGreen Music 
+// FireRed & LeafGreen Music
 #define MUS_RG_FOLLOW_ME              438 // MUS_RG_ANNAI
 #define MUS_RG_GAME_CORNER            439 // MUS_RG_SLOT
 #define MUS_RG_ROCKET_HIDEOUT         440 // MUS_RG_AJITO
@@ -545,8 +545,8 @@
 #define MUS_VS_MEW                    529 // MUS_VS_MEW
 #define MUS_B_DOME_LOBBY              530 // MUS_B_DOME1
 
- 
-// Diamond & Pearl Music 
+
+// Diamond & Pearl Music
 #define DP_SEQ_BA_POKE                531 // Battle! (Wild Pokémon)
 #define DP_SEQ_BA_TRAIN               532 // Battle! (Trainer Battle)
 #define DP_SEQ_BA_RIVAL               533 // Battle! (Rival)
@@ -561,12 +561,12 @@
 #define DP_SEQ_BA_CHANP               542 // Battle! (Champion)
 #define DP_SEQ_BA_SECRET1             543 // Battle! Arceus
 
-// Platinum Music 
+// Platinum Music
 #define PL_SEQ_PL_BA_GIRA             544 // Battle! (Giratina)
 #define PL_SEQ_PL_BA_BRAIN            545 // Battle! (Frontier Brain)
 #define PL_SEQ_PL_BA_REGI             546 // Battle! (Regirock / Regice / Registeel / Regigigas)
- 
-// HeartGold & SoulSilver Music 
+
+// HeartGold & SoulSilver Music
 #define HG_SEQ_GS_VS_NORAPOKE         547 // Battle! (Wild Pokémon - Johto Version)
 #define HG_SEQ_GS_VS_TRAINER          548 // Battle! (Trainer Battle - Johto Version)
 #define HG_SEQ_GS_VS_ROCKET           549 // Battle! (Team Rocket)
@@ -607,7 +607,7 @@
 
 
 
- 
+
 
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 

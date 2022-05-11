@@ -74,8 +74,8 @@ ProgrammableWaveData_23::
 ProgrammableWaveData_24::
 	.incbin "sound/programmable_wave_samples/24.pcm"
 
-ProgrammableWaveData_86B49B0::
-	.incbin "sound/programmable_wave_samples/86B49B0.pcm"
+ProgrammableWaveData_25::
+	.incbin "sound/programmable_wave_samples/25.pcm"
 
 ProgrammableWaveData_sq25half:: @ 25% square half
 	.incbin "sound/programmable_wave_samples/sq25half.pcm"

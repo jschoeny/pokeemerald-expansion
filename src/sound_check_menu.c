@@ -74,7 +74,7 @@ enum
 };
 
 extern struct ToneData gCryTable[];
-extern struct ToneData gCryTable2[];
+extern struct ToneData gCryTable_Reverse[];
 
 static EWRAM_DATA u8 sIsFastForwarding = 0;
 static EWRAM_DATA u8 sDriverTest_IsCryPlaying = 0;
@@ -461,10 +461,10 @@ static void HighlightSelectedWindow(u8 windowType) // sub_080E88E8
 static void PrintSoundNumber(u16 soundIndex, u8 windowId) // sub_080E8928
 {
     ConvertIntToDecimalStringN(gStringVar1, soundIndex, STR_CONV_MODE_RIGHT_ALIGN, 4);
-    
+
     gStringVar1[4] = CHAR_COLON;
     gStringVar1[5] = EOS;
-    
+
     AddTextPrinterParameterized(windowId, 2, gStringVar1, 0, 14, TEXT_SKIP_DRAW, NULL);
     PutWindowTilemapAndCopyWindowToVram(windowId);
 }
@@ -656,25 +656,25 @@ static void Task_ProcessDriverTestInput(u8 taskId) // sub_080E8D68
         {
         case 0:
             if (sDriverTest_Reverse)
-                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable2[(128 * 0) + remaining]);
+                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable_Reverse[(128 * 0) + remaining]);
             else
                 sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable[(128 * 0) + remaining]);
             break;
         case 1:
             if (sDriverTest_Reverse)
-                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable2[(128 * 1) + remaining]);
+                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable_Reverse[(128 * 1) + remaining]);
             else
                 sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable[(128 * 1) + remaining]);
             break;
         case 2:
             if (sDriverTest_Reverse)
-                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable2[(128 * 2) + remaining]);
+                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable_Reverse[(128 * 2) + remaining]);
             else
                 sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable[(128 * 2) + remaining]);
             break;
         case 3:
             if (sDriverTest_Reverse)
-                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable2[(128 * 3) + remaining]);
+                sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable_Reverse[(128 * 3) + remaining]);
             else
                 sMPlayInfo_Cry = SetPokemonCryTone(&gCryTable[(128 * 3) + remaining]);
             break;
