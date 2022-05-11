@@ -7557,33 +7557,33 @@ u16 GetBattleBGM(void)
         case SPECIES_ARCEUS_DARK:
         case SPECIES_ARCEUS_FAIRY:
             return DP_SEQ_BA_SECRET1;
-        case SPECIES_VICTINI:
-        case SPECIES_COBALION:
-        case SPECIES_TERRAKION:
-        case SPECIES_VIRIZION:
-        case SPECIES_TORNADUS:
-        case SPECIES_THUNDURUS:
-        case SPECIES_LANDORUS:
-        case SPECIES_TORNADUS_THERIAN:
-        case SPECIES_THUNDURUS_THERIAN:
-        case SPECIES_LANDORUS_THERIAN:
-        case SPECIES_KELDEO:
-        case SPECIES_KELDEO_RESOLUTE:
-        case SPECIES_MELOETTA:
-        case SPECIES_MELOETTA_PIROUETTE:
-        case SPECIES_GENESECT:
-        case SPECIES_GENESECT_DOUSE_DRIVE:
-        case SPECIES_GENESECT_SHOCK_DRIVE:
-        case SPECIES_GENESECT_BURN_DRIVE:
-        case SPECIES_GENESECT_CHILL_DRIVE:
-            return BW_SEQ_BGM_VS_MOVEPOKE;
-        case SPECIES_RESHIRAM:
-        case SPECIES_ZEKROM:
-            return BW_SEQ_BGM_VS_SHIN;
-        case SPECIES_KYUREM:
-        case SPECIES_KYUREM_WHITE:
-        case SPECIES_KYUREM_BLACK:
-            return BW_SEQ_BGM_VS_RAI;
+        // case SPECIES_VICTINI:
+        // case SPECIES_COBALION:
+        // case SPECIES_TERRAKION:
+        // case SPECIES_VIRIZION:
+        // case SPECIES_TORNADUS:
+        // case SPECIES_THUNDURUS:
+        // case SPECIES_LANDORUS:
+        // case SPECIES_TORNADUS_THERIAN:
+        // case SPECIES_THUNDURUS_THERIAN:
+        // case SPECIES_LANDORUS_THERIAN:
+        // case SPECIES_KELDEO:
+        // case SPECIES_KELDEO_RESOLUTE:
+        // case SPECIES_MELOETTA:
+        // case SPECIES_MELOETTA_PIROUETTE:
+        // case SPECIES_GENESECT:
+        // case SPECIES_GENESECT_DOUSE_DRIVE:
+        // case SPECIES_GENESECT_SHOCK_DRIVE:
+        // case SPECIES_GENESECT_BURN_DRIVE:
+        // case SPECIES_GENESECT_CHILL_DRIVE:
+        //     return BW_SEQ_BGM_VS_MOVEPOKE;
+        // case SPECIES_RESHIRAM:
+        // case SPECIES_ZEKROM:
+        //     return BW_SEQ_BGM_VS_SHIN;
+        // case SPECIES_KYUREM:
+        // case SPECIES_KYUREM_WHITE:
+        // case SPECIES_KYUREM_BLACK:
+        //     return BW_SEQ_BGM_VS_RAI;
         #endif
         default:
             return MUS_VS_WILD;
