@@ -868,6 +868,147 @@ u8 GetWildBattleTransition(void)
     u8 transitionType = GetBattleTransitionTypeByMap();
     u8 enemyLevel = GetMonData(&gEnemyParty[0], MON_DATA_LEVEL);
     u8 playerLevel = GetSumOfPlayerPartyLevel(1);
+    u16 species = GetMonData(&gEnemyParty[0], MON_DATA_SPECIES);
+
+    if(!InBattlePyramid())
+    {
+        switch(species)
+        {
+            case SPECIES_ARTICUNO:
+            case SPECIES_ZAPDOS:
+            case SPECIES_MOLTRES:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_ARTICUNO_GALARIAN:
+            case SPECIES_ZAPDOS_GALARIAN:
+            case SPECIES_MOLTRES_GALARIAN:
+            #endif
+            case SPECIES_MEWTWO:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_MEWTWO_MEGA_X:
+            case SPECIES_MEWTWO_MEGA_Y:
+            #endif
+                return B_TRANSITION_BLUR;
+            case SPECIES_MEW:
+                return B_TRANSITION_GRID_SQUARES;
+            case SPECIES_RAIKOU:
+            case SPECIES_ENTEI:
+            case SPECIES_SUICUNE:
+            case SPECIES_LUGIA:
+            case SPECIES_HO_OH:
+            case SPECIES_CELEBI:
+                return B_TRANSITION_BLUR;
+            case SPECIES_REGIROCK:
+                return B_TRANSITION_REGIROCK;
+            case SPECIES_REGICE:
+                return B_TRANSITION_REGICE;
+            case SPECIES_REGISTEEL:
+                return B_TRANSITION_REGISTEEL;
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_REGIGIGAS:
+            case SPECIES_REGIELEKI:
+            case SPECIES_REGIDRAGO:
+                return B_TRANSITION_GRID_SQUARES;
+            #endif
+            case SPECIES_LATIAS:
+            case SPECIES_LATIOS:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_LATIAS_MEGA:
+            case SPECIES_LATIOS_MEGA:
+            #endif
+                return B_TRANSITION_BLUR;
+            case SPECIES_GROUDON:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_GROUDON_PRIMAL:
+            #endif
+                return B_TRANSITION_GROUDON;
+            case SPECIES_KYOGRE:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_KYOGRE_PRIMAL:
+            #endif
+                return B_TRANSITION_KYOGRE;
+            case SPECIES_RAYQUAZA:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_RAYQUAZA_MEGA:
+            #endif
+                return B_TRANSITION_RAYQUAZA;
+            case SPECIES_JIRACHI:
+            case SPECIES_DEOXYS:
+            #ifdef POKEMON_EXPANSION
+            case SPECIES_DEOXYS_ATTACK:
+            case SPECIES_DEOXYS_DEFENSE:
+            case SPECIES_DEOXYS_SPEED:
+            case SPECIES_UXIE:
+            case SPECIES_MESPRIT:
+            case SPECIES_AZELF:
+            case SPECIES_DIALGA:
+            case SPECIES_PALKIA:
+            case SPECIES_ROTOM:
+            case SPECIES_ROTOM_HEAT:
+            case SPECIES_ROTOM_WASH:
+            case SPECIES_ROTOM_FROST:
+            case SPECIES_ROTOM_FAN:
+            case SPECIES_ROTOM_MOW:
+            case SPECIES_HEATRAN:
+            case SPECIES_MANAPHY:
+            case SPECIES_DARKRAI:
+            case SPECIES_GIRATINA:
+            case SPECIES_GIRATINA_ORIGIN:
+            case SPECIES_CRESSELIA:
+            case SPECIES_PHIONE:
+            case SPECIES_SHAYMIN:
+            case SPECIES_SHAYMIN_SKY:
+            case SPECIES_ARCEUS:
+            case SPECIES_ARCEUS_FIGHTING:
+            case SPECIES_ARCEUS_FLYING:
+            case SPECIES_ARCEUS_POISON:
+            case SPECIES_ARCEUS_GROUND:
+            case SPECIES_ARCEUS_ROCK:
+            case SPECIES_ARCEUS_BUG:
+            case SPECIES_ARCEUS_GHOST:
+            case SPECIES_ARCEUS_STEEL:
+            case SPECIES_ARCEUS_FIRE:
+            case SPECIES_ARCEUS_WATER:
+            case SPECIES_ARCEUS_GRASS:
+            case SPECIES_ARCEUS_ELECTRIC:
+            case SPECIES_ARCEUS_PSYCHIC:
+            case SPECIES_ARCEUS_ICE:
+            case SPECIES_ARCEUS_DRAGON:
+            case SPECIES_ARCEUS_DARK:
+            case SPECIES_ARCEUS_FAIRY:
+            case SPECIES_COBALION:
+            case SPECIES_TERRAKION:
+            case SPECIES_VIRIZION:
+            case SPECIES_COSMOEM:
+            case SPECIES_COSMOG:
+            case SPECIES_DIANCIE:
+            case SPECIES_GENESECT:
+            case SPECIES_KYUREM:
+            case SPECIES_LANDORUS:
+            case SPECIES_LUNALA:
+            case SPECIES_MARSHADOW:
+            case SPECIES_MELOETTA:
+            case SPECIES_NAGANADEL:
+            case SPECIES_NECROZMA:
+            case SPECIES_POIPOLE:
+            case SPECIES_RESHIRAM:
+            case SPECIES_SOLGALEO:
+            case SPECIES_TAPU_BULU:
+            case SPECIES_TAPU_FINI:
+            case SPECIES_TAPU_KOKO:
+            case SPECIES_TAPU_LELE:
+            case SPECIES_THUNDURUS:
+            case SPECIES_TORNADUS:
+            case SPECIES_VICTINI:
+            case SPECIES_VOLCANION:
+            case SPECIES_ZEKROM:
+            case SPECIES_ZYGARDE:
+            case SPECIES_ZAMAZENTA:
+            case SPECIES_ZACIAN:
+            case SPECIES_ETERNATUS:
+            #endif
+                return B_TRANSITION_BLUR;
+        }
+    }
 
     if (enemyLevel < playerLevel)
     {
