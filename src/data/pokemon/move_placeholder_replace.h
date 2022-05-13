@@ -520,5 +520,57 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_TAKE_DOWN,     // Dark
             MOVE_PLAY_ROUGH     // Fairy
         }
+    },
+
+    [PH_MOVE(MOVE_PH_HAZARD)] =
+    {
+        .move =
+        {
+            MOVE_PERISH_SONG,   // Normal
+            MOVE_SPIKES,        // Fighting
+            MOVE_DEFOG,         // Flying
+            MOVE_TOXIC_SPIKES,  // Poison
+            MOVE_SPIKES,        // Ground
+            MOVE_STEALTH_ROCK,  // Rock
+            MOVE_STICKY_WEB,    // Bug
+            MOVE_DESTINY_BOND,  // Ghost
+            MOVE_SPIKES,        // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FIRE_SPIN,     // Fire
+            MOVE_WHIRLPOOL,     // Water
+            MOVE_GRASSY_TERRAIN,// Grass
+            MOVE_ELECTRIC_TERRAIN,// Electric
+            MOVE_PSYCHIC_TERRAIN,// Psychic
+            MOVE_MIST,          // Ice
+            MOVE_SPIKES,        // Dragon
+            MOVE_TORMENT,       // Dark
+            MOVE_MISTY_TERRAIN  // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_WEATHER)] =
+    {
+        .move =
+        {
+            MOVE_WEATHER_BALL,  // Normal
+            MOVE_SPIKES,        // Fighting
+            MOVE_TAILWIND,      // Flying
+            MOVE_TOXIC_SPIKES,  // Poison
+            MOVE_SANDSTORM,     // Ground
+            MOVE_SANDSTORM,     // Rock
+            MOVE_STICKY_WEB,    // Bug
+            MOVE_DESTINY_BOND,  // Ghost
+            MOVE_SANDSTORM,     // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_SUNNY_DAY,     // Fire
+            MOVE_RAIN_DANCE,    // Water
+            MOVE_SUNNY_DAY,     // Grass
+            MOVE_RAIN_DANCE,    // Electric
+            MOVE_GRAVITY,       // Psychic
+            MOVE_HAIL,          // Ice
+            MOVE_WEATHER_BALL,  // Dragon
+            MOVE_TORMENT,       // Dark
+            MOVE_MISTY_TERRAIN  // Fairy
+        }
     }
 };
