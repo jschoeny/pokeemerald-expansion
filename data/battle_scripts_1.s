@@ -404,7 +404,7 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectClangorousSoul          @ EFFECT_CLANGOROUS_SOUL
 	.4byte BattleScript_EffectHit                     @ EFFECT_BOLT_BEAK
 	.4byte BattleScript_EffectSkyDrop                 @ EFFECT_SKY_DROP
-  
+
 BattleScript_EffectSkyDrop:
 	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_SkyDropTurn2
 	attackcanceler
@@ -5438,7 +5438,7 @@ BattleScript_EffectRolePlay::
 	pause 20
 	destroyabilitypopup
 	pause 40
-.endif	
+.endif
 	printstring STRINGID_PKMNCOPIEDFOE
 	waitmessage B_WAIT_TIME_LONG
 	switchinabilities BS_ATTACKER
@@ -7790,6 +7790,12 @@ BattleScript_ItemSteal::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_ItemStealBag::
+	playanimation BS_TARGET, B_ANIM_ITEM_STEAL
+	printstring STRINGID_PKMNSTOLEITEMBAG
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_DrizzleActivates::
 	pause B_WAIT_TIME_SHORT
 	call BattleScript_AbilityPopUp
@@ -9429,7 +9435,7 @@ BattleScript_NeutralizingGasExitsLoop:
 	jumpifbytenotequal gBattlerTarget, sByteFour, BattleScript_NeutralizingGasExitsLoop	@ SOMEHOW, comparing to gBattlersCount is problematic.
 	restoretarget
 	return
-  
+
 BattleScript_MagicianActivates::
 	call BattleScript_AbilityPopUp
 	call BattleScript_ItemSteal
