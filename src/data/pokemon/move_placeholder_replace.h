@@ -494,5 +494,31 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_THROAT_CHOP,   // Dark
             MOVE_PLAY_ROUGH     // Fairy
         }
+    },
+
+    [PH_MOVE(MOVE_PH_BODY_RECOIL)] =
+    {
+        .move =
+        {
+            MOVE_TAKE_DOWN,     // Normal
+            MOVE_TAKE_DOWN,     // Fighting
+            MOVE_BRAVE_BIRD,    // Flying
+            MOVE_TAKE_DOWN,     // Poison
+            MOVE_HEAD_SMASH,    // Ground
+            MOVE_HEAD_SMASH,    // Rock
+            MOVE_TAKE_DOWN,     // Bug
+            MOVE_TAKE_DOWN,     // Ghost
+            MOVE_TAKE_DOWN,     // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FLARE_BLITZ,   // Fire
+            MOVE_LIQUIDATION,   // Water
+            MOVE_WOOD_HAMMER,   // Grass
+            MOVE_WILD_CHARGE,   // Electric
+            MOVE_TAKE_DOWN,     // Psychic
+            MOVE_ICE_BALL,      // Ice
+            MOVE_SCALE_SHOT,    // Dragon
+            MOVE_TAKE_DOWN,     // Dark
+            MOVE_PLAY_ROUGH     // Fairy
+        }
     }
 };
