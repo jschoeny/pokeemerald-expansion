@@ -812,7 +812,9 @@
 #define MOVE_PH_WEATHER 822
 
 #define MOVES_COUNT_PH 22
+// LIMIT AT 2047 - leftmost 5 bits used for type flagging
 
 #define MOVES_PH_TYPE2 MOVES_COUNT_PH
+#define PH_MOVE_FLAG 0xF800
 
 #endif  // GUARD_CONSTANTS_MOVES_H

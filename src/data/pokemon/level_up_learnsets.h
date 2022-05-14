@@ -1,4 +1,5 @@
 #define LEVEL_UP_MOVE(lvl, moveLearned) {.move = moveLearned, .level = lvl}
+#define ORIGINAL_TYPE_MOVE(move, type) ((move) | (type << 11))
 
 static const struct LevelUpMove sBulbasaurLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
