@@ -810,9 +810,10 @@
 #define MOVE_PH_BODY_RECOIL 820
 #define MOVE_PH_HAZARD 821
 #define MOVE_PH_WEATHER 822
-
-#define MOVES_COUNT_PH 22
+#define MOVE_PH_TYPE_EFF 823
+#define MOVE_PH_SPATK_ADJACENT1_MUD 824
 // LIMIT AT 2047 - leftmost 5 bits used for type flagging
+#define MOVES_COUNT_PH 24
 
 #define MOVES_PH_TYPE2 MOVES_COUNT_PH
 #define PH_MOVE_FLAG 0xF800

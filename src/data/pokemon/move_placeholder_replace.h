@@ -324,7 +324,7 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_SLUDGE_BOMB,   // Poison
             MOVE_METEOR_BEAM,   // Ground
             MOVE_METEOR_BEAM,   // Rock
-            MOVE_POLLEN_PUFF,   // Bug
+            MOVE_BUG_BUZZ,      // Bug
             MOVE_SHADOW_BALL,   // Ghost
             MOVE_STEEL_BEAM,    // Steel
             MOVE_SKETCH,        // Mystery
@@ -571,6 +571,58 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_WEATHER_BALL,  // Dragon
             MOVE_TORMENT,       // Dark
             MOVE_MISTY_TERRAIN  // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_TYPE_EFF)] =
+    {
+        .move =
+        {
+            MOVE_ODOR_SLEUTH,   // Normal
+            MOVE_ODOR_SLEUTH,   // Fighting
+            MOVE_MIRROR_MOVE,   // Flying
+            MOVE_GASTRO_ACID,   // Poison
+            MOVE_MUD_SPORT,     // Ground
+            MOVE_TAR_SHOT,      // Rock
+            MOVE_POWDER,        // Bug
+            MOVE_GRAVITY,       // Ghost
+            MOVE_IRON_DEFENSE,  // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_SUNNY_DAY,     // Fire
+            MOVE_WATER_SPORT,   // Water
+            MOVE_WORRY_SEED,    // Grass
+            MOVE_ION_DELUGE,    // Electric
+            MOVE_MIRACLE_EYE,   // Psychic
+            MOVE_HAIL,          // Ice
+            MOVE_SAFEGUARD,     // Dragon
+            MOVE_SAFEGUARD,     // Dark
+            MOVE_GRAVITY        // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_SPATK_ADJACENT1_MUD)] =
+    {
+        .move =
+        {
+            MOVE_HYPER_VOICE,   // Normal
+            MOVE_HYPER_VOICE,   // Fighting
+            MOVE_AIR_CUTTER,    // Flying
+            MOVE_SLUDGE_WAVE,   // Poison
+            MOVE_BULLDOZE,      // Ground
+            MOVE_ROCK_SLIDE,    // Rock
+            MOVE_STRUGGLE_BUG,  // Bug
+            MOVE_EXPANDING_FORCE,// Ghost
+            MOVE_DISCHARGE,     // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FLAME_BURST,   // Fire
+            MOVE_MUDDY_WATER,   // Water
+            MOVE_RAZOR_LEAF,    // Grass
+            MOVE_DISCHARGE,     // Electric
+            MOVE_EXPANDING_FORCE,// Psychic
+            MOVE_ICY_WIND,      // Ice
+            MOVE_TWISTER,       // Dragon
+            MOVE_SNARL,         // Dark
+            MOVE_DISARMING_VOICE// Fairy
         }
     }
 };
