@@ -324,7 +324,7 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_SLUDGE_BOMB,   // Poison
             MOVE_METEOR_BEAM,   // Ground
             MOVE_METEOR_BEAM,   // Rock
-            MOVE_POLLEN_PUFF,   // Bug
+            MOVE_BUG_BUZZ,      // Bug
             MOVE_SHADOW_BALL,   // Ghost
             MOVE_STEEL_BEAM,    // Steel
             MOVE_SKETCH,        // Mystery
@@ -493,6 +493,136 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_DRAGON_HAMMER, // Dragon
             MOVE_THROAT_CHOP,   // Dark
             MOVE_PLAY_ROUGH     // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_BODY_RECOIL)] =
+    {
+        .move =
+        {
+            MOVE_TAKE_DOWN,     // Normal
+            MOVE_TAKE_DOWN,     // Fighting
+            MOVE_BRAVE_BIRD,    // Flying
+            MOVE_TAKE_DOWN,     // Poison
+            MOVE_HEAD_SMASH,    // Ground
+            MOVE_HEAD_SMASH,    // Rock
+            MOVE_TAKE_DOWN,     // Bug
+            MOVE_TAKE_DOWN,     // Ghost
+            MOVE_TAKE_DOWN,     // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FLARE_BLITZ,   // Fire
+            MOVE_LIQUIDATION,   // Water
+            MOVE_WOOD_HAMMER,   // Grass
+            MOVE_WILD_CHARGE,   // Electric
+            MOVE_TAKE_DOWN,     // Psychic
+            MOVE_ICE_BALL,      // Ice
+            MOVE_SCALE_SHOT,    // Dragon
+            MOVE_TAKE_DOWN,     // Dark
+            MOVE_PLAY_ROUGH     // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_HAZARD)] =
+    {
+        .move =
+        {
+            MOVE_PERISH_SONG,   // Normal
+            MOVE_SPIKES,        // Fighting
+            MOVE_DEFOG,         // Flying
+            MOVE_TOXIC_SPIKES,  // Poison
+            MOVE_SPIKES,        // Ground
+            MOVE_STEALTH_ROCK,  // Rock
+            MOVE_STICKY_WEB,    // Bug
+            MOVE_DESTINY_BOND,  // Ghost
+            MOVE_SPIKES,        // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FIRE_SPIN,     // Fire
+            MOVE_WHIRLPOOL,     // Water
+            MOVE_GRASSY_TERRAIN,// Grass
+            MOVE_ELECTRIC_TERRAIN,// Electric
+            MOVE_PSYCHIC_TERRAIN,// Psychic
+            MOVE_MIST,          // Ice
+            MOVE_SPIKES,        // Dragon
+            MOVE_TORMENT,       // Dark
+            MOVE_MISTY_TERRAIN  // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_WEATHER)] =
+    {
+        .move =
+        {
+            MOVE_WEATHER_BALL,  // Normal
+            MOVE_SPIKES,        // Fighting
+            MOVE_TAILWIND,      // Flying
+            MOVE_TOXIC_SPIKES,  // Poison
+            MOVE_SANDSTORM,     // Ground
+            MOVE_SANDSTORM,     // Rock
+            MOVE_STICKY_WEB,    // Bug
+            MOVE_DESTINY_BOND,  // Ghost
+            MOVE_SANDSTORM,     // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_SUNNY_DAY,     // Fire
+            MOVE_RAIN_DANCE,    // Water
+            MOVE_SUNNY_DAY,     // Grass
+            MOVE_RAIN_DANCE,    // Electric
+            MOVE_GRAVITY,       // Psychic
+            MOVE_HAIL,          // Ice
+            MOVE_WEATHER_BALL,  // Dragon
+            MOVE_TORMENT,       // Dark
+            MOVE_MISTY_TERRAIN  // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_TYPE_EFF)] =
+    {
+        .move =
+        {
+            MOVE_ODOR_SLEUTH,   // Normal
+            MOVE_ODOR_SLEUTH,   // Fighting
+            MOVE_MIRROR_MOVE,   // Flying
+            MOVE_GASTRO_ACID,   // Poison
+            MOVE_MUD_SPORT,     // Ground
+            MOVE_TAR_SHOT,      // Rock
+            MOVE_POWDER,        // Bug
+            MOVE_GRAVITY,       // Ghost
+            MOVE_IRON_DEFENSE,  // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_SUNNY_DAY,     // Fire
+            MOVE_WATER_SPORT,   // Water
+            MOVE_WORRY_SEED,    // Grass
+            MOVE_ION_DELUGE,    // Electric
+            MOVE_MIRACLE_EYE,   // Psychic
+            MOVE_HAIL,          // Ice
+            MOVE_SAFEGUARD,     // Dragon
+            MOVE_SAFEGUARD,     // Dark
+            MOVE_GRAVITY        // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_SPATK_ADJACENT1_MUD)] =
+    {
+        .move =
+        {
+            MOVE_HYPER_VOICE,   // Normal
+            MOVE_HYPER_VOICE,   // Fighting
+            MOVE_AIR_CUTTER,    // Flying
+            MOVE_SLUDGE_WAVE,   // Poison
+            MOVE_BULLDOZE,      // Ground
+            MOVE_ROCK_SLIDE,    // Rock
+            MOVE_STRUGGLE_BUG,  // Bug
+            MOVE_EXPANDING_FORCE,// Ghost
+            MOVE_DISCHARGE,     // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FLAME_BURST,   // Fire
+            MOVE_MUDDY_WATER,   // Water
+            MOVE_RAZOR_LEAF,    // Grass
+            MOVE_DISCHARGE,     // Electric
+            MOVE_EXPANDING_FORCE,// Psychic
+            MOVE_ICY_WIND,      // Ice
+            MOVE_TWISTER,       // Dragon
+            MOVE_SNARL,         // Dark
+            MOVE_DISARMING_VOICE// Fairy
         }
     }
 };

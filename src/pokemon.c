@@ -8520,19 +8520,36 @@ u32 GetPlaceholderMoveBoxMon(struct BoxPokemon *boxMon, u32 move, u8 offset)
 u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8 offset)
 {
     u32 newMove = MOVE_NONE;
-    u8 type1, type2;
+    u8 type1, type2, moveType;
     u8 setting = gSaveBlock2Ptr->optionsRandomizerMoves;
     u8 i;
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
-    if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL) {
+    moveType = TYPE_NONE;
+    if(move & PH_MOVE_FLAG)
+    {
+        moveType = move >> 11; // Type stored first 5 bits
+        move = move & ~(PH_MOVE_FLAG); // Remove Type from first 5 bits
+    }
+
+    if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL)
+    {
         if(move < MOVES_PH_START)
             return move;
-        type1 = gBaseStats[species].type1;
-        type2 = gBaseStats[species].type2;
+        if(moveType == TYPE_NONE)
+        {
+            type1 = gBaseStats[species].type1;
+            type2 = gBaseStats[species].type2;
+        }
+        else
+        {
+            type1 = moveType;
+            type2 = moveType;
+        }
     }
-    else if(setting == OPTIONS_RANDOMIZER_MOVES_TYPE) {
+    else if(setting == OPTIONS_RANDOMIZER_MOVES_TYPE)
+    {
         if(move < MOVES_PH_START)
             return move;
         type1 = GetMonTypeFromPersonality(species, personality, FALSE);
@@ -8541,10 +8558,17 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
 
     if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL || setting == OPTIONS_RANDOMIZER_MOVES_TYPE)
     {
-        if((personality + offset) % 3 > 0)
-            newMove = gPlaceholderMoves[PH_MOVE(move)].move[type1];
+        if(move >= MOVES_PH_START + MOVES_PH_TYPE2)
+            newMove = gPlaceholderMoves[PH_MOVE(move - MOVES_PH_TYPE2)].move[type2];
+        else if(type1 != type2 && gBaseStats[species].type1 == gBaseStats[species].type2) {
+            if((personality + offset) % 3 > 0)
+                newMove = gPlaceholderMoves[PH_MOVE(move)].move[type1];
+            else
+                newMove = gPlaceholderMoves[PH_MOVE(move)].move[type2];
+
+        }
         else
-            newMove = gPlaceholderMoves[PH_MOVE(move)].move[type2];
+            newMove = gPlaceholderMoves[PH_MOVE(move)].move[type1];
     }
     else if(setting == OPTIONS_RANDOMIZER_MOVES_SPECIES)
     {
