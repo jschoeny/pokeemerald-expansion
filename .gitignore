@@ -50,3 +50,4 @@ log.txt
 *.js
 agbcc/
 *.bps
+/*.png
