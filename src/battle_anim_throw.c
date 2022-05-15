@@ -1874,121 +1874,6 @@ static void IncrBallParticleCount(void)
         gBattleSpritesDataPtr->animationData->numBallParticles++;
 }
 
-static void TypeParticleAnimation(u8 taskId)
-{
-    u8 typeSpriteId;
-    u8 x, y, i;
-    u8 type1, type2;
-    u16 palOffset;
-    u8 tBattler = gTasks[taskId].data[3];
-
-    if(gBattleSpritesDataPtr->animationData->numBallParticles > 0)
-        return;
-
-    if(gBattleSpritesDataPtr->animationData->numTypeParticleTasks > 0)
-        return;
-
-    type1 = gTasks[taskId].data[5];
-    type2 = gTasks[taskId].data[6];
-
-    palOffset = LoadCompressedSpritePaletteUsingHeap_Offset(&sTypeParticlePalette);
-    ChangePalette(palOffset, (1 << 1) | (1 << 7) | (1 << 8) | (1 << 9), 200,
-        gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]);
-    ChangePalette(palOffset, (1 << 3) | (1 << 4) | (1 << 5), 200,
-        gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]);
-
-
-    for(i = 0; i < 2; i++)
-    {
-        x = gTasks[taskId].data[1];
-        y = gTasks[taskId].data[2];
-
-        typeSpriteId = CreateSprite(&sTypeParticleSpriteTemplate,
-            x,
-            y,
-            5);
-
-        if (typeSpriteId != MAX_SPRITES)
-        {
-            gTasks[taskId].data[12]++;
-            StartSpriteAnim(&gSprites[typeSpriteId], 0);
-
-            gSprites[typeSpriteId].callback = TypeParticleAnimation_Step1;
-            gSprites[typeSpriteId].oam.priority = 5;
-            gSprites[typeSpriteId].data[0] = 64 + (i * 8);
-            gSprites[typeSpriteId].data[1] = x;
-            gSprites[typeSpriteId].data[2] = y;
-            gSprites[typeSpriteId].data[3] = i;
-            gSprites[typeSpriteId].data[4] = gSprites[typeSpriteId].oam.tileNum;
-            gSprites[typeSpriteId].data[5] = tBattler;
-            gSprites[typeSpriteId].data[6] = taskId;
-            gSprites[typeSpriteId].data[12] = 0;
-        }
-    }
-
-    if (!gMain.inBattle)
-        gSprites[typeSpriteId].data[7] = 1;
-
-    gBattleSpritesDataPtr->animationData->numTypeParticleTasks++;
-    gTasks[taskId].func = TypeParticleAnimation_Wait;
-
-}
-
-static void TypeParticleAnimation_Wait(u8 taskId)
-{
-    u8 tBattler = gTasks[taskId].data[3];
-    if (gTasks[taskId].data[12] == 0)
-    {
-        gBattleSpritesDataPtr->healthBoxesData[tBattler].finishedShinyMonAnim = TRUE;
-        gBattleSpritesDataPtr->animationData->numTypeParticleTasks--;
-        FreeSpritePaletteByTag(sTypeParticlePalette.tag);
-        DestroyTask(taskId);
-    }
-}
-
-static void TypeParticleAnimation_Step1(struct Sprite *sprite)
-{
-    const s8 posX[8] = {8, -8, 18, -18, 28, -11, 5, -23};
-    const s8 posY[8] = {0, 10, 20, -10, 0, 8, -8, 15};
-    const s8 tNum[8] = {0, 1, 1, 2, 2, 2, 1, 0};
-    u8 battler = sprite->data[5];
-    s8 pos = (64 - sprite->data[0]) / 16;
-    if(pos < 0)
-        pos = 0;
-
-    pos = ((pos * 2) + sprite->data[3]) % 8;
-
-    if(sprite->data[0] % 16 < 2)
-        sprite->invisible = TRUE;
-    else
-        sprite->invisible = FALSE;
-
-    sprite->oam.tileNum = sprite->data[4] + (tNum[pos] * 4);
-    sprite->x = sprite->data[1] + posX[pos];
-    sprite->y = sprite->data[2] + posY[pos];
-
-    sprite->data[0]--;
-    if (sprite->data[0] == 0)
-    {
-        gTasks[sprite->data[6]].data[12]--;
-        if (!gMain.inBattle)
-        {
-            if (sprite->data[7] == 1)
-                DestroySpriteAndFreeResources(sprite);
-            else
-            {
-                FreeSpriteOamMatrix(sprite);
-                DestroySprite(sprite);
-            }
-        }
-        else
-        {
-            FreeSpriteOamMatrix(sprite);
-            DestroySprite(sprite);
-        }
-    }
-}
-
 static void PokeBallOpenParticleAnimation(u8 taskId)
 {
     u8 spriteId;
@@ -2609,6 +2494,8 @@ void AnimTask_SetTargetToEffectBattler(u8 taskId)
 
 #define tBattler   data[0]
 #define tStarMove  data[1]
+#define tSound     data[2]
+#define tSpeed     data[3]
 #define tStarTimer data[10]
 #define tStarIdx   data[11]
 #define tNumStars  data[12]
@@ -2630,6 +2517,7 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
     u8 x, y;
     u8 type1, type2;
     u16 species;
+    u16 palOffset;
 
     isShiny = FALSE;
     gBattleSpritesDataPtr->healthBoxesData[battler].triedShinyMonAnim = TRUE;
@@ -2659,23 +2547,64 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
             gTasks[taskDgnl].tBattler = battler;
             gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
             gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+            gTasks[taskDgnl].tSpeed = 5;
+            gTasks[taskDgnl].tSound = SE_SHINY;
             return;
         }
-        else if(FOE(battler) && (gBaseStats[species].type1 != type1 || gBaseStats[species].type2 != type2))
+        else if((gBaseStats[species].type1 != type1 || gBaseStats[species].type2 != type2))
         {
-            if (GetSpriteTileStartByTag(sTypeParticleSpriteSheet.tag) == 0xFFFF)
+            // if (GetSpriteTileStartByTag(sTypeParticleSpriteSheet.tag) == 0xFFFF)
+            // {
+            //     LoadCompressedSpriteSheetUsingHeap(&sTypeParticleSpriteSheet);
+            // }
+            //
+            // x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
+            // y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y);
+            // taskType = CreateTask(TypeParticleAnimation, 10);
+            // gTasks[taskType].data[1] = x;
+            // gTasks[taskType].data[2] = y;
+            // gTasks[taskType].data[3] = battler;
+            // gTasks[taskType].data[5] = type1;
+            // gTasks[taskType].data[6] = type2;
+            if (GetSpriteTileStartByTag(ANIM_TAG_GOLD_STARS) == 0xFFFF)
             {
-                LoadCompressedSpriteSheetUsingHeap(&sTypeParticleSpriteSheet);
+                LoadCompressedSpriteSheetUsingHeap(&gBattleAnimPicTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+            }
+            palOffset = LoadCompressedSpritePaletteUsingHeap_Offset(&gBattleAnimPaletteTable[ANIM_TAG_GOLD_STARS - ANIM_SPRITES_START]);
+            ChangePalette(palOffset, (1 << 6), 255,
+                gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]);
+            ChangePalette(palOffset, (1 << 7) | (1 << 8), 255,
+                gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]);
+
+            // taskCirc = CreateTask(Task_ShinyStars, 10);
+            taskDgnl = CreateTask(Task_ShinyStars, 10);
+            // gTasks[taskCirc].tBattler = battler;
+            gTasks[taskDgnl].tBattler = battler;
+            // gTasks[taskCirc].tStarMove = SHINY_STAR_ENCIRCLE;
+            gTasks[taskDgnl].tStarMove = SHINY_STAR_DIAGONAL;
+            gTasks[taskDgnl].tSpeed = 2;
+            switch(type1) {
+                case TYPE_FIGHTING: gTasks[taskDgnl].tSound = SE_M_MEGA_KICK2; break;
+                case TYPE_FLYING:   gTasks[taskDgnl].tSound = SE_M_SAND_TOMB; break;
+                case TYPE_POISON:   gTasks[taskDgnl].tSound = SE_M_TOXIC; break;
+                case TYPE_GROUND:   gTasks[taskDgnl].tSound = SE_M_SAND_ATTACK; break;
+                case TYPE_ROCK:     gTasks[taskDgnl].tSound = SE_M_ROCK_THROW; break;
+                case TYPE_BUG:      gTasks[taskDgnl].tSound = SE_M_STRING_SHOT; break;
+                case TYPE_GHOST:    gTasks[taskDgnl].tSound = SE_M_NIGHTMARE; break;
+                case TYPE_STEEL:    gTasks[taskDgnl].tSound = SE_M_HARDEN; break;
+                case TYPE_FIRE:     gTasks[taskDgnl].tSound = SE_M_FLAME_WHEEL2; break;
+                case TYPE_WATER:    gTasks[taskDgnl].tSound = SE_M_BUBBLE; break;
+                case TYPE_GRASS:    gTasks[taskDgnl].tSound = SE_M_CUT; break;
+                case TYPE_ELECTRIC: gTasks[taskDgnl].tSound = SE_M_THUNDER_WAVE; break;
+                case TYPE_PSYCHIC:  gTasks[taskDgnl].tSound = SE_M_BARRIER; break;
+                case TYPE_ICE:      gTasks[taskDgnl].tSound = SE_M_ICY_WIND; break;
+                case TYPE_DRAGON:   gTasks[taskDgnl].tSound = SE_M_DRAGON_RAGE; break;
+                case TYPE_DARK:     gTasks[taskDgnl].tSound = SE_M_LEER; break;
+                case TYPE_FAIRY:    gTasks[taskDgnl].tSound = SE_M_CHARM; break;
+                default: // NORMAL
+                    gTasks[taskDgnl].tSound = SE_EFFECTIVE;
             }
 
-            x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
-            y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y);
-            taskType = CreateTask(TypeParticleAnimation, 10);
-            gTasks[taskType].data[1] = x;
-            gTasks[taskType].data[2] = y;
-            gTasks[taskType].data[3] = battler;
-            gTasks[taskType].data[5] = type1;
-            gTasks[taskType].data[6] = type2;
             return;
         }
     }
@@ -2743,7 +2672,7 @@ static void Task_ShinyStars(u8 taskId)
             else
                 pan = 63;
 
-            PlaySE12WithPanning(SE_SHINY, pan);
+            PlaySE12WithPanning(gTasks[taskId].tSound, pan);
         }
     }
 
@@ -2793,8 +2722,8 @@ static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
     else
     {
         sprite->invisible = FALSE;
-        sprite->x2 += 5;
-        sprite->y2 -= 5;
+        sprite->x2 += gTasks[sprite->sTaskId].tSpeed;
+        sprite->y2 -= gTasks[sprite->sTaskId].tSpeed;
         if (sprite->x2 > 32)
         {
             gTasks[sprite->sTaskId].tNumStars--;
@@ -2806,6 +2735,8 @@ static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
 
 #undef tBattler
 #undef tStarMove
+#undef tSound
+#undef tSpeed
 #undef tStarTimer
 #undef tStarIdx
 #undef tNumStars
@@ -2814,6 +2745,106 @@ static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
 #undef sTaskId
 #undef sPhase
 #undef sTimer
+
+static void TypeParticleAnimation(u8 taskId)
+{
+    u8 typeSpriteId;
+    u8 x, y, i;
+    u8 type1, type2;
+    u16 palOffset;
+    u8 tBattler = gTasks[taskId].data[3];
+
+    if(gBattleSpritesDataPtr->animationData->numBallParticles > 0)
+        return;
+
+    if(gBattleSpritesDataPtr->animationData->numTypeParticleTasks > 0)
+        return;
+
+    type1 = gTasks[taskId].data[5];
+    type2 = gTasks[taskId].data[6];
+
+    palOffset = LoadCompressedSpritePaletteUsingHeap_Offset(&sTypeParticlePalette);
+    ChangePalette(palOffset, (1 << 1) | (1 << 7) | (1 << 8) | (1 << 9), 200,
+        gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]);
+    ChangePalette(palOffset, (1 << 3) | (1 << 4) | (1 << 5), 200,
+        gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]);
+
+
+    for(i = 0; i < 2; i++)
+    {
+        x = gTasks[taskId].data[1];
+        y = gTasks[taskId].data[2];
+
+        typeSpriteId = CreateSprite(&sTypeParticleSpriteTemplate,
+            x,
+            y,
+            5);
+
+        if (typeSpriteId != MAX_SPRITES)
+        {
+            gTasks[taskId].data[12]++;
+            StartSpriteAnim(&gSprites[typeSpriteId], 0);
+
+            gSprites[typeSpriteId].callback = TypeParticleAnimation_Step1;
+            gSprites[typeSpriteId].oam.priority = 5;
+            gSprites[typeSpriteId].data[0] = 64 + (i * 8);
+            gSprites[typeSpriteId].data[1] = x;
+            gSprites[typeSpriteId].data[2] = y;
+            gSprites[typeSpriteId].data[3] = i;
+            gSprites[typeSpriteId].data[4] = gSprites[typeSpriteId].oam.tileNum;
+            gSprites[typeSpriteId].data[5] = tBattler;
+            gSprites[typeSpriteId].data[6] = taskId;
+            gSprites[typeSpriteId].data[12] = 0;
+        }
+    }
+
+    gBattleSpritesDataPtr->animationData->numTypeParticleTasks++;
+    gTasks[taskId].func = TypeParticleAnimation_Wait;
+
+}
+
+static void TypeParticleAnimation_Wait(u8 taskId)
+{
+    u8 tBattler = gTasks[taskId].data[3];
+    if (gTasks[taskId].data[12] == 0)
+    {
+        gBattleSpritesDataPtr->healthBoxesData[tBattler].finishedShinyMonAnim = TRUE;
+        gBattleSpritesDataPtr->animationData->numTypeParticleTasks--;
+        //FreeSpriteTilesByTag(sTypeParticleSpriteSheet.tag);
+        //FreeSpritePaletteByTag(sTypeParticlePalette.tag);
+        DestroyTask(taskId);
+    }
+}
+
+static void TypeParticleAnimation_Step1(struct Sprite *sprite)
+{
+    const s8 posX[8] = {8, -8, 18, -18, 28, -11, 5, -23};
+    const s8 posY[8] = {0, 10, 20, -10, 0, 8, -8, 15};
+    const s8 tNum[8] = {0, 1, 1, 2, 2, 2, 1, 0};
+    u8 battler = sprite->data[5];
+    s8 pos = (64 - sprite->data[0]) / 16;
+    if(pos < 0)
+        pos = 0;
+
+    pos = ((pos * 2) + sprite->data[3]) % 8;
+
+    if(sprite->data[0] % 16 < 2)
+        sprite->invisible = TRUE;
+    else
+        sprite->invisible = FALSE;
+
+    sprite->oam.tileNum = sprite->data[4] + (tNum[pos] * 4);
+    sprite->x = sprite->data[1] + posX[pos];
+    sprite->y = sprite->data[2] + posY[pos];
+
+    sprite->data[0]--;
+    if (sprite->data[0] == 0)
+    {
+        gTasks[sprite->data[6]].data[12]--;
+        FreeSpriteOamMatrix(sprite);
+        DestroySprite(sprite);
+    }
+}
 
 void AnimTask_LoadPokeblockGfx(u8 taskId)
 {
