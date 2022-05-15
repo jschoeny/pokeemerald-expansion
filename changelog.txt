@@ -1,0 +1,46 @@
+Eris Emerald Changelog
+
+v0.2 - (14 May 2022)
+====================
+New additions:
+- Legendary battle music added up to Gen 4 (HGSS/DPPt)
+- Type-based particles and sound effects when a Pokemon is sent out in battle
+  (should help with identifying randomized types of Pokemon with palette
+  shifting not yet implemented)
+- Challenge Mode:
+  - Scaled trainer and wild levels slightly
+  - Updated Gym Leader teams
+  - No EXP gained until after the battle is won
+  - Totem boosts for some important Pokemon
+
+Improvements:
+- Adjusted palette shifting algorithm
+- Improved how placeholder moves are implemented
+- Implemented palette shifting for more Pokemon
+- More placeholder moves implemented
+- Other minor improvements
+
+Quality of life:
+- Added the ability to use HM field moves without the need to teach it
+- Updated system for losing money in battles to match newer games
+- Running shoes now present at start
+- Gen 6 Exp. Share (given when running shoes would normally be given)
+- Linking Cord item to evolve Pokemon as an alternative to trading
+- Held items for trade evolutions are no longer consumed upon evolution
+- Thief will now put items straight into the bag for wild battles
+- Added move type effectiveness color indicator in battle
+- No more fainting in overworld from poison
+- Evolution items and competitive items purchaseable in the Department Store
+- Gym-badge based PokéMart inventories
+- Reusable TMs
+- Modern repel system
+- More bag pockets
+
+Bug fixes:
+- Fixed Pure Random Abilities giving the same abilities too often
+- Fixed some randomization options not changing across different saves
+  (now properly determined by Trainer ID)
+- Fixed Trainer randomization not working correctly for "By Trainer" and
+  "Pure Random" options
+- Fixed fishing encounters not being randomized
+- Other minor fixes and polishing
