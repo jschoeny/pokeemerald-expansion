@@ -2557,7 +2557,7 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         {
             if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j]
                 || (sFieldMoves[j] == MOVE_DIG
-                    && CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01 - NUM_TECHNICAL_MACHINES)
+                    && CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01)
                     && CheckBagHasItem(ITEM_TM28_DIG, 1))
                 )
             {

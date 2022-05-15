@@ -1,5 +1,10 @@
 Eris Emerald Changelog
 
+v0.2.1 - (15 May 2022)
+======================
+*Hotfix*
+- Fixed HM moves not working properly in overworld
+
 v0.2 - (14 May 2022)
 ====================
 New additions:

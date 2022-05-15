@@ -1738,7 +1738,7 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
 bool8 ScrCmd_checkpartycanlearnhm(struct ScriptContext *ctx)
 {
     u8 i;
-    u16 hmId = VarGet(ScriptReadHalfword(ctx)) - ITEM_TM01;
+    u16 hmId = VarGet(ScriptReadHalfword(ctx)) - ITEM_TM01 - NUM_TECHNICAL_MACHINES;
 
     gSpecialVar_Result = PARTY_SIZE;
     for (i = 0; i < PARTY_SIZE; i++)
@@ -1746,7 +1746,7 @@ bool8 ScrCmd_checkpartycanlearnhm(struct ScriptContext *ctx)
         u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
         if (!species)
             break;
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && CanMonLearnTMHM(&gPlayerParty[i], hmId - NUM_TECHNICAL_MACHINES) == TRUE)
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && CanMonLearnTMHM(&gPlayerParty[i], hmId))
         {
             gSpecialVar_Result = i;
             gSpecialVar_0x8004 = species;
