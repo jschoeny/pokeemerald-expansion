@@ -7557,33 +7557,104 @@ u16 GetBattleBGM(void)
         case SPECIES_ARCEUS_DARK:
         case SPECIES_ARCEUS_FAIRY:
             return DP_SEQ_BA_SECRET1;
-        // case SPECIES_VICTINI:
-        // case SPECIES_COBALION:
-        // case SPECIES_TERRAKION:
-        // case SPECIES_VIRIZION:
-        // case SPECIES_TORNADUS:
-        // case SPECIES_THUNDURUS:
-        // case SPECIES_LANDORUS:
-        // case SPECIES_TORNADUS_THERIAN:
-        // case SPECIES_THUNDURUS_THERIAN:
-        // case SPECIES_LANDORUS_THERIAN:
-        // case SPECIES_KELDEO:
-        // case SPECIES_KELDEO_RESOLUTE:
-        // case SPECIES_MELOETTA:
-        // case SPECIES_MELOETTA_PIROUETTE:
-        // case SPECIES_GENESECT:
-        // case SPECIES_GENESECT_DOUSE_DRIVE:
-        // case SPECIES_GENESECT_SHOCK_DRIVE:
-        // case SPECIES_GENESECT_BURN_DRIVE:
-        // case SPECIES_GENESECT_CHILL_DRIVE:
-        //     return BW_SEQ_BGM_VS_MOVEPOKE;
-        // case SPECIES_RESHIRAM:
-        // case SPECIES_ZEKROM:
-        //     return BW_SEQ_BGM_VS_SHIN;
-        // case SPECIES_KYUREM:
-        // case SPECIES_KYUREM_WHITE:
-        // case SPECIES_KYUREM_BLACK:
-        //     return BW_SEQ_BGM_VS_RAI;
+        case SPECIES_VICTINI:
+        case SPECIES_COBALION:
+        case SPECIES_TERRAKION:
+        case SPECIES_VIRIZION:
+        case SPECIES_TORNADUS:
+        case SPECIES_THUNDURUS:
+        case SPECIES_LANDORUS:
+        case SPECIES_TORNADUS_THERIAN:
+        case SPECIES_THUNDURUS_THERIAN:
+        case SPECIES_LANDORUS_THERIAN:
+        case SPECIES_KELDEO:
+        case SPECIES_KELDEO_RESOLUTE:
+        case SPECIES_MELOETTA:
+        case SPECIES_MELOETTA_PIROUETTE:
+        case SPECIES_GENESECT:
+        case SPECIES_GENESECT_DOUSE_DRIVE:
+        case SPECIES_GENESECT_SHOCK_DRIVE:
+        case SPECIES_GENESECT_BURN_DRIVE:
+        case SPECIES_GENESECT_CHILL_DRIVE:
+            return BW_SEQ_BGM_VS_MOVEPOKE;
+        case SPECIES_RESHIRAM:
+        case SPECIES_ZEKROM:
+            return BW_SEQ_BGM_VS_SHIN;
+        case SPECIES_KYUREM:
+        case SPECIES_KYUREM_WHITE:
+        case SPECIES_KYUREM_BLACK:
+            return BW_SEQ_BGM_VS_RAI;
+        case SPECIES_COSMOEM:
+        case SPECIES_COSMOG:
+        case SPECIES_DIANCIE:
+        case SPECIES_LUNALA:
+        case SPECIES_MARSHADOW:
+        case SPECIES_NAGANADEL:
+        case SPECIES_NECROZMA:
+        case SPECIES_NECROZMA_ULTRA:
+        case SPECIES_NECROZMA_DUSK_MANE:
+        case SPECIES_NECROZMA_DAWN_WINGS:
+        case SPECIES_POIPOLE:
+        case SPECIES_SOLGALEO:
+        case SPECIES_TAPU_BULU:
+        case SPECIES_TAPU_FINI:
+        case SPECIES_TAPU_KOKO:
+        case SPECIES_TAPU_LELE:
+        case SPECIES_VOLCANION:
+        case SPECIES_ZYGARDE:
+        case SPECIES_ZYGARDE_10:
+        case SPECIES_ZYGARDE_COMPLETE:
+        case SPECIES_ZYGARDE_10_POWER_CONSTRUCT:
+        case SPECIES_ZYGARDE_50_POWER_CONSTRUCT:
+        case SPECIES_ZAMAZENTA:
+        case SPECIES_ZAMAZENTA_CROWNED_SHIELD:
+        case SPECIES_ZACIAN:
+        case SPECIES_ZACIAN_CROWNED_SWORD:
+        case SPECIES_ETERNATUS:
+        case SPECIES_ETERNATUS_ETERNAMAX:
+            return DP_SEQ_BA_SECRET2;
+        #endif
+        case SPECIES_BULBASAUR:
+        case SPECIES_IVYSAUR:
+        case SPECIES_VENUSAUR:
+        case SPECIES_CHARMANDER:
+        case SPECIES_CHARMELEON:
+        case SPECIES_CHARIZARD:
+        case SPECIES_SQUIRTLE:
+        case SPECIES_WARTORTLE:
+        case SPECIES_BLASTOISE:
+            return MUS_RG_VS_WILD;
+        case SPECIES_CHIKORITA:
+        case SPECIES_BAYLEEF:
+        case SPECIES_MEGANIUM:
+        case SPECIES_CYNDAQUIL:
+        case SPECIES_QUILAVA:
+        case SPECIES_TYPHLOSION:
+        case SPECIES_TOTODILE:
+        case SPECIES_CROCONAW:
+        case SPECIES_FERALIGATR:
+            return HG_SEQ_GS_VS_NORAPOKE;
+        #ifdef POKEMON_EXPANSION
+        case SPECIES_TURTWIG:
+        case SPECIES_GROTLE:
+        case SPECIES_TORTERRA:
+        case SPECIES_CHIMCHAR:
+        case SPECIES_MONFERNO:
+        case SPECIES_INFERNAPE:
+        case SPECIES_PIPLUP:
+        case SPECIES_PRINPLUP:
+        case SPECIES_EMPOLEON:
+            return DP_SEQ_BA_POKE;
+        case SPECIES_SNIVY:
+        case SPECIES_SERVINE:
+        case SPECIES_SERPERIOR:
+        case SPECIES_TEPIG:
+        case SPECIES_PIGNITE:
+        case SPECIES_EMBOAR:
+        case SPECIES_OSHAWOTT:
+        case SPECIES_DEWOTT:
+        case SPECIES_SAMUROTT:
+            return BW_SEQ_BGM_VS_NORAPOKE;
         #endif
         default:
             return MUS_VS_WILD;
