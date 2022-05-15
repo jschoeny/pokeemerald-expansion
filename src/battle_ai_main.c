@@ -105,6 +105,7 @@ void BattleAI_SetupItems(void)
     s32 i;
     u8 *data = (u8 *)BATTLE_HISTORY;
     u16 trainerNum = gTrainerBattleOpponent_A;
+    bool8 disableAutoMega = FALSE;
 
     for (i = 0; i < sizeof(struct BattleHistory); i++)
         data[i] = 0;
@@ -121,6 +122,8 @@ void BattleAI_SetupItems(void)
         {
             if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
                 trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
+            if(trainerNum >= TRAINER_CHALLENGE_SIDNEY)
+                disableAutoMega = TRUE;
         }
 
         for (i = 0; i < MAX_TRAINER_ITEMS; i++)
@@ -144,13 +147,15 @@ void BattleAI_SetupItems(void)
                     j += 1;
                 }
             }
-            if(avgLevel / j >= 15) {
+            avgLevel = avgLevel / j;
+
+            if(avgLevel >= 15) {
                 if (BATTLE_HISTORY->itemsNo < MAX_BATTLERS_COUNT) {
                     BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo] = ITEM_SUPER_POTION;
                     BATTLE_HISTORY->itemsNo++;
                 }
             }
-            if(BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo - 1] != ITEM_MEGA_RING)
+            if(!disableAutoMega && avgLevel >= 40 && BATTLE_HISTORY->trainerItems[BATTLE_HISTORY->itemsNo - 1] != ITEM_MEGA_RING)
             {
                 for(i = PARTY_SIZE - 1; i > 0; i--)
                 {
