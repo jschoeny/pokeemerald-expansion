@@ -3854,18 +3854,18 @@ void SetPpNumbersPaletteInMoveSelection(void)
 #define FOE(bank) ((bank ^ BIT_SIDE) & BIT_SIDE)
 #define BATTLER_ALIVE(bank) (gBattleMons[bank].hp > 0)
 #define PARTNER(bank) (bank ^ BIT_FLANK)
+#define MUL_MODIFIER(modifier, val) (UQ_4_12_TO_INT((modifier * val) + UQ_4_12_ROUND))
 void SetTypePaletteInMoveSelection(bool8 handleInputChooseTarget)
 {
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleResources->bufferA[gActiveBattler][4]);
     const u16 *palPtr = gTypeTextPalette;
     u8 var = COL_NORMAL;
     u8 moveResult = 0;
-    u8 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
+    u16 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
     u8 moveType = gBattleMoves[move].type;
     u16 modifier = UQ_4_12(1.0);
     u8 type1;
     u8 type2;
-
 
     if(!IS_MOVE_STATUS(move))
     {
@@ -3873,17 +3873,17 @@ void SetTypePaletteInMoveSelection(bool8 handleInputChooseTarget)
         {
             type1 = gBattleMons[FOE(gActiveBattler)].type1;
             type2 = gBattleMons[FOE(gActiveBattler)].type2;
-            modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type1)) + UQ_4_12_ROUND);
+            modifier = MUL_MODIFIER(modifier, GetTypeModifier(moveType, type1));
             if (type2 != type1)
-                modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type2)) + UQ_4_12_ROUND);
+                modifier = MUL_MODIFIER(modifier, GetTypeModifier(moveType, type2));
         }
     	else if (handleInputChooseTarget)
         {
             type1 = gBattleMons[GetBattlerPosition(gMultiUsePlayerCursor)].type1;
             type2 = gBattleMons[GetBattlerPosition(gMultiUsePlayerCursor)].type2;
-            modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type1)) + UQ_4_12_ROUND);
+            modifier = MUL_MODIFIER(modifier, GetTypeModifier(moveType, type1));
             if (type2 != type1)
-                modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type2)) + UQ_4_12_ROUND);
+                modifier = MUL_MODIFIER(modifier, GetTypeModifier(moveType, type2));
         }
     	else if (CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE) <= 1) //Only 1 enemy left
     	{
@@ -3893,17 +3893,17 @@ void SetTypePaletteInMoveSelection(bool8 handleInputChooseTarget)
 
             type1 = gBattleMons[bankDef].type1;
             type2 = gBattleMons[bankDef].type2;
-            modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type1)) + UQ_4_12_ROUND);
+            modifier = MUL_MODIFIER(modifier, GetTypeModifier(moveType, type1));
             if (type2 != type1)
-                modifier = UQ_4_12_TO_INT((modifier * GetTypeModifier(moveType, type2)) + UQ_4_12_ROUND);
+                modifier = MUL_MODIFIER(modifier, GetTypeModifier(moveType, type2));
     	}
 
-        if(modifier > UQ_4_12(1.0))
-    		var = COL_SUPER_EFFECTIVE;
-        else if(modifier < UQ_4_12(1.0) && modifier > UQ_4_12(0.0))
+        if (modifier == UQ_4_12(0.0))
+            var = COL_NO_EFFECT;
+        else if(modifier <= UQ_4_12(0.5))
     		var = COL_NOT_VERY_EFFECTIVE;
-    	else if (modifier == UQ_4_12(0.0))
-    		var = COL_NO_EFFECT;
+        else if(modifier >= UQ_4_12(2.0))
+    		var = COL_SUPER_EFFECTIVE;
     }
 
     gPlttBufferUnfaded[POS1] = palPtr[(var * 2) + 0];
