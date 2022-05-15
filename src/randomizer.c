@@ -124,6 +124,16 @@ static const struct WindowTemplate sRandSetWindowTemplate =
     .paletteNum = 15,
     .baseBlock = 1 + RAND_MENU_WINDOW2 + 110 + 20,
 };
+static const struct WindowTemplate sRandYesNoWindowTemplate =
+{
+    .bg = 0,
+    .tilemapLeft = RAND_MENU_WIDTH + 7,
+    .tilemapTop = 9,
+    .width = 5,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 1 + RAND_MENU_WINDOW2 + 110 + 20,
+};
 static const struct ListMenuTemplate sRandSetListTemplate =
 {
     .items = 0,
@@ -164,7 +174,6 @@ void Rand_ShowMainMenu(void) {
     LoadUserWindowBorderGfx(0, 0x250, 0xd0);
     varWindowId = AddWindow(&sRandVarWindowTemplate);
     DrawStdWindowFrame(varWindowId, FALSE);
-    //DrawStdFrameWithCustomTileAndPalette(helpWindowId, FALSE, 0x250, 0x0d);
 
     // create list menu
     menuTemplate = sRandMenuListTemplate;
@@ -202,8 +211,10 @@ static void Rand_DestroyMainMenu(u8 taskId)
 {
     ClearDialogWindowAndFrame(gTasks[taskId].data[RAND_DATA_HELP], TRUE);
     RemoveWindow(gTasks[taskId].data[RAND_DATA_HELP]);
-    ClearDialogWindowAndFrame(gTasks[taskId].data[RAND_DATA_VAR], TRUE);
-    RemoveWindow(gTasks[taskId].data[RAND_DATA_VAR]);
+    if(gTasks[taskId].data[RAND_DATA_VAR] != 0) {
+        ClearStdWindowAndFrame(gTasks[taskId].data[RAND_DATA_VAR], TRUE);
+        RemoveWindow(gTasks[taskId].data[RAND_DATA_VAR]);
+    }
     DestroyListMenuTask(gTasks[taskId].data[RAND_DATA_TASK], NULL, NULL);
     ClearStdWindowAndFrame(gTasks[taskId].data[RAND_DATA_WIN], TRUE);
     RemoveWindow(gTasks[taskId].data[RAND_DATA_WIN]);
@@ -222,8 +233,23 @@ static void RandTask_HandleMainMenuInput(u8 taskId)
     struct ListMenu *list = (void*) gTasks[gTasks[taskId].data[RAND_DATA_TASK]].data;
     if(pos != list->scrollOffset + list->selectedRow)
     {
-        RandHelper_DescText(taskId, list->scrollOffset + list->selectedRow);
         gTasks[taskId].data[RAND_DATA_POS] = list->scrollOffset + list->selectedRow;
+
+        if(gTasks[taskId].data[RAND_DATA_POS] == RAND_MENU_ITEM_DONE) {
+            ClearStdWindowAndFrame(gTasks[taskId].data[RAND_DATA_VAR], TRUE);
+            RemoveWindow(gTasks[taskId].data[RAND_DATA_VAR]);
+            gTasks[taskId].data[RAND_DATA_VAR] = 0;
+        }
+        else if(gTasks[taskId].data[RAND_DATA_VAR] == 0){
+            u8 varWindowId;
+            LoadUserWindowBorderGfx(0, 0x250, 0xd0);
+            varWindowId = AddWindow(&sRandVarWindowTemplate);
+            DrawStdWindowFrame(varWindowId, FALSE);
+            gTasks[taskId].data[RAND_DATA_VAR] = varWindowId;
+            CopyWindowToVram(varWindowId, 3);
+        }
+
+        RandHelper_DescText(taskId, list->scrollOffset + list->selectedRow);
     }
     if (gMain.newKeys & A_BUTTON)
     {
@@ -242,7 +268,11 @@ static void RandAction_OpenOption(u8 taskId)
     u8 posWin = gTasks[taskId].data[RAND_DATA_POS];
     u8 helpWindowId = gTasks[taskId].data[RAND_DATA_HELP];
 
-    u8 optionId = AddWindow(&sRandSetWindowTemplate);
+    u8 optionId;
+    if(posWin == RAND_MENU_ITEM_DONE)
+        optionId = AddWindow(&sRandYesNoWindowTemplate);
+    else
+        optionId = AddWindow(&sRandSetWindowTemplate);
     DrawStdWindowFrame(optionId, FALSE);
 
     menuTemplate = sRandSetListTemplate;
@@ -316,6 +346,7 @@ static void RandTask_HandleOptionInput(u8 taskId)
         DestroyListMenuTask(gTasks[taskId].data[RAND_DATA_OPT_TSK], NULL, NULL);
         ClearStdWindowAndFrame(gTasks[taskId].data[RAND_DATA_OPT], TRUE);
         RemoveWindow(gTasks[taskId].data[RAND_DATA_OPT]);
+        RandHelper_DescText(taskId, posWin);
         gTasks[taskId].func = RandTask_HandleMainMenuInput;
     }
 }
