@@ -1892,7 +1892,7 @@ bool8 ScrCmd_cleartrainerflag(struct ScriptContext *ctx)
     return FALSE;
 }
 
-#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 110) / 100) + 1) : lvl)
+#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 115) / 100) + 1) : lvl)
 bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
 {
     u16 species = ScriptReadHalfword(ctx);
