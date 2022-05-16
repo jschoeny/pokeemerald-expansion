@@ -2551,15 +2551,17 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     }
 
     // Add field moves to action list
+    if(CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01) && CheckBagHasItem(ITEM_TM28_DIG, 1))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, FIELD_MOVE_DIG + MENU_FIELD_MOVES);
+
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         for (j = 0; sFieldMoves[j] != FIELD_MOVE_TERMINATOR; j++)
         {
-            if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j]
-                || (sFieldMoves[j] == MOVE_DIG
-                    && CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01)
-                    && CheckBagHasItem(ITEM_TM28_DIG, 1))
-                )
+            if(sFieldMoves[j] == MOVE_DIG)
+                continue;
+
+            if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j])
             {
                 AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES_NOT_HM);
                 break;
