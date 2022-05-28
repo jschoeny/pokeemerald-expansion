@@ -2047,6 +2047,10 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
 
                 if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_NORMAL)
                 {
+                    if(partyData[i].abilityNum != 0) {
+                        u8 ability = partyData[i].abilityNum - 1;
+                        SetMonData(&party[i], MON_DATA_ABILITY_NUM, &ability);
+                    }
                     for (j = 0; j < MAX_MON_MOVES; j++)
                     {
                         u32 move = GetPlaceholderMoveFromPersonality(species, personalityValue, partyData[i].moves[j], j);

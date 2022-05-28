@@ -14270,6 +14270,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
     .pid = 0,
     .species = SPECIES_SPIRITOMB,
     .heldItem = ITEM_SITRUS_BERRY,
+    .abilityNum = 1,
     .moves = {MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_WILL_O_WISP, MOVE_SUCKER_PUNCH}
     },
     {
@@ -14278,6 +14279,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
     .pid = 0,
     .species = SPECIES_ROSERADE,
     .heldItem = ITEM_EXPERT_BELT,
+    .abilityNum = 2,
     .moves = {MOVE_DAZZLING_GLEAM, MOVE_SHADOW_BALL, MOVE_SLUDGE_BOMB, MOVE_ENERGY_BALL}
     },
     {
@@ -14286,6 +14288,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
     .pid = 0,
     .species = SPECIES_GASTRODON,
     .heldItem = ITEM_LEFTOVERS,
+    .abilityNum = 2,
     .moves = {MOVE_SCALD, MOVE_EARTHQUAKE, MOVE_SLUDGE_BOMB, MOVE_ROCK_TOMB}
     },
     {
@@ -14294,6 +14297,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
     .pid = 0,
     .species = SPECIES_LUCARIO,
     .heldItem = ITEM_WISE_GLASSES,
+    .abilityNum = 2,
     .moves = {MOVE_AURA_SPHERE, MOVE_DRAGON_PULSE, MOVE_FLASH_CANNON, MOVE_NASTY_PLOT}
     },
     {
@@ -14302,6 +14306,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
     .pid = 0,
     .species = SPECIES_MILOTIC,
     .heldItem = ITEM_FLAME_ORB,
+    .abilityNum = 1,
     .moves = {MOVE_RECOVER, MOVE_MIRROR_COAT, MOVE_ICE_BEAM, MOVE_SCALD}
     },
     {
@@ -14310,6 +14315,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
     .pid = 0,
     .species = SPECIES_GARCHOMP,
     .heldItem = ITEM_YACHE_BERRY,
+    .abilityNum = 3,
     .moves = {MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE, MOVE_POISON_JAB}
     }
 };
@@ -14321,6 +14327,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
     .pid = 0,
     .species = SPECIES_SPIRITOMB,
     .heldItem = ITEM_SITRUS_BERRY,
+    .abilityNum = 1,
     .moves = {MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_WILL_O_WISP, MOVE_SUCKER_PUNCH}
     },
     {
@@ -14329,6 +14336,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
     .pid = 0,
     .species = SPECIES_ROSERADE,
     .heldItem = ITEM_EXPERT_BELT,
+    .abilityNum = 2,
     .moves = {MOVE_DAZZLING_GLEAM, MOVE_SHADOW_BALL, MOVE_SLUDGE_BOMB, MOVE_ENERGY_BALL}
     },
     {
@@ -14337,6 +14345,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
     .pid = 0,
     .species = SPECIES_TOGEKISS,
     .heldItem = ITEM_LEFTOVERS,
+    .abilityNum = 2,
     .moves = {MOVE_AIR_SLASH, MOVE_DAZZLING_GLEAM, MOVE_AURA_SPHERE, MOVE_THUNDER_WAVE}
     },
     {
@@ -14345,6 +14354,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
     .pid = 0,
     .species = SPECIES_LUCARIO,
     .heldItem = ITEM_WISE_GLASSES,
+    .abilityNum = 2,
     .moves = {MOVE_AURA_SPHERE, MOVE_DRAGON_PULSE, MOVE_FLASH_CANNON, MOVE_NASTY_PLOT}
     },
     {
@@ -14353,6 +14363,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
     .pid = 0,
     .species = SPECIES_MILOTIC,
     .heldItem = ITEM_FLAME_ORB,
+    .abilityNum = 1,
     .moves = {MOVE_RECOVER, MOVE_MIRROR_COAT, MOVE_ICE_BEAM, MOVE_SCALD}
     },
     {
@@ -14361,6 +14372,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
     .pid = 0,
     .species = SPECIES_GARCHOMP,
     .heldItem = ITEM_YACHE_BERRY,
+    .abilityNum = 3,
     .moves = {MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE, MOVE_POISON_JAB}
     }
 };
@@ -14372,6 +14384,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
     .pid = 0,
     .species = SPECIES_SPIRITOMB,
     .heldItem = ITEM_SITRUS_BERRY,
+    .abilityNum = 1,
     .moves = {MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_WILL_O_WISP, MOVE_SUCKER_PUNCH}
     },
     {
@@ -14380,6 +14393,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
     .pid = 0,
     .species = SPECIES_PORYGON_Z,
     .heldItem = ITEM_EXPERT_BELT,
+    .abilityNum = 1,
     .moves = {MOVE_HYPER_BEAM, MOVE_SHADOW_BALL, MOVE_ICE_BEAM, MOVE_THUNDERBOLT}
     },
     {
@@ -14388,6 +14402,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
     .pid = 0,
     .species = SPECIES_TOGEKISS,
     .heldItem = ITEM_LEFTOVERS,
+    .abilityNum = 2,
     .moves = {MOVE_AIR_SLASH, MOVE_DAZZLING_GLEAM, MOVE_AURA_SPHERE, MOVE_THUNDER_WAVE}
     },
     {
@@ -14396,6 +14411,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
     .pid = 0,
     .species = SPECIES_LUCARIO,
     .heldItem = ITEM_WISE_GLASSES,
+    .abilityNum = 2,
     .moves = {MOVE_AURA_SPHERE, MOVE_DRAGON_PULSE, MOVE_FLASH_CANNON, MOVE_NASTY_PLOT}
     },
     {
@@ -14404,6 +14420,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
     .pid = 0,
     .species = SPECIES_MILOTIC,
     .heldItem = ITEM_FLAME_ORB,
+    .abilityNum = 1,
     .moves = {MOVE_RECOVER, MOVE_MIRROR_COAT, MOVE_ICE_BEAM, MOVE_SCALD}
     },
     {
@@ -14412,6 +14429,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
     .pid = 0,
     .species = SPECIES_GARCHOMP,
     .heldItem = ITEM_YACHE_BERRY,
+    .abilityNum = 3, // ROUGH SKIN
     .moves = {MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE, MOVE_POISON_JAB}
     }
 };
