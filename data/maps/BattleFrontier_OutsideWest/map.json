@@ -204,7 +204,7 @@
     },
     {
       "graphics_id": "OBJ_EVENT_GFX_LASS",
-      "x": 35,
+      "x": 32,
       "y": 5,
       "elevation": 0,
       "movement_type": "MOVEMENT_TYPE_WANDER_AROUND",
@@ -409,6 +409,13 @@
       "y": 55,
       "elevation": 0,
       "dest_map": "MAP_ARTISAN_CAVE_B1F",
+      "dest_warp_id": 0
+    },
+    {
+      "x": 39,
+      "y": 5,
+      "elevation": 0,
+      "dest_map": "MAP_BATTLE_FRONTIER_CYNTHIAS_HOUSE",
       "dest_warp_id": 0
     }
   ],
