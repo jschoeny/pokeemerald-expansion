@@ -7441,6 +7441,10 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PIKE_QUEEN:
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
+        #ifdef DP_SEQ_BA_CHANP
+        case TRAINER_CLASS_CYNTHIA:
+            return DP_SEQ_BA_CHANP;
+        #endif
         default:
             return MUS_VS_TRAINER;
         }

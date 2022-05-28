@@ -11969,6 +11969,48 @@ const struct Trainer gTrainers[] = {
         .party = {.NoItemDefaultMoves = sParty_MayLinkPlaceholder},
     },
 
+    [TRAINER_CYNTHIA_1] =
+    {
+        .partyFlags = F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET,
+        .trainerClass = TRAINER_CLASS_CYNTHIA,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_CYNTHIA,
+        .trainerPic = TRAINER_PIC_CYNTHIA,
+        .trainerName = _("CYNTHIA"),
+        .items = {ITEM_HYPER_POTION, ITEM_NONE, ITEM_NONE, ITEM_NONE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY,
+        .partySize = ARRAY_COUNT(sParty_Cynthia1),
+        .party = {.ItemCustomMoves = sParty_Cynthia1},
+    },
+
+    [TRAINER_CYNTHIA_2] =
+    {
+        .partyFlags = F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET,
+        .trainerClass = TRAINER_CLASS_CYNTHIA,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_CYNTHIA,
+        .trainerPic = TRAINER_PIC_CYNTHIA,
+        .trainerName = _("CYNTHIA"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_NONE, ITEM_NONE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY,
+        .partySize = ARRAY_COUNT(sParty_Cynthia2),
+        .party = {.ItemCustomMoves = sParty_Cynthia2},
+    },
+
+    [TRAINER_CYNTHIA_3] =
+    {
+        .partyFlags = F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET,
+        .trainerClass = TRAINER_CLASS_CYNTHIA,
+        .encounterMusic_gender = TRAINER_ENCOUNTER_MUSIC_CYNTHIA,
+        .trainerPic = TRAINER_PIC_CYNTHIA,
+        .trainerName = _("CYNTHIA"),
+        .items = {ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE, ITEM_FULL_RESTORE},
+        .doubleBattle = FALSE,
+        .aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY,
+        .partySize = ARRAY_COUNT(sParty_Cynthia3),
+        .party = {.ItemCustomMoves = sParty_Cynthia3},
+    },
+
     [TRAINER_CHALLENGE_SIDNEY] =
     {
         .partyFlags = F_TRAINER_PARTY_HELD_ITEM | F_TRAINER_PARTY_CUSTOM_MOVESET,

@@ -14263,6 +14263,159 @@ static const struct TrainerMonNoItemDefaultMoves sParty_MayLinkPlaceholder[] = {
     }
 };
 
+static const struct TrainerMonItemCustomMoves sParty_Cynthia1[] = {
+    {
+    .iv = 200,
+    .lvl = 61,
+    .pid = 0,
+    .species = SPECIES_SPIRITOMB,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_WILL_O_WISP, MOVE_SUCKER_PUNCH}
+    },
+    {
+    .iv = 200,
+    .lvl = 60,
+    .pid = 0,
+    .species = SPECIES_ROSERADE,
+    .heldItem = ITEM_EXPERT_BELT,
+    .moves = {MOVE_DAZZLING_GLEAM, MOVE_SHADOW_BALL, MOVE_SLUDGE_BOMB, MOVE_ENERGY_BALL}
+    },
+    {
+    .iv = 200,
+    .lvl = 60,
+    .pid = 0,
+    .species = SPECIES_GASTRODON,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_SCALD, MOVE_EARTHQUAKE, MOVE_SLUDGE_BOMB, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 200,
+    .lvl = 63,
+    .pid = 0,
+    .species = SPECIES_LUCARIO,
+    .heldItem = ITEM_WISE_GLASSES,
+    .moves = {MOVE_AURA_SPHERE, MOVE_DRAGON_PULSE, MOVE_FLASH_CANNON, MOVE_NASTY_PLOT}
+    },
+    {
+    .iv = 250,
+    .lvl = 63,
+    .pid = 0,
+    .species = SPECIES_MILOTIC,
+    .heldItem = ITEM_FLAME_ORB,
+    .moves = {MOVE_RECOVER, MOVE_MIRROR_COAT, MOVE_ICE_BEAM, MOVE_SCALD}
+    },
+    {
+    .iv = 250,
+    .lvl = 66,
+    .pid = 0,
+    .species = SPECIES_GARCHOMP,
+    .heldItem = ITEM_YACHE_BERRY,
+    .moves = {MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE, MOVE_POISON_JAB}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Cynthia2[] = {
+    {
+    .iv = 200,
+    .lvl = 74,
+    .pid = 0,
+    .species = SPECIES_SPIRITOMB,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_WILL_O_WISP, MOVE_SUCKER_PUNCH}
+    },
+    {
+    .iv = 200,
+    .lvl = 74,
+    .pid = 0,
+    .species = SPECIES_ROSERADE,
+    .heldItem = ITEM_EXPERT_BELT,
+    .moves = {MOVE_DAZZLING_GLEAM, MOVE_SHADOW_BALL, MOVE_SLUDGE_BOMB, MOVE_ENERGY_BALL}
+    },
+    {
+    .iv = 200,
+    .lvl = 76,
+    .pid = 0,
+    .species = SPECIES_TOGEKISS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_AIR_SLASH, MOVE_DAZZLING_GLEAM, MOVE_AURA_SPHERE, MOVE_THUNDER_WAVE}
+    },
+    {
+    .iv = 200,
+    .lvl = 76,
+    .pid = 0,
+    .species = SPECIES_LUCARIO,
+    .heldItem = ITEM_WISE_GLASSES,
+    .moves = {MOVE_AURA_SPHERE, MOVE_DRAGON_PULSE, MOVE_FLASH_CANNON, MOVE_NASTY_PLOT}
+    },
+    {
+    .iv = 250,
+    .lvl = 74,
+    .pid = 0,
+    .species = SPECIES_MILOTIC,
+    .heldItem = ITEM_FLAME_ORB,
+    .moves = {MOVE_RECOVER, MOVE_MIRROR_COAT, MOVE_ICE_BEAM, MOVE_SCALD}
+    },
+    {
+    .iv = 250,
+    .lvl = 78,
+    .pid = 0,
+    .species = SPECIES_GARCHOMP,
+    .heldItem = ITEM_YACHE_BERRY,
+    .moves = {MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE, MOVE_POISON_JAB}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
+    {
+    .iv = 200,
+    .lvl = 84,
+    .pid = 0,
+    .species = SPECIES_SPIRITOMB,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_SHADOW_BALL, MOVE_DARK_PULSE, MOVE_WILL_O_WISP, MOVE_SUCKER_PUNCH}
+    },
+    {
+    .iv = 200,
+    .lvl = 85,
+    .pid = 0,
+    .species = SPECIES_PORYGON_Z,
+    .heldItem = ITEM_EXPERT_BELT,
+    .moves = {MOVE_HYPER_BEAM, MOVE_SHADOW_BALL, MOVE_ICE_BEAM, MOVE_THUNDERBOLT}
+    },
+    {
+    .iv = 200,
+    .lvl = 86,
+    .pid = 0,
+    .species = SPECIES_TOGEKISS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_AIR_SLASH, MOVE_DAZZLING_GLEAM, MOVE_AURA_SPHERE, MOVE_THUNDER_WAVE}
+    },
+    {
+    .iv = 200,
+    .lvl = 86,
+    .pid = 0,
+    .species = SPECIES_LUCARIO,
+    .heldItem = ITEM_WISE_GLASSES,
+    .moves = {MOVE_AURA_SPHERE, MOVE_DRAGON_PULSE, MOVE_FLASH_CANNON, MOVE_NASTY_PLOT}
+    },
+    {
+    .iv = 250,
+    .lvl = 84,
+    .pid = 0,
+    .species = SPECIES_MILOTIC,
+    .heldItem = ITEM_FLAME_ORB,
+    .moves = {MOVE_RECOVER, MOVE_MIRROR_COAT, MOVE_ICE_BEAM, MOVE_SCALD}
+    },
+    {
+    .iv = 250,
+    .lvl = 88,
+    .pid = 0,
+    .species = SPECIES_GARCHOMP,
+    .heldItem = ITEM_YACHE_BERRY,
+    .moves = {MOVE_DRAGON_CLAW, MOVE_EARTHQUAKE, MOVE_SWORDS_DANCE, MOVE_POISON_JAB}
+    }
+};
+
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     {
     .iv = 255,

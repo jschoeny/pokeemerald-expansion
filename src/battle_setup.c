@@ -1052,6 +1052,9 @@ u8 GetTrainerBattleTransition(void)
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CHAMPION)
         return B_TRANSITION_CHAMPION;
 
+    if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_CYNTHIA)
+        return B_TRANSITION_CYNTHIA;
+
     if (gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_TEAM_MAGMA
         || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_LEADER
         || gTrainers[gTrainerBattleOpponent_A].trainerClass == TRAINER_CLASS_MAGMA_ADMIN)
@@ -1709,6 +1712,11 @@ void PlayTrainerEncounterMusic(void)
         case TRAINER_ENCOUNTER_MUSIC_RICH:
             music = MUS_ENCOUNTER_RICH;
             break;
+        #ifdef DP_SEQ_EYE_CHAMP
+        case TRAINER_ENCOUNTER_MUSIC_CYNTHIA:
+            music = DP_SEQ_EYE_CHAMP;
+            break;
+        #endif
         default:
             music = MUS_ENCOUNTER_SUSPICIOUS;
         }

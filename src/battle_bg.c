@@ -802,7 +802,7 @@ void DrawMainBattleBackground(void)
                 LoadCompressedPalette(gBattleTerrainPalette_BuildingLeader, 0x20, 0x60);
                 return;
             }
-            else if (trainerClass == TRAINER_CLASS_CHAMPION)
+            else if (trainerClass == TRAINER_CLASS_CHAMPION || trainerClass == TRAINER_CLASS_CYNTHIA)
             {
                 LZDecompressVram(gBattleTerrainTiles_Stadium, (void*)(BG_CHAR_ADDR(2)));
                 LZDecompressVram(gBattleTerrainTilemap_Stadium, (void*)(BG_SCREEN_ADDR(26)));
