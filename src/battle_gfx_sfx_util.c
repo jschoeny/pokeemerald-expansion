@@ -1244,6 +1244,7 @@ void FillAroundBattleWindows(void)
 void ClearTemporarySpeciesSpriteData(u8 battlerId, bool8 dontClearSubstitute)
 {
     gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies = SPECIES_NONE;
+    BattleStopLowHpSound();
     gBattleMonForms[battlerId] = 0;
     if (!dontClearSubstitute)
         ClearBehindSubstituteBit(battlerId);
