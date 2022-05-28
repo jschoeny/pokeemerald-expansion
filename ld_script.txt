@@ -1283,6 +1283,7 @@ SECTIONS {
         sound/songs/midi/bw_seq_bgm_vs_rai.o(.rodata);
         sound/songs/midi/bw_seq_bgm_vs_champ.o(.rodata);
         sound/songs/midi/bw_seq_bgm_vs_wcs.o(.rodata);
+        sound/songs/midi/dp_seq_eye_champ.o(.rodata);
     } =0
 
     lib_rodata :

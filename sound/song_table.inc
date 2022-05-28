@@ -581,6 +581,7 @@ gSongTable::
 	song bw_seq_bgm_vs_rai, 0, 0
 	song bw_seq_bgm_vs_champ, 0, 0
 	song bw_seq_bgm_vs_wcs, 0, 0
+	song dp_seq_eye_champ, 0, 0
 
 	.align 2
 dummy_song_header:

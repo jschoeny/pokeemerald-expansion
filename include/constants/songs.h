@@ -607,7 +607,7 @@
 
 
 
-
+#define DP_SEQ_EYE_CHAMP              580 // Encounter! (Champion)
 
 #define MUS_ROUTE118                0x7FFF  // Map is split into 2 music sections. controlled by GetCurrLocationDefaultMusic().
 

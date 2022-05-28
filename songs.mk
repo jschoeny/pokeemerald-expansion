@@ -1388,3 +1388,6 @@ $(MID_SUBDIR)/bw_seq_bgm_vs_champ.s: %.s: %.mid
 
 $(MID_SUBDIR)/bw_seq_bgm_vs_wcs.s: %.s: %.mid
 	$(MID) $< $@ -E -R5 -G274 -V092
+
+$(MID_SUBDIR)/dp_seq_eye_champ.s: %.s: %.mid
+	$(MID) $< $@ -E -R$(STD_REVERB) -G191 -V100
