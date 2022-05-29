@@ -454,7 +454,8 @@
 #define FLAG_REMATCH_GLACIA                  0x1A7
 #define FLAG_REMATCH_DRAKE                   0x1A8
 #define FLAG_REMATCH_WALLACE                 0x1A9
-#define FLAG_REMATCH_CYNTHIA                 0x1AA
+
+#define FLAG_HIDE_CYNTHIA                    0x1AA
 
 #define FLAG_UNUSED_0x1AB                    0x1AB // Unused Flag
 
