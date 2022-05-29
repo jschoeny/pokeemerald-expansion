@@ -2724,6 +2724,7 @@ static void CursorCb_Summary(u8 taskId)
 static void ChangePokemonNicknamePartyScreen_CB(void)
 {
     SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
+    gLastViewedMonIndex = gSpecialVar_0x8004;
     CB2_ReturnToPartyMenuFromSummaryScreen();
 }
 static void ChangePokemonNicknamePartyScreen(void)
