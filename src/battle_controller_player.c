@@ -2771,6 +2771,9 @@ static void HandleChooseActionAfterDma3(void)
     }
 }
 
+#define POS1 82
+#define POS2 81
+#define POS3 83
 static void PlayerHandleChooseAction(void)
 {
     s32 i;
@@ -2779,8 +2782,26 @@ static void PlayerHandleChooseAction(void)
     BattleTv_ClearExplosionFaintCause();
     if(gBattleTypeFlags & BATTLE_TYPE_TRAINER)
         BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
-    else
+    else {
+        const u16 plttOrig1 = gPlttBufferUnfaded[POS1];
+        const u16 plttOrig2 = gPlttBufferUnfaded[POS2];
+        const u16 plttOrig3 = gPlttBufferUnfaded[POS3];
+        
+        gPlttBufferUnfaded[POS1] = gPlttBufferUnfaded[94];
+        gPlttBufferUnfaded[POS2] = gPlttBufferUnfaded[95];
+        gPlttBufferUnfaded[POS3] = gPlttBufferUnfaded[98];
+
+        CpuCopy16(&gPlttBufferUnfaded[POS1], &gPlttBufferFaded[POS1], sizeof(u16));
+        CpuCopy16(&gPlttBufferUnfaded[POS2], &gPlttBufferFaded[POS2], sizeof(u16));
+        CpuCopy16(&gPlttBufferUnfaded[POS3], &gPlttBufferFaded[POS3], sizeof(u16));
+
         BattlePutTextOnWindow(gText_BattleMenuWild, B_WIN_ACTION_MENU);
+
+        gPlttBufferUnfaded[POS1] = plttOrig1;
+        gPlttBufferUnfaded[POS2] = plttOrig2;
+        gPlttBufferUnfaded[POS3] = plttOrig2;
+    }
+
 
     for (i = 0; i < 4; i++)
         ActionSelectionDestroyCursorAt(i);
@@ -2790,6 +2811,9 @@ static void PlayerHandleChooseAction(void)
     BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_ACTION_PROMPT);
 }
+#undef POS1
+#undef POS2
+#undef POS3
 
 static void PlayerHandleYesNoBox(void)
 {
