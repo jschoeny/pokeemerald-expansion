@@ -3220,16 +3220,23 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
               | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
               | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
 
-        if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
+        if (FlagGet(FLAG_OUTBREAK_ENCOUNTER) || CheckBagHasItem(ITEM_SHINY_CHARM, 1))
         {
             u32 shinyValue;
             u32 rolls = 0;
+            u32 bonus = 0;
+
+            if (CheckBagHasItem(ITEM_SHINY_CHARM, 1))
+                bonus += I_SHINY_CHARM_REROLLS;
+            if (FlagGet(FLAG_OUTBREAK_ENCOUNTER))
+                bonus += 25;
+
             do
             {
                 personality = Random32();
                 shinyValue = HIHALF(value) ^ LOHALF(value) ^ HIHALF(personality) ^ LOHALF(personality);
                 rolls++;
-            } while (shinyValue >= SHINY_ODDS && rolls < I_SHINY_CHARM_REROLLS);
+            } while (shinyValue >= SHINY_ODDS && rolls < bonus);
         }
     }
 

@@ -190,41 +190,91 @@ static void DoTVShowSecretBaseSecrets(void);
 static void DoTVShowSafariFanClub(void);
 static void DoTVShowLilycoveContestLady(void);
 
+
+#define MASS_OUTBREAK_LEVEL1 2
+#define MASS_OUTBREAK_LEVEL2 3
+#define MASS_OUTBREAK_LEVEL3 4
+#define MASS_OUTBREAK_LEVEL4 5
 static const struct {
     u16 species;
     u16 moves[MAX_MON_MOVES];
     u8 level;
     u8 location;
+    bool8 onWater;
+    u8 probability;
 } sPokeOutbreakSpeciesList[] = {
-    {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_BIDE, MOVE_HARDEN, MOVE_LEECH_SEED},
-        .level = 3,
-        .location = MAP_NUM(ROUTE102)
+    // MASS_OUTBREAK_LEVEL1 - 3 badges or less
+    {   // 0
+        .species = SPECIES_BUDEW,
+        .moves = {MOVE_ABSORB, MOVE_GROWTH, MOVE_STUN_SPORE, MOVE_LIFE_DEW},
+        .level = 6,
+        .location = MAP_NUM(ROUTE102),
+        .onWater = FALSE,
+        .probability = 50
     },
-    {
-        .species = SPECIES_NUZLEAF,
-        .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
-        .level = 15,
+    {   // 1
+        .species = SPECIES_SURSKIT,
+        .moves = {MOVE_WATER_GUN, MOVE_QUICK_ATTACK, MOVE_BUG_BITE},
+        .level = 6,
+        .location = MAP_NUM(ROUTE102),
+        .onWater = FALSE,
+        .probability = 50
+    },
+
+    // MASS_OUTBREAK_LEVEL2 - 5 badges or less
+    {   // 2
+        .species = SPECIES_ZANGOOSE,
+        .moves = {MOVE_PURSUIT, MOVE_HONE_CLAWS, MOVE_SLASH, MOVE_BELLY_DRUM},
+        .level = 21,
         .location = MAP_NUM(ROUTE114),
+        .onWater = FALSE,
+        .probability = 50
     },
-    {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
-        .level = 13,
-        .location = MAP_NUM(ROUTE117),
+
+    // MASS_OUTBREAK_LEVEL3 - 7 badges or less
+    {   // 3
+        .species = SPECIES_MEDITITE,
+        .moves = {MOVE_CALM_MIND, MOVE_HIGH_JUMP_KICK, MOVE_PSYCH_UP, MOVE_DRAIN_PUNCH},
+        .level = 31,
+        .location = MAP_NUM(MT_PYRE_EXTERIOR),
+        .onWater = FALSE,
+        .probability = 50
     },
-    {
-        .species = SPECIES_SEEDOT,
-        .moves = {MOVE_GIGA_DRAIN, MOVE_FRUSTRATION, MOVE_SOLAR_BEAM, MOVE_LEECH_SEED},
-        .level = 25,
-        .location = MAP_NUM(ROUTE120),
+
+    // MASS_OUTBREAK_LEVEL4 - Not yet defeated champion
+    {   // 4
+        .species = SPECIES_GEODUDE_ALOLAN,
+        .moves = {MOVE_SPARK, MOVE_ROCK_THROW, MOVE_SPARK, MOVE_MAGNET_RISE},
+        .level = 21,
+        .location = MAP_NUM(ROUTE114),
+        .onWater = FALSE,
+        .probability = 15
     },
-    {
-        .species = SPECIES_SKITTY,
-        .moves = {MOVE_GROWL, MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_ATTRACT},
-        .level = 8,
-        .location = MAP_NUM(ROUTE116),
+
+    // Defeated champion
+    {   // 5
+        .species = SPECIES_MAROWAK_ALOLAN,
+        .moves = {MOVE_BONEMERANG, MOVE_WILL_O_WISP, MOVE_SHADOW_BONE, MOVE_CURSE},
+        .level = 31,
+        .location = MAP_NUM(ROUTE112),
+        .onWater = FALSE,
+        .probability = 10
+    },
+    {   // 6
+        .species = SPECIES_EXEGGUTOR_ALOLAN,
+        .moves = {MOVE_DRAGON_HAMMER, MOVE_WOOD_HAMMER, MOVE_LEAF_STORM, MOVE_GRASSY_TERRAIN},
+        .level = 56,
+        .location = MAP_NUM(ROUTE104),
+        .onWater = FALSE,
+        .probability = 10
+    },
+    {   // 7
+        .species = SPECIES_RAICHU_ALOLAN,
+        .moves = {MOVE_PSYCHIC, MOVE_SPEED_SWAP, MOVE_THUNDERBOLT, MOVE_ALLY_SWITCH},
+        .level = 56,
+        .location = MAP_NUM(ROUTE104),
+        .onWater = TRUE,
+        .probability = 10
     }
 };
 
@@ -1561,7 +1611,7 @@ void StartMassOutbreak(void)
     gSaveBlock1Ptr->outbreakPokemonMoves[3] = show->massOutbreak.moves[3];
     gSaveBlock1Ptr->outbreakUnused3 = show->massOutbreak.unused3;
     gSaveBlock1Ptr->outbreakPokemonProbability = show->massOutbreak.probability;
-    gSaveBlock1Ptr->outbreakDaysLeft = 2;
+    gSaveBlock1Ptr->outbreakDaysLeft = 1;
 }
 
 void PutLilycoveContestLadyShowOnTheAir(void)
@@ -1635,24 +1685,45 @@ static void TryStartRandomMassOutbreak(void)
     u16 outbreakIdx;
     TVShow *show;
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
+    if (FlagGet(FLAG_BADGE03_GET))
     {
         for (i = 0; i < LAST_TVSHOW_IDX; i++)
         {
             if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
                 return;
         }
-        if (!rbernoulli(1, 200))
+        //if (!rbernoulli(1, 200))
         {
             sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
             if (sCurTVShowSlot != -1)
             {
-                outbreakIdx = Random() % ARRAY_COUNT(sPokeOutbreakSpeciesList);
+                u32 n;
+                u8 nBadges;
+                for (n = FLAG_BADGE01_GET, nBadges = 0; n < FLAG_BADGE01_GET + NUM_BADGES; n++)
+                {
+                    if (FlagGet(i))
+                        nBadges++;
+                }
+                if(nBadges <= 3) {
+                    outbreakIdx = Random() % MASS_OUTBREAK_LEVEL1;
+                }
+                else if(nBadges <= 5) {
+                    outbreakIdx = Random() % MASS_OUTBREAK_LEVEL2;
+                }
+                else if(nBadges <= 7) {
+                    outbreakIdx = Random() % MASS_OUTBREAK_LEVEL3;
+                }
+                else if(FlagGet(FLAG_SYS_GAME_CLEAR) == FALSE) {
+                    outbreakIdx = Random() % MASS_OUTBREAK_LEVEL4;
+                }
+                else {
+                    outbreakIdx = Random() % ARRAY_COUNT(sPokeOutbreakSpeciesList);
+                }
                 show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
                 show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                 show->massOutbreak.active = TRUE;
                 show->massOutbreak.level = sPokeOutbreakSpeciesList[outbreakIdx].level;
-                show->massOutbreak.unused1 = 0;
+                show->massOutbreak.unused1 = sPokeOutbreakSpeciesList[outbreakIdx].onWater;
                 show->massOutbreak.unused3 = 0;
                 show->massOutbreak.species = sPokeOutbreakSpeciesList[outbreakIdx].species;
                 show->massOutbreak.unused2 = 0;
@@ -1663,9 +1734,9 @@ static void TryStartRandomMassOutbreak(void)
                 show->massOutbreak.locationMapNum = sPokeOutbreakSpeciesList[outbreakIdx].location;
                 show->massOutbreak.locationMapGroup = 0;
                 show->massOutbreak.unused4 = 0;
-                show->massOutbreak.probability = 50;
+                show->massOutbreak.probability = sPokeOutbreakSpeciesList[outbreakIdx].probability;
                 show->massOutbreak.unused5 = 0;
-                show->massOutbreak.daysLeft = 1;
+                show->massOutbreak.daysLeft = 0;
                 StorePlayerIdInNormalShow(show);
                 show->massOutbreak.language = gGameLanguage;
             }
@@ -2042,7 +2113,7 @@ static void SecretBaseVisit_CalculatePartyData(TVShow *show)
         {
             sTV_SecretBaseVisitMonsTemp[numPokemon].level = GetMonData(&gPlayerParty[i], MON_DATA_LEVEL);
             sTV_SecretBaseVisitMonsTemp[numPokemon].species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES);
-            
+
             // Check all the Pokémon's moves, then randomly select one to save
             numMoves = 0;
             move = GetMonData(&gPlayerParty[i], MON_DATA_MOVE1);
@@ -2077,7 +2148,7 @@ static void SecretBaseVisit_CalculatePartyData(TVShow *show)
     for (i = 0, sum = 0; i < numPokemon; i++)
         sum += sTV_SecretBaseVisitMonsTemp[i].level;
 
-    // Using the data calculated above, save the data to talk about on the show 
+    // Using the data calculated above, save the data to talk about on the show
     // (average level, and one randomly selected species / move)
     show->secretBaseVisit.avgLevel = sum / numPokemon;
     j = Random() % numPokemon;
@@ -2621,7 +2692,7 @@ void DoPokeNews(void)
             // News event is upcoming, make comment about countdown to event
             u16 dayCountdown = gSaveBlock1Ptr->pokeNews[i].dayCountdown;
             ConvertIntToDecimalStringN(gStringVar1, dayCountdown, STR_CONV_MODE_LEFT_ALIGN, 1);
-            
+
             // Mark as inactive so the countdown TV airing doesn't repeat
             // Will be flagged as "upcoming" again by UpdatePokeNewsCountdown
             gSaveBlock1Ptr->pokeNews[i].state = POKENEWS_STATE_INACTIVE;
@@ -2826,7 +2897,7 @@ static bool8 IsRecordMixShowAlreadySpawned(u8 kind, bool8 delete)
 static void SortPurchasesByQuantity(void)
 {
     u8 i, j;
-    
+
     for (i = 0; i < SMARTSHOPPER_NUM_ITEMS - 1; i++)
     {
         for (j = i + 1; j < SMARTSHOPPER_NUM_ITEMS; j++)
@@ -3776,8 +3847,8 @@ static void DeactivateGameCompleteShowsIfNotUnlocked(void)
         {
             if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_BRAVO_TRAINER_BATTLE_TOWER_PROFILE)
                 gSaveBlock1Ptr->tvShows[i].common.active = FALSE;
-            else if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
-                gSaveBlock1Ptr->tvShows[i].common.active = FALSE;
+            // else if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
+            //     gSaveBlock1Ptr->tvShows[i].common.active = FALSE;
         }
     }
 }
