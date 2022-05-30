@@ -1279,15 +1279,23 @@ void UpdateAmbientCry(s16 *state, u16 *delayCounter)
         *state = 3;
         break;
     case 2:
-        divBy = 1;
-        monsCount = CalculatePlayerPartyCount();
-        for (i = 0; i < monsCount; i++)
-        {
-            if (!GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG)
-                && GetMonAbility(&gPlayerParty[0]) == ABILITY_SWARM)
+        divBy = 2;
+        if(gSaveBlock1Ptr->outbreakPokemonSpecies == sAmbientCrySpecies
+         && gSaveBlock1Ptr->location.mapNum == gSaveBlock1Ptr->outbreakLocationMapNum
+         && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup
+         && gSaveBlock1Ptr->outbreakUnused3 == TRUE) {
+             divBy = 6;
+        }
+        else {
+            monsCount = CalculatePlayerPartyCount();
+            for (i = 0; i < monsCount; i++)
             {
-                divBy = 2;
-                break;
+                if (!GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG)
+                    && GetMonAbility(&gPlayerParty[0]) == ABILITY_SWARM)
+                {
+                    divBy = 3;
+                    break;
+                }
             }
         }
         *delayCounter = ((Random() % 1200) + 1200) / divBy;
@@ -1298,6 +1306,7 @@ void UpdateAmbientCry(s16 *state, u16 *delayCounter)
         if (*delayCounter == 0)
         {
             PlayAmbientCry();
+            ChooseAmbientCrySpecies();
             *state = 2;
         }
         break;

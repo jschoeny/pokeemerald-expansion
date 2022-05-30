@@ -948,23 +948,36 @@ u16 GetLocalWildMon(bool8 *isWaterMon)
     if (landMonsInfo == NULL && waterMonsInfo == NULL)
         return SPECIES_NONE;
     // Land Pokemon
-    else if (landMonsInfo != NULL && waterMonsInfo == NULL)
-        return landMonsInfo->wildPokemon[ChooseWildMonIndex_Land()].species;
+    else if (landMonsInfo != NULL && waterMonsInfo == NULL) {
+        if(DoMassOutbreakEncounterTest(FALSE))
+            return gSaveBlock1Ptr->outbreakPokemonSpecies;
+        else
+            return landMonsInfo->wildPokemon[ChooseWildMonIndex_Land()].species;
+    }
     // Water Pokemon
     else if (landMonsInfo == NULL && waterMonsInfo != NULL)
     {
         *isWaterMon = TRUE;
-        return waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
+        if(DoMassOutbreakEncounterTest(TRUE))
+            return gSaveBlock1Ptr->outbreakPokemonSpecies;
+        else
+            return waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
     }
     // Either land or water Pokemon
     if ((Random() % 100) < 80)
     {
-        return landMonsInfo->wildPokemon[ChooseWildMonIndex_Land()].species;
+        if(DoMassOutbreakEncounterTest(FALSE))
+            return gSaveBlock1Ptr->outbreakPokemonSpecies;
+        else
+            return landMonsInfo->wildPokemon[ChooseWildMonIndex_Land()].species;
     }
     else
     {
         *isWaterMon = TRUE;
-        return waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
+        if(DoMassOutbreakEncounterTest(TRUE))
+            return gSaveBlock1Ptr->outbreakPokemonSpecies;
+        else
+            return waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
     }
 }
 
@@ -976,8 +989,12 @@ u16 GetLocalWaterMon(void)
     {
         const struct WildPokemonInfo *waterMonsInfo = gWildMonHeaders[headerId].waterMonsInfo;
 
-        if (waterMonsInfo)
-            return waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
+        if (waterMonsInfo) {
+            if(DoMassOutbreakEncounterTest(TRUE))
+                return gSaveBlock1Ptr->outbreakPokemonSpecies;
+            else
+                return waterMonsInfo->wildPokemon[ChooseWildMonIndex_WaterRock()].species;
+        }
     }
     return SPECIES_NONE;
 }
