@@ -1688,6 +1688,11 @@ static void InterviewAfter_Dummy(void)
     TVShow *show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
 }
 
+void TryStartRandomMassOutbreakExternal(void)
+{
+    TryStartRandomMassOutbreak();
+}
+
 static void TryStartRandomMassOutbreak(void)
 {
     u8 i;
@@ -1701,7 +1706,7 @@ static void TryStartRandomMassOutbreak(void)
             if (gSaveBlock1Ptr->tvShows[i].common.kind == TVSHOW_MASS_OUTBREAK)
                 return;
         }
-        //if (!rbernoulli(1, 200))
+        if (FlagGet(FLAG_DAILY_OUTBREAK) != TRUE || !rbernoulli(1, 20))
         {
             sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
             if (sCurTVShowSlot != -1)
@@ -1728,6 +1733,12 @@ static void TryStartRandomMassOutbreak(void)
                 else {
                     outbreakIdx = Random() % ARRAY_COUNT(sPokeOutbreakSpeciesList);
                 }
+                if(FlagGet(FLAG_DAILY_OUTBREAK)) {
+                    if(gSaveBlock1Ptr->outbreakLocationMapNum == sPokeOutbreakSpeciesList[outbreakIdx].location) {
+                        if(rbernoulli(1, 10))
+                            return;
+                    }
+                }
                 show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
                 show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                 show->massOutbreak.active = TRUE;
@@ -1748,7 +1759,7 @@ static void TryStartRandomMassOutbreak(void)
                 show->massOutbreak.daysLeft = 0;
                 StorePlayerIdInNormalShow(show);
                 show->massOutbreak.language = gGameLanguage;
-                FlagSet(FLAG_SYS_TV_START);
+                //FlagSet(FLAG_SYS_TV_START);
             }
         }
     }
@@ -1769,6 +1780,36 @@ void EndMassOutbreak(void)
     gSaveBlock1Ptr->outbreakUnused3 = 0;
     gSaveBlock1Ptr->outbreakPokemonProbability = 0;
     gSaveBlock1Ptr->outbreakDaysLeft = 0;
+}
+
+void EndMassOutbreakToday(void)
+{
+    u8 i, j;
+    gSaveBlock1Ptr->outbreakPokemonSpecies = SPECIES_NONE;
+    gSaveBlock1Ptr->outbreakPokemonLevel = 0;
+    gSaveBlock1Ptr->outbreakUnused1 = 0;
+    gSaveBlock1Ptr->outbreakEncountersRemaining = 0;
+    gSaveBlock1Ptr->outbreakPokemonMoves[0] = MOVE_NONE;
+    gSaveBlock1Ptr->outbreakPokemonMoves[1] = MOVE_NONE;
+    gSaveBlock1Ptr->outbreakPokemonMoves[2] = MOVE_NONE;
+    gSaveBlock1Ptr->outbreakPokemonMoves[3] = MOVE_NONE;
+    gSaveBlock1Ptr->outbreakUnused3 = 0;
+    gSaveBlock1Ptr->outbreakPokemonProbability = 0;
+
+    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->tvShows); i++)
+    {
+        if (gSaveBlock1Ptr->tvShows[i].massOutbreak.kind == TVSHOW_MASS_OUTBREAK)
+        {
+            gSaveBlock1Ptr->tvShows[i].commonInit.kind = 0;
+            gSaveBlock1Ptr->tvShows[i].commonInit.active = 0;
+            for (j = 0; j < ARRAY_COUNT(gSaveBlock1Ptr->tvShows[i].commonInit.data); j++)
+                gSaveBlock1Ptr->tvShows[i].commonInit.data[j] = 0;
+
+            break;
+        }
+    }
+
+    FlagSet(FLAG_DAILY_OUTBREAK);
 }
 
 void UpdateTVShowsPerDay(u16 days)

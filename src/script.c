@@ -2,6 +2,7 @@
 #include "script.h"
 #include "event_data.h"
 #include "mystery_gift.h"
+#include "tv.h"
 #include "util.h"
 #include "constants/event_objects.h"
 #include "constants/map_scripts.h"
@@ -325,12 +326,11 @@ void RunOnReturnToFieldMapScript(void)
     MapHeaderRunScriptType(MAP_SCRIPT_ON_RETURN_TO_FIELD);
 
     if(gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE
-     && gSaveBlock1Ptr->outbreakUnused3 == TRUE
      && gSaveBlock1Ptr->location.mapNum == gSaveBlock1Ptr->outbreakLocationMapNum
      && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup
      && gSaveBlock1Ptr->outbreakEncountersRemaining == 0) {
         ScriptContext1_SetupScript(EventScript_OutbreakGone);
-        gSaveBlock1Ptr->outbreakUnused3 = FALSE;
+        EndMassOutbreakToday();
     }
 }
 

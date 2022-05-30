@@ -1282,8 +1282,7 @@ void UpdateAmbientCry(s16 *state, u16 *delayCounter)
         divBy = 2;
         if(gSaveBlock1Ptr->outbreakPokemonSpecies == sAmbientCrySpecies
          && gSaveBlock1Ptr->location.mapNum == gSaveBlock1Ptr->outbreakLocationMapNum
-         && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup
-         && gSaveBlock1Ptr->outbreakUnused3 == TRUE) {
+         && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup) {
              divBy = 6;
         }
         else {
@@ -1723,6 +1722,9 @@ void CB2_ContinueSavedGame(void)
     else
         LoadSaveblockObjEventScripts();
 
+    if(FlagGet(FLAG_DAILY_OUTBREAK) != TRUE) {
+        TryStartRandomMassOutbreakExternal();
+    }
     UnfreezeObjectEvents();
     DoTimeBasedEvents();
     UpdateMiscOverworldStates();

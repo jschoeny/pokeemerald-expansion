@@ -61,5 +61,7 @@ void ResetGabbyAndTy(void);
 u8 CheckForPlayersHouseNews(void);
 bool8 IsGabbyAndTyShowOnTheAir(void);
 void TryPutTrainerFanClubOnAir(void);
+void TryStartRandomMassOutbreakExternal(void);
+void EndMassOutbreakToday(void);
 
 #endif //GUARD_TV_H
