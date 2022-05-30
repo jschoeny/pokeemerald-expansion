@@ -24,6 +24,7 @@
 #include "constants/layouts.h"
 #include "constants/weather.h"
 #include "data/pokemon/randomizer_table.h"
+#include "rtc.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -473,6 +474,13 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         return FALSE;
 
     species = wildMonInfo->wildPokemon[wildMonIndex].species;
+
+    if(species == SPECIES_SOLROCK) {
+        RtcCalcLocalTime();
+        if ((gLocalTime.hours >= NIGHT_START || gLocalTime.hours < DAY_START)) {
+            species = SPECIES_LUNATONE;
+        }
+    }
 
     if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
         species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
