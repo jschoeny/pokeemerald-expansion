@@ -202,6 +202,7 @@ static const struct {
     u8 location;
     bool8 onWater;
     u8 probability;
+    u8 numEncounters;
 } sPokeOutbreakSpeciesList[] = {
     // MASS_OUTBREAK_LEVEL1 - 3 badges or less
     {   // 0
@@ -210,7 +211,8 @@ static const struct {
         .level = 6,
         .location = MAP_NUM(ROUTE102),
         .onWater = FALSE,
-        .probability = 50
+        .probability = 50,
+        .numEncounters = 15
     },
     {   // 1
         .species = SPECIES_SURSKIT,
@@ -218,7 +220,8 @@ static const struct {
         .level = 6,
         .location = MAP_NUM(ROUTE102),
         .onWater = FALSE,
-        .probability = 50
+        .probability = 50,
+        .numEncounters = 15
     },
 
     // MASS_OUTBREAK_LEVEL2 - 5 badges or less
@@ -228,7 +231,8 @@ static const struct {
         .level = 21,
         .location = MAP_NUM(ROUTE114),
         .onWater = FALSE,
-        .probability = 50
+        .probability = 50,
+        .numEncounters = 15
     },
 
     // MASS_OUTBREAK_LEVEL3 - 7 badges or less
@@ -238,7 +242,8 @@ static const struct {
         .level = 31,
         .location = MAP_NUM(MT_PYRE_EXTERIOR),
         .onWater = FALSE,
-        .probability = 50
+        .probability = 50,
+        .numEncounters = 15
     },
 
     // MASS_OUTBREAK_LEVEL4 - Not yet defeated champion
@@ -248,7 +253,8 @@ static const struct {
         .level = 21,
         .location = MAP_NUM(ROUTE114),
         .onWater = FALSE,
-        .probability = 15
+        .probability = 15,
+        .numEncounters = 15
     },
 
     // Defeated champion
@@ -258,7 +264,8 @@ static const struct {
         .level = 31,
         .location = MAP_NUM(ROUTE112),
         .onWater = FALSE,
-        .probability = 10
+        .probability = 10,
+        .numEncounters = 5
     },
     {   // 6
         .species = SPECIES_EXEGGUTOR_ALOLAN,
@@ -266,7 +273,8 @@ static const struct {
         .level = 56,
         .location = MAP_NUM(ROUTE104),
         .onWater = FALSE,
-        .probability = 10
+        .probability = 10,
+        .numEncounters = 5
     },
     {   // 7
         .species = SPECIES_RAICHU_ALOLAN,
@@ -274,7 +282,8 @@ static const struct {
         .level = 56,
         .location = MAP_NUM(ROUTE104),
         .onWater = TRUE,
-        .probability = 10
+        .probability = 10,
+        .numEncounters = 5
     }
 };
 
@@ -1604,7 +1613,7 @@ void StartMassOutbreak(void)
     gSaveBlock1Ptr->outbreakLocationMapGroup = show->massOutbreak.locationMapGroup;
     gSaveBlock1Ptr->outbreakPokemonLevel = show->massOutbreak.level;
     gSaveBlock1Ptr->outbreakUnused1 = show->massOutbreak.unused1;
-    gSaveBlock1Ptr->outbreakUnused2 = show->massOutbreak.unused2;
+    gSaveBlock1Ptr->outbreakEncountersRemaining = show->massOutbreak.unused2;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = show->massOutbreak.moves[0];
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = show->massOutbreak.moves[1];
     gSaveBlock1Ptr->outbreakPokemonMoves[2] = show->massOutbreak.moves[2];
@@ -1724,9 +1733,9 @@ static void TryStartRandomMassOutbreak(void)
                 show->massOutbreak.active = TRUE;
                 show->massOutbreak.level = sPokeOutbreakSpeciesList[outbreakIdx].level;
                 show->massOutbreak.unused1 = sPokeOutbreakSpeciesList[outbreakIdx].onWater;
-                show->massOutbreak.unused3 = 0;
+                show->massOutbreak.unused3 = TRUE;
                 show->massOutbreak.species = sPokeOutbreakSpeciesList[outbreakIdx].species;
-                show->massOutbreak.unused2 = 0;
+                show->massOutbreak.unused2 = sPokeOutbreakSpeciesList[outbreakIdx].numEncounters;
                 show->massOutbreak.moves[0] = sPokeOutbreakSpeciesList[outbreakIdx].moves[0];
                 show->massOutbreak.moves[1] = sPokeOutbreakSpeciesList[outbreakIdx].moves[1];
                 show->massOutbreak.moves[2] = sPokeOutbreakSpeciesList[outbreakIdx].moves[2];
@@ -1739,6 +1748,7 @@ static void TryStartRandomMassOutbreak(void)
                 show->massOutbreak.daysLeft = 0;
                 StorePlayerIdInNormalShow(show);
                 show->massOutbreak.language = gGameLanguage;
+                FlagSet(FLAG_SYS_TV_START);
             }
         }
     }
@@ -1751,7 +1761,7 @@ void EndMassOutbreak(void)
     gSaveBlock1Ptr->outbreakLocationMapGroup = 0;
     gSaveBlock1Ptr->outbreakPokemonLevel = 0;
     gSaveBlock1Ptr->outbreakUnused1 = 0;
-    gSaveBlock1Ptr->outbreakUnused2 = 0;
+    gSaveBlock1Ptr->outbreakEncountersRemaining = 0;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[2] = MOVE_NONE;

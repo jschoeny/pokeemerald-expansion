@@ -83,3 +83,8 @@ EventScript_DoInSearchOfTrainers::
 	goto_if_eq VAR_RESULT, 0, EventScript_DoInSearchOfTrainers
 	goto EventScript_TurnOffTV
 	end
+
+EventScript_OutbreakGone::
+	msgbox gText_OutbreakGone, MSGBOX_DEFAULT
+	releaseall
+	end

@@ -535,14 +535,18 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
         GiveMonInitialMoveset(&gEnemyParty[0]);
     }
 
+    gSaveBlock1Ptr->outbreakEncountersRemaining -= 1;
+
     return TRUE;
 }
 
 static bool8 DoMassOutbreakEncounterTest(bool8 onWater)
 {
     if (gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE
+     && gSaveBlock1Ptr->outbreakUnused3 == TRUE
      && gSaveBlock1Ptr->location.mapNum == gSaveBlock1Ptr->outbreakLocationMapNum
-     && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup)
+     && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup
+     && gSaveBlock1Ptr->outbreakEncountersRemaining > 0)
     {
         if(onWater != gSaveBlock1Ptr->outbreakUnused1)
             return FALSE;

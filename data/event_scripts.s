@@ -846,6 +846,9 @@ gText_MomOrDadMightLikeThisProgram::
 	.string "… … … … … … … … … … … … … … … …\p"
 	.string "Better get going!$"
 
+gText_OutbreakGone::
+	.string "The reported POKéMON seem to be gone…$"
+
 gText_WhichFloorWouldYouLike::
 	.string "Welcome to LILYCOVE DEPARTMENT STORE.\p"
 	.string "Which floor would you like?$"

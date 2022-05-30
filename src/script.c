@@ -24,6 +24,7 @@ static bool8 sScriptContext2Enabled;
 extern ScrCmdFunc gScriptCmdTable[];
 extern ScrCmdFunc gScriptCmdTableEnd[];
 extern void *gNullScriptPtr;
+extern const u8 EventScript_OutbreakGone[];
 
 void InitScriptContext(struct ScriptContext *ctx, void *cmdTable, void *cmdTableEnd)
 {
@@ -322,6 +323,15 @@ void RunOnResumeMapScript(void)
 void RunOnReturnToFieldMapScript(void)
 {
     MapHeaderRunScriptType(MAP_SCRIPT_ON_RETURN_TO_FIELD);
+
+    if(gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE
+     && gSaveBlock1Ptr->outbreakUnused3 == TRUE
+     && gSaveBlock1Ptr->location.mapNum == gSaveBlock1Ptr->outbreakLocationMapNum
+     && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup
+     && gSaveBlock1Ptr->outbreakEncountersRemaining == 0) {
+        ScriptContext1_SetupScript(EventScript_OutbreakGone);
+        gSaveBlock1Ptr->outbreakUnused3 = FALSE;
+    }
 }
 
 void RunOnDiveWarpMapScript(void)
