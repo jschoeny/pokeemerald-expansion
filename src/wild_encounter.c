@@ -588,7 +588,7 @@ static bool8 DoMassOutbreakEncounterTest(bool8 onWater)
      && gSaveBlock1Ptr->location.mapGroup == gSaveBlock1Ptr->outbreakLocationMapGroup
      && gSaveBlock1Ptr->outbreakEncountersRemaining > 0)
     {
-        if(onWater != gSaveBlock1Ptr->outbreakUnused1)
+        if(onWater != gSaveBlock1Ptr->outbreakOnWater)
             return FALSE;
         if (Random() % 100 < gSaveBlock1Ptr->outbreakPokemonProbability)
             return TRUE;

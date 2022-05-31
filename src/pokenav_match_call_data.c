@@ -1003,7 +1003,7 @@ static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textDa
     if(textData[i].flag == FLAG_OUTBREAK_ONGOING) {
         StringCopy(gStringVar1, gSpeciesNames[gSaveBlock1Ptr->outbreakPokemonSpecies]);
         GetMapName(gStringVar2, gSaveBlock1Ptr->outbreakLocationMapNum, 0);
-        if(gSaveBlock1Ptr->outbreakUnused1) {
+        if(gSaveBlock1Ptr->outbreakOnWater) {
             onWater = TRUE;
         }
     }

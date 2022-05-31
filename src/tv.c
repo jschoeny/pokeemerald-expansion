@@ -1518,13 +1518,13 @@ void StartMassOutbreak(void)
     gSaveBlock1Ptr->outbreakLocationMapNum = show->massOutbreak.locationMapNum;
     gSaveBlock1Ptr->outbreakLocationMapGroup = show->massOutbreak.locationMapGroup;
     gSaveBlock1Ptr->outbreakPokemonLevel = show->massOutbreak.level;
-    gSaveBlock1Ptr->outbreakUnused1 = show->massOutbreak.unused1;
-    gSaveBlock1Ptr->outbreakEncountersRemaining = show->massOutbreak.unused2;
+    gSaveBlock1Ptr->outbreakOnWater = show->massOutbreak.onWater;
+    gSaveBlock1Ptr->outbreakEncountersRemaining = show->massOutbreak.numEncounters;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = show->massOutbreak.moves[0];
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = show->massOutbreak.moves[1];
     gSaveBlock1Ptr->outbreakPokemonMoves[2] = show->massOutbreak.moves[2];
     gSaveBlock1Ptr->outbreakPokemonMoves[3] = show->massOutbreak.moves[3];
-    gSaveBlock1Ptr->outbreakUnused3 = show->massOutbreak.unused3;
+    gSaveBlock1Ptr->outbreakSpecial = show->massOutbreak.special;
     gSaveBlock1Ptr->outbreakPokemonProbability = show->massOutbreak.probability;
     gSaveBlock1Ptr->outbreakDaysLeft = 1;
     FlagSet(FLAG_OUTBREAK_ONGOING);
@@ -1643,7 +1643,8 @@ static void TryStartRandomMassOutbreak(void)
                         outbreakIdx = Random() % ARRAY_COUNT(sPokeOutbreakSpeciesList);
                     }
                     if(FlagGet(FLAG_DAILY_OUTBREAK)) {
-                        if(gSaveBlock1Ptr->outbreakLocationMapNum == sPokeOutbreakSpeciesList[outbreakIdx].location) {
+                        if(gSaveBlock1Ptr->outbreakLocationMapNum == sPokeOutbreakSpeciesList[outbreakIdx].location
+                         && gSaveBlock1Ptr->outbreakLocationMapGroup == sPokeOutbreakSpeciesList[outbreakIdx].locationGroup) {
                             if(rbernoulli(1, 10))
                                 return;
                         }
@@ -1652,10 +1653,10 @@ static void TryStartRandomMassOutbreak(void)
                     show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                     show->massOutbreak.active = TRUE;
                     show->massOutbreak.level = sPokeOutbreakSpeciesList[outbreakIdx].level;
-                    show->massOutbreak.unused1 = sPokeOutbreakSpeciesList[outbreakIdx].onWater;
-                    show->massOutbreak.unused3 = TRUE; // Special outbreak
+                    show->massOutbreak.onWater = sPokeOutbreakSpeciesList[outbreakIdx].onWater;
+                    show->massOutbreak.special = TRUE; // Special outbreak
                     show->massOutbreak.species = sPokeOutbreakSpeciesList[outbreakIdx].species;
-                    show->massOutbreak.unused2 = sPokeOutbreakSpeciesList[outbreakIdx].numEncounters;
+                    show->massOutbreak.numEncounters = sPokeOutbreakSpeciesList[outbreakIdx].numEncounters;
                     show->massOutbreak.moves[0] = sPokeOutbreakSpeciesList[outbreakIdx].moves[0];
                     show->massOutbreak.moves[1] = sPokeOutbreakSpeciesList[outbreakIdx].moves[1];
                     show->massOutbreak.moves[2] = sPokeOutbreakSpeciesList[outbreakIdx].moves[2];
@@ -1690,10 +1691,10 @@ static void TryStartRandomMassOutbreak(void)
                         show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                         show->massOutbreak.active = TRUE;
                         show->massOutbreak.level = level;
-                        show->massOutbreak.unused1 = onWater;
-                        show->massOutbreak.unused3 = FALSE; // Not special outbreak
+                        show->massOutbreak.onWater = onWater;
+                        show->massOutbreak.special = FALSE; // Not special outbreak
                         show->massOutbreak.species = species;
-                        show->massOutbreak.unused2 = 15;
+                        show->massOutbreak.numEncounters = 15;
                         show->massOutbreak.moves[0] = MOVE_NONE;
                         show->massOutbreak.moves[1] = MOVE_NONE;
                         show->massOutbreak.moves[2] = MOVE_NONE;
@@ -1729,13 +1730,13 @@ void EndMassOutbreak(void)
     gSaveBlock1Ptr->outbreakLocationMapNum = 0;
     gSaveBlock1Ptr->outbreakLocationMapGroup = 0;
     gSaveBlock1Ptr->outbreakPokemonLevel = 0;
-    gSaveBlock1Ptr->outbreakUnused1 = 0;
+    gSaveBlock1Ptr->outbreakOnWater = 0;
     gSaveBlock1Ptr->outbreakEncountersRemaining = 0;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[2] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[3] = MOVE_NONE;
-    gSaveBlock1Ptr->outbreakUnused3 = 0;
+    gSaveBlock1Ptr->outbreakSpecial = 0;
     gSaveBlock1Ptr->outbreakPokemonProbability = 0;
     gSaveBlock1Ptr->outbreakDaysLeft = 0;
     FlagClear(FLAG_OUTBREAK_ONGOING);
@@ -1747,13 +1748,13 @@ void EndMassOutbreakToday(void)
     u8 i, j;
     gSaveBlock1Ptr->outbreakPokemonSpecies = SPECIES_NONE;
     gSaveBlock1Ptr->outbreakPokemonLevel = 0;
-    gSaveBlock1Ptr->outbreakUnused1 = 0;
+    gSaveBlock1Ptr->outbreakOnWater = 0;
     gSaveBlock1Ptr->outbreakEncountersRemaining = 0;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[2] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[3] = MOVE_NONE;
-    gSaveBlock1Ptr->outbreakUnused3 = 0;
+    gSaveBlock1Ptr->outbreakSpecial = 0;
     gSaveBlock1Ptr->outbreakPokemonProbability = 0;
 
     for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->tvShows); i++)
@@ -4961,13 +4962,13 @@ static void DoTVShowPokemonNewsMassOutbreak(void)
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
     GetMapName(gStringVar1, show->massOutbreak.locationMapNum, 0);
     StringCopy(gStringVar2, gSpeciesNames[show->massOutbreak.species]);
-    if(show->massOutbreak.unused1)
+    if(show->massOutbreak.onWater)
         StringCopy(gStringVar3, gTVMassOutbreakText_OnWater);
     else
         StringCopy(gStringVar3, gTVMassOutbreakText_EmptyString);
     TVShowDone();
     StartMassOutbreak();
-    if(show->massOutbreak.unused3)
+    if(show->massOutbreak.special)
         ShowFieldMessage(sTVMassOutbreakTextGroup[0]);
     else
         ShowFieldMessage(sTVMassOutbreakTextGroup[1]);
