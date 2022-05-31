@@ -2545,7 +2545,7 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     {
         if(CanMonLearnTMHM(&mons[slotId], j - NUM_TECHNICAL_MACHINES) && CheckBagHasItem(j + ITEM_TM01, 1))
         {
-            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + ITEM_TM01 - ITEM_HM01 + MENU_FIELD_MOVES);
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, sHMtoFieldMove[j + ITEM_TM01 - ITEM_HM01] + MENU_FIELD_MOVES);
             break;
         }
     }
@@ -2554,11 +2554,14 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     if(CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01) && CheckBagHasItem(ITEM_TM28_DIG, 1))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, FIELD_MOVE_DIG + MENU_FIELD_MOVES);
 
+    if(CanMonLearnTMHM(&mons[slotId], ITEM_TM43_SECRET_POWER - ITEM_TM01) && CheckBagHasItem(ITEM_TM43_SECRET_POWER, 1))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, FIELD_MOVE_SECRET_POWER + MENU_FIELD_MOVES);
+
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         for (j = 0; sFieldMoves[j] != FIELD_MOVE_TERMINATOR; j++)
         {
-            if(sFieldMoves[j] == MOVE_DIG)
+            if(sFieldMoves[j] == MOVE_DIG || sFieldMoves[j] == MOVE_SECRET_POWER)
                 continue;
 
             if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j])
