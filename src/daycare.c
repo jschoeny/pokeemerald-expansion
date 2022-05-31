@@ -611,16 +611,14 @@ static void InheritIVs(struct Pokemon *egg, struct DayCare *daycare)
 
 // Counts the number of egg moves a pokemon learns and stores the moves in
 // the given array.
-static u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
+static u8 GetEggMovesSpecies(u16 species, u16 *eggMoves)
 {
     u16 eggMoveIdx;
     u16 numEggMoves;
-    u16 species;
     u16 i;
 
     numEggMoves = 0;
     eggMoveIdx = 0;
-    species = GetMonData(pokemon, MON_DATA_SPECIES);
     for (i = 0; i < ARRAY_COUNT(gEggMoves) - 1; i++)
     {
         if (gEggMoves[i] == species + EGG_MOVES_SPECIES_OFFSET)
@@ -640,6 +638,43 @@ static u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
     }
 
     return numEggMoves;
+}
+
+static u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
+{
+    u16 species = GetMonData(pokemon, MON_DATA_SPECIES);
+    return GetEggMovesSpecies(species, eggMoves);
+}
+
+
+u16 GetRandomEggMoveSpecies(u16 species)
+{
+    u8 numMoves, index, i, e, tries;
+    u16 s;
+    u16 childSpecies = species;
+
+    // Get Child Species
+    while(s != NUM_SPECIES && tries < 3) {
+        for(s = 0; s < NUM_SPECIES; s++) {
+            for(e = 0; e < EVOS_PER_MON; e++) {
+                if(gEvolutionTable[s][e].targetSpecies == species) {
+                    childSpecies = s;
+                    s = 0;
+                    break;
+                }
+            }
+        }
+        tries++;
+    }
+    for (i = 0; i < EGG_MOVES_ARRAY_COUNT; i++)
+        sHatchedEggEggMoves[i] = MOVE_NONE;
+
+    numMoves = GetEggMovesSpecies(species, sHatchedEggEggMoves);
+    if(numMoves == 0)
+        return MOVE_NONE;
+
+    index = Random() % numMoves;
+    return sHatchedEggEggMoves[index];
 }
 
 static void BuildEggMoveset(struct Pokemon *egg, struct BoxPokemon *father, struct BoxPokemon *mother)

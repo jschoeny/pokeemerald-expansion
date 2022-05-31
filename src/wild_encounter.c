@@ -25,6 +25,7 @@
 #include "constants/weather.h"
 #include "data/pokemon/randomizer_table.h"
 #include "rtc.h"
+#include "daycare.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -337,6 +338,35 @@ static u16 GetCurrentMapWildMonHeaderId(void)
     return HEADER_NONE;
 }
 
+static u16 GetWildMonHeaderId(u8 mapNum, u8 mapGroup) {
+    u16 i;
+
+    for (i = 0; ; i++)
+    {
+        const struct WildPokemonHeader *wildHeader = &gWildMonHeaders[i];
+        if (wildHeader->mapGroup == MAP_GROUP(UNDEFINED))
+            break;
+
+        if (gWildMonHeaders[i].mapGroup == mapGroup &&
+            gWildMonHeaders[i].mapNum == mapNum)
+        {
+            if (mapGroup == MAP_GROUP(ALTERING_CAVE) &&
+                mapNum == MAP_NUM(ALTERING_CAVE))
+            {
+                u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+                if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
+                    alteringCaveId = 0;
+
+                i += alteringCaveId;
+            }
+
+            return i;
+        }
+    }
+
+    return HEADER_NONE;
+}
+
 static u8 PickWildMonNature(void)
 {
     u8 i;
@@ -521,18 +551,29 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
 
     FlagSet(FLAG_OUTBREAK_ENCOUNTER);
 
-    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel);
+    CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, gSaveBlock1Ptr->outbreakPokemonLevel + (Random() % 3));
 
     if(Random() % 100 < 50) {
         u8 abilityNum = 2; // Hidden Ability
         SetMonData(&gEnemyParty[0], MON_DATA_ABILITY_NUM, &abilityNum);
     }
-    if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL) {
+    if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL && gSaveBlock1Ptr->outbreakPokemonMoves[0] != 0) {
         for (i = 0; i < MAX_MON_MOVES; i++)
             SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[i], i);
     }
     else {
         GiveMonInitialMoveset(&gEnemyParty[0]);
+        if(gSaveBlock1Ptr->outbreakPokemonMoves[MAX_MON_MOVES - 1] != 0) {
+            for (i = 0; i < MAX_MON_MOVES; i++) {
+                if(GetMonData(&gEnemyParty[0], MON_DATA_MOVE1 + i) == 0) {
+                    SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[MAX_MON_MOVES - 1], i);
+                    break;
+                }
+            }
+            if(i == MAX_MON_MOVES) {
+                SetMonMoveSlot(&gEnemyParty[0], gSaveBlock1Ptr->outbreakPokemonMoves[MAX_MON_MOVES - 1], MAX_MON_MOVES - 1);
+            }
+        }
     }
 
     gSaveBlock1Ptr->outbreakEncountersRemaining -= 1;
@@ -933,6 +974,85 @@ void FishingWildEncounter(u8 rod)
     SetPokemonAnglerSpecies(species);
     gIsFishingEncounter = TRUE;
     BattleSetup_StartWildBattle();
+}
+
+bool8 BuildWildMonForOutbreak(u16 location, u8 *level, u16 *species, u16 *eggMove, u8 *isWaterMon)
+{
+    u8 monIndex;
+    u16 headerId;
+    const struct WildPokemonInfo *landMonsInfo;
+    const struct WildPokemonInfo *waterMonsInfo;
+    const struct WildPokemonInfo *fishingMonsInfo;
+
+    *isWaterMon = FALSE;
+    *level = 0;
+    *species = SPECIES_NONE;
+    *eggMove = 0;
+
+    headerId = GetWildMonHeaderId(GET_MAP_NUM(location), GET_MAP_GROUP(location));
+    if (headerId == HEADER_NONE)
+        return FALSE;
+    landMonsInfo = gWildMonHeaders[headerId].landMonsInfo;
+    waterMonsInfo = gWildMonHeaders[headerId].waterMonsInfo;
+    fishingMonsInfo = gWildMonHeaders[headerId].fishingMonsInfo;
+    // Neither
+    if (landMonsInfo == NULL && waterMonsInfo == NULL)
+        return FALSE;
+    // Land Pokemon
+    else if (landMonsInfo != NULL && waterMonsInfo == NULL) {
+        monIndex = ChooseWildMonIndex_Land();
+        *level = landMonsInfo->wildPokemon[monIndex].maxLevel + 4;
+        *species = landMonsInfo->wildPokemon[monIndex].species;
+        *eggMove = GetRandomEggMoveSpecies(*species);
+    }
+    // Water Pokemon
+    else if (landMonsInfo == NULL && waterMonsInfo != NULL)
+    {
+        if(FlagGet(FLAG_BADGE05_GET)) {
+            *isWaterMon = TRUE;
+            if(Random() % 100 < 60) { // Surfing Mon
+                monIndex = ChooseWildMonIndex_WaterRock();
+                *level = waterMonsInfo->wildPokemon[monIndex].maxLevel + 4;
+                *species = waterMonsInfo->wildPokemon[monIndex].species;
+                *eggMove = GetRandomEggMoveSpecies(*species);
+            }
+            else { // Fishing Mon
+                monIndex = ChooseWildMonIndex_Fishing(SUPER_ROD);
+                *level = fishingMonsInfo->wildPokemon[monIndex].maxLevel + 4;
+                *species = fishingMonsInfo->wildPokemon[monIndex].species;
+                *eggMove = GetRandomEggMoveSpecies(*species);
+            }
+        }
+        else {
+            return FALSE;
+        }
+    }
+    // Either land or water Pokemon
+    if ((Random() % 100) < 80 || !FlagGet(FLAG_BADGE05_GET))
+    {
+        monIndex = ChooseWildMonIndex_Land();
+        *level = landMonsInfo->wildPokemon[monIndex].maxLevel + 4;
+        *species = landMonsInfo->wildPokemon[monIndex].species;
+        *eggMove = GetRandomEggMoveSpecies(*species);
+    }
+    else
+    {
+        *isWaterMon = TRUE;
+        if(Random() % 100 < 60) { // Surfing Mon
+            monIndex = ChooseWildMonIndex_WaterRock();
+            *level = waterMonsInfo->wildPokemon[monIndex].maxLevel + 4;
+            *species = waterMonsInfo->wildPokemon[monIndex].species;
+            *eggMove = GetRandomEggMoveSpecies(*species);
+        }
+        else { // Fishing Mon
+            monIndex = ChooseWildMonIndex_Fishing(SUPER_ROD);
+            *level = fishingMonsInfo->wildPokemon[monIndex].maxLevel + 4;
+            *species = fishingMonsInfo->wildPokemon[monIndex].species;
+            *eggMove = GetRandomEggMoveSpecies(*species);
+        }
+    }
+
+    return TRUE;
 }
 
 u16 GetLocalWildMon(bool8 *isWaterMon)

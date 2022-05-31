@@ -564,7 +564,7 @@ gTVMassOutbreakText00::
 	.string "rare occurrence.\p"
 	.string "There have been reports of a mass\n"
 	.string "outbreak of {STR_VAR_2} in the vicinity\l"
-	.string "of {STR_VAR_1}.\p"
+	.string "of {STR_VAR_1}{STR_VAR_3}\p"
 	.string "{STR_VAR_2}, as you're probably aware,\n"
 	.string "is known as a POKéMON that's rare\l"
 	.string "and hard to find.\p"
@@ -572,6 +572,25 @@ gTVMassOutbreakText00::
 	.string "see the mystifying outbreak of\l"
 	.string "{STR_VAR_2} in the wild.\p"
 	.string "That's the news on POKéMON NEWS.$"
+
+gTVMassOutbreakText01::
+	.string "Greetings!\n"
+	.string "It's time for POKéMON NEWS.\p"
+	.string "We've just received word of an\n"
+	.string "uncommon occurrence.\p"
+	.string "There have been reports of a mass\n"
+	.string "outbreak of {STR_VAR_2} in the vicinity\l"
+	.string "of {STR_VAR_1}{STR_VAR_3}\p"
+	.string "It sounds like a great opportunity to\n"
+	.string "see the mystifying outbreak of\l"
+	.string "{STR_VAR_2} in the wild.\p"
+	.string "That's the news on POKéMON NEWS.$"
+
+gTVMassOutbreakText_OnWater::
+	.string " on water.$"
+
+gTVMassOutbreakText_EmptyString::
+	.string ".$"
 
 gTV3CheersForPokeblocksText00::
 	.string "MC: We hope you're in good cheer,\n"

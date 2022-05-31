@@ -2038,6 +2038,22 @@ MatchCall_Text_Mom3::
 	.string "Wear those RUNNING SHOES until\n"
 	.string "they fall apart, honey!$"
 
+MatchCall_Text_MomOutbreak::
+	.string "MOM: Hi, {PLAYER}!\n"
+	.string "How is the outbreak search going?\p"
+	.string "Have you found any {STR_VAR_1}\n"
+	.string "near {STR_VAR_2}?\p"
+	.string "… … …\p"
+	.string "Well, good luck! Love you!$"
+
+MatchCall_Text_MomOutbreakWater::
+	.string "MOM: Hi, {PLAYER}!\n"
+	.string "How is the outbreak search going?\p"
+	.string "Have you found any {STR_VAR_1}\n"
+	.string "in water near {STR_VAR_2}?\p"
+	.string "… … …\p"
+	.string "Well, good luck! Love you!$"
+
 MatchCall_Text_Roxanne1::
 	.string "ROXANNE: Oh, hello, {PLAYER}!\p"
 	.string "I've been hard at work retraining\n"

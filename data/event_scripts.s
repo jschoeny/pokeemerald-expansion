@@ -823,6 +823,26 @@ Common_EventScript_PlayerHandedOverTheItem::
 	removeitem VAR_0x8004
 	return
 
+Common_EventScript_MomOutbreakCall::
+	pokenavcall gText_MomOutbreak
+	waitmessage
+	clearflag FLAG_OUTBREAK_CALL
+	goto_if_unset FLAG_ENABLE_MOM_MATCH_CALL, Common_EventScript_RegisterMomPokenav
+	release
+	end
+
+Common_EventScript_RegisterMomPokenav::
+	delay 30
+	playfanfare MUS_REGISTER_MATCH_CALL
+	msgbox PlayersHouse_1F_Text_RegisteredMom, MSGBOX_DEFAULT
+	waitfanfare
+	closemessage
+	delay 30
+	setflag FLAG_ENABLE_MOM_MATCH_CALL
+	release
+	end
+
+
 	.include "data/scripts/elite_four.inc"
 	.include "data/scripts/movement.inc"
 	.include "data/scripts/check_furniture.inc"
@@ -848,6 +868,15 @@ gText_MomOrDadMightLikeThisProgram::
 
 gText_OutbreakGone::
 	.string "The reported POKéMON seem to be gone…$"
+
+gText_MomOutbreak::
+	.string "MOM: Hi honey!\p"
+	.string "I was watching the news,\n"
+	.string "and there seems to be a rare\l"
+	.string "outbreak of POKéMON somewhere.\p"
+	.string "Sounds exciting!\p"
+	.string "Maybe you should find a nearby\n"
+	.string "TV and check it out.$"
 
 gText_WhichFloorWouldYouLike::
 	.string "Welcome to LILYCOVE DEPARTMENT STORE.\p"

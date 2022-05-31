@@ -1145,17 +1145,29 @@ static u32 GetActiveMatchCallTrainerId(u32 activeMatchCallId)
     - If in a valid outdoor map (not Safari Zone, not underwater, not Mt Chimney with Team Magma, not Sootopolis with legendaries)
     - If an eligible trainer to call the player is selected
 */
+extern const u8 Common_EventScript_MomOutbreakCall[];
+
 bool32 TryStartMatchCall(void)
 {
-    if (FlagGet(FLAG_HAS_MATCH_CALL)
-        && UpdateMatchCallStepCounter()
-        && UpdateMatchCallMinutesCounter()
-        && CheckMatchCallChance()
-        && MapAllowsMatchCall()
-        && SelectMatchCallTrainer())
-    {
-        StartMatchCall();
-        return TRUE;
+    if(UpdateMatchCallStepCounter()) {
+        // Outbreak TV Show Available
+        if (FlagGet(FLAG_HAS_MATCH_CALL)
+            && FlagGet(FLAG_OUTBREAK_CALL)
+            && MapAllowsMatchCall())
+        {
+            ScriptContext1_SetupScript(Common_EventScript_MomOutbreakCall);
+            return TRUE;
+        }
+
+        if (FlagGet(FLAG_HAS_MATCH_CALL)
+            && UpdateMatchCallMinutesCounter()
+            && CheckMatchCallChance()
+            && MapAllowsMatchCall()
+            && SelectMatchCallTrainer())
+        {
+            StartMatchCall();
+            return TRUE;
+        }
     }
 
     return FALSE;

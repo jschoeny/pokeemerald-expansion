@@ -9,6 +9,9 @@
 #define MAP_GROUP(map) (MAP_##map >> 8)
 #define MAP_NUM(map) (MAP_##map & 0xFF)
 
+#define GET_MAP_GROUP(map) (map >> 8)
+#define GET_MAP_NUM(map) (map & 0xFF)
+
 // IDs for dynamic warps. Both are used in the dest_warp_id field for warp events, but they
 // are never read in practice. A dest_map of MAP_NONE is used to indicate that a
 // dynamic warp should be used, at which point the warp id is ignored. It can be passed to

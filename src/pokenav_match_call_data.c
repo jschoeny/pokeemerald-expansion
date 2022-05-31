@@ -8,6 +8,7 @@
 #include "match_call.h"
 #include "pokenav.h"
 #include "strings.h"
+#include "region_map.h"
 #include "constants/region_map_sections.h"
 #include "constants/trainers.h"
 
@@ -219,6 +220,7 @@ static const struct MatchCallBirch sProfBirchMatchCallHeader =
 
 static const match_call_text_data_t sMomTextScripts[] = {
     { MatchCall_Text_Mom1, 0xFFFF,                      0xFFFF },
+    { MatchCall_Text_MomOutbreak, FLAG_OUTBREAK_ONGOING,0xFFFF },
     { MatchCall_Text_Mom2, FLAG_DEFEATED_PETALBURG_GYM, 0xFFFF },
     { MatchCall_Text_Mom3, FLAG_SYS_GAME_CLEAR,         0xFFFF },
     { NULL,                0xFFFF,                      0xFFFF }
@@ -987,6 +989,7 @@ static void MatchCall_GetMessage_Birch(match_call_t matchCall, u8 *dest)
 static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textData, u8 *dest)
 {
     u32 i;
+    bool8 onWater = FALSE;
     for (i = 0; textData[i].text != NULL; i++)
         ;
     if (i)
@@ -997,9 +1000,19 @@ static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textDa
             break;
         i--;
     }
+    if(textData[i].flag == FLAG_OUTBREAK_ONGOING) {
+        StringCopy(gStringVar1, gSpeciesNames[gSaveBlock1Ptr->outbreakPokemonSpecies]);
+        GetMapName(gStringVar2, gSaveBlock1Ptr->outbreakLocationMapNum, 0);
+        if(gSaveBlock1Ptr->outbreakUnused1) {
+            onWater = TRUE;
+        }
+    }
     if (textData[i].flag2 != 0xFFFF)
         FlagSet(textData[i].flag2);
-    StringExpandPlaceholders(dest, textData[i].text);
+    if (onWater)
+        StringExpandPlaceholders(dest, MatchCall_Text_MomOutbreakWater);
+    else
+        StringExpandPlaceholders(dest, textData[i].text);
 }
 
 static void MatchCall_BufferCallMessageTextByRematchTeam(const match_call_text_data_t *textData, u16 idx, u8 *dest)
