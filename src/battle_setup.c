@@ -1012,14 +1012,14 @@ u8 GetWildBattleTransition(void)
 
     if (enemyLevel < playerLevel)
     {
-        if (InBattlePyramid())
+        if (InBattlePyramid() || FlagGet(FLAG_OUTBREAK_ENCOUNTER))
             return B_TRANSITION_BLUR;
         else
             return sBattleTransitionTable_Wild[transitionType][0];
     }
     else
     {
-        if (InBattlePyramid())
+        if (InBattlePyramid() || FlagGet(FLAG_OUTBREAK_ENCOUNTER))
             return B_TRANSITION_GRID_SQUARES;
         else
             return sBattleTransitionTable_Wild[transitionType][1];
