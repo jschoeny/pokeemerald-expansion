@@ -8015,15 +8015,20 @@ static void Task_PokemonSummaryAnimateAfterDelay(u8 taskId)
     }
 }
 
-void BattleAnimateFrontSprite(struct Sprite* sprite, u16 species, bool8 noCry, u8 panMode)
+void BattleAnimateFrontSprite(struct Sprite* sprite, u16 species, bool8 noCry, u8 panMode, u8 mode)
 {
     if (gHitMarker & HITMARKER_NO_ANIMATIONS && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED_LINK)))
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode | SKIP_FRONT_ANIM);
+        DoMonFrontSpriteAnimationMode(sprite, species, noCry, panMode | SKIP_FRONT_ANIM, mode);
     else
-        DoMonFrontSpriteAnimation(sprite, species, noCry, panMode);
+        DoMonFrontSpriteAnimationMode(sprite, species, noCry, panMode, mode);
 }
 
 void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, u8 panModeAnimFlag)
+{
+    DoMonFrontSpriteAnimationMode(sprite, species, noCry, panModeAnimFlag, CRY_MODE_NORMAL);
+}
+
+void DoMonFrontSpriteAnimationMode(struct Sprite* sprite, u16 species, bool8 noCry, u8 panModeAnimFlag, u8 mode)
 {
     s8 pan;
     switch (panModeAnimFlag & (u8)~SKIP_FRONT_ANIM) // Exclude anim flag to get pan mode
@@ -8042,14 +8047,14 @@ void DoMonFrontSpriteAnimation(struct Sprite* sprite, u16 species, bool8 noCry, 
     {
         // No animation, only check if cry needs to be played
         if (!noCry)
-            PlayCry_Normal(species, pan);
+            PlayCry_ByMode(species, pan, mode);
         sprite->callback = SpriteCallbackDummy;
     }
     else
     {
         if (!noCry)
         {
-            PlayCry_Normal(species, pan);
+            PlayCry_ByMode(species, pan, mode);
             if (HasTwoFramesAnimation(species))
                 StartSpriteAnim(sprite, 1);
         }

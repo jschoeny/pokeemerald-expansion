@@ -2693,7 +2693,7 @@ static void SpriteCb_WildMonAnimate(struct Sprite *sprite)
 {
     if (!gPaletteFade.active)
     {
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, FALSE, 1, FlagGet(FLAG_OUTBREAK_ENCOUNTER) ? CRY_MODE_OUTBREAK : CRY_MODE_NORMAL);
     }
 }
 
@@ -2823,7 +2823,7 @@ void SpriteCB_OpponentMonFromBall(struct Sprite *sprite)
             if (HasTwoFramesAnimation(sprite->sSpeciesId))
                 StartSpriteAnim(sprite, 1);
         }
-        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1);
+        BattleAnimateFrontSprite(sprite, sprite->sSpeciesId, TRUE, 1, CRY_MODE_NORMAL);
     }
 }
 

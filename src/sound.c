@@ -475,10 +475,16 @@ void PlayCryInternalPitch(u16 species, s8 pan, s8 volume, u8 priority, u8 mode, 
     case CRY_MODE_WEAK:
         pitch = 15000;
         break;
+    case CRY_MODE_OUTBREAK:
+        pitch = 13800;
+        release = 275;
+        chorus = 80;
+        reverse = TRUE;
+        break;
     }
 
     pitch = pitch + ((pitchOff - 16) * 64);
-    length = length + 96 - (pitchOff * 3);
+    release = release + 96 - (pitchOff * 3);
 
     SetPokemonCryVolume(volume);
     SetPokemonCryPanpot(pan);
