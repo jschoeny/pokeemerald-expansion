@@ -95,8 +95,8 @@ static const struct {
         .species = SPECIES_RAICHU_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_ALLY_SWITCH},
         .level = 56,
-        .location = MAP_NUM(ROUTE104),
-        .locationGroup = MAP_GROUP(ROUTE104),
+        .location = MAP_NUM(ROUTE105),
+        .locationGroup = MAP_GROUP(ROUTE105),
         .onWater = TRUE,
         .probability = 10,
         .numEncounters = 5

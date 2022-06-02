@@ -1607,6 +1607,18 @@ static void TryStartRandomMassOutbreak(void)
     u16 outbreakIdx;
     TVShow *show;
 
+    // FlagSet(FLAG_BADGE01_GET);
+    // FlagSet(FLAG_BADGE02_GET);
+    // FlagSet(FLAG_BADGE03_GET);
+    // FlagSet(FLAG_BADGE04_GET);
+    // FlagSet(FLAG_BADGE05_GET);
+    // FlagSet(FLAG_BADGE06_GET);
+    // FlagSet(FLAG_BADGE07_GET);
+    // FlagSet(FLAG_BADGE08_GET);
+    // for(i = 0; i < 16; i++) {
+    //     FlagSet(FLAG_VISITED_LITTLEROOT_TOWN + i);
+    // }
+
     if (FlagGet(FLAG_BADGE03_GET))
     {
         for (i = 0; i < LAST_TVSHOW_IDX; i++)
@@ -1619,14 +1631,14 @@ static void TryStartRandomMassOutbreak(void)
             sCurTVShowSlot = FindFirstEmptyNormalTVShowSlot(gSaveBlock1Ptr->tvShows);
             if (sCurTVShowSlot != -1)
             {
-                u32 n;
-                u8 nBadges;
-                for (n = FLAG_BADGE01_GET, nBadges = 0; n < FLAG_BADGE01_GET + NUM_BADGES; n++)
+                u8 n, nBadges;
+                for (n = 0, nBadges = 0; n < NUM_BADGES; n++)
                 {
-                    if (FlagGet(i))
+                    if (FlagGet(n + FLAG_BADGE01_GET) == TRUE) {
                         nBadges++;
+                    }
                 }
-                if(!rbernoulli(1, 10)) { // Custom Outbreak
+                if(!rbernoulli(1, 20)) { // Custom Outbreak
                     if(nBadges <= 3) {
                         outbreakIdx = Random() % MASS_OUTBREAK_LEVEL1;
                     }
@@ -1687,6 +1699,8 @@ static void TryStartRandomMassOutbreak(void)
                         }
                     }
                     if(BuildWildMonForOutbreak(location, &level, &species, &eggMove, &onWater) && species != SPECIES_NONE) {
+                        if(onWater && onWater == gSaveBlock1Ptr->outbreakOnWater)
+                            return;
                         show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
                         show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                         show->massOutbreak.active = TRUE;
@@ -1748,7 +1762,6 @@ void EndMassOutbreakToday(void)
     u8 i, j;
     gSaveBlock1Ptr->outbreakPokemonSpecies = SPECIES_NONE;
     gSaveBlock1Ptr->outbreakPokemonLevel = 0;
-    gSaveBlock1Ptr->outbreakOnWater = 0;
     gSaveBlock1Ptr->outbreakEncountersRemaining = 0;
     gSaveBlock1Ptr->outbreakPokemonMoves[0] = MOVE_NONE;
     gSaveBlock1Ptr->outbreakPokemonMoves[1] = MOVE_NONE;
@@ -4955,12 +4968,20 @@ static void DoTVShowDummiedOut(void)
 
 }
 
+static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
+{
+    return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
+}
+
 static void DoTVShowPokemonNewsMassOutbreak(void)
 {
     TVShow *show;
 
     show = &gSaveBlock1Ptr->tvShows[gSpecialVar_0x8004];
-    GetMapName(gStringVar1, show->massOutbreak.locationMapNum, 0);
+    GetMapName(gStringVar1,
+        GetRegionMapSectionId(show->massOutbreak.locationMapGroup, show->massOutbreak.locationMapNum),
+        0
+    );
     StringCopy(gStringVar2, gSpeciesNames[show->massOutbreak.species]);
     if(show->massOutbreak.onWater)
         StringCopy(gStringVar3, gTVMassOutbreakText_OnWater);

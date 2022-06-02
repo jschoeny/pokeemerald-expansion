@@ -9,6 +9,7 @@
 #include "pokenav.h"
 #include "strings.h"
 #include "region_map.h"
+#include "overworld.h"
 #include "constants/region_map_sections.h"
 #include "constants/trainers.h"
 
@@ -986,6 +987,11 @@ static void MatchCall_GetMessage_Birch(match_call_t matchCall, u8 *dest)
     BufferPokedexRatingForMatchCall(dest);
 }
 
+static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
+{
+    return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
+}
+
 static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textData, u8 *dest)
 {
     u32 i;
@@ -1002,7 +1008,10 @@ static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textDa
     }
     if(textData[i].flag == FLAG_OUTBREAK_ONGOING) {
         StringCopy(gStringVar1, gSpeciesNames[gSaveBlock1Ptr->outbreakPokemonSpecies]);
-        GetMapName(gStringVar2, gSaveBlock1Ptr->outbreakLocationMapNum, 0);
+        GetMapName(gStringVar2,
+            GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum),
+            0
+        );
         if(gSaveBlock1Ptr->outbreakOnWater) {
             onWater = TRUE;
         }
