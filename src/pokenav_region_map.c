@@ -13,6 +13,8 @@
 #include "task.h"
 #include "text_window.h"
 #include "window.h"
+#include "overworld.h"
+#include "data.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/region_map_sections.h"
@@ -326,6 +328,7 @@ static u32 LoopedTask_OpenRegionMap(s32 taskState)
         {
             CreateRegionMapPlayerIcon(4, 9);
             CreateRegionMapCursor(5, 10);
+            CreateRegionMapOutbreakIcon(7, 12);
             TrySetPlayerIconBlink();
         }
         else
@@ -647,18 +650,57 @@ static void DrawCityMap(struct Pokenav_RegionMapGfx *state, int mapSecId, int po
     CopyToBgTilemapBufferRect(1, state->cityZoomPics[i], 18, 6, 10, 10);
 }
 
+static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
+{
+    return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
+}
+
+static bool8 CheckCursorIsOverMtPyreOutbreak(int mapSecId, int pos)
+{
+    return (
+        mapSecId == MAPSEC_ROUTE_122
+        && pos == 0
+        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_MT_PYRE
+    );
+}
+
+static const u8 LandmarkName_Outbreak[] = _(" Outbreak");
+
 static void PrintLandmarkNames(struct Pokenav_RegionMapGfx *state, int mapSecId, int pos)
 {
     int i = 0;
+    bool8 isOutbreak = FALSE;
+    u8 outbreakMapSection;
+
     while (1)
     {
         const u8 *landmarkName = GetLandmarkName(mapSecId, pos, i);
-        if (!landmarkName)
-            break;
 
-        StringCopyPadded(gStringVar1, landmarkName, CHAR_SPACE, 12);
+        if (!landmarkName) {
+            if(gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE) {
+                outbreakMapSection = GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum);
+                if(mapSecId == outbreakMapSection || CheckCursorIsOverMtPyreOutbreak(mapSecId, pos)) {
+                    u8 outputString[30];
+                    isOutbreak = TRUE;
+
+                    StringCopy(outputString, gSpeciesNames[gSaveBlock1Ptr->outbreakPokemonSpecies]);
+                    StringAppend(outputString, LandmarkName_Outbreak);
+                    StringCopyPadded(gStringVar1, outputString, CHAR_SPACE, 12);
+                }
+                else
+                    break;
+            }
+            else
+                break;
+        }
+
+        if(!isOutbreak)
+            StringCopyPadded(gStringVar1, landmarkName, CHAR_SPACE, 12);
         AddTextPrinterParameterized(state->infoWindowId, FONT_NARROW, gStringVar1, 0, i * 16 + 17, TEXT_SKIP_DRAW, NULL);
         i++;
+
+        if(isOutbreak)
+            break;
     }
 }
 

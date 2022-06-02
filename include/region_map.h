@@ -32,6 +32,7 @@ struct RegionMap {
     /*0x018*/ u8 (*inputCallback)(void);
     /*0x01c*/ struct Sprite *cursorSprite;
     /*0x020*/ struct Sprite *playerIconSprite;
+              struct Sprite *outbreakIconSprite;
     /*0x024*/ s32 bg2x;
     /*0x028*/ s32 bg2y;
     /*0x02c*/ u32 bg2pa;
@@ -77,6 +78,8 @@ struct RegionMap {
     /*0x084*/ u8 filler_084[0x100];
     /*0x184*/ u8 cursorSmallImage[0x100];
     /*0x284*/ u8 cursorLargeImage[0x600];
+              u16 outbreakIconSpritePosX;
+              u16 outbreakIconSpritePosY;
 }; // size = 0x884
 
 struct RegionMapLocation
@@ -99,7 +102,8 @@ u8 DoRegionMapInputCallback(void);
 bool8 UpdateRegionMapZoom(void);
 void FreeRegionMapIconResources(void);
 u16 GetRegionMapSecIdAt(u16 x, u16 y);
-void CreateRegionMapPlayerIcon(u16 x, u16 y);
+void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag);
+void CreateRegionMapOutbreakIcon(u16 tileTag, u16 paletteTag);
 void CreateRegionMapCursor(u16 tileTag, u16 paletteTag);
 bool32 IsEventIslandMapSecId(u8 mapSecId);
 u8 *GetMapName(u8 *, u16, u16);

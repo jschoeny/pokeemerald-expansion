@@ -51,6 +51,7 @@ enum {
     TAG_CURSOR,
     TAG_PLAYER_ICON,
     TAG_FLY_ICON,
+    TAG_OUTBREAK_ICON,
 };
 
 // Static type declarations
@@ -88,6 +89,8 @@ static void CalcZoomScrollParams(s16 scrollX, s16 scrollY, s16 c, s16 d, u16 e, 
 static u16 GetMapSecIdAt(u16 x, u16 y);
 static void RegionMap_SetBG2XAndBG2Y(s16 x, s16 y);
 static void InitMapBasedOnPlayerLocation(void);
+static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum);
+static void TrySetOutbreakSpritePosition(void);
 static void RegionMap_InitializeStateBasedOnSSTidalLocation(void);
 static u8 GetMapsecType(u16 mapSecId);
 static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId);
@@ -128,6 +131,9 @@ static const u8 sRegionMapPlayerIcon_BrendanGfx[] = INCBIN_U8("graphics/pokenav/
 static const u16 sRegionMapPlayerIcon_MayPal[] = INCBIN_U16("graphics/pokenav/region_map/may_icon.gbapal");
 static const u8 sRegionMapPlayerIcon_MayGfx[] = INCBIN_U8("graphics/pokenav/region_map/may_icon.4bpp");
 static const u8 sRegionMap_MapSectionLayout[] = INCBIN_U8("graphics/pokenav/region_map_section_layout.bin");
+static const u16 sRegionMapOutbreakIcon_Pal[] = INCBIN_U16("graphics/pokenav/region_map/outbreak_icon.gbapal");
+static const u16 sRegionMapOutbreakIcon_PalWater[] = INCBIN_U16("graphics/pokenav/region_map/outbreak_icon_water.gbapal");
+static const u8 sRegionMapOutbreakIcon_Gfx[] = INCBIN_U8("graphics/pokenav/region_map/outbreak_icon.4bpp");
 
 #include "data/region_map/region_map_entries.h"
 
@@ -579,6 +585,7 @@ bool8 LoadRegionMapGfx(void)
         InitMapBasedOnPlayerLocation();
         gRegionMap->playerIconSpritePosX = gRegionMap->cursorPosX;
         gRegionMap->playerIconSpritePosY = gRegionMap->cursorPosY;
+        TrySetOutbreakSpritePosition();
         gRegionMap->mapSecId = CorrectSpecialMapSecId_Internal(gRegionMap->mapSecId);
         gRegionMap->mapSecType = GetMapsecType(gRegionMap->mapSecId);
         GetMapName(gRegionMap->mapSecName, gRegionMap->mapSecId, MAP_NAME_LENGTH);
@@ -602,6 +609,7 @@ bool8 LoadRegionMapGfx(void)
         UpdateRegionMapVideoRegs();
         gRegionMap->cursorSprite = NULL;
         gRegionMap->playerIconSprite = NULL;
+        gRegionMap->outbreakIconSprite = NULL;
         gRegionMap->cursorMovementFrameCounter = 0;
         gRegionMap->blinkPlayerIcon = FALSE;
         if (gRegionMap->bgManaged)
@@ -640,6 +648,12 @@ void FreeRegionMapIconResources(void)
         DestroySprite(gRegionMap->playerIconSprite);
         FreeSpriteTilesByTag(gRegionMap->playerIconTileTag);
         FreeSpritePaletteByTag(gRegionMap->playerIconPaletteTag);
+    }
+    if (gRegionMap->outbreakIconSprite != NULL)
+    {
+        DestroySprite(gRegionMap->outbreakIconSprite);
+        FreeSpriteTilesByTag(TAG_OUTBREAK_ICON);
+        FreeSpritePaletteByTag(TAG_OUTBREAK_ICON);
     }
 }
 
@@ -1123,6 +1137,50 @@ static void InitMapBasedOnPlayerLocation(void)
     gRegionMap->cursorPosY = gRegionMapEntries[gRegionMap->mapSecId].y + y + MAPCURSOR_Y_MIN;
 }
 
+static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
+{
+    return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
+}
+
+static void TrySetOutbreakSpritePosition(void)
+{
+    u8 mapSecId;
+    u16 mapWidth;
+    u16 mapHeight;
+    u16 x;
+    u16 y;
+    u16 dimensionScale;
+    u16 xOnMap;
+
+    if(gSaveBlock1Ptr->outbreakPokemonSpecies == SPECIES_NONE)
+        return;
+
+    mapSecId = GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum);
+    if(mapSecId == MAPSEC_ROUTE_114) {
+        x = 0;
+        y = gRegionMapEntries[mapSecId].height / 2;
+    }
+    else if(mapSecId == MAPSEC_ROUTE_126 || mapSecId == MAPSEC_UNDERWATER_126) {
+        x = 0;
+        y = 0;
+    }
+    else {
+        x = gRegionMapEntries[mapSecId].width;
+        if(x % 2 == 0)
+            x = (x / 2) - 1;
+        else
+            x = (x / 2);
+
+        y = gRegionMapEntries[mapSecId].height;
+        if(y % 2 == 0)
+            y = (y / 2) - 1;
+        else
+            y = (y / 2);
+    }
+    gRegionMap->outbreakIconSpritePosX = gRegionMapEntries[mapSecId].x + x + MAPCURSOR_X_MIN;
+    gRegionMap->outbreakIconSpritePosY = gRegionMapEntries[mapSecId].y + y + MAPCURSOR_Y_MIN;
+}
+
 static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
 {
     u16 y;
@@ -1484,12 +1542,52 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     }
 }
 
+void CreateRegionMapOutbreakIcon(u16 tileTag, u16 paletteTag)
+{
+    u8 spriteId;
+    struct SpriteSheet sheet = {sRegionMapOutbreakIcon_Gfx, 0x80, tileTag};
+    struct SpritePalette palette = {sRegionMapOutbreakIcon_Pal, paletteTag};
+    struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, sRegionMapPlayerIconAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
+
+    if (gSaveBlock1Ptr->outbreakPokemonSpecies == SPECIES_NONE)
+    {
+        gRegionMap->outbreakIconSprite = NULL;
+        return;
+    }
+    if (gSaveBlock1Ptr->outbreakOnWater)
+    {
+        palette.data = sRegionMapOutbreakIcon_PalWater;
+    }
+    LoadSpriteSheet(&sheet);
+    LoadSpritePalette(&palette);
+    spriteId = CreateSprite(&template, 0, 0, 1);
+    gRegionMap->outbreakIconSprite = &gSprites[spriteId];
+    if (!gRegionMap->zoomed)
+    {
+        gRegionMap->outbreakIconSprite->x = gRegionMap->outbreakIconSpritePosX * 8 + 4;
+        gRegionMap->outbreakIconSprite->y = gRegionMap->outbreakIconSpritePosY * 8 + 4;
+        gRegionMap->outbreakIconSprite->callback = SpriteCB_PlayerIconMapFull;
+    }
+    else
+    {
+        gRegionMap->outbreakIconSprite->x = gRegionMap->outbreakIconSpritePosX * 16 - 0x30;
+        gRegionMap->outbreakIconSprite->y = gRegionMap->outbreakIconSpritePosY * 16 - 0x42;
+        gRegionMap->outbreakIconSprite->callback = SpriteCB_PlayerIconMapZoomed;
+    }
+}
+
 static void HideRegionMapPlayerIcon(void)
 {
     if (gRegionMap->playerIconSprite != NULL)
     {
         gRegionMap->playerIconSprite->invisible = TRUE;
         gRegionMap->playerIconSprite->callback = SpriteCallbackDummy;
+    }
+
+    if (gRegionMap->outbreakIconSprite != NULL)
+    {
+        gRegionMap->outbreakIconSprite->invisible = TRUE;
+        gRegionMap->outbreakIconSprite->callback = SpriteCallbackDummy;
     }
 }
 
@@ -1512,6 +1610,26 @@ static void UnhideRegionMapPlayerIcon(void)
             gRegionMap->playerIconSprite->y2 = 0;
             gRegionMap->playerIconSprite->callback = SpriteCB_PlayerIconMapFull;
             gRegionMap->playerIconSprite->invisible = FALSE;
+        }
+    }
+
+    if (gRegionMap->outbreakIconSprite != NULL)
+    {
+        if (gRegionMap->zoomed == TRUE)
+        {
+            gRegionMap->outbreakIconSprite->x = gRegionMap->outbreakIconSpritePosX * 16 - 0x30;
+            gRegionMap->outbreakIconSprite->y = gRegionMap->outbreakIconSpritePosY * 16 - 0x42;
+            gRegionMap->outbreakIconSprite->callback = SpriteCB_PlayerIconMapZoomed;
+            gRegionMap->outbreakIconSprite->invisible = FALSE;
+        }
+        else
+        {
+            gRegionMap->outbreakIconSprite->x = gRegionMap->outbreakIconSpritePosX * 8 + 4;
+            gRegionMap->outbreakIconSprite->y = gRegionMap->outbreakIconSpritePosY * 8 + 4;
+            gRegionMap->outbreakIconSprite->x2 = 0;
+            gRegionMap->outbreakIconSprite->y2 = 0;
+            gRegionMap->outbreakIconSprite->callback = SpriteCB_PlayerIconMapFull;
+            gRegionMap->outbreakIconSprite->invisible = FALSE;
         }
     }
 }
@@ -1697,6 +1815,7 @@ void CB2_OpenFlyMap(void)
         InitRegionMap(&sFlyMap->regionMap, FALSE);
         CreateRegionMapCursor(TAG_CURSOR, TAG_CURSOR);
         CreateRegionMapPlayerIcon(TAG_PLAYER_ICON, TAG_PLAYER_ICON);
+        CreateRegionMapOutbreakIcon(TAG_OUTBREAK_ICON, TAG_OUTBREAK_ICON);
         sFlyMap->mapSecId = sFlyMap->regionMap.mapSecId;
         StringFill(sFlyMap->nameBuffer, CHAR_SPACE, MAP_NAME_LENGTH);
         sDrawFlyDestTextWindow = TRUE;
