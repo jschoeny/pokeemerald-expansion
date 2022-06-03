@@ -118,6 +118,7 @@ struct PartyMenuInternal
     u8 windowId[3];
     u8 actions[9];
     u8 numActions;
+    u8 numFieldMoves;
     // In vanilla Emerald, only the first 0xB0 hwords (0x160 bytes) are actually used.
     // However, a full 0x100 hwords (0x200 bytes) are allocated.
     // It is likely that the 0x160 value used below is a constant defined by
@@ -256,6 +257,8 @@ static void Task_HandleCancelParticipationYesNoInput(u8);
 static bool8 CanLearnTutorMove(u16, u8);
 static u16 GetTutorMove(u8);
 static bool8 ShouldUseChooseMonText(void);
+static u8 GetFieldMoveNumber(struct Pokemon*, u8);
+static void SetPartyMonFieldSelectionActionsFieldMoves(struct Pokemon*, u8);
 static void SetPartyMonFieldSelectionActions(struct Pokemon*, u8);
 static u8 GetPartyMenuActionsTypeInBattle(struct Pokemon*);
 static u8 GetPartySlotEntryStatus(s8);
@@ -400,6 +403,7 @@ static void CursorCb_Register(u8);
 static void CursorCb_Trade1(u8);
 static void CursorCb_Trade2(u8);
 static void CursorCb_Toss(u8);
+static void CursorCb_FieldMoveList(u8);
 static void CursorCb_FieldMove(u8);
 static bool8 SetUpFieldMove_Surf(void);
 static bool8 SetUpFieldMove_Fly(void);
@@ -2396,6 +2400,7 @@ void DisplayPartyMenuStdMessage(u32 stringId)
         switch (stringId)
         {
         case PARTY_MSG_DO_WHAT_WITH_MON:
+        case PARTY_MSG_CHOOSE_FIELD_MOVE:
             *windowPtr = AddWindow(&sDoWhatWithMonMsgWindowTemplate);
             break;
         case PARTY_MSG_DO_WHAT_WITH_ITEM:
@@ -2461,6 +2466,9 @@ static u8 DisplaySelectionWindow(u8 windowType)
     case SELECTWINDOW_ACTIONS:
         SetWindowTemplateFields(&window, 2, 19, 19 - (sPartyMenuInternal->numActions * 2), 10, sPartyMenuInternal->numActions * 2, 14, 0x2E9);
         break;
+    case SELECTWINDOW_FIELDMOVE:
+        SetWindowTemplateFields(&window, 2, 19, 19 - (sPartyMenuInternal->numActions * 2), 10, sPartyMenuInternal->numActions * 2, 14, 0x1DF);
+        break;
     case SELECTWINDOW_ITEM:
         window = sItemGiveTakeWindowTemplate;
         break;
@@ -2481,7 +2489,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
 
     for (i = 0; i < sPartyMenuInternal->numActions; i++)
     {
-        u8 fontColorsId = (sPartyMenuInternal->actions[i] >= MENU_FIELD_MOVES) ? 4 : 3;
+        u8 fontColorsId = (sPartyMenuInternal->actions[i] >= MENU_FIELD_MOVE) ? 4 : 3;
         AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], FONT_NORMAL, cursorDimension, (i * 16) + 1, letterSpacing, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
     }
 
@@ -2524,6 +2532,12 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
     {
         SetPartyMonFieldSelectionActions(mons, slotId);
     }
+    else if(action == ACTIONS_FIELDMOVE)
+    {
+        sPartyMenuInternal->numActions = 0;
+        SetPartyMonFieldSelectionActionsFieldMoves(mons, slotId);
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL2);
+    }
     else
     {
         sPartyMenuInternal->numActions = sPartyMenuActionCounts[action];
@@ -2532,29 +2546,79 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
     }
 }
 
-static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
+static u8 GetFieldMoveNumber(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
+    u8 count = 0;
+    const u8 hmOrder[6] = {
+        ITEM_HM02_FLY - ITEM_TM01,
+        ITEM_HM05_FLASH - ITEM_TM01,
+        ITEM_HM01_CUT - ITEM_TM01,
+        ITEM_HM06_ROCK_SMASH - ITEM_TM01,
+        ITEM_HM07_WATERFALL - ITEM_TM01,
+        ITEM_HM08_DIVE - ITEM_TM01
+    };
+    for(j = 0; j < 6; j++)
+    {
+        if((CanMonLearnTMHM(&mons[slotId], hmOrder[j] - NUM_TECHNICAL_MACHINES) && CheckBagHasItem(hmOrder[j] + ITEM_TM01, 1))
+         || MonKnowsMove(&mons[slotId], sTMHMMoves[hmOrder[j]]))
+        {
+            count++;
+        }
+    }
+    if((CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01) && CheckBagHasItem(ITEM_TM28_DIG, 1))
+     || MonKnowsMove(&mons[slotId], sTMHMMoves[ITEM_TM28_DIG - ITEM_TM01]))
+        count++;
 
-    sPartyMenuInternal->numActions = 0;
-    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
+    if((CanMonLearnTMHM(&mons[slotId], ITEM_TM43_SECRET_POWER - ITEM_TM01) && CheckBagHasItem(ITEM_TM43_SECRET_POWER, 1))
+     || MonKnowsMove(&mons[slotId], sTMHMMoves[ITEM_TM43_SECRET_POWER - ITEM_TM01]))
+        count++;
 
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        for (j = 0; sFieldMoves[j] != FIELD_MOVE_TERMINATOR; j++)
+        {
+            if(sFieldMoves[j] == MOVE_DIG || sFieldMoves[j] == MOVE_SECRET_POWER)
+                continue;
+
+            if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j])
+            {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
+static void SetPartyMonFieldSelectionActionsFieldMoves(struct Pokemon *mons, u8 slotId)
+{
+    u8 i, j;
     // Add HM moves to action list
     //for (j = 0; sFieldHMMoves[j] != FIELD_MOVE_TERMINATOR; j++)
-    for(j = ITEM_HM01 - ITEM_TM01; j <= ITEM_HM08 - ITEM_TM01; j++)
+    const u8 hmOrder[5] = {
+        ITEM_HM05_FLASH - ITEM_TM01,
+        ITEM_HM01_CUT - ITEM_TM01,
+        ITEM_HM06_ROCK_SMASH - ITEM_TM01,
+        ITEM_HM07_WATERFALL - ITEM_TM01,
+        ITEM_HM08_DIVE - ITEM_TM01
+    };
+    for(j = 0; j < 5; j++)
     {
-        if(CanMonLearnTMHM(&mons[slotId], j - NUM_TECHNICAL_MACHINES) && CheckBagHasItem(j + ITEM_TM01, 1))
+        if((CanMonLearnTMHM(&mons[slotId], hmOrder[j] - NUM_TECHNICAL_MACHINES) && CheckBagHasItem(hmOrder[j] + ITEM_TM01, 1))
+         || MonKnowsMove(&mons[slotId], sTMHMMoves[hmOrder[j]]))
         {
-            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, sHMtoFieldMove[j + ITEM_TM01 - ITEM_HM01] + MENU_FIELD_MOVES);
-            break;
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, sHMtoFieldMove[hmOrder[j] + ITEM_TM01 - ITEM_HM01] + MENU_FIELD_MOVES);
         }
     }
 
     // Add field moves to action list
-    if(CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01) && CheckBagHasItem(ITEM_TM28_DIG, 1))
+    if((CanMonLearnTMHM(&mons[slotId], ITEM_TM28_DIG - ITEM_TM01) && CheckBagHasItem(ITEM_TM28_DIG, 1))
+     || MonKnowsMove(&mons[slotId], sTMHMMoves[ITEM_TM28_DIG - ITEM_TM01]))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, FIELD_MOVE_DIG + MENU_FIELD_MOVES);
 
-    if(CanMonLearnTMHM(&mons[slotId], ITEM_TM43_SECRET_POWER - ITEM_TM01) && CheckBagHasItem(ITEM_TM43_SECRET_POWER, 1))
+    if((CanMonLearnTMHM(&mons[slotId], ITEM_TM43_SECRET_POWER - ITEM_TM01) && CheckBagHasItem(ITEM_TM43_SECRET_POWER, 1))
+     || MonKnowsMove(&mons[slotId], sTMHMMoves[ITEM_TM43_SECRET_POWER - ITEM_TM01]))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, FIELD_MOVE_SECRET_POWER + MENU_FIELD_MOVES);
 
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -2567,21 +2631,43 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j])
             {
                 AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES_NOT_HM);
-                break;
             }
         }
+    }
+}
+
+static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
+{
+    u8 i, j, fieldMoveCount;
+
+    sPartyMenuInternal->numActions = 0;
+    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
+
+    if((CanMonLearnTMHM(&mons[slotId], ITEM_HM02_FLY - ITEM_TM01 - NUM_TECHNICAL_MACHINES) && CheckBagHasItem(ITEM_HM02_FLY, 1))
+     || MonKnowsMove(&mons[slotId], sTMHMMoves[ITEM_HM02_FLY - ITEM_TM01]))
+    {
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, sHMtoFieldMove[ITEM_HM02_FLY - ITEM_HM01] + MENU_FIELD_MOVES);
+    }
+
+    if(sPartyMenuInternal->numFieldMoves > NUM_SHOWN_FIELD_MOVES)
+    {
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_FIELD_MOVE);
+    }
+    else
+    {
+        SetPartyMonFieldSelectionActionsFieldMoves(mons, slotId);
     }
 
     if (!InBattlePike())
     {
         if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);
-        if (!IsTradedMon(&mons[slotId]))
-            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
         if (ItemIsMail(GetMonData(&mons[slotId], MON_DATA_HELD_ITEM)))
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MAIL);
         else
             AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
+        if (!IsTradedMon(&mons[slotId]))
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
     }
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
@@ -2650,6 +2736,7 @@ static bool8 CreateSelectionWindow(u8 taskId)
 
     GetMonNickname(mon, gStringVar1);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    sPartyMenuInternal->numFieldMoves = GetFieldMoveNumber(gPlayerParty, gPartyMenu.slotId);
     if (gPartyMenu.menuType != PARTY_MENU_TYPE_STORE_PYRAMID_HELD_ITEMS)
     {
         SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, GetPartyMenuActionsType(mon));
@@ -3672,6 +3759,18 @@ static void Task_HandleSpinTradeYesNoInput(u8 taskId)
         Task_ReturnToChooseMonAfterText(taskId);
         break;
     }
+}
+
+static void CursorCb_FieldMoveList(u8 taskId)
+{
+    PlaySE(SE_SELECT);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_FIELDMOVE);
+    DisplaySelectionWindow(SELECTWINDOW_FIELDMOVE);
+    DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_FIELD_MOVE);
+    gTasks[taskId].data[0] = 0xFF;
+    gTasks[taskId].func = Task_HandleSelectionMenuInput;
 }
 
 static void CursorCb_FieldMove(u8 taskId)

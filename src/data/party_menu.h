@@ -629,7 +629,7 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_X_MONS_ARE_NEEDED]      = gText_PokemonAreNeeded,
     [PARTY_MSG_MONS_CANT_BE_SAME]      = gText_PokemonCantBeSame,
     [PARTY_MSG_NO_SAME_HOLD_ITEMS]     = gText_NoIdenticalHoldItems,
-    [PARTY_MSG_UNUSED]                 = gText_EmptyString2,
+    [PARTY_MSG_CHOOSE_FIELD_MOVE]      = gText_ChooseFieldMove,
     [PARTY_MSG_DO_WHAT_WITH_MON]       = gText_DoWhatWithPokemon,
     [PARTY_MSG_RESTORE_WHICH_MOVE]     = gText_RestoreWhichMove,
     [PARTY_MSG_BOOST_PP_WHICH_MOVE]    = gText_BoostPp,
@@ -685,6 +685,7 @@ enum
     MENU_TRADE1,
     MENU_TRADE2,
     MENU_TOSS,
+    MENU_FIELD_MOVE,
     MENU_FIELD_MOVES,
 };
 
@@ -736,6 +737,7 @@ struct
     [MENU_TRADE1] = {gText_Trade4, CursorCb_Trade1},
     [MENU_TRADE2] = {gText_Trade4, CursorCb_Trade2},
     [MENU_TOSS] = {gMenuText_Toss, CursorCb_Toss},
+    [MENU_FIELD_MOVE] = {gMenuText_FieldMove, CursorCb_FieldMoveList},
     [MENU_FIELD_MOVES + FIELD_MOVE_CUT] = {gMoveNames[MOVE_CUT], CursorCb_FieldMove},
     [MENU_FIELD_MOVES + FIELD_MOVE_FLASH] = {gMoveNames[MOVE_FLASH], CursorCb_FieldMove},
     [MENU_FIELD_MOVES + FIELD_MOVE_ROCK_SMASH] = {gMoveNames[MOVE_ROCK_SMASH], CursorCb_FieldMove},
@@ -782,7 +784,8 @@ enum
     ACTIONS_REGISTER,
     ACTIONS_TRADE,
     ACTIONS_SPIN_TRADE,
-    ACTIONS_TAKEITEM_TOSS
+    ACTIONS_TAKEITEM_TOSS,
+    ACTIONS_FIELDMOVE
 };
 
 static const u8 *const sPartyMenuActions[] =
@@ -1172,7 +1175,7 @@ static const u8 *const sUnused_StatStrings[] =
     gText_Speed2
 };
 
-static const u16 sTMHMMoves[] =
+const u16 sTMHMMoves[] =
 {
     [ITEM_TM01 - ITEM_TM01] = MOVE_FOCUS_PUNCH,
     [ITEM_TM02 - ITEM_TM01] = MOVE_DRAGON_CLAW,
