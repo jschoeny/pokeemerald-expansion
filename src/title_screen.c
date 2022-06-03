@@ -21,6 +21,9 @@
 #include "gpu_regs.h"
 #include "trig.h"
 #include "graphics.h"
+#include "text.h"
+#include "strings.h"
+#include "menu.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 
@@ -30,6 +33,9 @@
 #define VERSION_BANNER_Y 2
 #define VERSION_BANNER_Y_GOAL 66
 #define START_BANNER_X 128
+#define VERSION_NUMBER_X 208
+
+#define PALETTE_NUM_VERSION_NUMBER 1003
 
 #define CLEAR_SAVE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_UP)
 #define RESET_RTC_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_LEFT)
@@ -101,6 +107,23 @@ const u16 gTitleScreenAlphaBlend[64] =
     BLDALPHA_BLEND(1, 16),
     BLDALPHA_BLEND(0, 16),
     [32 ... 63] = BLDALPHA_BLEND(0, 16)
+};
+
+static const struct OamData sVersionNumberOamData =
+{
+    .y = DISPLAY_HEIGHT,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x8),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x8),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+    .affineParam = 0,
 };
 
 static const struct OamData sVersionBannerLeftOamData =
@@ -273,6 +296,27 @@ static const union AnimCmd *const sStartCopyrightBannerAnimTable[] =
     sCopyrightBannerAnim9,
 };
 
+static const struct CompressedSpriteSheet sSpriteSheet_VersionNumber[] =
+{
+    {
+        .data = gTitleScreenVersionNumberGfx,
+        .size = 0x520,
+        .tag = 1003
+    },
+    {},
+};
+
+static const struct SpriteTemplate sVersionNumberSpriteTemplate =
+{
+    .tileTag = 1003,
+    .paletteTag = 1001,
+    .oam = &sVersionNumberOamData,
+    .anims = sStartCopyrightBannerAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_PressStartCopyrightBanner,
+};
+
 static const struct SpriteTemplate sStartCopyrightBannerSpriteTemplate =
 {
     .tileTag = 1001,
@@ -428,6 +472,19 @@ static void CreateCopyrightBanner(s16 x, s16 y)
     }
 }
 
+static void CreateVersionNumberSprite(s16 x, s16 y)
+{
+    u8 i;
+    u8 spriteId;
+
+    x -= 64;
+    for (i = 0; i < 5; i++, x += 32)
+    {
+        spriteId = CreateSprite(&sVersionNumberSpriteTemplate, x, y, 0);
+        StartSpriteAnim(&gSprites[spriteId], i + 5);
+    }
+}
+
 static void SpriteCB_PokemonLogoShine(struct Sprite *sprite)
 {
     if (sprite->x < DISPLAY_WIDTH + 32)
@@ -566,6 +623,7 @@ void CB2_InitTitleScreen(void)
         LoadCompressedSpriteSheet(&sSpriteSheet_EmeraldVersion[0]);
         LoadCompressedSpriteSheet(&sSpriteSheet_PressStart[0]);
         LoadCompressedSpriteSheet(&sPokemonLogoShineSpriteSheet[0]);
+        LoadCompressedSpriteSheet(&sSpriteSheet_VersionNumber[0]);
         LoadPalette(gTitleScreenEmeraldVersionPal, 0x100, 0x20);
         LoadSpritePalette(&sSpritePalette_PressStart[0]);
         gMain.state = 2;
@@ -708,6 +766,8 @@ static void Task_TitleScreenPhase2(u8 taskId)
                                     | DISPCNT_OBJ_ON);
         CreatePressStartBanner(START_BANNER_X, 108);
         CreateCopyrightBanner(START_BANNER_X, 148);
+        CreateVersionNumberSprite(VERSION_NUMBER_X, 6);
+
         gTasks[taskId].data[4] = 0;
         gTasks[taskId].func = Task_TitleScreenPhase3;
     }
