@@ -51,7 +51,9 @@
 #include "constants/trainers.h"
 #include "constants/weather.h"
 #include "constants/battle_config.h"
+#include "constants/global.h"
 #include "data/pokemon/ability_placeholder_replace.h"
+#include "data/pokemon/randomizer_table.h"
 
 struct SpeciesItem
 {
@@ -8674,4 +8676,82 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
         }
     }
     return newMove;
+}
+
+u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId)
+{
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
+        || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+    {
+        species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+    {
+        u8 i;
+        species = (((0x1A4 * value) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        for(i = 0; i < chosenStarterId; i++) {
+            species = (((0x1A4 * species) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        }
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+
+    return species;
+}
+
+u16 GetRandomizedSpeciesWild(u16 species, u16 headerId)
+{
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_NORMAL)
+        return species;
+
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
+        species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP) {
+        species = (((0x1A4 * ((species + headerId + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND) {
+        species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    return species;
+}
+
+u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum)
+{
+    u16 value = gSaveBlock2Ptr->playerTrainerId[0]
+          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+
+    if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+    {
+        species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
+    {
+        species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+    {
+        species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
+        if(species >= NUM_SPECIES_RAND_START)
+            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+    }
+    return species;
 }

@@ -1880,24 +1880,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonNoItemDefaultMoves *partyData = gTrainers[trainerNum].party.NoItemDefaultMoves;
                 species = partyData[i].species;
-                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
-                {
-                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
-                {
-                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                {
-                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
+                species = GetRandomizedSpeciesTrainer(species, trainerNum);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
@@ -1928,24 +1911,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonNoItemCustomMoves *partyData = gTrainers[trainerNum].party.NoItemCustomMoves;
                 species = partyData[i].species;
-                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
-                {
-                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
-                {
-                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                {
-                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
+                species = GetRandomizedSpeciesTrainer(species, trainerNum);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
@@ -1974,24 +1940,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonItemDefaultMoves *partyData = gTrainers[trainerNum].party.ItemDefaultMoves;
                 species = partyData[i].species;
-                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
-                {
-                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
-                {
-                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                {
-                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
+                species = GetRandomizedSpeciesTrainer(species, trainerNum);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
@@ -2012,24 +1961,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonItemCustomMoves *partyData = gTrainers[trainerNum].party.ItemCustomMoves;
                 species = partyData[i].species;
-                if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
-                {
-                    species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
-                {
-                    species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
-                else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                {
-                    species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
-                    if(species >= NUM_SPECIES_RAND_START)
-                        species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-                }
+                species = GetRandomizedSpeciesTrainer(species, trainerNum);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];

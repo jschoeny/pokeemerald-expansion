@@ -356,32 +356,12 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 // .text
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
-    u16 value;
     u16 species;
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
 
-    value = gSaveBlock2Ptr->playerTrainerId[0]
-          | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
-
     species = sStarterMon[chosenStarterId];
-    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
-        || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
-    {
-        species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
-    {
-        u8 i;
-        species = (((0x1A4 * value) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        for(i = 0; i < chosenStarterId; i++) {
-            species = (((0x1A4 * species) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        }
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
+    species = GetRandomizedSpeciesStarter(species, chosenStarterId);
 
     return species;
 }

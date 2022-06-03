@@ -486,5 +486,8 @@ u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType);
 u32 GetPlaceholderMoveMon(struct Pokemon *mon, u32 move, u8 offset);
 u32 GetPlaceholderMoveBoxMon(struct BoxPokemon *boxMon, u32 move, u8 offset);
 u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8 offset);
+u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId);
+u16 GetRandomizedSpeciesWild(u16 species, u16 headerId);
+u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum);
 
 #endif // GUARD_POKEMON_H
