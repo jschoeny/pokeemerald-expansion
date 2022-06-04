@@ -1735,6 +1735,8 @@ bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
     return FALSE;
 }
 
+extern const u16 sTMHMMoves[];
+
 bool8 ScrCmd_checkpartycanlearnhm(struct ScriptContext *ctx)
 {
     u8 i;
@@ -1746,11 +1748,14 @@ bool8 ScrCmd_checkpartycanlearnhm(struct ScriptContext *ctx)
         u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
         if (!species)
             break;
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && CanMonLearnTMHM(&gPlayerParty[i], hmId))
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG))
         {
-            gSpecialVar_Result = i;
-            gSpecialVar_0x8004 = species;
-            break;
+            if (CanMonLearnTMHM(&gPlayerParty[i], hmId) || MonKnowsMove(&gPlayerParty[i], sTMHMMoves[hmId]))
+            {
+                gSpecialVar_Result = i;
+                gSpecialVar_0x8004 = species;
+                break;
+            }
         }
     }
     return FALSE;

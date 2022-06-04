@@ -208,6 +208,7 @@ extern const u8 gText_GoldPokeblock[];
 
 extern const u8 gMenuText_Use[];
 extern const u8 gMenuText_Toss[];
+extern const u8 gMenuText_FieldMove[];
 extern const u8 gMenuText_Give[];
 extern const u8 gMenuText_Give2[];
 extern const u8 gMenuText_Register[];
@@ -2165,6 +2166,7 @@ extern const u8 gText_OtherTrainersPkmnCantBeTraded[];
 extern const u8 gText_EggCantBeTradedNow[];
 extern const u8 gText_OtherTrainerCantAcceptPkmn[];
 extern const u8 gText_CantTradeWithTrainer[];
+extern const u8 gText_ChooseFieldMove[];
 
 // trade
 extern const u8 gText_XWillBeSentToY[];
