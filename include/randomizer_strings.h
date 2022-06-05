@@ -92,6 +92,7 @@ static const u8 gRandText_Seed_Space[]      = _(" ");
 static const u8 gRandText_Seed_Random[]     = _("{FONT_NARROW}    RANDOM");
 static const u8 gRandText_Seed_Reset[]      = _("{FONT_NARROW}     RESET");
 static const u8 gRandText_Seed_Set[]        = _("{FONT_NARROW}      SET");
+static const u8 gRandText_Seed_TrainerId[]  = _("{FONT_NARROW}Trainer ID No.");
 
 static const u8 *const sRandMenuDescPointers[] =
 {

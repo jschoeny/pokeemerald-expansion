@@ -208,9 +208,14 @@ void Rand_ShowMainMenuView(bool8 changeSettings) {
     gTasks[inputTaskId].data[RAND_DATA_POS] = 0;
     gTasks[inputTaskId].data[RAND_DATA_OPT_TSK] = 0;
     gTasks[inputTaskId].data[RAND_DATA_OPT_POS] = 0;
-    for(i = 0; i < 4; i++)
-    {
-        gTasks[inputTaskId].data[RAND_DATA_SEED_POS1 + i] = Random() % 0x10;
+    if(changeSettings) {
+        for(i = 0; i < 4; i++)
+        {
+            gTasks[inputTaskId].data[RAND_DATA_SEED_POS1 + i] = Random() % 0x10;
+        }
+    }
+    else {
+        RandHelper_SetSeedDataFromValue(inputTaskId);
     }
     gTasks[inputTaskId].data[RAND_DATA_SEED_CURRPOS] = 0;
     gTasks[inputTaskId].data[RAND_DATA_SEED_ACTIVE] = FALSE;
@@ -440,10 +445,10 @@ static void RandTask_HandleSeedChooserInput(u8 taskId)
                 gTasks[taskId].data[posIndex] = 0xF;
         }
         else {
-            if(gTasks[taskId].data[posIndex] > 2)
+            if(gTasks[taskId].data[posIndex] > 0)
                 gTasks[taskId].data[posIndex]--;
             else
-                gTasks[taskId].data[posIndex] = 0xF;
+                gTasks[taskId].data[posIndex] = 2;
         }
 
         RandHelper_DescText(taskId, 0);
@@ -549,23 +554,28 @@ static void RandHelper_DescText(u8 taskId, u8 pos)
         u8 buffer[32] = _("");
         u8 i;
         u8 seedPos = gTasks[taskId].data[RAND_DATA_SEED_CURRPOS];
-        for(i = 0; i < 4; i++)
-        {
-            if(seedPos == i && gTasks[taskId].data[RAND_DATA_SEED_ACTIVE])
-                StringAppend(buffer, gRandText_Seed_Red);
-            if(i > 0)
-                StringAppend(buffer, gRandText_Seed_Space);
-            StringAppend(buffer, sRandSeedCharacters[gTasks[taskId].data[RAND_DATA_SEED_POS1 + i]]);
-            if(seedPos == i && gTasks[taskId].data[RAND_DATA_SEED_ACTIVE])
-                StringAppend(buffer, gRandText_Seed_Normal);
+        if(!gTasks[taskId].data[RAND_DATA_SEED_ACTIVE] && gSaveBlock2Ptr->optionsRandomizerSeed == 0) {
+            StringAppend(buffer, gRandText_Seed_TrainerId);
         }
-        if(gTasks[taskId].data[RAND_DATA_SEED_ACTIVE]) {
-            if(seedPos == 4)
-                StringAppend(buffer, gRandText_Seed_Red);
-            switch(gTasks[taskId].data[RAND_DATA_SEED_POSSETTING]) {
-                case 0: StringAppend(buffer, gRandText_Seed_Random); break;
-                case 1: StringAppend(buffer, gRandText_Seed_Reset); break;
-                case 2: StringAppend(buffer, gRandText_Seed_Set); break;
+        else {
+            for(i = 0; i < 4; i++)
+            {
+                if(seedPos == i && gTasks[taskId].data[RAND_DATA_SEED_ACTIVE])
+                    StringAppend(buffer, gRandText_Seed_Red);
+                if(i > 0)
+                    StringAppend(buffer, gRandText_Seed_Space);
+                StringAppend(buffer, sRandSeedCharacters[gTasks[taskId].data[RAND_DATA_SEED_POS1 + i]]);
+                if(seedPos == i && gTasks[taskId].data[RAND_DATA_SEED_ACTIVE])
+                    StringAppend(buffer, gRandText_Seed_Normal);
+            }
+            if(gTasks[taskId].data[RAND_DATA_SEED_ACTIVE]) {
+                if(seedPos == 4)
+                    StringAppend(buffer, gRandText_Seed_Red);
+                switch(gTasks[taskId].data[RAND_DATA_SEED_POSSETTING]) {
+                    case 0: StringAppend(buffer, gRandText_Seed_Random); break;
+                    case 1: StringAppend(buffer, gRandText_Seed_Reset); break;
+                    case 2: StringAppend(buffer, gRandText_Seed_Set); break;
+                }
             }
         }
         AddTextPrinterParameterized(varWindowId, FONT_NORMAL, buffer, 2, 1, 0, NULL);
