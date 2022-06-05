@@ -5198,6 +5198,11 @@ u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
+    if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
+    {
+        value = gSaveBlock2Ptr->optionsRandomizerSeed;
+    }
+
     if(setting == OPTIONS_RANDOMIZER_ABILITY_SPECIES)
     {
         ability = ((0x1C * ((species + value) % ABILITIES_COUNT)) + 0xD4) % ABILITIES_COUNT;
@@ -8615,6 +8620,11 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
+    if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
+    {
+        value = gSaveBlock2Ptr->optionsRandomizerSeed;
+    }
+
     moveType = TYPE_NONE;
     if(move & PH_MOVE_FLAG)
     {
@@ -8683,6 +8693,11 @@ u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId)
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
+    if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
+    {
+        value = gSaveBlock2Ptr->optionsRandomizerSeed;
+    }
+
     if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
         || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
     {
@@ -8709,6 +8724,11 @@ u16 GetRandomizedSpeciesWild(u16 species, u16 headerId)
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
+    if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
+    {
+        value = gSaveBlock2Ptr->optionsRandomizerSeed;
+    }
+
     if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_NORMAL)
         return species;
 
@@ -8734,6 +8754,11 @@ u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum)
 {
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+
+    if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
+    {
+        value = gSaveBlock2Ptr->optionsRandomizerSeed;
+    }
 
     if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
     {

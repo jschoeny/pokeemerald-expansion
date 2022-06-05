@@ -1,4 +1,5 @@
 enum {
+    RAND_MENU_ITEM_SEED,
     RAND_MENU_ITEM_TYPE,
     RAND_MENU_ITEM_ABILITY,
     RAND_MENU_ITEM_MOVE,
@@ -9,6 +10,7 @@ enum {
     RAND_MENU_ITEM_DONE,
 };
 
+static const u8 gRandText_Seed[] = _("Seed");
 static const u8 gRandText_Type[] = _("Type Settings");
 static const u8 gRandText_Ability[] = _("Ability Settings");
 static const u8 gRandText_Move[] = _("Move Settings");
@@ -31,6 +33,7 @@ static const u8 gRandText_Option_ByTrainer[] = _("By Trainer");
 static const u8 gRandText_Option_Yes[] = _("YES");
 static const u8 gRandText_Option_No[] = _("NO");
 
+static const u8 gRandMenuDesc_Seed[]    = _("Change the randomizer seed.\n0000 uses your Trainer ID as the seed.");
 static const u8 gRandMenuDesc_Type[]    = _("Change how the types of POKéMON\nare randomized.");
 static const u8 gRandMenuDesc_Ability[] = _("Change how the abilities of POKéMON\nare randomized.");
 static const u8 gRandMenuDesc_Move[]    = _("Change how the learnsets of POKéMON\nare randomized.");
@@ -41,7 +44,6 @@ static const u8 gRandMenuDesc_Challenge[]  = _("Increases difficulty, like givin
 static const u8 gRandMenuDesc_Done[]    = _("Saves your current settings.\nTHIS CANNOT BE CHANGED ONCE SET!");
 static const u8 gRandMenuDesc_Finish[]  = _("Are you sure you?\nTHIS CANNOT BE CHANGED ONCE SET!");
 
-//TODO: Change to single-array with another const variable acting as pointers
 static const u8 gRandMenuDesc_Type_Options_0[] = _("All POKéMON keep their original\ntypings.");
 static const u8 gRandMenuDesc_Type_Options_1[] = _("Every individual POKéMON gets their\ntype(s) randomly swapped.");
 static const u8 gRandMenuDesc_Type_Options_2[] = _("Every individual POKéMON is capable\nof having any type combination.");
@@ -67,8 +69,32 @@ static const u8 gRandMenuDesc_Trainer_Options_1[] = _("All POKéMON Trainers wil
 static const u8 gRandMenuDesc_Trainer_Options_2[] = _("Each POKéMON Trainer will have\na random team of POKéMON.");
 static const u8 gRandMenuDesc_Trainer_Options_3[] = _("POKéMON Trainers will a have a\nnew random team every rematch.");
 
+static const u8 gRandText_Seed_Value0[]     = _("0");
+static const u8 gRandText_Seed_Value1[]     = _("1");
+static const u8 gRandText_Seed_Value2[]     = _("2");
+static const u8 gRandText_Seed_Value3[]     = _("3");
+static const u8 gRandText_Seed_Value4[]     = _("4");
+static const u8 gRandText_Seed_Value5[]     = _("5");
+static const u8 gRandText_Seed_Value6[]     = _("6");
+static const u8 gRandText_Seed_Value7[]     = _("7");
+static const u8 gRandText_Seed_Value8[]     = _("8");
+static const u8 gRandText_Seed_Value9[]     = _("9");
+static const u8 gRandText_Seed_ValueA[]     = _("A");
+static const u8 gRandText_Seed_ValueB[]     = _("B");
+static const u8 gRandText_Seed_ValueC[]     = _("C");
+static const u8 gRandText_Seed_ValueD[]     = _("D");
+static const u8 gRandText_Seed_ValueE[]     = _("E");
+static const u8 gRandText_Seed_ValueF[]     = _("F");
+static const u8 gRandText_Seed_Red[]        = _("{COLOR RED}{SHADOW LIGHT_RED}");
+static const u8 gRandText_Seed_Normal[]     = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}");
+static const u8 gRandText_Seed_Space[]      = _(" ");
+static const u8 gRandText_Seed_Random[]     = _("{FONT_NARROW}    RANDOM");
+static const u8 gRandText_Seed_Reset[]      = _("{FONT_NARROW}     RESET");
+static const u8 gRandText_Seed_Set[]        = _("{FONT_NARROW}      SET");
+
 static const u8 *const sRandMenuDescPointers[] =
 {
+    [RAND_MENU_ITEM_SEED] = gRandMenuDesc_Seed,
     [RAND_MENU_ITEM_TYPE] = gRandMenuDesc_Type,
     [RAND_MENU_ITEM_ABILITY] = gRandMenuDesc_Ability,
     [RAND_MENU_ITEM_MOVE] = gRandMenuDesc_Move,
@@ -79,6 +105,25 @@ static const u8 *const sRandMenuDescPointers[] =
     [RAND_MENU_ITEM_DONE] = gRandMenuDesc_Done,
 };
 
+static const u8 *const sRandSeedCharacters[] =
+{
+    gRandText_Seed_Value0,
+    gRandText_Seed_Value1,
+    gRandText_Seed_Value2,
+    gRandText_Seed_Value3,
+    gRandText_Seed_Value4,
+    gRandText_Seed_Value5,
+    gRandText_Seed_Value6,
+    gRandText_Seed_Value7,
+    gRandText_Seed_Value8,
+    gRandText_Seed_Value9,
+    gRandText_Seed_ValueA,
+    gRandText_Seed_ValueB,
+    gRandText_Seed_ValueC,
+    gRandText_Seed_ValueD,
+    gRandText_Seed_ValueE,
+    gRandText_Seed_ValueF,
+};
 static const u8 *const sRandOptionMenuDescPointers_Type[] =
 {
     [0] = gRandMenuDesc_Type_Options_0,
@@ -157,6 +202,7 @@ static const struct ListMenuItem sRandMenuOptionItems_YesNo[] =
 
 static const struct ListMenuItem sRandMenuItems[] =
 {
+    [RAND_MENU_ITEM_SEED] = {gRandText_Seed, RAND_MENU_ITEM_SEED},
     [RAND_MENU_ITEM_TYPE] = {gRandText_Type, RAND_MENU_ITEM_TYPE},
     [RAND_MENU_ITEM_ABILITY] = {gRandText_Ability, RAND_MENU_ITEM_ABILITY},
     [RAND_MENU_ITEM_MOVE] = {gRandText_Move, RAND_MENU_ITEM_MOVE},

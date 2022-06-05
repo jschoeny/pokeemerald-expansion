@@ -36,6 +36,7 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift_menu.h"
+#include "mgba_printf/mgba.h"
 
 /*
  * Main menu state machine
@@ -606,6 +607,15 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     ShowBg(0);
     HideBg(1);
     CreateTask(Task_MainMenuCheckSaveFile, 0);
+
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerType: %d",      gSaveBlock2Ptr->optionsRandomizerType);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerAbility: %d",   gSaveBlock2Ptr->optionsRandomizerAbility);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerMoves: %d",     gSaveBlock2Ptr->optionsRandomizerMoves);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerWild: %d",      gSaveBlock2Ptr->optionsRandomizerWild);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerTrainer: %d",   gSaveBlock2Ptr->optionsRandomizerTrainer);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerPalette: %d",   gSaveBlock2Ptr->optionsRandomizerPalette);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerChallenge: %d", gSaveBlock2Ptr->optionsRandomizerChallenge);
+    MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerSeed: %d",      gSaveBlock2Ptr->optionsRandomizerSeed);
 
     return 0;
 }

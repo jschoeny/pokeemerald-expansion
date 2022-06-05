@@ -511,6 +511,7 @@ struct SaveBlock2
               u16 optionsRandomizerTrainer:2;   // OPTIONS_RANDOMIZER_TRAINER_[NORMAL/SPECIES/TRAINER/RAND]
               u16 optionsRandomizerPalette:1;     // whether to change the palette for mon type changes
               u16 optionsRandomizerChallenge:1;     // whether to force trainer to use champion AI
+              u16 optionsRandomizerSeed;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
