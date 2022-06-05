@@ -29,11 +29,18 @@
 #include "task.h"
 #include "window.h"
 #include "menu_specialized.h"
+#include "randomizer.h"
+#include "event_data.h"
+#include "constants/metatile_labels.h"
+#include "field_camera.h"
+#include "fieldmap.h"
+#include "field_player_avatar.h"
 
 // Top level PC menu options
 enum {
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
+    MENU_RANDOMIZER,
     MENU_DECORATION,
     MENU_TURNOFF
 };
@@ -112,6 +119,7 @@ static void Mailbox_MailOptionsProcessInput(u8 taskId);
 
 static void PlayerPC_ItemStorage(u8 taskId);
 static void PlayerPC_Mailbox(u8 taskId);
+static void PlayerPC_Randomizer(u8 taskId);
 static void PlayerPC_Decoration(u8 var);
 static void PlayerPC_TurnOff(u8 taskId);
 
@@ -193,6 +201,7 @@ static const struct MenuAction sPlayerPCMenuActions[] =
 {
     [MENU_ITEMSTORAGE] = { gText_ItemStorage, PlayerPC_ItemStorage },
     [MENU_MAILBOX]     = { gText_Mailbox,     PlayerPC_Mailbox },
+    [MENU_RANDOMIZER]  = { gText_Randomizer,  PlayerPC_Randomizer },
     [MENU_DECORATION]  = { gText_Decoration,  PlayerPC_Decoration },
     [MENU_TURNOFF]     = { gText_TurnOff,     PlayerPC_TurnOff }
 };
@@ -201,6 +210,7 @@ static const u8 sBedroomPC_OptionOrder[] =
 {
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
+    MENU_RANDOMIZER,
     MENU_DECORATION,
     MENU_TURNOFF
 };
@@ -209,6 +219,7 @@ static const u8 sBedroomPC_OptionOrder[] =
 static const u8 sPlayerPC_OptionOrder[] =
 {
     MENU_ITEMSTORAGE,
+    MENU_RANDOMIZER,
     MENU_MAILBOX,
     MENU_TURNOFF
 };
@@ -243,7 +254,7 @@ static const struct WindowTemplate sWindowTemplates_MainMenus[] =
         .tilemapLeft = 1,
         .tilemapTop = 1,
         .width = 9,
-        .height = 6,
+        .height = 8,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -252,7 +263,7 @@ static const struct WindowTemplate sWindowTemplates_MainMenus[] =
         .tilemapLeft = 1,
         .tilemapTop = 1,
         .width = 9,
-        .height = 8,
+        .height = 10,
         .paletteNum = 15,
         .baseBlock = 1
     },
@@ -476,6 +487,47 @@ static void PlayerPC_Mailbox(u8 taskId)
             // Alloc failed, exit Mailbox
             DisplayItemMessageOnField(taskId, gText_NoMailHere, ReshowPlayerPC);
         }
+    }
+}
+
+static void PlayerPC_Randomizer(u8 taskId)
+{
+    if (!FlagGet(FLAG_SET_WALL_CLOCK))
+    {
+        DisplayItemMessageOnField(taskId, gText_PCUnavailable, ReshowPlayerPC);
+    }
+    else
+    {
+        if (sTopMenuNumOptions == NUM_BEDROOM_PC_OPTIONS) // Flimsy way to determine if Bedroom PC is in use
+        {
+            s8 dx = 0;
+            s8 dy = 0;
+            u16 tileId = 0;
+            u8 playerDirection = GetPlayerFacingDirection();
+            switch (playerDirection)
+            {
+            case DIR_NORTH:
+                dx = 0;
+                dy = -1;
+                break;
+            case DIR_WEST:
+                dx = -1;
+                dy = -1;
+                break;
+            case DIR_EAST:
+                dx = 1;
+                dy = -1;
+                break;
+            }
+            if (gSaveBlock2Ptr->playerGender == MALE)
+                tileId = METATILE_BrendansMaysHouse_BrendanPC_Off;
+            else
+                tileId = METATILE_BrendansMaysHouse_MayPC_Off;
+            MapGridSetMetatileIdAt(gSaveBlock1Ptr->pos.x + dx + MAP_OFFSET, gSaveBlock1Ptr->pos.y + dy + MAP_OFFSET, tileId | MAPGRID_COLLISION_MASK);
+            DrawWholeMapView();
+        }
+        Rand_ShowMainMenuView(FALSE);
+        DestroyTask(taskId);
     }
 }
 

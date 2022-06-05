@@ -42,6 +42,7 @@ static const u8 gRandMenuDesc_Trainer[] = _("Change how POKéMON TRAINER teams\n
 static const u8 gRandMenuDesc_Palette[] = _("(Unfinished) POKéMON colors changed\nto match their new random types.");
 static const u8 gRandMenuDesc_Challenge[]  = _("Increases difficulty, like giving\nall trainers CHAMPION-level AI.");
 static const u8 gRandMenuDesc_Done[]    = _("Saves your current settings.\nTHIS CANNOT BE CHANGED ONCE SET!");
+static const u8 gRandMenuDesc_Close[]    = _("Close the randomizer preview.");
 static const u8 gRandMenuDesc_Finish[]  = _("Are you sure you?\nTHIS CANNOT BE CHANGED ONCE SET!");
 
 static const u8 gRandMenuDesc_Type_Options_0[] = _("All POKéMON keep their original\ntypings.");
@@ -61,7 +62,7 @@ static const u8 gRandMenuDesc_Move_Options_3[] = _("Any individual POKéMON can 
 
 static const u8 gRandMenuDesc_Wild_Options_0[] = _("All wild POKéMON encounters will\nremain unchanged.");
 static const u8 gRandMenuDesc_Wild_Options_1[] = _("Each species of POKéMON will be\nrandomly swapped out with another.");
-static const u8 gRandMenuDesc_Wild_Options_2[] = _("Wild POKéMON will be randomized\naccordingto their route/location.");
+static const u8 gRandMenuDesc_Wild_Options_2[] = _("Wild POKéMON will be randomized\naccording to their route/location.");
 static const u8 gRandMenuDesc_Wild_Options_3[] = _("Every single wild encounter can\nbe any possible random POKéMON.");
 
 static const u8 gRandMenuDesc_Trainer_Options_0[] = _("All POKéMON Trainers will keep\ntheir original team of POKéMON.");

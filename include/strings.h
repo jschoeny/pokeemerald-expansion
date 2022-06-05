@@ -567,6 +567,7 @@ extern const u8 gBirchDexRatingText_DexCompleted[];
 // player pc text
 extern const u8 gText_WhatWouldYouLike[];
 extern const u8 gText_NoMailHere[];
+extern const u8 gText_PCUnavailable[];
 
 extern const u8 gText_TakeOutItemsFromPC[];
 extern const u8 gText_StoreItemsInPC[];
@@ -575,6 +576,7 @@ extern const u8 gText_GoBackPrevMenu[];
 
 extern const u8 gText_ItemStorage[];
 extern const u8 gText_Mailbox[];
+extern const u8 gText_Randomizer[];
 extern const u8 gText_Decoration[];
 extern const u8 gText_TurnOff[];
 

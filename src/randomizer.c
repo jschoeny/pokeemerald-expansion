@@ -37,8 +37,10 @@
 #define RAND_DATA_SEED_POSSETTING   12
 #define RAND_DATA_SEED_CURRPOS      13
 #define RAND_DATA_SEED_ACTIVE       14
+#define RAND_DATA_CHANGE            15
 
 void Rand_ShowMainMenu(void);
+void Rand_ShowMainMenuView(bool8);
 static void Rand_DestroyMainMenu(u8);
 static void RandAction_OpenSeedChooser(u8);
 static void RandAction_OpenOption(u8);
@@ -164,6 +166,10 @@ static const struct ListMenuTemplate sRandSetListTemplate =
 };
 
 void Rand_ShowMainMenu(void) {
+    Rand_ShowMainMenuView(TRUE);
+}
+
+void Rand_ShowMainMenuView(bool8 changeSettings) {
     struct ListMenuTemplate menuTemplate;
     u8 windowId, helpWindowId, varWindowId;
     u8 menuTaskId;
@@ -208,6 +214,7 @@ void Rand_ShowMainMenu(void) {
     }
     gTasks[inputTaskId].data[RAND_DATA_SEED_CURRPOS] = 0;
     gTasks[inputTaskId].data[RAND_DATA_SEED_ACTIVE] = FALSE;
+    gTasks[inputTaskId].data[RAND_DATA_CHANGE] = changeSettings;
 
     gSaveBlock2Ptr->optionsRandomizerSeed = RandHelper_SeedPositionsToValue(inputTaskId);
 
@@ -260,11 +267,24 @@ static void RandTask_HandleMainMenuInput(u8 taskId)
 
         RandHelper_DescText(taskId, list->scrollOffset + list->selectedRow);
     }
-    if (gMain.newKeys & A_BUTTON)
+    if(gTasks[taskId].data[RAND_DATA_CHANGE])
     {
-        PlaySE(SE_SELECT);
-        if ((func = sRandMenuActions[input]) != NULL)
-            func(taskId);
+        if (gMain.newKeys & A_BUTTON)
+        {
+            PlaySE(SE_SELECT);
+            if ((func = sRandMenuActions[input]) != NULL)
+                func(taskId);
+        }
+    }
+    else
+    {
+        if(gMain.newKeys & B_BUTTON || (gMain.newKeys & A_BUTTON && pos == RAND_MENU_ITEM_DONE))
+        {
+            PlaySE(SE_PC_OFF);
+            Rand_DestroyMainMenu(taskId);
+            ClearStdWindowAndFrameToTransparent(0, FALSE);
+            ClearWindowTilemap(0);
+        }
     }
 }
 
@@ -497,7 +517,10 @@ static void RandHelper_DescText(u8 taskId, u8 pos)
     u8 varWindowId = gTasks[taskId].data[RAND_DATA_VAR];
 
     FillWindowPixelBuffer(helpWindowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, sRandMenuDescPointers[pos], 0, 1, 0, NULL);
+    if(!gTasks[taskId].data[RAND_DATA_CHANGE] && pos == RAND_MENU_ITEM_DONE)
+        AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, gRandMenuDesc_Close, 0, 1, 0, NULL);
+    else
+        AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, sRandMenuDescPointers[pos], 0, 1, 0, NULL);
     CopyWindowToVram(helpWindowId, 3);
 
     FillWindowPixelBuffer(varWindowId, PIXEL_FILL(1));
