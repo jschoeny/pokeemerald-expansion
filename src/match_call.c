@@ -1766,14 +1766,14 @@ static void PopulateSpeciesFromTrainerLocation(int matchCallId, u8 *destStr)
             if (gWildMonHeaders[i].landMonsInfo)
             {
                 slot = GetLandEncounterSlot();
-                species[numSpecies] = gWildMonHeaders[i].landMonsInfo->wildPokemon[slot].species;
+                species[numSpecies] = GetRandomizedSpeciesWild(gWildMonHeaders[i].landMonsInfo->wildPokemon[slot].species, i);
                 numSpecies++;
             }
 
             if (gWildMonHeaders[i].waterMonsInfo)
             {
                 slot = GetWaterEncounterSlot();
-                species[numSpecies] = gWildMonHeaders[i].waterMonsInfo->wildPokemon[slot].species;
+                species[numSpecies] = GetRandomizedSpeciesWild(gWildMonHeaders[i].waterMonsInfo->wildPokemon[slot].species, i);
                 numSpecies++;
             }
 
@@ -1803,16 +1803,16 @@ static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
     {
     case 0:
     default:
-        speciesName = gSpeciesNames[party.NoItemDefaultMoves[monId].species];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.NoItemDefaultMoves[monId].species, trainerId)];
         break;
     case F_TRAINER_PARTY_CUSTOM_MOVESET:
-        speciesName = gSpeciesNames[party.NoItemCustomMoves[monId].species];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.NoItemCustomMoves[monId].species, trainerId)];
         break;
     case F_TRAINER_PARTY_HELD_ITEM:
-        speciesName = gSpeciesNames[party.ItemDefaultMoves[monId].species];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.ItemDefaultMoves[monId].species, trainerId)];
         break;
     case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
-        speciesName = gSpeciesNames[party.ItemCustomMoves[monId].species];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.ItemCustomMoves[monId].species, trainerId)];
         break;
     }
 
