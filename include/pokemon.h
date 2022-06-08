@@ -11,6 +11,8 @@
 
 #define PALETTE_COEFF_FULL 0xFF
 #define PALETTE_COEFF_2ND 0x20
+#define RAND_TYPE1_OFF 8
+#define RAND_TYPE2_OFF 13
 
 struct PokemonSubstruct0
 {

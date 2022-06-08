@@ -633,10 +633,10 @@ struct BattleStruct
 #define BATTLER_DAMAGED(battlerId) ((gSpecialStatuses[battlerId].physicalDmg != 0 || gSpecialStatuses[battlerId].specialDmg != 0))
 
 #define IS_BATTLER_OF_TYPE(battlerId, type)((gBattleMons[battlerId].type1 == type || gBattleMons[battlerId].type2 == type || gBattleMons[battlerId].type3 == type))
-#define SET_BATTLER_TYPE(battlerId, type)           \
+#define SET_BATTLER_TYPE(battlerId, typeA, typeB)   \
 {                                                   \
-    gBattleMons[battlerId].type1 = type;            \
-    gBattleMons[battlerId].type2 = type;            \
+    gBattleMons[battlerId].type1 = typeA;           \
+    gBattleMons[battlerId].type2 = typeB;           \
     gBattleMons[battlerId].type3 = TYPE_MYSTERY;    \
 }
 

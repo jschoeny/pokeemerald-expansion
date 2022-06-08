@@ -1409,7 +1409,7 @@ static void Cmd_attackcanceler(void)
         && gCurrentMove != MOVE_STRUGGLE)
     {
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
-        SET_BATTLER_TYPE(gBattlerAttacker, moveType);
+        SET_BATTLER_TYPE(gBattlerAttacker, moveType, moveType);
         gBattlerAbility = gBattlerAttacker;
         BattleScriptPushCursor();
         PrepareStringBattle(STRINGID_EMPTYSTRING3, gBattlerAttacker);
@@ -4709,7 +4709,7 @@ static void Cmd_setroost(void)
         gBattleStruct->roostTypes[gBattlerAttacker][0] = TYPE_FLYING;
         gBattleStruct->roostTypes[gBattlerAttacker][1] = TYPE_FLYING;
         gBattleStruct->roostTypes[gBattlerAttacker][2] = TYPE_FLYING;
-        SET_BATTLER_TYPE(gBattlerAttacker, TYPE_NORMAL);
+        SET_BATTLER_TYPE(gBattlerAttacker, TYPE_NORMAL, TYPE_NORMAL);
     }
     // Dual Type with Flying Type.
     else if ((gBattleMons[gBattlerAttacker].type1 == TYPE_FLYING && gBattleMons[gBattlerAttacker].type2 != TYPE_FLYING)
@@ -8483,7 +8483,7 @@ static void Cmd_various(void)
         }
         else
         {
-            SET_BATTLER_TYPE(gBattlerTarget, gBattleMoves[gCurrentMove].type);
+            SET_BATTLER_TYPE(gBattlerTarget, gBattleMoves[gCurrentMove].type, gBattleMoves[gCurrentMove].type);
             PREPARE_TYPE_BUFFER(gBattleTextBuff1, gBattleMoves[gCurrentMove].type);
             gBattlescriptCurrInstr += 7;
         }
@@ -10755,7 +10755,7 @@ static void Cmd_tryconversiontypechange(void)
     }
     else
     {
-        SET_BATTLER_TYPE(gBattlerAttacker, moveType);
+        SET_BATTLER_TYPE(gBattlerAttacker, moveType, moveType);
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
         gBattlescriptCurrInstr += 5;
     }
@@ -10811,7 +10811,7 @@ static void Cmd_tryconversiontypechange(void)
         }
         while (moveType == gBattleMons[gBattlerAttacker].type1 || moveType == gBattleMons[gBattlerAttacker].type2 || moveType == gBattleMons[gBattlerAttacker].type3);
 
-        SET_BATTLER_TYPE(gBattlerAttacker, moveType);
+        SET_BATTLER_TYPE(gBattlerAttacker, moveType, moveType);
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
 
         gBattlescriptCurrInstr += 5;
@@ -11446,7 +11446,7 @@ static void Cmd_settypetorandomresistance(void) // conversion 2
                 }
                 else
                 {
-                    SET_BATTLER_TYPE(gBattlerAttacker, i);
+                    SET_BATTLER_TYPE(gBattlerAttacker, i, i);
                     PREPARE_TYPE_BUFFER(gBattleTextBuff1, i);
                     gBattlescriptCurrInstr += 5;
                     return;
@@ -13411,7 +13411,7 @@ static void Cmd_settypetoterrain(void)
 
     if (!IS_BATTLER_OF_TYPE(gBattlerAttacker, terrainType))
     {
-        SET_BATTLER_TYPE(gBattlerAttacker, terrainType);
+        SET_BATTLER_TYPE(gBattlerAttacker, terrainType, terrainType);
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, terrainType);
 
         gBattlescriptCurrInstr += 5;

@@ -8545,6 +8545,102 @@ u8 GetBoxMonType(struct BoxPokemon *boxMon, bool8 secondType)
     return type;
 }
 
+static u8 GetSpeciesTypeException(u16 species, u32 personality, bool8 secondType)
+{
+    u8 type;
+    u8 setting = gSaveBlock2Ptr->optionsRandomizerType;
+    u8 offset = RAND_TYPE1_OFF;
+    #define firstType (!secondType)
+
+    switch(species) {
+        // Mono-type divergent
+        case SPECIES_VAPOREON:
+        case SPECIES_JOLTEON:
+        case SPECIES_FLAREON:
+        case SPECIES_ESPEON:
+        case SPECIES_UMBREON:
+        case SPECIES_LEAFEON:
+        case SPECIES_GLACEON:
+        case SPECIES_SYLVEON:
+        case SPECIES_CASTFORM_RAINY:
+        case SPECIES_CASTFORM_SNOWY:
+        case SPECIES_CASTFORM_SUNNY:
+            if(setting == OPTIONS_RANDOMIZER_TYPE_1_2 && secondType)
+                offset = RAND_TYPE2_OFF;
+            type = (personality >> offset) % (NUMBER_OF_MON_TYPES - 1);
+            type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            return type;
+
+        // First-type divergent
+        case SPECIES_STEELIX:
+        case SPECIES_ALTARIA:
+        case SPECIES_FLETCHINDER:
+        case SPECIES_TALONFLAME:
+            if(firstType) {
+                type = (personality >> RAND_TYPE1_OFF) % (NUMBER_OF_MON_TYPES - 1);
+                type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+                return type;
+            }
+            break;
+
+        // Second-type divergent
+        case SPECIES_EXEGGUTOR_ALOLAN:
+        case SPECIES_SCIZOR:
+        case SPECIES_SCIZOR_MEGA:
+        case SPECIES_TYRANITAR:
+        case SPECIES_TYRANITAR_MEGA:
+        case SPECIES_DUSTOX:
+        case SPECIES_GALLADE:
+        case SPECIES_GALLADE_MEGA:
+        case SPECIES_MASQUERAIN:
+        case SPECIES_NINJASK:
+        case SPECIES_SHEDINJA:
+        case SPECIES_WORMADAM:
+        case SPECIES_WORMADAM_SANDY_CLOAK:
+        case SPECIES_WORMADAM_TRASH_CLOAK:
+        case SPECIES_DRAPION:
+        case SPECIES_DRAGALGE:
+        case SPECIES_DECIDUEYE:
+        case SPECIES_SOLGALEO:
+        case SPECIES_LUNALA:
+        case SPECIES_URSHIFU_RAPID_STRIKE_STYLE:
+            if(secondType) {
+                type = (personality >> RAND_TYPE2_OFF) % (NUMBER_OF_MON_TYPES - 1);
+                type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+                type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+                return type;
+            }
+            break;
+
+        // Both-type divergent
+        case SPECIES_MAROWAK_ALOLAN:
+        case SPECIES_ALTARIA_MEGA:
+            if(secondType)
+                offset = RAND_TYPE2_OFF;
+            type = (personality >> offset) % (NUMBER_OF_MON_TYPES - 1);
+            type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            return type;
+
+        // First type becomes second type, first-type divergent
+        case SPECIES_MR_MIME_GALARIAN:
+        case SPECIES_MR_RIME:
+            if(firstType)
+                offset = RAND_TYPE2_OFF;
+            type = (personality >> offset) % (NUMBER_OF_MON_TYPES - 1);
+            if(firstType)
+                type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
+            type = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            return type;
+
+    }
+    return 0xFF;
+
+    #undef firstType
+}
+
 u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType)
 {
     u8 type;
@@ -8558,23 +8654,28 @@ u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType)
         return type;
     }
 
+    if(setting != OPTIONS_RANDOMIZER_TYPE_RAND)
+        type = GetSpeciesTypeException(species, personality, secondType);
+    if(type != 0xFF)
+        return type;
+
     if(setting == OPTIONS_RANDOMIZER_TYPE_1_1) {
-        type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+        type = (personality >> RAND_TYPE1_OFF) % (NUMBER_OF_MON_TYPES - 1);
         type = (type >= TYPE_MYSTERY) ? type + 1 : type;
         if(secondType && gBaseStats[species].type1 != gBaseStats[species].type2) {
-            type = (personality >> 13) % (NUMBER_OF_MON_TYPES - 1);
+            type = (personality >> RAND_TYPE2_OFF) % (NUMBER_OF_MON_TYPES - 1);
             type = (type >= TYPE_MYSTERY) ? type + 1 : type;
         }
         return type;
     }
 
     if(!secondType) {
-        type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+        type = (personality >> RAND_TYPE1_OFF) % (NUMBER_OF_MON_TYPES - 1);
         type = (type >= TYPE_MYSTERY) ? type + 1 : type;
 
         if(setting == OPTIONS_RANDOMIZER_TYPE_RAND)
         {
-            type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+            type = (personality >> RAND_TYPE1_OFF) % (NUMBER_OF_MON_TYPES - 1);
             type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
             type = (type >= TYPE_MYSTERY) ? type + 1 : type;
         }
@@ -8582,12 +8683,12 @@ u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType)
     else {
         if(setting == OPTIONS_RANDOMIZER_TYPE_1_2)
         {
-            type = (personality >> 13) % (NUMBER_OF_MON_TYPES - 1);
+            type = (personality >> RAND_TYPE2_OFF) % (NUMBER_OF_MON_TYPES - 1);
             type = (type >= TYPE_MYSTERY) ? type + 1 : type;
         }
         else if(setting == OPTIONS_RANDOMIZER_TYPE_RAND)
         {
-            type = (personality >> 8) % (NUMBER_OF_MON_TYPES - 1);
+            type = (personality >> RAND_TYPE1_OFF) % (NUMBER_OF_MON_TYPES - 1);
             type = ((0x4 * (type + (species % (NUMBER_OF_MON_TYPES - 1)))) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
             type = ((0x4 * type) + 0x9) % (NUMBER_OF_MON_TYPES - 1);
             type = (type >= TYPE_MYSTERY) ? type + 1 : type;

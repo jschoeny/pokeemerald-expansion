@@ -2038,7 +2038,7 @@ void TryToApplyMimicry(u8 battlerId, bool8 various)
 
     if (moveType != 0 && !IS_BATTLER_OF_TYPE(battlerId, moveType))
     {
-        SET_BATTLER_TYPE(battlerId, moveType);
+        SET_BATTLER_TYPE(battlerId, moveType, moveType);
         PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, battlerId, gBattlerPartyIndexes[battlerId])
         PREPARE_TYPE_BUFFER(gBattleTextBuff2, moveType);
         if (!various)
@@ -3882,51 +3882,77 @@ u8 TryWeatherFormChange(u8 battler)
     u8 ret = 0;
     bool32 weatherEffect = WEATHER_HAS_EFFECT;
     u16 holdEffect = GetBattlerHoldEffect(battler, TRUE);
+    u16 species = gBattleMons[battler].species;
 
-    if (gBattleMons[battler].species == SPECIES_CASTFORM)
+    if (species == SPECIES_CASTFORM)
     {
         if (GetBattlerAbility(battler) != ABILITY_FORECAST || gBattleMons[battler].hp == 0)
         {
             ret = 0; // No change
         }
-        else if (!weatherEffect && !IS_BATTLER_OF_TYPE(battler, TYPE_NORMAL))
+        else if (!weatherEffect && !IS_BATTLER_OF_TYPE(battler, GetMonTypeFromPersonality(SPECIES_CASTFORM, gBattleMons[battler].personality, TRUE)))//TYPE_NORMAL))
         {
-            SET_BATTLER_TYPE(battler, TYPE_NORMAL);
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CASTFORM, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CASTFORM, gBattleMons[battler].personality, TRUE)
+            );
             ret = CASTFORM_NORMAL + 1;
         }
         else if (!weatherEffect)
         {
             ret = 0; // No change
         }
-        else if (holdEffect == HOLD_EFFECT_UTILITY_UMBRELLA || (!(gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SUN | B_WEATHER_HAIL)) && !IS_BATTLER_OF_TYPE(battler, TYPE_NORMAL)))
+        else if (holdEffect == HOLD_EFFECT_UTILITY_UMBRELLA || (!(gBattleWeather & (B_WEATHER_RAIN | B_WEATHER_SUN | B_WEATHER_HAIL)) && !IS_BATTLER_OF_TYPE(battler, GetMonTypeFromPersonality(SPECIES_CASTFORM, gBattleMons[battler].personality, TRUE))))
         {
-            SET_BATTLER_TYPE(battler, TYPE_NORMAL);
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CASTFORM, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CASTFORM, gBattleMons[battler].personality, TRUE)
+            );
             ret = CASTFORM_NORMAL + 1;
         }
-        else if (gBattleWeather & B_WEATHER_SUN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && !IS_BATTLER_OF_TYPE(battler, TYPE_FIRE))
+        else if (gBattleWeather & B_WEATHER_SUN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && !IS_BATTLER_OF_TYPE(battler, GetMonTypeFromPersonality(SPECIES_CASTFORM_SUNNY, gBattleMons[battler].personality, TRUE)))
         {
-            SET_BATTLER_TYPE(battler, TYPE_FIRE);
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CASTFORM_SUNNY, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CASTFORM_SUNNY, gBattleMons[battler].personality, TRUE)
+            );
             ret = CASTFORM_FIRE + 1;
         }
-        else if (gBattleWeather & B_WEATHER_RAIN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && !IS_BATTLER_OF_TYPE(battler, TYPE_WATER))
+        else if (gBattleWeather & B_WEATHER_RAIN && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && !IS_BATTLER_OF_TYPE(battler, GetMonTypeFromPersonality(SPECIES_CASTFORM_RAINY, gBattleMons[battler].personality, TRUE)))
         {
-            SET_BATTLER_TYPE(battler, TYPE_WATER);
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CASTFORM_RAINY, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CASTFORM_RAINY, gBattleMons[battler].personality, TRUE)
+            );
             ret = CASTFORM_WATER + 1;
         }
-        else if (gBattleWeather & B_WEATHER_HAIL && !IS_BATTLER_OF_TYPE(battler, TYPE_ICE))
+        else if (gBattleWeather & B_WEATHER_HAIL && !IS_BATTLER_OF_TYPE(battler, GetMonTypeFromPersonality(SPECIES_CASTFORM_SNOWY, gBattleMons[battler].personality, TRUE)))
         {
-            SET_BATTLER_TYPE(battler, TYPE_ICE);
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CASTFORM_SNOWY, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CASTFORM_SNOWY, gBattleMons[battler].personality, TRUE)
+            );
             ret = CASTFORM_ICE + 1;
         }
     }
-    else if (gBattleMons[battler].species == SPECIES_CHERRIM)
+    else if (species == SPECIES_CHERRIM)
     {
         if (GetBattlerAbility(battler) != ABILITY_FLOWER_GIFT || gBattleMons[battler].hp == 0)
             ret = 0; // No change
-        else if (gBattleMonForms[battler] == 0 && weatherEffect && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && gBattleWeather & B_WEATHER_SUN)
+        else if (gBattleMonForms[battler] == 0 && weatherEffect && holdEffect != HOLD_EFFECT_UTILITY_UMBRELLA && gBattleWeather & B_WEATHER_SUN) {
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CHERRIM_SUNSHINE, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CHERRIM_SUNSHINE, gBattleMons[battler].personality, TRUE)
+            );
             ret = CHERRIM_SUNSHINE + 1;
-        else if (gBattleMonForms[battler] != 0 && (!weatherEffect || holdEffect == HOLD_EFFECT_UTILITY_UMBRELLA || !(gBattleWeather & B_WEATHER_SUN)))
+        }
+        else if (gBattleMonForms[battler] != 0 && (!weatherEffect || holdEffect == HOLD_EFFECT_UTILITY_UMBRELLA || !(gBattleWeather & B_WEATHER_SUN))) {
+            SET_BATTLER_TYPE(battler,
+                GetMonTypeFromPersonality(SPECIES_CHERRIM, gBattleMons[battler].personality, FALSE),
+                GetMonTypeFromPersonality(SPECIES_CHERRIM, gBattleMons[battler].personality, TRUE)
+            );
             ret = CHERRIM_OVERCAST + 1;
+        }
     }
 
     return ret;
@@ -5150,7 +5176,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u16 ability, u8 special, u16 move
              && !IS_BATTLER_OF_TYPE(battler, moveType)
              && gBattleMons[battler].hp != 0)
             {
-                SET_BATTLER_TYPE(battler, moveType);
+                SET_BATTLER_TYPE(battler, moveType, moveType);
                 PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
                 BattleScriptPushCursor();
                 gBattlescriptCurrInstr = BattleScript_ColorChangeActivates;
