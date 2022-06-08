@@ -1,5 +1,6 @@
 #include "global.h"
 #include "bg.h"
+#include "day_night.h"
 #include "event_data.h"
 #include "gpu_regs.h"
 #include "graphics.h"
@@ -16,6 +17,8 @@
 #include "trig.h"
 #include "pokedex_area_region_map.h"
 #include "wild_encounter.h"
+#include "constants/day_night.h"
+#include "constants/maps.h"
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
@@ -405,12 +408,17 @@ static bool8 MapHasSpecies(const struct WildPokemonHeader *info, u16 species)
 static bool8 MonListHasSpecies(const struct WildPokemonInfo *info, u16 species, u16 size)
 {
     u16 i;
+    int timeOfDay;
+
     if (info != NULL)
     {
-        for (i = 0; i < size; i++)
+        for (timeOfDay = 0; timeOfDay < TIMES_OF_DAY_COUNT; timeOfDay++)
         {
-            if (info->wildPokemon[i].species == species)
-                return TRUE;
+            for (i = 0; i < size; i++)
+            {
+                if (info->wildPokemon[timeOfDay][i].species == species)
+                    return TRUE;
+            }
         }
     }
     return FALSE;
@@ -560,7 +568,7 @@ static void DoAreaGlow(void)
         if (sPokedexAreaScreen->markerTimer > 12)
         {
             sPokedexAreaScreen->markerTimer = 0;
-            
+
             // Flash the marker
             // With a max of 4, the marker will disappear twice
             sPokedexAreaScreen->markerFlashCounter++;
@@ -737,7 +745,7 @@ static void CreateAreaMarkerSprites(void)
 static void DestroyAreaScreenSprites(void)
 {
     u16 i;
-    
+
     // Destroy area marker sprites
     FreeSpriteTilesByTag(TAG_AREA_MARKER);
     FreeSpritePaletteByTag(TAG_AREA_MARKER);
@@ -772,7 +780,7 @@ static void CreateAreaUnknownSprites(void)
 
     if (sPokedexAreaScreen->numOverworldAreas || sPokedexAreaScreen->numSpecialAreas)
     {
-        // The current species is present on the map, don't create any "Area Unknown" sprites 
+        // The current species is present on the map, don't create any "Area Unknown" sprites
         for (i = 0; i < ARRAY_COUNT(sPokedexAreaScreen->areaUnknownSprites); i++)
             sPokedexAreaScreen->areaUnknownSprites[i] = NULL;
     }
