@@ -1927,6 +1927,18 @@ bool8 ScrCmd_setwildbattle(struct ScriptContext *ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_setwildbattlevars(struct ScriptContext *ctx)
+{
+    u16 species = VarGet(ScriptReadHalfword(ctx));
+    u8 level = VarGet(ScriptReadHalfword(ctx));
+    u16 item = VarGet(ScriptReadHalfword(ctx));
+
+    CreateScriptedWildMon(species, CHALLENGE_LEVEL(level), item);
+    gIsScriptedWildDouble = FALSE;
+
+    return FALSE;
+}
+
 bool8 ScrCmd_dowildbattle(struct ScriptContext *ctx)
 {
     if(gIsScriptedWildDouble == FALSE)

@@ -1752,6 +1752,14 @@
 	.2byte \quantity
 	.endm
 
+	@ Set a wild battle using vars
+	.macro setwildbattlevars species:req, level:req, item:req
+	.byte 0xe5
+	.2byte \species
+	.2byte \level
+	.2byte \item
+	.endm
+
 
 @ Supplementary
 
