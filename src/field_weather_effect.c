@@ -772,7 +772,7 @@ void Snow_InitVars(void)
     gWeatherPtr->weatherGfxLoaded = FALSE;
     gWeatherPtr->gammaTargetIndex = 3;
     gWeatherPtr->gammaStepDelay = 20;
-    gWeatherPtr->targetSnowflakeSpriteCount = 16;
+    gWeatherPtr->targetSnowflakeSpriteCount = 24;
     gWeatherPtr->snowflakeVisibleCounter = 0;
 }
 
@@ -824,7 +824,7 @@ static bool8 UpdateVisibleSnowflakeSprites(void)
     if (gWeatherPtr->snowflakeSpriteCount == gWeatherPtr->targetSnowflakeSpriteCount)
         return FALSE;
 
-    if (++gWeatherPtr->snowflakeVisibleCounter > 36)
+    if (++gWeatherPtr->snowflakeVisibleCounter > 12)
     {
         gWeatherPtr->snowflakeVisibleCounter = 0;
         if (gWeatherPtr->snowflakeSpriteCount < gWeatherPtr->targetSnowflakeSpriteCount)
@@ -896,6 +896,8 @@ static const struct SpriteTemplate sSnowflakeSpriteTemplate =
 #define tFallCounter  data[5]
 #define tFallDuration data[6]
 #define tDeltaY2      data[7]
+#define tDeltaX       data[8]
+#define tPosX         data[9]
 
 static bool8 CreateSnowflakeSprite(void)
 {
@@ -931,8 +933,9 @@ static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
     sprite->tPosY = sprite->y * 128;
     sprite->x2 = 0;
     rand = Random();
-    sprite->tDeltaY = (rand & 3) * 5 + 64;
+    sprite->tDeltaY = (rand & 3) * 5 + 192;
     sprite->tDeltaY2 = sprite->tDeltaY;
+    sprite->tDeltaX = 1;
     StartSpriteAnim(sprite, (rand & 1) ? 0 : 1);
     sprite->tWaveIndex = 0;
     sprite->tWaveDelta = ((rand & 3) == 0) ? 2 : 1;
@@ -942,8 +945,7 @@ static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
 
 static void WaitSnowflakeSprite(struct Sprite *sprite)
 {
-    // Timer is never incremented
-    if (gWeatherPtr->snowflakeTimer > 18)
+    if (++gWeatherPtr->snowflakeTimer > 18)
     {
         sprite->invisible = FALSE;
         sprite->callback = UpdateSnowflakeSprite;
@@ -959,6 +961,7 @@ static void UpdateSnowflakeSprite(struct Sprite *sprite)
     s16 y;
 
     sprite->tPosY += sprite->tDeltaY;
+    sprite->x += sprite->tDeltaX;
     sprite->y = sprite->tPosY >> 7;
     sprite->tWaveIndex += sprite->tWaveDelta;
     sprite->tWaveIndex &= 0xFF;
@@ -1008,6 +1011,8 @@ static void UpdateSnowflakeSprite(struct Sprite *sprite)
 #undef tFallCounter
 #undef tFallDuration
 #undef tDeltaY2
+#undef tDeltaX
+#undef tPosX
 
 //------------------------------------------------------------------------------
 // WEATHER_RAIN_THUNDERSTORM
