@@ -512,10 +512,10 @@
 #define FLAG_DEFEATED_HO_OH                  0x1DC
 #define FLAG_DEFEATED_LUGIA                  0x1DD
 
-#define FLAG_UNUSED_0x1E0                    0x1E0 // Unused Flag
-#define FLAG_UNUSED_0x1E1                    0x1E1 // Unused Flag
 #define FLAG_DEFEATED_HEATRAN                0x1DE
 #define FLAG_CAUGHT_HEATRAN                  0x1DF
+#define FLAG_DEFEATED_REGIGIGAS              0x1E0
+#define FLAG_CAUGHT_REGIGIGAS                0x1E1
 #define FLAG_UNUSED_0x1E2                    0x1E2 // Unused Flag
 
 #define FLAG_OUTBREAK_ENCOUNTER              0x1E3

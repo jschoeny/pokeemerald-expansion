@@ -15,7 +15,9 @@ IslandCave_EventScript_TryRemoveRegice::
 	return
 
 IslandCave_OnLoad:
+	setvar VAR_TEMP_1, 1
 	call_if_unset FLAG_SYS_BRAILLE_REGICE_COMPLETED, IslandCave_EventScript_HideRegiEntrance
+	call_if_set FLAG_DEFEATED_REGICE, IslandCave_EventScript_EnableRegigigasTrigger
 	end
 
 IslandCave_EventScript_HideRegiEntrance::
@@ -35,6 +37,12 @@ IslandCave_OnTransition:
 
 IslandCave_EventScript_ShowRegice::
 	clearflag FLAG_HIDE_REGICE
+	return
+
+IslandCave_EventScript_EnableRegigigasTrigger::
+	goto_if_set FLAG_DEFEATED_REGIGIGAS, Common_EventScript_NopReturn
+	goto_if_set FLAG_CAUGHT_REGIGIGAS, Common_EventScript_NopReturn
+	setvar VAR_TEMP_1, 0
 	return
 
 IslandCave_EventScript_OpenRegiEntrance::
@@ -95,7 +103,7 @@ IslandCave_EventScript_Regice::
 	delay 40
 	waitmoncry
 	checkchallengemode
-	call_if_eq VAR_RESULT, TRUE, IslandCave_EventScript_TotemRegice
+	call_if_eq VAR_RESULT, TRUE, IslandCave_EventScript_TotemLegendary
 	setwildbattle SPECIES_REGICE, 40
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
@@ -109,10 +117,6 @@ IslandCave_EventScript_Regice::
 	release
 	end
 
-IslandCave_EventScript_TotemRegice::
-	settotemboost 1, 2, 2, 2, 2, 2, 2
-	return
-
 IslandCave_EventScript_DefeatedRegice::
 	setflag FLAG_DEFEATED_REGICE
 	goto Common_EventScript_RemoveStaticPokemon
@@ -122,3 +126,105 @@ IslandCave_EventScript_RanFromRegice::
 	setvar VAR_0x8004, SPECIES_REGICE
 	goto Common_EventScript_LegendaryFlewAway
 	end
+
+IslandCave_EventScript_RegigigasTrigger::
+	setvar VAR_0x8004, SPECIES_REGICE
+	specialvar VAR_RESULT, ScriptGetPartyHasSpecies
+	goto_if_eq VAR_RESULT, FALSE, IslandCave_EventScript_RegigigasPresence
+	setvar VAR_0x8004, SPECIES_REGISTEEL
+	specialvar VAR_RESULT, ScriptGetPartyHasSpecies
+	goto_if_eq VAR_RESULT, FALSE, IslandCave_EventScript_RegigigasPresence
+	setvar VAR_0x8004, SPECIES_REGIROCK
+	specialvar VAR_RESULT, ScriptGetPartyHasSpecies
+	goto_if_eq VAR_RESULT, FALSE, IslandCave_EventScript_RegigigasPresence
+	goto IslandCave_EventScript_Regigigas
+	end
+
+IslandCave_EventScript_RegigigasPresence::
+	lockall
+	msgbox IslandCave_Text_RegigigasPresence, MSGBOX_DEFAULT
+	setvar VAR_TEMP_1, 1
+	releaseall
+	end
+
+IslandCave_EventScript_Regigigas::
+	lockall
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 1  @ horizontal pan
+	setvar VAR_0x8006, 8  @ num shakes
+	setvar VAR_0x8007, 5  @ shake delay
+	special ShakeCamera
+	waitstate
+	msgbox IslandCave_Text_RegigigasEncounter, MSGBOX_AUTOCLOSE
+	waitmessage
+	delay 20
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 2  @ horizontal pan
+	setvar VAR_0x8006, 10  @ num shakes
+	setvar VAR_0x8007, 5  @ shake delay
+	special ShakeCamera
+	waitstate
+	delay 30
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 2  @ horizontal pan
+	setvar VAR_0x8006, 10  @ num shakes
+	setvar VAR_0x8007, 5  @ shake delay
+	special ShakeCamera
+	waitstate
+	delay 40
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 3  @ horizontal pan
+	setvar VAR_0x8006, 20  @ num shakes
+	setvar VAR_0x8007, 6  @ shake delay
+	special ShakeCamera
+	waitstate
+	delay 30
+	message IslandCave_Text_RegigigasCry
+	waitse
+	playmoncry SPECIES_REGIGIGAS, CRY_MODE_ENCOUNTER
+	waitmoncry
+	checkchallengemode
+	call_if_eq VAR_RESULT, TRUE, IslandCave_EventScript_TotemLegendary
+	setwildbattle SPECIES_REGIGIGAS, 70
+	special BattleSetup_StartLegendaryBattle
+	waitstate
+	setvar VAR_TEMP_1, 1
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, IslandCave_EventScript_RegigigasDefeated
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, IslandCave_EventScript_PlayerOrRegigigasRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, IslandCave_EventScript_PlayerOrRegigigasRan
+	goto_if_eq VAR_RESULT, B_OUTCOME_MON_TELEPORTED, IslandCave_EventScript_PlayerOrRegigigasRan
+	setflag FLAG_CAUGHT_REGIGIGAS
+	releaseall
+	end
+
+IslandCave_EventScript_RegigigasDefeated::
+	setflag FLAG_DEFEATED_REGIGIGAS
+	msgbox IslandCave_Text_RegigigasDisappeared, MSGBOX_DEFAULT
+	releaseall
+	end
+
+IslandCave_EventScript_PlayerOrRegigigasRan::
+	msgbox IslandCave_Text_RegigigasDisappeared, MSGBOX_DEFAULT
+	releaseall
+	end
+
+IslandCave_EventScript_TotemLegendary::
+	settotemboost 1, 2, 2, 2, 2, 2
+	return
+
+IslandCave_Text_RegigigasPresence::
+	.string "…?\p"
+	.string "There seemed to be some\n"
+	.string "presence here,\l"
+	.string "but it disappeared in an instant…$"
+
+IslandCave_Text_RegigigasEncounter::
+	.string "The very earth is quaking!\p"
+	.string "Is something approaching?!$"
+
+IslandCave_Text_RegigigasCry::
+	.string "Zut zutt!$"
+
+IslandCave_Text_RegigigasDisappeared::
+	.string "The Regigigas disappeared!$"

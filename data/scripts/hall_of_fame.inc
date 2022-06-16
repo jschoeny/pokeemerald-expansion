@@ -31,6 +31,7 @@ EverGrandeCity_HallOfFame_EventScript_ResetDefeatedEventLegendaries::
 	clearflag FLAG_DEFEATED_LUGIA
 	clearflag FLAG_DEFEATED_HO_OH
 	clearflag FLAG_DEFEATED_HEATRAN
+	clearflag FLAG_DEFEATED_REGIGIGAS
 	return
 
 EverGrandeCity_HallOfFame_EventScript_SetDesertUnderpassCommentReady::
