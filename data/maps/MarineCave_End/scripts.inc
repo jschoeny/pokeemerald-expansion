@@ -53,7 +53,7 @@ MarineCave_End_EventScript_Kyogre::
 	end
 
 MarineCave_End_EventScript_TotemKyogre::
-	settotemboost 1, 3, 3, 3, 3, 3, 3
+	settotemboost 1, 3, 3, 3, 3, 3
 	return
 
 MarineCave_End_EventScript_DefeatedKyogre::

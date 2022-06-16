@@ -53,7 +53,7 @@ TerraCave_End_EventScript_Groudon::
 	end
 
 TerraCave_End_EventScript_TotemGroudon::
-	settotemboost 1, 3, 3, 3, 3, 3, 3
+	settotemboost 1, 3, 3, 3, 3, 3
 	return
 
 TerraCave_End_EventScript_DefeatedGroudon::

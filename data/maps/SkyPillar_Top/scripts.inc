@@ -64,7 +64,7 @@ SkyPillar_Top_EventScript_Rayquaza::
 	end
 
 SkyPillar_Top_EventScript_TotemRayquaza::
-	settotemboost 1, 3, 3, 3, 3, 3, 3
+	settotemboost 1, 3, 3, 3, 3, 3
 	return
 
 SkyPillar_Top_EventScript_DefeatedRayquaza::
