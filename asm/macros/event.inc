@@ -1231,16 +1231,20 @@
 	.endm
 
 	@ Fades the screen to and from black and white. Modes are FADE_(TO/FROM)_(WHITE/BLACK)
-	.macro fadescreen mode:req
+	.macro fadescreen mode:req, coeffStart=0, coeffEnd=16
 	.byte 0x97
 	.byte \mode
+	.byte \coeffStart
+	.byte \coeffEnd
 	.endm
 
 	@ Fades the screen to and from black and white. Modes are FADE_(TO/FROM)_(WHITE/BLACK)
-	.macro fadescreenspeed mode:req, speed:req
+	.macro fadescreenspeed mode:req, speed:req, coeffStart=0, coeffEnd=16
 	.byte 0x98
 	.byte \mode
 	.byte \speed
+	.byte \coeffStart
+	.byte \coeffEnd
 	.endm
 
 	@ Sets the flash level. A level of 0 is fully bright, a level of 1 is the largest flash radius, a level

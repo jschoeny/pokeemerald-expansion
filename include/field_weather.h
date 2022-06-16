@@ -149,6 +149,7 @@ void SetCurrentAndNextWeatherNoDelay(u8 weather);
 void ApplyWeatherGammaShiftIfIdle(s8 gammaIndex);
 void ApplyWeatherGammaShiftIfIdle_Gradual(u8 gammaIndex, u8 gammaTargetIndex, u8 gammaStepDelay);
 void FadeScreen(u8 mode, s8 delay);
+void FadeScreenCoeff(u8 mode, s8 delay, u8 coeffStart, u8 coeffEnd);
 bool8 IsWeatherNotFadingIn(void);
 void UpdateSpritePaletteWithWeather(u8 spritePaletteIndex);
 void ApplyWeatherGammaShiftToPal(u8 paletteIndex);

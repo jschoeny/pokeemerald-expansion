@@ -734,6 +734,11 @@ void ApplyWeatherGammaShiftIfIdle_Gradual(u8 gammaIndex, u8 gammaTargetIndex, u8
 
 void FadeScreen(u8 mode, s8 delay)
 {
+    FadeScreenCoeff(mode, delay, 0, 16);
+}
+
+void FadeScreenCoeff(u8 mode, s8 delay, u8 coeffStart, u8 coeffEnd)
+{
     u32 fadeColor;
     bool8 fadeOut;
     bool8 useWeatherPal;
@@ -781,7 +786,7 @@ void FadeScreen(u8 mode, s8 delay)
         if (useWeatherPal)
             CpuFastCopy(gPlttBufferFaded, gPlttBufferUnfaded, PLTT_BUFFER_SIZE * 2);
 
-        BeginNormalPaletteFade(PALETTES_ALL, delay, 0, 16, fadeColor);
+        BeginNormalPaletteFade(PALETTES_ALL, delay, coeffStart, coeffEnd, fadeColor);
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_OUT;
     }
     else
@@ -790,7 +795,7 @@ void FadeScreen(u8 mode, s8 delay)
         if (useWeatherPal)
             gWeatherPtr->fadeScreenCounter = 0;
         else
-            BeginNormalPaletteFade(PALETTES_ALL, delay, 16, 0, fadeColor);
+            BeginNormalPaletteFade(PALETTES_ALL, delay, coeffEnd, coeffStart, fadeColor);
 
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_IN;
         gWeatherPtr->fadeInFirstFrame = TRUE;
