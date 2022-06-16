@@ -263,8 +263,8 @@
 #define VAR_ROXANNE_CALL_STEP_COUNTER        0x40F4
 #define VAR_SCOTT_BF_CALL_STEP_COUNTER       0x40F5
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER 0x40F6
-#define VAR_UNUSED_0x40F7                    0x40F7 // Unused Var
-#define VAR_UNUSED_0x40F8                    0x40F8 // Unused Var
+#define VAR_SLATE_MON_LEVEL                  0x40F7
+#define VAR_SLATE_MON_ITEM                   0x40F8
 #define VAR_BATTLEBG_BLEND                   0x40F9
 #define VAR_CAUGHT_COSMOG                    0x40FA
 #define VAR_UNUSED_0x40FB                    0x40FB // Unused Var
@@ -299,7 +299,7 @@
 #define VAR_CONTEST_CATEGORY          0x8011
 #define VAR_MON_BOX_ID                0x8012
 #define VAR_MON_BOX_POS               0x8013
-#define VAR_UNUSED_0x8014             0x8014
+#define VAR_SPECIES_ID                0x8014
 #define VAR_TRAINER_BATTLE_OPPONENT_A 0x8015 // Alias of gTrainerBattleOpponent_A
 
 #define SPECIAL_VARS_END              0x8015
