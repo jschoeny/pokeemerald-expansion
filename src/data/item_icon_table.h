@@ -804,6 +804,23 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_TEA] = {gItemIcon_Tea, gItemIconPalette_Tea},
     [ITEM_RUBY] = {gItemIcon_Gem, gItemIconPalette_Ruby},
     [ITEM_SAPPHIRE] = {gItemIcon_Gem, gItemIconPalette_Sapphire},
+    // Slate Items
+    [ITEM_SLATE_KANTO] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_GENOME] = {gItemIcon_GenomeSlate, gItemIconPalette_GenomeSlate},
+    [ITEM_SLATE_JOHTO] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_GUARDIAN] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_TIME] = {gItemIcon_DistortionSlate, gItemIconPalette_TimeSlate},
+    [ITEM_SLATE_SPACE] = {gItemIcon_DistortionSlate, gItemIconPalette_SpaceSlate},
+    [ITEM_SLATE_DISTORTION] = {gItemIcon_DistortionSlate, gItemIconPalette_DistortionSlate},
+    [ITEM_SLATE_LUNAR] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_NIGHT] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_JUSTICE] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_NATURE] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_UNOVA] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_KALOS] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_COSMOS] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_BLINDING] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    [ITEM_SLATE_GALAR] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
     // Return to field arrow
     [ITEM_FIELD_ARROW] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

@@ -3792,3 +3792,8 @@ static const u8 sSapphireDesc[] = _(
     "A brilliant blue gem\n"
     "that symbolizes\n"
     "honesty.");
+
+static const u8 sSlateDesc[] = _(
+    "A slate overflowing\n"
+    "with enigmatic\n"
+    "energy.");

@@ -1933,3 +1933,14 @@ const u32 gItemIcon_Gem[] = INCBIN_U32("graphics/items/icons/gem.4bpp.lz");
 const u32 gItemIconPalette_Ruby[] = INCBIN_U32("graphics/items/icon_palettes/ruby.gbapal.lz");
 
 const u32 gItemIconPalette_Sapphire[] = INCBIN_U32("graphics/items/icon_palettes/sapphire.gbapal.lz");
+
+const u32 gItemIcon_KantoSlate[] = INCBIN_U32("graphics/items/icons/kanto_slate.4bpp.lz");
+const u32 gItemIconPalette_KantoSlate[] = INCBIN_U32("graphics/items/icon_palettes/kanto_slate.gbapal.lz");
+
+const u32 gItemIcon_GenomeSlate[] = INCBIN_U32("graphics/items/icons/genome_slate.4bpp.lz");
+const u32 gItemIconPalette_GenomeSlate[] = INCBIN_U32("graphics/items/icon_palettes/genome_slate.gbapal.lz");
+
+const u32 gItemIcon_DistortionSlate[] = INCBIN_U32("graphics/items/icons/distortion_slate.4bpp.lz");
+const u32 gItemIconPalette_DistortionSlate[] = INCBIN_U32("graphics/items/icon_palettes/distortion_slate.gbapal.lz");
+const u32 gItemIconPalette_TimeSlate[] = INCBIN_U32("graphics/items/icon_palettes/time_slate.gbapal.lz");
+const u32 gItemIconPalette_SpaceSlate[] = INCBIN_U32("graphics/items/icon_palettes/space_slate.gbapal.lz");

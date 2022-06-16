@@ -8509,6 +8509,14 @@ extern const u32 gItemIconPalette_Tea[];
 extern const u32 gItemIcon_Gem[];
 extern const u32 gItemIconPalette_Ruby[];
 extern const u32 gItemIconPalette_Sapphire[];
+extern const u32 gItemIcon_KantoSlate[];
+extern const u32 gItemIconPalette_KantoSlate[];
+extern const u32 gItemIcon_GenomeSlate[];
+extern const u32 gItemIconPalette_GenomeSlate[];
+extern const u32 gItemIcon_DistortionSlate[];
+extern const u32 gItemIconPalette_DistortionSlate[];
+extern const u32 gItemIconPalette_TimeSlate[];
+extern const u32 gItemIconPalette_SpaceSlate[];
 
 extern const u32 gItemIcon_ReturnToFieldArrow[];
 extern const u32 gItemIconPalette_ReturnToFieldArrow[];

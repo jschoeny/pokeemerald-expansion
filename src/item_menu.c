@@ -983,7 +983,8 @@ static void BagMenu_ItemPrintCallback(u8 windowId, u32 itemIndex, u8 y)
             offset = GetStringRightAlignXOffset(FONT_NARROW, gStringVar4, 119);
             BagMenu_Print(windowId, FONT_NARROW, gStringVar4, offset, y, 0, 0, TEXT_SKIP_DRAW, COLORID_NORMAL);
         }
-        else if (gBagPosition.pocket != KEYITEMS_POCKET && ItemId_GetImportance(itemId) == FALSE)
+        else if (gBagPosition.pocket != KEYITEMS_POCKET
+         && (ItemId_GetImportance(itemId) == FALSE || (itemId >= ITEM_SLATE_KANTO && itemId <= ITEM_SLATE_GALAR)))
         {
             // Print item quantity
             ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, BAG_ITEM_CAPACITY_DIGITS);
@@ -1654,7 +1655,10 @@ static void OpenContextMenu(u8 taskId)
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
                 break;
             case TREASURES_POCKET:
-                gBagMenu->contextMenuItemsPtr = sContextMenuItems_ItemsPocket;
+                if(gSpecialVar_ItemId >= ITEM_SLATE_KANTO && gSpecialVar_ItemId <= ITEM_SLATE_GALAR)
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_TmHmPocket;
+                else
+                    gBagMenu->contextMenuItemsPtr = sContextMenuItems_ItemsPocket;
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
                 break;
             }

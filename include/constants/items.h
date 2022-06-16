@@ -930,7 +930,25 @@
 
 #define ITEM_LINKING_CORD 758
 
-#define ITEMS_COUNT 759
+#define ITEM_SLATE_KANTO        759 // Articuno, Zapdos, Moltres
+#define ITEM_SLATE_GENOME       760 // Mewtwo
+#define ITEM_SLATE_JOHTO        761 // Raikou, Entei, Suicune
+#define ITEM_SLATE_GUARDIAN     762 // Uxie, Mesprit, Azelf
+#define ITEM_SLATE_TIME         763 // Dialga
+#define ITEM_SLATE_SPACE        764 // Palkia
+#define ITEM_SLATE_DISTORTION   765 // Giratina
+#define ITEM_SLATE_LUNAR        766 // Cresselia
+#define ITEM_SLATE_NIGHT        767 // Darkrai
+#define ITEM_SLATE_JUSTICE      768 // Cobalion, Terrakion, Virizion
+#define ITEM_SLATE_NATURE       769 // Tornadus, Thundurus, Landorus
+#define ITEM_SLATE_UNOVA        770 // Zekrom, Reshiram, Kyurem
+#define ITEM_SLATE_KALOS        771 // Xerneas, Yveltal, Zygarde
+#define ITEM_SLATE_COSMOS       772 // Cosmog (2)
+#define ITEM_SLATE_BLINDING     773 // Necrozma
+#define ITEM_SLATE_GALAR        774 // Zacian, Zamazenta
+#define SLATE_ITEMS_COUNT       (ITEM_SLATE_GALAR - ITEM_SLATE_KANTO + 1)
+
+#define ITEMS_COUNT 775
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS

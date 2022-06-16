@@ -10130,4 +10130,196 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_EvolutionStone,
         .flingPower = 80,
     },
+
+    [ITEM_SLATE_KANTO] =
+    {
+        .name = _("Kanto Slate"),
+        .itemId = ITEM_SLATE_KANTO,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_GENOME] =
+    {
+        .name = _("Genome Slate"),
+        .itemId = ITEM_SLATE_GENOME,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_JOHTO] =
+    {
+        .name = _("Johto Slate"),
+        .itemId = ITEM_SLATE_JOHTO,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_GUARDIAN] =
+    {
+        .name = _("GuardianSlate"),
+        .itemId = ITEM_SLATE_GUARDIAN,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_TIME] =
+    {
+        .name = _("Time Slate"),
+        .itemId = ITEM_SLATE_TIME,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_SPACE] =
+    {
+        .name = _("Space Slate"),
+        .itemId = ITEM_SLATE_SPACE,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_DISTORTION] =
+    {
+        .name = _("DstrtionSlate"),
+        .itemId = ITEM_SLATE_DISTORTION,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_LUNAR] =
+    {
+        .name = _("Lunar Slate"),
+        .itemId = ITEM_SLATE_LUNAR,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_NIGHT] =
+    {
+        .name = _("Night Slate"),
+        .itemId = ITEM_SLATE_NIGHT,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_JUSTICE] =
+    {
+        .name = _("Justice Slate"),
+        .itemId = ITEM_SLATE_JUSTICE,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_NATURE] =
+    {
+        .name = _("Nature Slate"),
+        .itemId = ITEM_SLATE_NATURE,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_UNOVA] =
+    {
+        .name = _("Unova Slate"),
+        .itemId = ITEM_SLATE_UNOVA,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_KALOS] =
+    {
+        .name = _("Kalos Slate"),
+        .itemId = ITEM_SLATE_KALOS,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_COSMOS] =
+    {
+        .name = _("Cosmos Slate"),
+        .itemId = ITEM_SLATE_COSMOS,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_BLINDING] =
+    {
+        .name = _("BlindingSlate"),
+        .itemId = ITEM_SLATE_BLINDING,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
+    [ITEM_SLATE_GALAR] =
+    {
+        .name = _("Galar Slate"),
+        .itemId = ITEM_SLATE_GALAR,
+        .price = 0,
+        .description = sSlateDesc,
+        .importance = 1,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
 };
