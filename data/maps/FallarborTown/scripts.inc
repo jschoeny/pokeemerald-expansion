@@ -1,3 +1,5 @@
+.set HEARTSCALE_PRICE, 10000
+
 FallarborTown_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, FallarborTown_OnTransition
 	.byte 0
@@ -51,6 +53,59 @@ FallarborTown_EventScript_MoveTutorSign::
 	msgbox FallarborTown_Text_MoveTutorSign, MSGBOX_SIGN
 	end
 
+FallarborTown_EventScript_HeartScaleSalesman::
+	lock
+	faceplayer
+	showmoneybox 0, 0
+	checkplayergender
+	compare VAR_RESULT, MALE
+	goto_if_eq FallarborTown_EventScript_AskBuyHeartScaleMale
+	compare VAR_RESULT, FEMALE
+	goto_if_eq FallarborTown_EventScript_AskBuyHeartScaleFemale
+	end
+
+FallarborTown_EventScript_AskBuyHeartScaleMale::
+	msgbox FallarborTown_Text_HeartScaleSalesman_Male, MSGBOX_YESNO
+	goto FallarborTown_EventScript_TryBuyHeartScale
+	end
+
+FallarborTown_EventScript_AskBuyHeartScaleFemale::
+	msgbox FallarborTown_Text_HeartScaleSalesman_Female, MSGBOX_YESNO
+	goto FallarborTown_EventScript_TryBuyHeartScale
+	end
+
+FallarborTown_EventScript_TryBuyHeartScale::
+	compare VAR_RESULT, NO
+	goto_if_eq FallarborTown_EventScript_DeclineHeartScale
+	checkmoney HEARTSCALE_PRICE
+	compare VAR_RESULT, FALSE
+	goto_if_eq FallarborTown_EventScript_NotEnoughMoney
+	removemoney HEARTSCALE_PRICE
+	updatemoneybox
+	giveitem ITEM_HEART_SCALE
+	goto_if_eq VAR_RESULT, FALSE, FallarborTown_EventScript_NoRoomInBag
+	hidemoneybox
+	release
+	end
+
+FallarborTown_EventScript_DeclineHeartScale::
+	msgbox FallarborTown_Text_HeartScaleSalesmanNo
+	hidemoneybox
+	release
+	end
+
+FallarborTown_EventScript_NotEnoughMoney::
+	msgbox FallarborTown_Text_HeartScaleSalesman_NeedMoreMoney
+	hidemoneybox
+	release
+	end
+
+FallarborTown_EventScript_NoRoomInBag::
+	msgbox FallarborTown_Text_HeartScaleSalesman_NoRoomInBag
+	hidemoneybox
+	release
+	end
+
 FallarborTown_Text_ShadyCharactersCozmosHome:
 	.string "Something's happening,\n"
 	.string "and I don't like it!\p"
@@ -93,3 +148,31 @@ FallarborTown_Text_MoveTutorSign:
 	.string "MOVE TUTOR'S HOUSE\n"
 	.string "“New moves taught to POKéMON.”$"
 
+FallarborTown_Text_HeartScaleSalesman_Male:
+	.string "MAN: Hello there, laddie!\n"
+    .string "Have I got a deal just for you!\p"
+    .string "I'll let you have a rare item -\n"
+    .string "a HEART SCALE - for just ¥10000!\p"
+    .string "So, you'll buy it, am I right?$"
+
+FallarborTown_Text_HeartScaleSalesman_Female:
+	.string "MAN: Hello there, sweetie pie!\n"
+    .string "Have I got a deal just for you!\p"
+    .string "I'll let you have a rare item -\n"
+    .string "a HEART SCALE - for just ¥10000!\p"
+    .string "So, you'll buy it, am I right?$"
+
+FallarborTown_Text_HeartScaleSalesmanPaid:
+    .string "{PLAYER} paid ¥10000\n"
+    .string "and bought the HEART SCALE…$"
+
+FallarborTown_Text_HeartScaleSalesmanNo:
+    .string "No? You say no? I'm only doing this\n"
+    .string "as a favor to you!$"
+
+FallarborTown_Text_HeartScaleSalesman_NeedMoreMoney:
+    .string "You'll need more money than that!$"
+
+FallarborTown_Text_HeartScaleSalesman_NoRoomInBag:
+	.string "It appears you have no room for\n"
+	.string "this HEART SCALE…"
