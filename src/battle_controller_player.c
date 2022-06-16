@@ -2786,10 +2786,14 @@ static void PlayerHandleChooseAction(void)
         const u16 plttOrig1 = gPlttBufferUnfaded[POS1];
         const u16 plttOrig2 = gPlttBufferUnfaded[POS2];
         const u16 plttOrig3 = gPlttBufferUnfaded[POS3];
-        
-        gPlttBufferUnfaded[POS1] = gPlttBufferUnfaded[94];
-        gPlttBufferUnfaded[POS2] = gPlttBufferUnfaded[95];
-        gPlttBufferUnfaded[POS3] = gPlttBufferUnfaded[98];
+
+        // gPlttBufferUnfaded[POS1] = gPlttBufferUnfaded[94];
+        // gPlttBufferUnfaded[POS2] = gPlttBufferUnfaded[95];
+        // gPlttBufferUnfaded[POS3] = gPlttBufferUnfaded[95];
+
+        CpuCopy16(&gPlttBufferUnfaded[94], &gPlttBufferUnfaded[POS1], sizeof(u16));
+        CpuCopy16(&gPlttBufferUnfaded[95], &gPlttBufferUnfaded[POS2], sizeof(u16));
+        CpuCopy16(&gPlttBufferUnfaded[95], &gPlttBufferUnfaded[POS3], sizeof(u16));
 
         CpuCopy16(&gPlttBufferUnfaded[POS1], &gPlttBufferFaded[POS1], sizeof(u16));
         CpuCopy16(&gPlttBufferUnfaded[POS2], &gPlttBufferFaded[POS2], sizeof(u16));
@@ -2797,9 +2801,9 @@ static void PlayerHandleChooseAction(void)
 
         BattlePutTextOnWindow(gText_BattleMenuWild, B_WIN_ACTION_MENU);
 
-        gPlttBufferUnfaded[POS1] = plttOrig1;
-        gPlttBufferUnfaded[POS2] = plttOrig2;
-        gPlttBufferUnfaded[POS3] = plttOrig2;
+        // gPlttBufferUnfaded[POS1] = plttOrig1;
+        // gPlttBufferUnfaded[POS2] = plttOrig2;
+        // gPlttBufferUnfaded[POS3] = plttOrig2;
     }
 
 
