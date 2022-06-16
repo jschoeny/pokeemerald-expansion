@@ -2538,6 +2538,8 @@ u8 DoFieldEndTurnEffects(void)
         }
     } while (effect == 0);
 
+    DrawMainBattleBackgroundCheck();
+
     return (gBattleMainFunc != BattleTurnPassed);
 }
 

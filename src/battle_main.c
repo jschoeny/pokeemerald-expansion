@@ -5301,6 +5301,8 @@ static void ReturnFromBattleToOverworld(void)
             SetRoamerInactive();
     }
 
+    VarSet(VAR_BATTLEBG_BLEND, 0);
+
     m4aSongNumStop(SE_LOW_HEALTH);
     SetMainCallback2(gMain.savedCallback);
 }

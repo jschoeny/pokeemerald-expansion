@@ -270,7 +270,11 @@
 	.macro stopsound
 	.byte 0x2f
 	.endm
-	
+
+	.macro redraw_battlebg
+	.byte 0x30
+	.endm
+
 @ useful macros
 	.macro jumpreteq value:req, ptr:req
 	jumpargeq ARG_RET_ID, \value, \ptr

@@ -21,10 +21,17 @@
 #include "text_window.h"
 #include "trig.h"
 #include "window.h"
+#include "util.h"
+#include "event_data.h"
+#include "field_weather.h"
+#include "constants/weather.h"
 #include "constants/map_types.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "constants/battle_anim.h"
+#include "constants/rgb.h"
+#include "constants/battle_bg.h"
+#include "data/battle_bg.h"
 
 #if !P_ENABLE_DEBUG
 struct BattleBackground
@@ -766,6 +773,8 @@ void LoadBattleMenuWindowGfx(void)
 
 void DrawMainBattleBackground(void)
 {
+    u16 battleBgBlend = VarGet(VAR_BATTLEBG_BLEND);
+
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK))
     {
         LZDecompressVram(gBattleTerrainTiles_Building, (void*)(BG_CHAR_ADDR(2)));
@@ -860,6 +869,64 @@ void DrawMainBattleBackground(void)
             LoadCompressedPalette(gBattleTerrainPalette_Frontier, 0x20, 0x60);
             break;
         }
+        if(battleBgBlend > BG_FADE_NONE) {
+            BlendPalette(0x20, 16, gBgFadeColors[battleBgBlend][3], gBgFadeColors[battleBgBlend][4]);
+            CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+            ChangePalette(0x20, 0xFFFF, 0x20,
+                gBgFadeColors[battleBgBlend][0], gBgFadeColors[battleBgBlend][1], gBgFadeColors[battleBgBlend][2]);
+            CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+        }
+        else {
+            if(gBattleResults.battleTurnCounter == 0){
+                switch(GetCurrentWeather()) {
+                    case WEATHER_RAIN:
+                    case WEATHER_RAIN_THUNDERSTORM:
+                    case WEATHER_DOWNPOUR:
+                        BlendPalette(0x20, 16, 6, RGB(16, 18, 29));
+                        CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+                        break;
+                    case WEATHER_SANDSTORM:
+                        BlendPalette(0x20, 16, 8, RGB(18, 14, 14));
+                        CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+                        break;
+                    case WEATHER_DROUGHT:
+                        BlendPalette(0x20, 16, 8, RGB(31, 27, 27));
+                        CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+                        break;
+                    case WEATHER_SNOW:
+                        BlendPalette(0x20, 16, 10, RGB(25, 25, 28));
+                        CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+                        break;
+                }
+            }
+            else if(gBattleWeather & B_WEATHER_RAIN
+             || gBattleWeather & B_WEATHER_RAIN_PRIMAL
+             || gBattleWeather & B_WEATHER_RAIN_DOWNPOUR
+             || gBattleWeather & B_WEATHER_RAIN_PERMANENT
+             || gBattleWeather & B_WEATHER_RAIN_TEMPORARY) {
+                BlendPalette(0x20, 16, 6, RGB(12, 13, 24));
+                CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+            }
+            else if(gBattleWeather & B_WEATHER_SANDSTORM
+             || gBattleWeather & B_WEATHER_SANDSTORM_PERMANENT
+             || gBattleWeather & B_WEATHER_SANDSTORM_TEMPORARY) {
+                BlendPalette(0x20, 16, 8, RGB(16, 12, 12));
+                CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+            }
+            else if(gBattleWeather & B_WEATHER_SUN
+             || gBattleWeather & B_WEATHER_SUN_PRIMAL
+             || gBattleWeather & B_WEATHER_SUN_PERMANENT
+             || gBattleWeather & B_WEATHER_SUN_TEMPORARY) {
+                BlendPalette(0x20, 16, 8, RGB(31, 27, 27));
+                CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+            }
+            else if(gBattleWeather & B_WEATHER_HAIL
+             || gBattleWeather & B_WEATHER_HAIL_PERMANENT
+             || gBattleWeather & B_WEATHER_HAIL_TEMPORARY) {
+                BlendPalette(0x20, 16, 10, RGB(25, 25, 28));
+                CpuCopy32(gPlttBufferFaded + 0x20, gPlttBufferUnfaded + 0x20, 32);
+            }
+        }
     }
 }
 
@@ -870,6 +937,11 @@ void LoadBattleTextboxAndBackground(void)
     CopyBgTilemapBufferToVram(0);
     LoadCompressedPalette(gBattleTextboxPalette, 0, 0x40);
     LoadBattleMenuWindowGfx();
+    DrawMainBattleBackgroundCheck();
+}
+
+void DrawMainBattleBackgroundCheck(void)
+{
     #if B_TERRAIN_BG_CHANGE == TRUE
         DrawTerrainTypeBattleBackground();
     #else

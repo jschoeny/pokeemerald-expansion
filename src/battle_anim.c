@@ -78,6 +78,7 @@ static void Cmd_visible(void);
 static void Cmd_teamattack_moveback(void);
 static void Cmd_teamattack_movefwd(void);
 static void Cmd_stopsound(void);
+static void Cmd_redraw_battlebg(void);
 
 static void RunAnimScriptCommand(void);
 static void Task_UpdateMonBg(u8 taskId);
@@ -166,6 +167,7 @@ static void (* const sScriptCmdTable[])(void) =
     Cmd_teamattack_moveback,  // 0x2D
     Cmd_teamattack_movefwd,   // 0x2E
     Cmd_stopsound,            // 0x2F
+    Cmd_redraw_battlebg,      // 0x30
 };
 
 void ClearBattleAnimationVars(void)
@@ -1897,5 +1899,11 @@ static void Cmd_stopsound(void)
 {
     m4aMPlayStop(&gMPlayInfo_SE1);
     m4aMPlayStop(&gMPlayInfo_SE2);
+    sBattleAnimScriptPtr++;
+}
+
+static void Cmd_redraw_battlebg(void)
+{
+    DrawMainBattleBackgroundCheck();
     sBattleAnimScriptPtr++;
 }

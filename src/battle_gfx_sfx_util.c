@@ -22,11 +22,14 @@
 #include "data.h"
 #include "palette.h"
 #include "contest.h"
+#include "event_data.h"
 #include "constants/songs.h"
 #include "constants/battle_config.h"
 #include "constants/rgb.h"
 #include "constants/battle_palace.h"
 #include "data/pokemon/pokemon_type_colors.h"
+#include "constants/battle_bg.h"
+#include "data/battle_bg.h"
 
 extern const u8 gBattlePalaceNatureToMoveTarget[];
 extern const u8 * const gBattleAnims_General[];
@@ -1144,8 +1147,18 @@ void SetBattlerSpriteAffineMode(u8 affineMode)
 void LoadAndCreateEnemyShadowSprites(void)
 {
     u8 battlerId;
+    u16 battleBgBlend = VarGet(VAR_BATTLEBG_BLEND);
 
     LoadCompressedSpriteSheet(&gSpriteSheet_EnemyShadow);
+
+    if(battleBgBlend > BG_FADE_NONE) {
+        u16 paletteOffset = IndexOfSpritePaletteTag(gSpriteTemplate_EnemyShadow.paletteTag) * 16 + 256;
+        BlendPalette(paletteOffset + 6, 1, (gBgFadeColors[battleBgBlend][3] * 2) / 5, gBgFadeColors[battleBgBlend][4]);
+        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+        ChangePalette(paletteOffset, (1 << 5) | (1 << 6), 0x20,
+            gBgFadeColors[battleBgBlend][0], gBgFadeColors[battleBgBlend][1], gBgFadeColors[battleBgBlend][2]);
+        CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+    }
 
     battlerId = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
     gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId = CreateSprite(&gSpriteTemplate_EnemyShadow,
