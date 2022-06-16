@@ -511,6 +511,8 @@ gSpecials::
 	def_special EnableNationalPokedex
 	def_special ScriptMenu_CreateLilycoveSSTidalMultichoice
 	def_special GetLilycoveSSTidalSelection
+	def_special ScriptMenu_CreateSlateMultichoice
+	def_special GetSlateSelection
 	def_special TurnOnTVScreen
 	def_special SetMewAboveGrass
 	def_special ShouldDistributeEonTicket
@@ -537,3 +539,4 @@ gSpecials::
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
 	def_special SetTotemBoost
+	def_special IsSlateInBag

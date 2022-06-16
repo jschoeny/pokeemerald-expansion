@@ -23,6 +23,7 @@
 static EWRAM_DATA u8 sProcessInputDelay = 0;
 
 static u8 sLilycoveSSTidalSelections[SSTIDAL_SELECTION_COUNT];
+static u8 sSlateSelections[SLATE_SELECTION_COUNT];
 
 static void Task_HandleMultichoiceInput(u8 taskId);
 static void Task_HandleYesNoInput(u8 taskId);
@@ -32,6 +33,7 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
 static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId);
 static void CreatePCMultichoice(void);
 static void CreateLilycoveSSTidalMultichoice(void);
+static void CreateSlateMultichoice(void);
 static bool8 IsPicboxClosed(void);
 static void CreateStartMenuForPokenavTutorial(void);
 static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId);
@@ -543,6 +545,111 @@ void GetLilycoveSSTidalSelection(void)
     if (gSpecialVar_Result != MULTI_B_PRESSED)
     {
         gSpecialVar_Result = sLilycoveSSTidalSelections[gSpecialVar_Result];
+    }
+}
+
+bool8 ScriptMenu_CreateSlateMultichoice(void)
+{
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
+    {
+        return FALSE;
+    }
+    else
+    {
+        gSpecialVar_Result = 0xFF;
+        CreateSlateMultichoice();
+        return TRUE;
+    }
+}
+static void CreateSlateMultichoice(void)
+{
+    u8 selectionCount = 0;
+    u8 count;
+    u32 pixelWidth;
+    u8 width;
+    u8 windowId;
+    u8 i;
+    u32 j;
+    const u8 textQuantity[] = _("{CLEAR_TO 0x54}x{STR_VAR_1}");
+
+    for (i = 0; i < SLATE_SELECTION_COUNT; i++)
+    {
+        sSlateSelections[i] = 0xFF;
+    }
+
+    GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_WIDTH);
+
+    for(i = 0; i < SLATE_ITEMS_COUNT; i++) {
+        if (CheckBagHasItem(ITEM_SLATE_KANTO + i, 1) == TRUE) //&& FlagGet(FLAG_CAUGHT_MOLTRES) == FALSE)
+        {
+            sSlateSelections[selectionCount] = SLATE_SELECTION(ITEM_SLATE_KANTO + i);
+            selectionCount++;
+        }
+    }
+
+    sSlateSelections[selectionCount] = SLATE_SELECTION_EXIT;
+    selectionCount++;
+
+    count = selectionCount;
+    if (count > 6)
+    {
+        gSpecialVar_0x8004 = SCROLL_MULTI_SLATE;
+        gSpecialVar_0x8005 = count;
+        gSpecialVar_0x8006 = (size_t) &sSlateSelections;
+        ShowScrollableMultichoice();
+    }
+    else
+    {
+        pixelWidth = 0;
+
+        for (j = 0; j < SLATE_SELECTION_COUNT; j++)
+        {
+            u8 selection = sSlateSelections[j];
+            if (selection != 0xFF)
+            {
+                u16 itemQuantity = CountTotalItemQuantityInBag(selection + ITEM_SLATE_KANTO);
+                ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, BAG_ITEM_CAPACITY_DIGITS);
+                StringCopy(gStringVar2, gItems[selection + ITEM_SLATE_KANTO].name);
+                StringAppend(gStringVar2, textQuantity);
+                StringExpandPlaceholders(gStringVar3, gStringVar2);
+                pixelWidth = DisplayTextAndGetWidth(gStringVar3, pixelWidth);
+            }
+        }
+
+        width = ConvertPixelWidthToTileWidth(pixelWidth - 40);
+        windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
+        SetStandardWindowBorderStyle(windowId, 0);
+
+        for (selectionCount = 0, i = 0; i < SLATE_SELECTION_COUNT; i++)
+        {
+            if (sSlateSelections[i] != 0xFF)
+            {
+                if(sSlateSelections[i] >= SLATE_SELECTION_EXIT)
+                    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_Exit, 8, selectionCount * 16 + 1, TEXT_SKIP_DRAW, NULL);
+                else {
+                    u16 itemQuantity = CountTotalItemQuantityInBag(sSlateSelections[i] + ITEM_SLATE_KANTO);
+                    ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, BAG_ITEM_CAPACITY_DIGITS);
+                    StringCopy(gStringVar2, gItems[sSlateSelections[i] + ITEM_SLATE_KANTO].name);
+                    StringAppend(gStringVar2, textQuantity);
+                    StringExpandPlaceholders(gStringVar3, gStringVar2);
+                    AddTextPrinterParameterized(windowId, FONT_NORMAL, gStringVar3, 8, selectionCount * 16 + 1, TEXT_SKIP_DRAW, NULL);
+                }
+                selectionCount++;
+            }
+        }
+
+        InitMenuInUpperLeftCornerNormal(windowId, count, 0);
+        CopyWindowToVram(windowId, COPYWIN_FULL);
+        InitMultichoiceCheckWrap(FALSE, count, windowId, MULTI_FARAWAYISLAND_SLATE);
+    }
+}
+
+void GetSlateSelection(void)
+{
+    if (gSpecialVar_Result != MULTI_B_PRESSED)
+    {
+        gSpecialVar_0x8005 = CountTotalItemQuantityInBag(sSlateSelections[gSpecialVar_Result] + ITEM_SLATE_KANTO);
+        gSpecialVar_Result = sSlateSelections[gSpecialVar_Result];
     }
 }
 

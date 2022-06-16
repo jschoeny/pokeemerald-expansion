@@ -17,7 +17,7 @@
 #define MULTI_BASE_PC_WITH_REGISTRY        6
 #define MULTI_REGISTER_MENU                7
 #define MULTI_SSTIDAL_LILYCOVE             8 // Exit only, populated by CreateLilycoveSSTidalMultichoice
-#define MULTI_UNUSED_9                     9
+#define MULTI_FARAWAYISLAND_SLATE          9 // Exit only, populated by CreateSlateMultichoice
 #define MULTI_UNUSED_10                    10
 #define MULTI_FRONTIER_PASS_INFO           11
 #define MULTI_BIKE                         12
@@ -132,6 +132,11 @@
 #define SSTIDAL_SELECTION_FARAWAY_ISLAND   5
 #define SSTIDAL_SELECTION_EXIT             6
 #define SSTIDAL_SELECTION_COUNT            7
+
+// Slate Multichoice Selections
+#define SLATE_SELECTION(slate)      (slate - ITEM_SLATE_KANTO)
+#define SLATE_SELECTION_EXIT        (SLATE_ITEMS_COUNT)
+#define SLATE_SELECTION_COUNT       (SLATE_SELECTION_EXIT + 1)
 
 // Std String Ids
 #define STDSTRING_COOL             0

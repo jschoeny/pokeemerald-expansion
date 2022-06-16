@@ -2620,3 +2620,16 @@ static void PrintTMHMMoveData(u16 itemId)
         CopyWindowToVram(WIN_TMHM_INFO, COPYWIN_GFX);
     }
 }
+
+void IsSlateInBag(void)
+{
+    u8 i;
+    for(i = 0; i < SLATE_ITEMS_COUNT; i++) {
+        if (CheckBagHasItem(ITEM_SLATE_KANTO + i, 1) == TRUE) //&& FlagGet(FLAG_CAUGHT_MOLTRES) == FALSE)
+        {
+            gSpecialVar_Result = TRUE;
+            return;
+        }
+    }
+    gSpecialVar_Result = FALSE;
+}

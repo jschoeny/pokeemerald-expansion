@@ -18,6 +18,7 @@
 #include "field_weather.h"
 #include "graphics.h"
 #include "international_string_util.h"
+#include "item.h"
 #include "item_icon.h"
 #include "link.h"
 #include "list_menu.h"
@@ -2294,6 +2295,16 @@ void ShowScrollableMultichoice(void)
         task->tKeepOpenAfterSelect = FALSE;
         task->tTaskId = taskId;
         break;
+    case SCROLL_MULTI_SLATE:
+        task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
+        task->tNumItems = gSpecialVar_0x8005;
+        task->tLeft = 19;
+        task->tTop = 1;
+        task->tWidth = 10;
+        task->tHeight = 12;
+        task->tKeepOpenAfterSelect = FALSE;
+        task->tTaskId = taskId;
+        break;
     case SCROLL_MULTI_BATTLE_TENT_RULES:
         task->tMaxItemsOnScreen = MAX_SCROLL_MULTI_ON_SCREEN;
         task->tNumItems = 7;
@@ -2483,12 +2494,60 @@ static void Task_ShowScrollableMultichoice(u8 taskId)
     sFrontierExchangeCorner_NeverRead = 0;
     InitScrollableMultichoice();
 
-    for (width = 0, i = 0; i < task->tNumItems; i++)
-    {
-        const u8 *text = sScrollableMultichoiceOptions[gSpecialVar_0x8004][i];
-        sScrollableMultichoice_ListMenuItem[i].name = text;
-        sScrollableMultichoice_ListMenuItem[i].id = i;
-        width = DisplayTextAndGetWidth(text, width);
+    if(gSpecialVar_0x8004 == SCROLL_MULTI_SLATE) {
+        //const u8 textQuantity[] = _("{CLEAR_TO 0x54}x{STR_VAR_1}");
+        u8 selectionCount = 0;
+        u8 sSlateSelections[task->tNumItems];
+
+        for (i = 0; i < task->tNumItems; i++)
+        {
+            sSlateSelections[i] = 0xFF;
+        }
+
+        for(i = 0; i < SLATE_ITEMS_COUNT; i++) {
+            if (CheckBagHasItem(ITEM_SLATE_KANTO + i, 1) == TRUE)
+            {
+                sSlateSelections[selectionCount] = SLATE_SELECTION(ITEM_SLATE_KANTO + i);
+                selectionCount++;
+            }
+        }
+
+        sSlateSelections[selectionCount] = SLATE_SELECTION_EXIT;
+        selectionCount++;
+
+        for (width = 0, i = 0; i < task->tNumItems; i++)
+        {
+            u8 selection = sSlateSelections[i];
+            if (selection != 0xFF)
+            {
+                if(i < task->tNumItems - 1) {
+                    // u16 itemQuantity = CountTotalItemQuantityInBag(selection + ITEM_SLATE_KANTO);
+                    // ConvertIntToDecimalStringN(gStringVar1, itemQuantity, STR_CONV_MODE_RIGHT_ALIGN, BAG_ITEM_CAPACITY_DIGITS);
+                    // StringCopy(sSlateSelectionText[i], gItems[selection + ITEM_SLATE_KANTO].name);
+                    // StringAppend(gStringVar2, textQuantity);
+                    // StringExpandPlaceholders(gStringVar3, gStringVar2);
+                    // MgbaPrintEncoded(MGBA_LOG_INFO, sSlateSelectionText[i]);
+
+                    sScrollableMultichoice_ListMenuItem[i].name = gItems[selection + ITEM_SLATE_KANTO].name;// sSlateSelectionText[i];
+                    sScrollableMultichoice_ListMenuItem[i].id = i;
+                    width = DisplayTextAndGetWidth(gItems[selection + ITEM_SLATE_KANTO].name, width);
+                }
+                else {
+                    sScrollableMultichoice_ListMenuItem[i].name = gText_Exit;
+                    sScrollableMultichoice_ListMenuItem[i].id = i;
+                    width = DisplayTextAndGetWidth(gText_Exit, width);
+                }
+            }
+        }
+    }
+    else {
+        for (width = 0, i = 0; i < task->tNumItems; i++)
+        {
+            const u8 *text = sScrollableMultichoiceOptions[gSpecialVar_0x8004][i];
+            sScrollableMultichoice_ListMenuItem[i].name = text;
+            sScrollableMultichoice_ListMenuItem[i].id = i;
+            width = DisplayTextAndGetWidth(text, width);
+        }
     }
 
     task->tWidth = ConvertPixelWidthToTileWidth(width);

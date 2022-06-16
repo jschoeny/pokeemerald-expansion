@@ -711,36 +711,38 @@
 #define FLAG_UNUSED_0x29B  0x29B // Unused Flag
 #define FLAG_UNUSED_0x29C  0x29C // Unused Flag
 #define FLAG_UNUSED_0x29D  0x29D // Unused Flag
-#define FLAG_UNUSED_0x29E  0x29E // Unused Flag
-#define FLAG_UNUSED_0x29F  0x29F // Unused Flag
-#define FLAG_UNUSED_0x2A0  0x2A0 // Unused Flag
-#define FLAG_UNUSED_0x2A1  0x2A1 // Unused Flag
-#define FLAG_UNUSED_0x2A2  0x2A2 // Unused Flag
-#define FLAG_UNUSED_0x2A3  0x2A3 // Unused Flag
-#define FLAG_UNUSED_0x2A4  0x2A4 // Unused Flag
-#define FLAG_UNUSED_0x2A5  0x2A5 // Unused Flag
-#define FLAG_UNUSED_0x2A6  0x2A6 // Unused Flag
-#define FLAG_UNUSED_0x2A7  0x2A7 // Unused Flag
-#define FLAG_UNUSED_0x2A8  0x2A8 // Unused Flag
-#define FLAG_UNUSED_0x2A9  0x2A9 // Unused Flag
-#define FLAG_UNUSED_0x2AA  0x2AA // Unused Flag
-#define FLAG_UNUSED_0x2AB  0x2AB // Unused Flag
-#define FLAG_UNUSED_0x2AC  0x2AC // Unused Flag
-#define FLAG_UNUSED_0x2AD  0x2AD // Unused Flag
-#define FLAG_UNUSED_0x2AE  0x2AE // Unused Flag
-#define FLAG_UNUSED_0x2AF  0x2AF // Unused Flag
-#define FLAG_UNUSED_0x2B0  0x2B0 // Unused Flag
-#define FLAG_UNUSED_0x2B1  0x2B1 // Unused Flag
-#define FLAG_UNUSED_0x2B2  0x2B2 // Unused Flag
-#define FLAG_UNUSED_0x2B3  0x2B3 // Unused Flag
-#define FLAG_UNUSED_0x2B4  0x2B4 // Unused Flag
-#define FLAG_UNUSED_0x2B5  0x2B5 // Unused Flag
-#define FLAG_UNUSED_0x2B6  0x2B6 // Unused Flag
-#define FLAG_UNUSED_0x2B7  0x2B7 // Unused Flag
-#define FLAG_UNUSED_0x2B8  0x2B8 // Unused Flag
-#define FLAG_UNUSED_0x2B9  0x2B9 // Unused Flag
-#define FLAG_UNUSED_0x2BA  0x2BA // Unused Flag
-#define FLAG_UNUSED_0x2BB  0x2BB // Unused Flag
+
+// Slate Pokemon Flags
+#define FLAG_CAUGHT_ZAMAZENTA   0x29E
+#define FLAG_CAUGHT_ZACIAN      0x29F
+#define FLAG_CAUGHT_NECROZMA    0x2A0
+#define FLAG_CAUGHT_ZYGARDE     0x2A1
+#define FLAG_CAUGHT_YVELTAL     0x2A2
+#define FLAG_CAUGHT_XERNEAS     0x2A3
+#define FLAG_CAUGHT_KYUREM      0x2A4
+#define FLAG_CAUGHT_RESHIRAM    0x2A5
+#define FLAG_CAUGHT_ZEKROM      0x2A6
+#define FLAG_CAUGHT_LANDORUS    0x2A7
+#define FLAG_CAUGHT_THUNDURUS   0x2A8
+#define FLAG_CAUGHT_TORNADUS    0x2A9
+#define FLAG_CAUGHT_VIRIZION    0x2AA
+#define FLAG_CAUGHT_TERRAKION   0x2AB
+#define FLAG_CAUGHT_COBALION    0x2AC
+#define FLAG_CAUGHT_DARKRAI     0x2AD
+#define FLAG_CAUGHT_CRESSELIA   0x2AE
+#define FLAG_CAUGHT_GIRATINA    0x2AF
+#define FLAG_CAUGHT_PALKIA      0x2B0
+#define FLAG_CAUGHT_DIALGA      0x2B1
+#define FLAG_CAUGHT_UXIE        0x2B2
+#define FLAG_CAUGHT_MESPRIT     0x2B3
+#define FLAG_CAUGHT_AZELF       0x2B4
+#define FLAG_CAUGHT_SUICUNE     0x2B5
+#define FLAG_CAUGHT_ENTEI       0x2B6
+#define FLAG_CAUGHT_RAIKOU      0x2B7
+#define FLAG_CAUGHT_MEWTWO      0x2B8
+#define FLAG_CAUGHT_MOLTRES     0x2B9
+#define FLAG_CAUGHT_ZAPDOS      0x2BA
+#define FLAG_CAUGHT_ARTICUNO    0x2BB
 
 // Event Flags
 #define FLAG_HIDE_ROUTE_101_BIRCH_STARTERS_BAG                      0x2BC
@@ -1575,7 +1577,7 @@
 #define FLAG_UNUSED_0x925                           (DAILY_FLAGS_START + 0x5)  // Unused Flag
 #define FLAG_UNUSED_0x926                           (DAILY_FLAGS_START + 0x6)  // Unused Flag
 #define FLAG_UNUSED_0x927                           (DAILY_FLAGS_START + 0x7)  // Unused Flag
-#define FLAG_UNUSED_0x928                           (DAILY_FLAGS_START + 0x8)  // Unused Flag
+#define FLAG_DAILY_SLATE                            (DAILY_FLAGS_START + 0x8)
 #define FLAG_DAILY_OUTBREAK                         (DAILY_FLAGS_START + 0x9)
 #define FLAG_DAILY_PICKED_LOTO_TICKET               (DAILY_FLAGS_START + 0xA)
 #define FLAG_DAILY_ROUTE_114_RECEIVED_BERRY         (DAILY_FLAGS_START + 0xB)
