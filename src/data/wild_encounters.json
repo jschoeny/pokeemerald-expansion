@@ -11491,6 +11491,105 @@
               }
             ]
           }
+        },
+        {
+          "map": "MAP_SCORCHED_SLAB_B1F",
+          "base_label": "gScorchedSlab_B1F0",
+          "land_mons": {
+            "encounter_rate": 10,
+            "mons": [
+              {
+                "min_level": 26,
+                "max_level": 27,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 26,
+                "max_level": 27,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 27,
+                "max_level": 27,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 27,
+                "max_level": 27,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 27,
+                "max_level": 27,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 27,
+                "max_level": 27,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 28,
+                "max_level": 28,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 28,
+                "max_level": 28,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 28,
+                "max_level": 29,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 28,
+                "max_level": 29,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 29,
+                "max_level": 29,
+                "species": "SPECIES_GOLBAT"
+              },
+              {
+                "min_level": 29,
+                "max_level": 29,
+                "species": "SPECIES_GOLBAT"
+              }
+            ]
+          },
+          "rock_smash_mons": {
+            "encounter_rate": 20,
+            "mons": [
+              {
+                "min_level": 20,
+                "max_level": 22,
+                "species": "SPECIES_GEODUDE"
+              },
+              {
+                "min_level": 20,
+                "max_level": 22,
+                "species": "SPECIES_GEODUDE"
+              },
+              {
+                "min_level": 22,
+                "max_level": 23,
+                "species": "SPECIES_GEODUDE"
+              },
+              {
+                "min_level": 22,
+                "max_level": 23,
+                "species": "SPECIES_GEODUDE"
+              },
+              {
+                "min_level": 24,
+                "max_level": 24,
+                "species": "SPECIES_GEODUDE"
+              }
+            ]
+          }
         }
       ]
     },

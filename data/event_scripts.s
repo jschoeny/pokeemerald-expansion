@@ -1091,3 +1091,7 @@ Common_EventScript_LegendaryFlewAway::
 	.include "data/text/birch_speech.inc"
 
 	.include "data/maps/BattleFrontier_CynthiasHouse/scripts.inc"
+
+	.include "data/maps/ScorchedSlab_B1F/scripts.inc"
+
+	.include "data/maps/ScorchedSlab_B2F/scripts.inc"
