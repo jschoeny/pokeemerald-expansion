@@ -1657,11 +1657,14 @@ static void OpenContextMenu(u8 taskId)
                 gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
                 break;
             case TREASURES_POCKET:
-                if(gSpecialVar_ItemId >= ITEM_SLATE_KANTO && gSpecialVar_ItemId <= ITEM_SLATE_GALAR)
+                if(gSpecialVar_ItemId >= ITEM_SLATE_KANTO && gSpecialVar_ItemId <= ITEM_SLATE_GALAR) {
                     gBagMenu->contextMenuItemsPtr = sContextMenuItems_TmHmPocket;
-                else
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_TmHmPocket);
+                }
+                else {
                     gBagMenu->contextMenuItemsPtr = sContextMenuItems_ItemsPocket;
-                gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
+                    gBagMenu->contextMenuNumItems = ARRAY_COUNT(sContextMenuItems_ItemsPocket);
+                }
                 break;
             }
         }
