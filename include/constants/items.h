@@ -948,7 +948,9 @@
 #define ITEM_SLATE_GALAR        774 // Zacian, Zamazenta
 #define SLATE_ITEMS_COUNT       (ITEM_SLATE_GALAR - ITEM_SLATE_KANTO + 1)
 
-#define ITEMS_COUNT 775
+#define ITEM_TYPE_CHARM 775
+
+#define ITEMS_COUNT 776
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS

@@ -8385,6 +8385,8 @@ extern const u32 gItemIcon_CatchingCharm[];
 extern const u32 gItemIconPalette_CatchingCharm[];
 extern const u32 gItemIcon_ExpCharm[];
 extern const u32 gItemIconPalette_ExpCharm[];
+extern const u32 gItemIcon_TypeCharm[];
+extern const u32 gItemIconPalette_TypeCharm[];
 // Form-changing Key Items
 extern const u32 gItemIcon_RotomCatalog[];
 extern const u32 gItemIconPalette_RotomCatalog[];

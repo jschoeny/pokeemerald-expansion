@@ -3240,6 +3240,66 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
                 rolls++;
             } while (shinyValue >= SHINY_ODDS && rolls < bonus);
         }
+
+        if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL) {
+            u8 partyIndex;
+            for(partyIndex = 0; partyIndex < PARTY_SIZE; partyIndex++) {
+                if(GetMonData(&gPlayerParty[partyIndex], MON_DATA_HELD_ITEM) == ITEM_TYPE_CHARM)
+                    break;
+            }
+            if(partyIndex < PARTY_SIZE) {
+                if(Random() % 4 == 0) {
+                    if(gBaseStats[species].type1 != gBaseStats[species].type2
+                     || gSaveBlock2Ptr->optionsRandomizerType >= OPTIONS_RANDOMIZER_TYPE_1_2) {
+                        do
+                        {
+                            personality = Random32();
+
+                        } while (
+                            GetMonType(&gPlayerParty[partyIndex], FALSE) != GetMonTypeFromPersonality(species, personality, FALSE)
+                             || GetMonType(&gPlayerParty[partyIndex], TRUE) != GetMonTypeFromPersonality(species, personality, TRUE)
+                        );
+                    }
+                    else {
+                        do
+                        {
+                            personality = Random32();
+
+                        } while (
+                            GetMonType(&gPlayerParty[partyIndex], FALSE) != GetMonTypeFromPersonality(species, personality, FALSE)
+                        );
+                    }
+                }
+            }
+            else if(Random() % 2 == 0) {
+                u16 ability = GetMonAbility(&gPlayerParty[0]);
+                u8 type = TYPE_NONE;
+
+                if(ability == ABILITY_MAGNET_PULL)
+                    type = TYPE_STEEL;
+                else if(ability == ABILITY_STATIC)
+                    type = TYPE_ELECTRIC;
+                else if(ability == ABILITY_LIGHTNING_ROD)
+                    type = TYPE_ELECTRIC;
+                else if(ability == ABILITY_FLASH_FIRE)
+                    type = TYPE_FIRE;
+                else if(ability == ABILITY_HARVEST)
+                    type = TYPE_GRASS;
+                else if(ability == ABILITY_STORM_DRAIN)
+                    type = TYPE_WATER;
+
+                if(type != TYPE_NONE) {
+                    do
+                    {
+                        personality = Random32();
+
+                    } while (
+                        type != GetMonTypeFromPersonality(species, personality, FALSE)
+                         && type != GetMonTypeFromPersonality(species, personality, TRUE)
+                    );
+                }
+            }
+        }
     }
 
     SetBoxMonData(boxMon, MON_DATA_PERSONALITY, &personality);

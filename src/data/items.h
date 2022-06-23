@@ -9279,6 +9279,17 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
     },
 
+    [ITEM_TYPE_CHARM] =
+    {
+        .name = _("Type Charm"),
+        .itemId = ITEM_TYPE_CHARM,
+        .price = 0,
+        .description = sTypeCharmDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+    },
+
 // Form-changing Key Items
 
     [ITEM_ROTOM_CATALOG] =

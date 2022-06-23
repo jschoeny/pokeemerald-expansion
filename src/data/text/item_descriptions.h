@@ -3471,6 +3471,11 @@ static const u8 sExpCharmDesc[] = _(
     "the amount of Exp.\n"
     "earned in battle.");
 
+static const u8 sTypeCharmDesc[] = _(
+    "A charm that raises\n"
+    "the chance of same\n"
+    "-type encounters.");
+
 // Form-changing Key Items
 static const u8 sRotomCatalogDesc[] = _(
     "A catalog full of\n"
