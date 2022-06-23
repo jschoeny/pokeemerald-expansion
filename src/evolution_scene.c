@@ -217,6 +217,7 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     u8 ID;
     u8 type1, type2;
     u8 shift = 16;
+    u8 shinyShift = 0;
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
@@ -275,6 +276,8 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
 
     paletteOffset = 0x110;
     shift = (personality >> 16) & 0x1F;
+    if(IsMonShiny(mon))
+        shinyShift = 16;
 
     type1 = GetMonTypeFromPersonality(currSpecies, personality, FALSE);
     type2 = GetMonTypeFromPersonality(currSpecies, personality, TRUE);
@@ -283,8 +286,9 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
         ChangePalette(paletteOffset,
             gMonTypeColorIndexesPrimary[currSpecies],
             PALETTE_COEFF_FULL,
-            (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
-            gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+            (gMonTypeColor[type1][0] + 256 + shift - 16 + shinyShift) % 256,
+            gMonTypeColor[type1][1] < 255 - shinyShift ? gMonTypeColor[type1][1] + shinyShift : 255,
+            gMonTypeColor[type1][2] < 255 - shinyShift ? gMonTypeColor[type1][2] + shinyShift : 255
         );
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 
@@ -293,8 +297,9 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesSecondary[currSpecies],
                 PALETTE_COEFF_2ND,
-                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
-                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         }
@@ -303,8 +308,9 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesSecondary[currSpecies],
                 PALETTE_COEFF_FULL,
-                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
-                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         }
@@ -336,7 +342,10 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
     {
         ChangePalette(paletteOffset,
             gMonTypeColorIndexesPrimary[postEvoSpecies],
-            PALETTE_COEFF_FULL, gMonTypeColor[type1][0], gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+            PALETTE_COEFF_FULL,
+            (gMonTypeColor[type1][0] + 256 + shift - 16 + shinyShift) % 256,
+            gMonTypeColor[type1][1] < 255 - shinyShift ? gMonTypeColor[type1][1] + shinyShift : 255,
+            gMonTypeColor[type1][2] < 255 - shinyShift ? gMonTypeColor[type1][2] + shinyShift : 255
         );
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 
@@ -344,7 +353,10 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
         {
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesSecondary[postEvoSpecies],
-                PALETTE_COEFF_2ND, gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                PALETTE_COEFF_2ND,
+                (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         }
@@ -352,7 +364,10 @@ void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canStopEvo, u
         {
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesSecondary[postEvoSpecies],
-                PALETTE_COEFF_FULL, gMonTypeColor[type2][0], gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                PALETTE_COEFF_FULL,
+                (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         }

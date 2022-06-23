@@ -572,6 +572,7 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
     u32 monsPersonality, currentPersonality, otId, species, paletteOffset, position;
     u8 type1, type2;
     u8 shift = 16;
+    u8 shinyShift = 0;
 
     const void *lzPaletteData;
     struct Pokemon *illusionMon = GetIllusionMonPtr(battlerId);
@@ -593,6 +594,8 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
     shift = (monsPersonality >> 16) & 0x1F;
+    if(IsShinyOtIdPersonality(otId, currentPersonality))
+        shinyShift = 16;
 
     if (opponent)
     {
@@ -625,15 +628,16 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
     }
 
-    type1 = GetMonTypeFromPersonality(species, monsPersonality, FALSE);
-    type2 = GetMonTypeFromPersonality(species, monsPersonality, TRUE);
+    type1 = GetMonTypeFromPersonality(species, currentPersonality, FALSE);
+    type2 = GetMonTypeFromPersonality(species, currentPersonality, TRUE);
     if(type1 != gBaseStats[species].type1 || type2 != gBaseStats[species].type2)
     {
         ChangePalette(paletteOffset,
             gMonTypeColorIndexesPrimary[species],
             PALETTE_COEFF_FULL,
-            (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
-            gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+            (gMonTypeColor[type1][0] + 256 + shift - 16 + shinyShift) % 256,
+            gMonTypeColor[type1][1] < 255 - shinyShift ? gMonTypeColor[type1][1] + shinyShift : 255,
+            gMonTypeColor[type1][2] < 255 - shinyShift ? gMonTypeColor[type1][2] + shinyShift : 255
         );
         CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         
@@ -642,8 +646,9 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesSecondary[species],
                 PALETTE_COEFF_2ND,
-                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
-                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         }
@@ -652,8 +657,9 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesSecondary[species],
                 PALETTE_COEFF_FULL,
-                (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
-                gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
         }

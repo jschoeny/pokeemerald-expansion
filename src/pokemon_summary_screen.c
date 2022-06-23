@@ -3969,6 +3969,7 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
     u32 paletteOffset;
     u8 type1, type2, paletteIndex;
     u8 shift = 16;
+    u8 shinyShift = 0;
 
     switch (*state)
     {
@@ -4009,6 +4010,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
         paletteOffset = (paletteIndex * 16) + 0x100;
 
         shift = (summary->pid >> 16) & 0x1F;
+        if(IsShinyOtIdPersonality(summary->OTID, summary->pid))
+            shinyShift = 16;
 
         type1 = GetMonTypeFromPersonality(summary->species2, summary->pid, FALSE);
         type2 = GetMonTypeFromPersonality(summary->species2, summary->pid, TRUE);
@@ -4017,8 +4020,9 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
             ChangePalette(paletteOffset,
                 gMonTypeColorIndexesPrimary[summary->species2],
                 PALETTE_COEFF_FULL,
-                (gMonTypeColor[type1][0] + 256 + shift - 16) % 256,
-                gMonTypeColor[type1][1], gMonTypeColor[type1][2]
+                (gMonTypeColor[type1][0] + 256 + shift - 16 + shinyShift) % 256,
+                gMonTypeColor[type1][1] < 255 - shinyShift ? gMonTypeColor[type1][1] + shinyShift : 255,
+                gMonTypeColor[type1][2] < 255 - shinyShift ? gMonTypeColor[type1][2] + shinyShift : 255
             );
             CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 
@@ -4027,8 +4031,9 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                 ChangePalette(paletteOffset,
                     gMonTypeColorIndexesSecondary[summary->species2],
                     PALETTE_COEFF_2ND,
-                    (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
-                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                    (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                    gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                    gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
                 );
                 CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
             }
@@ -4037,8 +4042,9 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                 ChangePalette(paletteOffset,
                     gMonTypeColorIndexesSecondary[summary->species2],
                     PALETTE_COEFF_FULL,
-                    (gMonTypeColor[type2][0] + 256 + shift - 16) % 256,
-                    gMonTypeColor[type2][1], gMonTypeColor[type2][2]
+                    (gMonTypeColor[type2][0] + 256 + shift - 16 + shinyShift) % 256,
+                    gMonTypeColor[type2][1] < 255 - shinyShift ? gMonTypeColor[type2][1] + shinyShift : 255,
+                    gMonTypeColor[type2][2] < 255 - shinyShift ? gMonTypeColor[type2][2] + shinyShift : 255
                 );
                 CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
             }

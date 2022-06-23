@@ -502,7 +502,7 @@ struct PokemonStorageSystemData
     u32 displayMonPersonality;
     u16 displayMonSpecies;
     u16 displayMonItemId;
-    u16 displayUnusedVar;
+    u16 displayMonShiny;
     bool8 setMosaic;
     u8 displayMonMarkings;
     u8 displayMonLevel;
@@ -3995,11 +3995,16 @@ static void LoadDisplayMonGfx(u16 species, u32 pid)
     {
         u8 type1, type2;
         u8 shift = 16;
+        u8 shinyShift = 0;
 
         LoadSpecialPokePic(&gMonFrontPicTable[species], sStorage->tileBuffer, species, pid, TRUE);
         LZ77UnCompWram(sStorage->displayMonPalette, sStorage->displayMonPalBuffer);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalBuffer, sStorage->displayMonPalOffset, 0x20);
+
+
+        if(sStorage->displayMonShiny == TRUE)
+            shinyShift = 16;
 
         type1 = GetMonTypeFromPersonality(species, pid, FALSE);
         type2 = GetMonTypeFromPersonality(species, pid, TRUE);
@@ -6966,6 +6971,7 @@ static void SetDisplayMonData(void *pokemon, u8 mode)
         struct Pokemon *mon = (struct Pokemon *)pokemon;
 
         sStorage->displayMonSpecies = GetMonData(mon, MON_DATA_SPECIES2);
+        sStorage->displayMonShiny = IsMonShiny(mon);
         if (sStorage->displayMonSpecies != SPECIES_NONE)
         {
             sanityIsBadEgg = GetMonData(mon, MON_DATA_SANITY_IS_BAD_EGG);
