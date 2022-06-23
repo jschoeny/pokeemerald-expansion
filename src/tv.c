@@ -1773,7 +1773,6 @@ void EndMassOutbreak(void)
     gSaveBlock1Ptr->outbreakPokemonProbability = 0;
     gSaveBlock1Ptr->outbreakDaysLeft = 0;
     FlagClear(FLAG_OUTBREAK_ONGOING);
-    FlagClear(FLAG_OUTBREAK_CALL);
 }
 
 void EndMassOutbreakToday(void)
@@ -1804,7 +1803,6 @@ void EndMassOutbreakToday(void)
 
     FlagSet(FLAG_DAILY_OUTBREAK);
     FlagClear(FLAG_OUTBREAK_ONGOING);
-    FlagClear(FLAG_OUTBREAK_CALL);
 }
 
 void UpdateTVShowsPerDay(u16 days)
