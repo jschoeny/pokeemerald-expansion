@@ -340,7 +340,7 @@ static u16 GetCurrentMapWildMonHeaderId(void)
     return HEADER_NONE;
 }
 
-static u16 GetWildMonHeaderId(u8 mapNum, u8 mapGroup) {
+u16 GetWildMonHeaderId(u8 mapNum, u8 mapGroup) {
     u16 i;
 
     for (i = 0; ; i++)
@@ -994,7 +994,7 @@ bool8 BuildWildMonForOutbreak(u16 location, u8 *level, u16 *species, u16 *eggMov
     else if (landMonsInfo != NULL && waterMonsInfo == NULL) {
         monIndex = ChooseWildMonIndex_Land();
         *level = landMonsInfo->wildPokemon[monIndex].maxLevel + 4;
-        *species = landMonsInfo->wildPokemon[monIndex].species;
+        *species = GetRandomizedSpeciesWild(landMonsInfo->wildPokemon[monIndex].species, headerId);
         *eggMove = GetRandomEggMoveSpecies(*species);
     }
     // Water Pokemon
@@ -1005,13 +1005,13 @@ bool8 BuildWildMonForOutbreak(u16 location, u8 *level, u16 *species, u16 *eggMov
             if(fishingMonsInfo == NULL || Random() % 100 < 60) { // Surfing Mon
                 monIndex = ChooseWildMonIndex_WaterRock();
                 *level = waterMonsInfo->wildPokemon[monIndex].maxLevel + 4;
-                *species = waterMonsInfo->wildPokemon[monIndex].species;
+                *species = GetRandomizedSpeciesWild(waterMonsInfo->wildPokemon[monIndex].species, headerId);
                 *eggMove = GetRandomEggMoveSpecies(*species);
             }
             else if(fishingMonsInfo != NULL) { // Fishing Mon
                 monIndex = ChooseWildMonIndex_Fishing(SUPER_ROD);
                 *level = fishingMonsInfo->wildPokemon[monIndex].maxLevel + 4;
-                *species = fishingMonsInfo->wildPokemon[monIndex].species;
+                *species = GetRandomizedSpeciesWild(fishingMonsInfo->wildPokemon[monIndex].species, headerId);
                 *eggMove = GetRandomEggMoveSpecies(*species);
             }
         }
@@ -1024,7 +1024,7 @@ bool8 BuildWildMonForOutbreak(u16 location, u8 *level, u16 *species, u16 *eggMov
     {
         monIndex = ChooseWildMonIndex_Land();
         *level = landMonsInfo->wildPokemon[monIndex].maxLevel + 4;
-        *species = landMonsInfo->wildPokemon[monIndex].species;
+        *species = GetRandomizedSpeciesWild(landMonsInfo->wildPokemon[monIndex].species, headerId);
         *eggMove = GetRandomEggMoveSpecies(*species);
     }
     else
@@ -1033,13 +1033,13 @@ bool8 BuildWildMonForOutbreak(u16 location, u8 *level, u16 *species, u16 *eggMov
         if(fishingMonsInfo == NULL || Random() % 100 < 60) { // Surfing Mon
             monIndex = ChooseWildMonIndex_WaterRock();
             *level = waterMonsInfo->wildPokemon[monIndex].maxLevel + 4;
-            *species = waterMonsInfo->wildPokemon[monIndex].species;
+            *species = GetRandomizedSpeciesWild(waterMonsInfo->wildPokemon[monIndex].species, headerId);
             *eggMove = GetRandomEggMoveSpecies(*species);
         }
         else if(fishingMonsInfo != NULL) { // Fishing Mon
             monIndex = ChooseWildMonIndex_Fishing(SUPER_ROD);
             *level = fishingMonsInfo->wildPokemon[monIndex].maxLevel + 4;
-            *species = fishingMonsInfo->wildPokemon[monIndex].species;
+            *species = GetRandomizedSpeciesWild(fishingMonsInfo->wildPokemon[monIndex].species, headerId);
             *eggMove = GetRandomEggMoveSpecies(*species);
         }
     }

@@ -40,5 +40,6 @@ u16 GetLocalWaterMon(void);
 bool8 UpdateRepelCounter(void);
 bool8 TryDoDoubleWildBattle(void);
 bool8 BuildWildMonForOutbreak(u16 location, u8 *level, u16 *species, u16 *eggMove, u8 *isWaterMon);
+u16 GetWildMonHeaderId(u8 mapNum, u8 mapGroup);
 
 #endif // GUARD_WILD_ENCOUNTER_H

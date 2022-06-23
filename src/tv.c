@@ -35,6 +35,7 @@
 #include "pokeball.h"
 #include "data.h"
 #include "wild_encounter.h"
+#include "daycare.h"
 #include "constants/battle_frontier.h"
 #include "constants/contest.h"
 #include "constants/decorations.h"
@@ -1618,6 +1619,9 @@ static void TryStartRandomMassOutbreak(void)
     // for(i = 0; i < 16; i++) {
     //     FlagSet(FLAG_VISITED_LITTLEROOT_TOWN + i);
     // }
+    // gSaveBlock2Ptr->optionsRandomizerWild = OPTIONS_RANDOMIZER_WILD_SPECIES;
+    // gSaveBlock2Ptr->optionsRandomizerMoves = OPTIONS_RANDOMIZER_MOVES_PERSONALITY;
+    // gSaveBlock2Ptr->optionsRandomizerType = OPTIONS_RANDOMIZER_TYPE_1_2;
 
     if (FlagGet(FLAG_BADGE03_GET))
     {
@@ -1638,7 +1642,8 @@ static void TryStartRandomMassOutbreak(void)
                         nBadges++;
                     }
                 }
-                if(!rbernoulli(1, 20)) { // Custom Outbreak
+                if(!rbernoulli(1, 20) && gSaveBlock2Ptr->optionsRandomizerWild != OPTIONS_RANDOMIZER_WILD_RAND) { // Custom Outbreak
+                    u16 headerId;
                     if(nBadges <= 3) {
                         outbreakIdx = Random() % MASS_OUTBREAK_LEVEL1;
                     }
@@ -1661,18 +1666,32 @@ static void TryStartRandomMassOutbreak(void)
                                 return;
                         }
                     }
+
+                    headerId = GetWildMonHeaderId(
+                        sPokeOutbreakSpeciesList[outbreakIdx].location,
+                        sPokeOutbreakSpeciesList[outbreakIdx].locationGroup
+                    );
                     show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
                     show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                     show->massOutbreak.active = TRUE;
                     show->massOutbreak.level = sPokeOutbreakSpeciesList[outbreakIdx].level;
                     show->massOutbreak.onWater = sPokeOutbreakSpeciesList[outbreakIdx].onWater;
                     show->massOutbreak.special = TRUE; // Special outbreak
-                    show->massOutbreak.species = sPokeOutbreakSpeciesList[outbreakIdx].species;
+                    show->massOutbreak.species = GetRandomizedSpeciesWild(sPokeOutbreakSpeciesList[outbreakIdx].species, headerId);
                     show->massOutbreak.numEncounters = sPokeOutbreakSpeciesList[outbreakIdx].numEncounters;
-                    show->massOutbreak.moves[0] = sPokeOutbreakSpeciesList[outbreakIdx].moves[0];
-                    show->massOutbreak.moves[1] = sPokeOutbreakSpeciesList[outbreakIdx].moves[1];
-                    show->massOutbreak.moves[2] = sPokeOutbreakSpeciesList[outbreakIdx].moves[2];
-                    show->massOutbreak.moves[3] = sPokeOutbreakSpeciesList[outbreakIdx].moves[3];
+                    if(gSaveBlock2Ptr->optionsRandomizerMoves == OPTIONS_RANDOMIZER_MOVES_NORMAL
+                     && gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_NORMAL) {
+                        show->massOutbreak.moves[0] = sPokeOutbreakSpeciesList[outbreakIdx].moves[0];
+                        show->massOutbreak.moves[1] = sPokeOutbreakSpeciesList[outbreakIdx].moves[1];
+                        show->massOutbreak.moves[2] = sPokeOutbreakSpeciesList[outbreakIdx].moves[2];
+                        show->massOutbreak.moves[3] = sPokeOutbreakSpeciesList[outbreakIdx].moves[3];
+                    }
+                    else {
+                        show->massOutbreak.moves[0] = MOVE_NONE;
+                        show->massOutbreak.moves[1] = MOVE_NONE;
+                        show->massOutbreak.moves[2] = MOVE_NONE;
+                        show->massOutbreak.moves[3] = GetRandomEggMoveSpecies(show->massOutbreak.species);
+                    }
                     show->massOutbreak.locationMapNum = sPokeOutbreakSpeciesList[outbreakIdx].location;
                     show->massOutbreak.locationMapGroup = sPokeOutbreakSpeciesList[outbreakIdx].locationGroup;
                     show->massOutbreak.unused4 = 0;
