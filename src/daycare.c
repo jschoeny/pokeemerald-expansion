@@ -649,23 +649,26 @@ static u8 GetEggMoves(struct Pokemon *pokemon, u16 *eggMoves)
 
 u16 GetRandomEggMoveSpecies(u16 species)
 {
-    u8 numMoves, index, i, e, tries;
+    u8 numMoves, index, i, e;
     u16 s;
-    u16 childSpecies = species;
+
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+        return MOVE_NONE;
+
+    if(gSaveBlock2Ptr->optionsRandomizerMoves == OPTIONS_RANDOMIZER_MOVES_PERSONALITY)
+        return MOVE_NONE;
 
     // Get Child Species
-    while(s != NUM_SPECIES && tries < 3) {
-        for(s = 0; s < NUM_SPECIES; s++) {
-            for(e = 0; e < EVOS_PER_MON; e++) {
-                if(gEvolutionTable[s][e].targetSpecies == species) {
-                    childSpecies = s;
-                    s = 0;
-                    break;
-                }
+    for(s = 0; s < NUM_SPECIES; s++) {
+        for(e = 0; e < EVOS_PER_MON; e++) {
+            if(gEvolutionTable[s][e].targetSpecies == species) {
+                species = s;
+                s = 0;
+                break;
             }
         }
-        tries++;
     }
+
     for (i = 0; i < EGG_MOVES_ARRAY_COUNT; i++)
         sHatchedEggEggMoves[i] = MOVE_NONE;
 
