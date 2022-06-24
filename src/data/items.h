@@ -10150,8 +10150,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_GENOME] =
@@ -10162,8 +10162,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_JOHTO] =
@@ -10174,8 +10174,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_GUARDIAN] =
@@ -10186,8 +10186,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_TIME] =
@@ -10198,8 +10198,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_SPACE] =
@@ -10210,8 +10210,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_DISTORTION] =
@@ -10222,8 +10222,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_LUNAR] =
@@ -10234,8 +10234,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_NIGHT] =
@@ -10246,8 +10246,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_JUSTICE] =
@@ -10258,8 +10258,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_NATURE] =
@@ -10270,8 +10270,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_UNOVA] =
@@ -10282,8 +10282,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_KALOS] =
@@ -10294,8 +10294,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_COSMOS] =
@@ -10306,8 +10306,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_BLINDING] =
@@ -10318,8 +10318,8 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
     [ITEM_SLATE_GALAR] =
@@ -10330,7 +10330,7 @@ const struct Item gItems[] =
         .description = sSlateDesc,
         .importance = 1,
         .pocket = POCKET_TREASURES,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 };

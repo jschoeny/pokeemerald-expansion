@@ -41,7 +41,10 @@
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/metatile_labels.h"
 #include "constants/songs.h"
+
+extern const u8 FarawayIsland_Interior_EventScript_GotoSlateSelectionFromBag[];
 
 static void SetUpItemUseCallback(u8 taskId);
 static void FieldCB_UseItemOnField(void);
@@ -57,6 +60,7 @@ static void CheckForHiddenItemsInMapConnection(u8 taskId);
 static void Task_OpenRegisteredPokeblockCase(u8 taskId);
 static void ItemUseOnFieldCB_Bike(u8 taskId);
 static void ItemUseOnFieldCB_Rod(u8);
+static void ItemUseOnFieldCB_Slate(u8);
 static void ItemUseOnFieldCB_Itemfinder(u8);
 static void ItemUseOnFieldCB_Berry(u8 taskId);
 static void ItemUseOnFieldCB_WailmerPailBerry(u8 taskId);
@@ -301,6 +305,32 @@ void ItemUseOutOfBattle_Rod(u8 taskId)
 static void ItemUseOnFieldCB_Rod(u8 taskId)
 {
     StartFishing(ItemId_GetSecondaryId(gSpecialVar_ItemId));
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_Slate(u8 taskId)
+{
+    s16 coordsY;
+    s16 coordsX;
+    u8 behavior, direction;
+    PlayerGetDestCoords(&coordsX, &coordsY);
+    direction = GetPlayerFacingDirection();
+    if (direction == DIR_NORTH && MapGridGetMetatileIdAt(coordsX, coordsY - 1) == METATILE_General_SlateSlotEmpty)
+    {
+        sItemUseOnFieldCB = ItemUseOnFieldCB_Slate;
+        SetUpItemUseOnFieldCallback(taskId);
+    }
+    else
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, FALSE);
+    }
+}
+
+static void ItemUseOnFieldCB_Slate(u8 taskId)
+{
+    RemoveBagItem(gSpecialVar_ItemId, 1);
+    ScriptContext2_Enable();
+    ScriptContext1_SetupScript(FarawayIsland_Interior_EventScript_GotoSlateSelectionFromBag);
     DestroyTask(taskId);
 }
 

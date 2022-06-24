@@ -220,15 +220,29 @@ FarawayIsland_Interior_EventScript_UseSlate::
 	waitstate
 	closemessage
 	special GetSlateSelection
+	call FarawayIsland_Interior_EventScript_GotoSlateSelection
+	return
+
+FarawayIsland_Interior_EventScript_GotoSlateSelection::
 	switch VAR_RESULT
-	case 0, FarawayIsland_Interior_EventScript_UseSlateKanto
-	case 1, FarawayIsland_Interior_EventScript_UseSlateGenome
-	case 2, FarawayIsland_Interior_EventScript_UseSlateJohto
-	case 4, FarawayIsland_Interior_EventScript_UseSlateTime
-	case 5, FarawayIsland_Interior_EventScript_UseSlateSpace
-	case 6, FarawayIsland_Interior_EventScript_UseSlateDistortion
+	case 0, FarawayIsland_Interior_EventScript_AskUseSlateKanto
+	case 1, FarawayIsland_Interior_EventScript_AskUseSlateGenome
+	case 2, FarawayIsland_Interior_EventScript_AskUseSlateJohto
+	case 4, FarawayIsland_Interior_EventScript_AskUseSlateTime
+	case 5, FarawayIsland_Interior_EventScript_AskUseSlateSpace
+	case 6, FarawayIsland_Interior_EventScript_AskUseSlateDistortion
 	case SLATE_ITEMS_COUNT, FarawayIsland_Interior_EventScript_ExitSlateSelect
 	case MULTI_B_PRESSED, FarawayIsland_Interior_EventScript_ExitSlateSelect
+	return
+
+FarawayIsland_Interior_EventScript_GotoSlateSelectionFromBag::
+	switch VAR_ITEM_ID
+	case ITEM_SLATE_KANTO, FarawayIsland_Interior_EventScript_UseSlateKanto
+	case ITEM_SLATE_GENOME, FarawayIsland_Interior_EventScript_UseSlateGenome
+	case ITEM_SLATE_JOHTO, FarawayIsland_Interior_EventScript_UseSlateJohto
+	case ITEM_SLATE_TIME, FarawayIsland_Interior_EventScript_UseSlateTime
+	case ITEM_SLATE_SPACE, FarawayIsland_Interior_EventScript_UseSlateSpace
+	case ITEM_SLATE_DISTORTION, FarawayIsland_Interior_EventScript_UseSlateDistortion
 	return
 
 FarawayIsland_Interior_EventScript_AskUseSlate::
@@ -239,9 +253,13 @@ FarawayIsland_Interior_EventScript_AskUseSlate::
 	closemessage
 	return
 
-FarawayIsland_Interior_EventScript_UseSlateKanto::
+FarawayIsland_Interior_EventScript_AskUseSlateKanto::
 	setvar ITEMID, ITEM_SLATE_KANTO
 	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateKanto
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateKanto::
 	random 3
 	switch VAR_RESULT
 	case 0, FarawayIsland_Interior_EventScript_UseSlateKanto1
@@ -270,21 +288,30 @@ FarawayIsland_Interior_EventScript_UseSlateKanto3::
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
-FarawayIsland_Interior_EventScript_UseSlateGenome::
+FarawayIsland_Interior_EventScript_AskUseSlateGenome::
 	setvar ITEMID, ITEM_SLATE_GENOME
 	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateGenome
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateGenome::
 	goto_if_unset FLAG_CAUGHT_MEWTWO, FarawayIsland_Interior_EventScript_Mewtwo
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
-FarawayIsland_Interior_EventScript_UseSlateJohto::
+FarawayIsland_Interior_EventScript_AskUseSlateJohto::
 	setvar ITEMID, ITEM_SLATE_JOHTO
 	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateJohto
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateJohto::
 	random 3
 	switch VAR_RESULT
 	case 0, FarawayIsland_Interior_EventScript_UseSlateJohto1
 	case 1, FarawayIsland_Interior_EventScript_UseSlateJohto2
 	case 2, FarawayIsland_Interior_EventScript_UseSlateJohto3
+	end
 
 FarawayIsland_Interior_EventScript_UseSlateJohto1::
 	goto_if_unset FLAG_CAUGHT_SUICUNE, FarawayIsland_Interior_EventScript_Suicune
@@ -307,23 +334,35 @@ FarawayIsland_Interior_EventScript_UseSlateJohto3::
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
-FarawayIsland_Interior_EventScript_UseSlateTime::
+FarawayIsland_Interior_EventScript_AskUseSlateTime::
 	setvar ITEMID, ITEM_SLATE_TIME
 	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateTime
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateTime::
 	goto_if_unset FLAG_CAUGHT_GIRATINA, FarawayIsland_Interior_EventScript_Dialga
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
-FarawayIsland_Interior_EventScript_UseSlateSpace::
+FarawayIsland_Interior_EventScript_AskUseSlateSpace::
 	setvar ITEMID, ITEM_SLATE_SPACE
 	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateSpace
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateSpace::
 	goto_if_unset FLAG_CAUGHT_GIRATINA, FarawayIsland_Interior_EventScript_Palkia
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
-FarawayIsland_Interior_EventScript_UseSlateDistortion::
+FarawayIsland_Interior_EventScript_AskUseSlateDistortion::
 	setvar ITEMID, ITEM_SLATE_DISTORTION
 	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateDistortion
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateDistortion::
 	goto_if_unset FLAG_CAUGHT_GIRATINA, FarawayIsland_Interior_EventScript_Giratina
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
@@ -382,7 +421,7 @@ FarawayIsland_Interior_EventScript_InsertSlateEffect2::
 
 FarawayIsland_Interior_EventScript_CloseSlateHoleEffect::
 	fadescreen FADE_TO_BLACK
-	setmetatile 13, 4, METATILE_General_RedCaveIndent, TRUE
+	setmetatile 13, 4, METATILE_General_SlateSlotEmpty, TRUE
 	special DrawWholeMapView
 	clearflag FLAG_SMART_WILD_AI
 	playse SE_UNLOCK
