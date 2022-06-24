@@ -11,6 +11,7 @@
 #include "constants/region_map_sections.h"
 #include "constants/rgb.h"
 
+#define DEBUG TRUE
 #define TINT_MORNING Q_8_8(0.7), Q_8_8(0.7), Q_8_8(0.9)
 #define TINT_DAY Q_8_8(1.0), Q_8_8(1.0), Q_8_8(1.0)
 #define TINT_NIGHT Q_8_8(0.6), Q_8_8(0.6), Q_8_8(0.92)
@@ -28,8 +29,10 @@ static EWRAM_DATA struct {
 } sDNSystemControl = {0};
 
 #if DEBUG
+#define DEBUG_HOUR_OVERRIDE 5
+#define DEBUG_HOUR ((DEBUG_HOUR_OVERRIDE - 1) * TINT_PERIODS_PER_HOUR)
 EWRAM_DATA bool8 gPaletteOverrideDisabled = 0;
-EWRAM_DATA s16 gDNPeriodOverride = 0;
+EWRAM_DATA s16 gDNPeriodOverride = DEBUG_HOUR;
 EWRAM_DATA u16 gDNTintOverride[3] = {0};
 #endif
 
@@ -91,7 +94,8 @@ static void LoadPaletteOverrides(void)
 
     hour = gLocalTime.hours;
 
-#if DEBUG
+#ifdef DEBUG_HOUR
+    gDNPeriodOverride = DEBUG_HOUR;
     if (gDNPeriodOverride > 0)
         hour = (gDNPeriodOverride - 1) / TINT_PERIODS_PER_HOUR;
 #endif
@@ -167,7 +171,8 @@ static void TintPaletteForDayNight(u16 offset, u16 size)
         hour = gLocalTime.hours;
         hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
 
-#if DEBUG
+#ifdef DEBUG_HOUR
+        gDNPeriodOverride = DEBUG_HOUR;
         if (gDNPeriodOverride > 0)
         {
             hour = (gDNPeriodOverride - 1) / TINT_PERIODS_PER_HOUR;
@@ -229,7 +234,8 @@ void ProcessImmediateTimeEvents(void)
             hour = gLocalTime.hours;
             hourPhase = gLocalTime.minutes / MINUTES_PER_TINT_PERIOD;
 
-#if DEBUG
+#ifdef DEBUG_HOUR
+            gDNPeriodOverride = DEBUG_HOUR;
             if (gDNPeriodOverride > 0)
             {
                 hour = (gDNPeriodOverride - 1) / TINT_PERIODS_PER_HOUR;
@@ -254,7 +260,7 @@ void ProcessImmediateTimeEvents(void)
             {
                 sDNSystemControl.initialized = TRUE;
                 sDNSystemControl.prevTintPeriod = sDNSystemControl.currTintPeriod = period;
-#if DEBUG
+#ifdef DEBUG_HOUR
                 if (gDNTintOverride[0] > 0 ||
                     gDNTintOverride[1] > 0 ||
                     gDNTintOverride[2] > 0)
