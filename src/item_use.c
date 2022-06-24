@@ -328,7 +328,6 @@ void ItemUseOutOfBattle_Slate(u8 taskId)
 
 static void ItemUseOnFieldCB_Slate(u8 taskId)
 {
-    RemoveBagItem(gSpecialVar_ItemId, 1);
     ScriptContext2_Enable();
     ScriptContext1_SetupScript(FarawayIsland_Interior_EventScript_GotoSlateSelectionFromBag);
     DestroyTask(taskId);
