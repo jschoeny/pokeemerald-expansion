@@ -1745,3 +1745,11 @@ gTilesetPalOverride_Petalburg06::
 .align 2
 gTilesetPalOverride_Petalburg08::
 	.incbin "data/tilesets/secondary/petalburg/palettes/08_over.gbapal"
+
+.align 2
+gTilesetPalOverride_Petalburg09::
+	.incbin "data/tilesets/secondary/petalburg/palettes/09_over.gbapal"
+
+.align 2
+gTilesetPalOverride_Rustboro11::
+	.incbin "data/tilesets/secondary/rustboro/palettes/11_over.gbapal"
