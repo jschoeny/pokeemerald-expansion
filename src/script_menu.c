@@ -616,7 +616,7 @@ static void CreateSlateMultichoice(void)
             }
         }
 
-        width = ConvertPixelWidthToTileWidth(pixelWidth - 40);
+        width = ConvertPixelWidthToTileWidth(pixelWidth);
         windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
         SetStandardWindowBorderStyle(windowId, 0);
 
