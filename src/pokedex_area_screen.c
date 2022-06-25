@@ -623,16 +623,20 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
     case 5:
         ShowRegionMapForPokedexAreaScreen(&sPokedexAreaScreen->regionMap);
         CreateRegionMapPlayerIcon(1, 1);
+        if(sPokedexAreaScreen->species == gSaveBlock1Ptr->outbreakPokemonSpecies)
+            CreateRegionMapOutbreakIcon(3, 3);
         PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(0, -8);
         break;
     case 6:
         CreateAreaMarkerSprites();
         break;
     case 7:
-        LoadAreaUnknownGraphics();
+        if(sPokedexAreaScreen->species != gSaveBlock1Ptr->outbreakPokemonSpecies)
+            LoadAreaUnknownGraphics();
         break;
     case 8:
-        CreateAreaUnknownSprites();
+        if(sPokedexAreaScreen->species != gSaveBlock1Ptr->outbreakPokemonSpecies)
+            CreateAreaUnknownSprites();
         break;
     case 9:
         BeginNormalPaletteFade(PALETTES_ALL & ~(0x14), 0, 16, 0, RGB_BLACK);
@@ -772,7 +776,7 @@ static void CreateAreaUnknownSprites(void)
 
     if (sPokedexAreaScreen->numOverworldAreas || sPokedexAreaScreen->numSpecialAreas)
     {
-        // The current species is present on the map, don't create any "Area Unknown" sprites 
+        // The current species is present on the map, don't create any "Area Unknown" sprites
         for (i = 0; i < ARRAY_COUNT(sPokedexAreaScreen->areaUnknownSprites); i++)
             sPokedexAreaScreen->areaUnknownSprites[i] = NULL;
     }

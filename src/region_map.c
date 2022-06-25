@@ -90,7 +90,7 @@ static u16 GetMapSecIdAt(u16 x, u16 y);
 static void RegionMap_SetBG2XAndBG2Y(s16 x, s16 y);
 static void InitMapBasedOnPlayerLocation(void);
 static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum);
-static void TrySetOutbreakSpritePosition(void);
+static void TrySetOutbreakSpritePosition(u8 yOff);
 static void RegionMap_InitializeStateBasedOnSSTidalLocation(void);
 static u8 GetMapsecType(u16 mapSecId);
 static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId);
@@ -548,6 +548,7 @@ void ShowRegionMapForPokedexAreaScreen(struct RegionMap *regionMap)
     InitMapBasedOnPlayerLocation();
     gRegionMap->playerIconSpritePosX = gRegionMap->cursorPosX;
     gRegionMap->playerIconSpritePosY = gRegionMap->cursorPosY;
+    TrySetOutbreakSpritePosition(1);
 }
 
 bool8 LoadRegionMapGfx(void)
@@ -585,7 +586,7 @@ bool8 LoadRegionMapGfx(void)
         InitMapBasedOnPlayerLocation();
         gRegionMap->playerIconSpritePosX = gRegionMap->cursorPosX;
         gRegionMap->playerIconSpritePosY = gRegionMap->cursorPosY;
-        TrySetOutbreakSpritePosition();
+        TrySetOutbreakSpritePosition(0);
         gRegionMap->mapSecId = CorrectSpecialMapSecId_Internal(gRegionMap->mapSecId);
         gRegionMap->mapSecType = GetMapsecType(gRegionMap->mapSecId);
         GetMapName(gRegionMap->mapSecName, gRegionMap->mapSecId, MAP_NAME_LENGTH);
@@ -1142,7 +1143,7 @@ static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
     return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
 }
 
-static void TrySetOutbreakSpritePosition(void)
+static void TrySetOutbreakSpritePosition(u8 yOff)
 {
     u8 mapSecId;
     u16 mapWidth;
@@ -1178,7 +1179,7 @@ static void TrySetOutbreakSpritePosition(void)
             y = (y / 2);
     }
     gRegionMap->outbreakIconSpritePosX = gRegionMapEntries[mapSecId].x + x + MAPCURSOR_X_MIN;
-    gRegionMap->outbreakIconSpritePosY = gRegionMapEntries[mapSecId].y + y + MAPCURSOR_Y_MIN;
+    gRegionMap->outbreakIconSpritePosY = gRegionMapEntries[mapSecId].y + y + MAPCURSOR_Y_MIN + yOff;
 }
 
 static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
