@@ -563,7 +563,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     item2 = gBaseStats[gSaveBlock1Ptr->outbreakPokemonSpecies].item2;
 
     if(item1 != ITEM_NONE && item2 != ITEM_NONE) {
-        if(Random() % 100 < 75)
+        if(Random() % 100 < 33)
             SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item2);
         else
             SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
