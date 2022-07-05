@@ -624,5 +624,83 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_SNARL,         // Dark
             MOVE_DISARMING_VOICE// Fairy
         }
+    },
+
+    [PH_MOVE(MOVE_PH_RECOVER)] =
+    {
+        .move =
+        {
+            MOVE_RECOVER,       // Normal
+            MOVE_RECOVER,       // Fighting
+            MOVE_ROOST,         // Flying
+            MOVE_RECOVER,       // Poison
+            MOVE_RECOVER,       // Ground
+            MOVE_RECOVER,       // Rock
+            MOVE_HEAL_ORDER,    // Bug
+            MOVE_CURSE,         // Ghost
+            MOVE_RECOVER,       // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_MORNING_SUN,   // Fire
+            MOVE_AQUA_RING,     // Water
+            MOVE_SYNTHESIS,     // Grass
+            MOVE_RECOVER,       // Electric
+            MOVE_MORNING_SUN,   // Psychic
+            MOVE_RECOVER,       // Ice
+            MOVE_RECOVER,       // Dragon
+            MOVE_MOONLIGHT,     // Dark
+            MOVE_MOONLIGHT      // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_RECOVER2)] =
+    {
+        .move =
+        {
+            MOVE_RECOVER,       // Normal
+            MOVE_RECOVER,       // Fighting
+            MOVE_ROOST,         // Flying
+            MOVE_RECOVER,       // Poison
+            MOVE_RECOVER,       // Ground
+            MOVE_RECOVER,       // Rock
+            MOVE_HEAL_ORDER,    // Bug
+            MOVE_CURSE,         // Ghost
+            MOVE_RECOVER,       // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_MORNING_SUN,   // Fire
+            MOVE_AQUA_RING,     // Water
+            MOVE_INGRAIN,       // Grass
+            MOVE_RECOVER,       // Electric
+            MOVE_MORNING_SUN,   // Psychic
+            MOVE_RECOVER,       // Ice
+            MOVE_RECOVER,       // Dragon
+            MOVE_MOONLIGHT,     // Dark
+            MOVE_MOONLIGHT      // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_STRONGWIND)] =
+    {
+        .move =
+        {
+            MOVE_RAZOR_WIND,    // Normal
+            MOVE_RAZOR_WIND,    // Fighting
+            MOVE_HURRICANE,     // Flying
+            MOVE_RAZOR_WIND,    // Poison
+            MOVE_RAZOR_WIND,    // Ground
+            MOVE_RAZOR_WIND,    // Rock
+            MOVE_SILVER_WIND,   // Bug
+            MOVE_OMINOUS_WIND,  // Ghost
+            MOVE_RAZOR_WIND,    // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_HEAT_WAVE,     // Fire
+            MOVE_SURF,          // Water
+            MOVE_LEAF_TORNADO,  // Grass
+            MOVE_DISCHARGE,     // Electric
+            MOVE_RAZOR_WIND,    // Psychic
+            MOVE_ICY_WIND,      // Ice
+            MOVE_RAZOR_WIND,    // Dragon
+            MOVE_RAZOR_WIND,    // Dark
+            MOVE_RAZOR_WIND     // Fairy
+        }
     }
 };
