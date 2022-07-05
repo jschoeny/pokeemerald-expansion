@@ -88,6 +88,7 @@ SONG_SUBDIR = sound/songs
 MID_SUBDIR = sound/songs/midi
 SAMPLE_SUBDIR = sound/direct_sound_samples
 CRY_SUBDIR = sound/direct_sound_samples/cries
+PAL_CAT_SUBDIR = Pokemon-Palette-Categorized/include
 
 C_BUILDDIR = $(OBJ_DIR)/$(C_SUBDIR)
 GFLIB_BUILDDIR = $(OBJ_DIR)/$(GFLIB_SUBDIR)
@@ -116,7 +117,7 @@ endif
 
 CPPFLAGS := -iquote include -iquote $(GFLIB_SUBDIR) -Wno-trigraphs -DMODERN=$(MODERN)
 ifneq ($(MODERN),1)
-CPPFLAGS += -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
+CPPFLAGS += -I $(PAL_CAT_SUBDIR) -I tools/agbcc/include -I tools/agbcc -nostdinc -undef
 endif
 
 LDFLAGS = -Map ../../$(MAP)
@@ -329,7 +330,7 @@ else
 endif
 else
 define C_DEP
-$1: $2 $$(shell $(SCANINC) -I include -I tools/agbcc/include -I gflib $2)
+$1: $2 $$(shell $(SCANINC) -I include -I tools/agbcc/include -I gflib -I $(PAL_CAT_SUBDIR) $2)
 ifeq (,$$(KEEP_TEMPS))
 	@echo "$$(CC1) <flags> -o $$@ $$<"
 	@$$(CPP) $$(CPPFLAGS) $$< | $$(PREPROC) $$< charmap.txt -i | $$(CC1) $$(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $$(AS) $$(ASFLAGS) -o $$@ -
@@ -356,7 +357,7 @@ else
 endif
 else
 define GFLIB_DEP
-$1: $2 $$(shell $(SCANINC) -I include -I tools/agbcc/include -I gflib $2)
+$1: $2 $$(shell $(SCANINC) -I include -I tools/agbcc/include -I gflib -I $(PAL_CAT_SUBDIR) $2)
 ifeq (,$$(KEEP_TEMPS))
 	@echo "$$(CC1) <flags> -o $$@ $$<"
 	@$$(CPP) $$(CPPFLAGS) $$< | $$(PREPROC) $$< charmap.txt -i | $$(CC1) $$(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $$(AS) $$(ASFLAGS) -o $$@ -

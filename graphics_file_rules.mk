@@ -1,5 +1,5 @@
-CASTFORMGFXDIR := graphics/pokemon/castform
-CHERRIMGFXDIR := graphics/pokemon/cherrim
+CASTFORMGFXDIR := Pokemon-Palette-Categorized/graphics/pokemon/castform
+CHERRIMGFXDIR := Pokemon-Palette-Categorized/graphics/pokemon/cherrim
 TILESETGFXDIR := data/tilesets
 FONTGFXDIR := graphics/fonts
 INTERFACEGFXDIR := graphics/interface
