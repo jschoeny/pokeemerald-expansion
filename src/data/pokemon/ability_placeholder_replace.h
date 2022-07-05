@@ -26,5 +26,31 @@ const struct PlaceholderAbility gPlaceholderAbilities[ABILITIES_PH_COUNT] =
             ABILITY_SYNCHRONIZE,// Dark
             ABILITY_PRANKSTER   // Fairy
         }
+    },
+
+    [PH_ABILITY(ABILITY_PH_WEATHER_STATS)] =
+    {
+        .ability =
+        {
+            ABILITY_GUTS,       // Normal
+            ABILITY_GUTS,       // Fighting
+            ABILITY_GUTS,       // Flying
+            ABILITY_GUTS,       // Poison
+            ABILITY_SAND_RUSH,  // Ground
+            ABILITY_SAND_RUSH,  // Rock
+            ABILITY_GUTS,       // Bug
+            ABILITY_GUTS,       // Ghost
+            ABILITY_GUTS,       // Steel
+            ABILITY_NONE,       // Mystery
+            ABILITY_SOLAR_POWER,// Fire
+            ABILITY_SWIFT_SWIM, // Water
+            ABILITY_CHLOROPHYLL,// Grass
+            ABILITY_GUTS,       // Electric
+            ABILITY_GUTS,       // Psychic
+            ABILITY_SLUSH_RUSH, // Ice
+            ABILITY_GUTS,       // Dragon
+            ABILITY_GUTS,       // Dark
+            ABILITY_GUTS        // Fairy
+        }
     }
 };

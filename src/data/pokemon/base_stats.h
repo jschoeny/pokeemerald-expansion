@@ -25,7 +25,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_CHLOROPHYLL},
+        .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
     },
@@ -50,7 +50,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_CHLOROPHYLL},
+        .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
     },
@@ -75,7 +75,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_CHLOROPHYLL},
+        .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
     },
@@ -100,7 +100,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_SOLAR_POWER},
+            .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_PH_STARTER, ABILITY_NONE},
         #endif
@@ -129,7 +129,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_SOLAR_POWER},
+            .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_PH_STARTER, ABILITY_NONE},
         #endif
@@ -157,7 +157,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_SOLAR_POWER},
+            .abilities = {ABILITY_PH_STARTER, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_PH_STARTER, ABILITY_NONE},
         #endif
@@ -737,7 +737,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SAND_VEIL, ABILITY_NONE, ABILITY_SAND_RUSH},
+            .abilities = {ABILITY_SAND_VEIL, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_SAND_VEIL, ABILITY_NONE},
         #endif
@@ -768,7 +768,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SAND_VEIL, ABILITY_NONE, ABILITY_SAND_RUSH},
+            .abilities = {ABILITY_SAND_VEIL, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_SAND_VEIL, ABILITY_NONE},
         #endif
@@ -1225,7 +1225,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_RUN_AWAY},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_RUN_AWAY},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -1252,7 +1252,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_STENCH},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_STENCH},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -1283,7 +1283,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_EFFECT_SPORE},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_EFFECT_SPORE},
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
     },
@@ -1548,7 +1548,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .abilities = {ABILITY_DAMP, ABILITY_CLOUD_NINE, ABILITY_SWIFT_SWIM},
+        .abilities = {ABILITY_DAMP, ABILITY_CLOUD_NINE, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
     },
@@ -1572,7 +1572,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .abilities = {ABILITY_DAMP, ABILITY_CLOUD_NINE, ABILITY_SWIFT_SWIM},
+        .abilities = {ABILITY_DAMP, ABILITY_CLOUD_NINE, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -1708,7 +1708,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
-        .abilities = {ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_SWIFT_SWIM},
+        .abilities = {ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = TRUE,
     },
@@ -1733,7 +1733,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
-        .abilities = {ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_SWIFT_SWIM},
+        .abilities = {ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = TRUE,
     },
@@ -1762,7 +1762,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
-        .abilities = {ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_SWIFT_SWIM},
+        .abilities = {ABILITY_WATER_ABSORB, ABILITY_DAMP, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = TRUE,
     },
@@ -1965,9 +1965,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_GLUTTONY},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_GLUTTONY},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -1993,9 +1993,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_GLUTTONY},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_GLUTTONY},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -2025,9 +2025,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_GLUTTONY},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_GLUTTONY},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -2905,9 +2905,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_HARVEST},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_HARVEST},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
@@ -2937,9 +2937,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_HARVEST},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_HARVEST},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
@@ -3241,9 +3241,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_LEAF_GUARD, ABILITY_REGENERATOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_LEAF_GUARD, ABILITY_REGENERATOR},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -3298,9 +3298,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SNIPER, ABILITY_DAMP},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SNIPER, ABILITY_DAMP},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_DAMP},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_DAMP},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -3356,7 +3356,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_WATER_VEIL, ABILITY_LIGHTNING_ROD},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_WATER_VEIL, ABILITY_LIGHTNING_ROD},
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
     },
@@ -3381,7 +3381,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_WATER_VEIL, ABILITY_LIGHTNING_ROD},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_WATER_VEIL, ABILITY_LIGHTNING_ROD},
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
     },
@@ -3666,9 +3666,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_RATTLED},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_RATTLED},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
@@ -3921,9 +3921,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_3,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SHELL_ARMOR, ABILITY_WEAK_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SHELL_ARMOR, ABILITY_WEAK_ARMOR},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SHELL_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SHELL_ARMOR},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -3949,9 +3949,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_3,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SHELL_ARMOR, ABILITY_WEAK_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SHELL_ARMOR, ABILITY_WEAK_ARMOR},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SHELL_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SHELL_ARMOR},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -3977,9 +3977,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_3,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_BATTLE_ARMOR, ABILITY_WEAK_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_BATTLE_ARMOR, ABILITY_WEAK_ARMOR},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_BATTLE_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_BATTLE_ARMOR},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -4005,9 +4005,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_3,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_BATTLE_ARMOR, ABILITY_WEAK_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_BATTLE_ARMOR, ABILITY_WEAK_ARMOR},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_BATTLE_ARMOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_BATTLE_ARMOR},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -5156,9 +5156,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_HEALER},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_HEALER},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -5307,9 +5307,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_LEAF_GUARD, ABILITY_INFILTRATOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_LEAF_GUARD, ABILITY_INFILTRATOR},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
@@ -5335,9 +5335,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_LEAF_GUARD, ABILITY_INFILTRATOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_LEAF_GUARD, ABILITY_INFILTRATOR},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -5367,9 +5367,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_LEAF_GUARD, ABILITY_INFILTRATOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_LEAF_GUARD, ABILITY_INFILTRATOR},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -5423,9 +5423,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SOLAR_POWER, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SOLAR_POWER, ABILITY_EARLY_BIRD},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_EARLY_BIRD},
         #endif
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
@@ -5451,9 +5451,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SOLAR_POWER, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SOLAR_POWER, ABILITY_EARLY_BIRD},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_EARLY_BIRD},
         #endif
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
@@ -5987,7 +5987,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
-        .abilities = {ABILITY_POISON_POINT, ABILITY_SWIFT_SWIM, ABILITY_INTIMIDATE},
+        .abilities = {ABILITY_POISON_POINT, ABILITY_PH_WEATHER_STATS, ABILITY_INTIMIDATE},
         .bodyColor = BODY_COLOR_GRAY,
         .noFlip = FALSE,
     },
@@ -6424,7 +6424,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_WATER_ABSORB, ABILITY_WATER_VEIL},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_WATER_ABSORB, ABILITY_WATER_VEIL},
         .bodyColor = BODY_COLOR_PURPLE,
         .noFlip = FALSE,
     },
@@ -6537,9 +6537,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SNIPER, ABILITY_DAMP},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SNIPER, ABILITY_DAMP},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_DAMP},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_DAMP},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -7629,7 +7629,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_RAIN_DISH, ABILITY_OWN_TEMPO},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_RAIN_DISH, ABILITY_OWN_TEMPO},
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
     },
@@ -7654,7 +7654,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_RAIN_DISH, ABILITY_OWN_TEMPO},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_RAIN_DISH, ABILITY_OWN_TEMPO},
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
     },
@@ -7679,7 +7679,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_RAIN_DISH, ABILITY_OWN_TEMPO},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_RAIN_DISH, ABILITY_OWN_TEMPO},
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
     },
@@ -7707,9 +7707,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_EARLY_BIRD, ABILITY_PICKPOCKET},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_EARLY_BIRD, ABILITY_PICKPOCKET},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_EARLY_BIRD},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -7738,9 +7738,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_EARLY_BIRD, ABILITY_PICKPOCKET},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_EARLY_BIRD, ABILITY_PICKPOCKET},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_EARLY_BIRD},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -7769,9 +7769,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_EARLY_BIRD, ABILITY_PICKPOCKET},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_EARLY_BIRD, ABILITY_PICKPOCKET},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_EARLY_BIRD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_EARLY_BIRD},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -8032,7 +8032,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_BUG,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_RAIN_DISH},
+        .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_RAIN_DISH},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -9896,9 +9896,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_DRAGON,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_OBLIVIOUS, ABILITY_ADAPTABILITY},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_OBLIVIOUS, ABILITY_ADAPTABILITY},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_OBLIVIOUS},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_OBLIVIOUS},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -10123,9 +10123,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SOLAR_POWER, ABILITY_HARVEST},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SOLAR_POWER, ABILITY_HARVEST},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -10413,7 +10413,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_ERRATIC,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_VEIL},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_VEIL},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -10439,9 +10439,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_HYDRATION},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_HYDRATION},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
@@ -10468,7 +10468,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_SLOW,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_2,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_ROCK_HEAD, ABILITY_STURDY},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_ROCK_HEAD, ABILITY_STURDY},
         .bodyColor = BODY_COLOR_GRAY,
         .noFlip = FALSE,
     },
@@ -10494,9 +10494,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_HYDRATION},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_HYDRATION},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
@@ -11825,7 +11825,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_VEIL},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_VEIL},
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
     },
@@ -11849,7 +11849,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_FIELD,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_VEIL},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_VEIL},
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
     },
@@ -11874,7 +11874,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_FAST,
         .eggGroup1 = EGG_GROUP_FAIRY,
         .eggGroup2 = EGG_GROUP_GRASS,
-        .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
     },
@@ -12882,9 +12882,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_STORM_DRAIN, ABILITY_WATER_VEIL},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_STORM_DRAIN, ABILITY_WATER_VEIL},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_VEIL},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_VEIL},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -12910,9 +12910,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_STORM_DRAIN, ABILITY_WATER_VEIL},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_STORM_DRAIN, ABILITY_WATER_VEIL},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_VEIL},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_VEIL},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -12937,7 +12937,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_SLOW,
         .eggGroup1 = EGG_GROUP_UNDISCOVERED,
         .eggGroup2 = EGG_GROUP_UNDISCOVERED,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_WATER_ABSORB, ABILITY_WATER_VEIL},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_WATER_ABSORB, ABILITY_WATER_VEIL},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -13135,9 +13135,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_LEAF_GUARD, ABILITY_REGENERATOR},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_LEAF_GUARD, ABILITY_REGENERATOR},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -13286,9 +13286,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_LEAF_GUARD, ABILITY_LEAF_GUARD, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_LEAF_GUARD, ABILITY_LEAF_GUARD, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -14926,7 +14926,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SAND_RUSH, ABILITY_SAND_FORCE, ABILITY_MOLD_BREAKER},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SAND_FORCE, ABILITY_MOLD_BREAKER},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE},
         #endif
@@ -14954,7 +14954,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SAND_RUSH, ABILITY_SAND_FORCE, ABILITY_MOLD_BREAKER},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_SAND_FORCE, ABILITY_MOLD_BREAKER},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE},
         #endif
@@ -15096,9 +15096,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_HYDRATION, ABILITY_WATER_ABSORB},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_HYDRATION, ABILITY_WATER_ABSORB},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_ABSORB},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_ABSORB},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -15124,9 +15124,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_HYDRATION, ABILITY_WATER_ABSORB},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_HYDRATION, ABILITY_WATER_ABSORB},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_ABSORB},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_ABSORB},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -15156,9 +15156,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_1,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_POISON_TOUCH, ABILITY_WATER_ABSORB},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_POISON_TOUCH, ABILITY_WATER_ABSORB},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_WATER_ABSORB},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_WATER_ABSORB},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -15243,9 +15243,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWARM, ABILITY_CHLOROPHYLL, ABILITY_OVERCOAT},
+            .abilities = {ABILITY_SWARM, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_OVERCOAT},
         #else
-            .abilities = {ABILITY_SWARM, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_SWARM, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2},
         #endif
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
@@ -15272,9 +15272,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_LEAF_GUARD, ABILITY_CHLOROPHYLL, ABILITY_OVERCOAT},
+            .abilities = {ABILITY_LEAF_GUARD, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_OVERCOAT},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_NONE, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -15305,9 +15305,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_BUG,
         .eggGroup2 = EGG_GROUP_BUG,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWARM, ABILITY_CHLOROPHYLL, ABILITY_OVERCOAT},
+            .abilities = {ABILITY_SWARM, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_OVERCOAT},
         #else
-            .abilities = {ABILITY_SWARM, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_SWARM, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2},
         #endif
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = FALSE,
@@ -15444,9 +15444,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_FAIRY,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_PRANKSTER, ABILITY_INFILTRATOR, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_PRANKSTER, ABILITY_INFILTRATOR, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -15480,9 +15480,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_FAIRY,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_PRANKSTER, ABILITY_INFILTRATOR, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_PRANKSTER, ABILITY_INFILTRATOR, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -15511,9 +15511,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_OWN_TEMPO, ABILITY_LEAF_GUARD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_OWN_TEMPO, ABILITY_LEAF_GUARD},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_OWN_TEMPO},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_OWN_TEMPO},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -15542,9 +15542,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_OWN_TEMPO, ABILITY_LEAF_GUARD},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_OWN_TEMPO, ABILITY_LEAF_GUARD},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_OWN_TEMPO},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_OWN_TEMPO},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = TRUE,
@@ -15743,9 +15743,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_GRASS,
         .eggGroup2 = EGG_GROUP_GRASS,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_WATER_ABSORB, ABILITY_CHLOROPHYLL, ABILITY_STORM_DRAIN},
+            .abilities = {ABILITY_WATER_ABSORB, ABILITY_PH_WEATHER_STATS, ABILITY_STORM_DRAIN},
         #else
-            .abilities = {ABILITY_WATER_ABSORB, ABILITY_CHLOROPHYLL},
+            .abilities = {ABILITY_WATER_ABSORB, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -15982,9 +15982,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_3,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SOLID_ROCK, ABILITY_STURDY, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_SOLID_ROCK, ABILITY_STURDY, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_STURDY, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_NONE, ABILITY_STURDY, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -16010,9 +16010,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_1,
         .eggGroup2 = EGG_GROUP_WATER_3,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SOLID_ROCK, ABILITY_STURDY, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_SOLID_ROCK, ABILITY_STURDY, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_STURDY, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_NONE, ABILITY_STURDY, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
@@ -16578,9 +16578,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_PINK,
         .noFlip = FALSE,
@@ -16606,9 +16606,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -17362,7 +17362,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_SLUSH_RUSH, ABILITY_RATTLED},
+            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_PH_WEATHER_STATS, ABILITY_RATTLED},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE},
         #endif
@@ -17394,7 +17394,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_SLUSH_RUSH, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_PH_WEATHER_STATS, ABILITY_SWIFT_SWIM},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE, ABILITY_SWIFT_SWIM},
         #endif
@@ -23588,9 +23588,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_WATER_1,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_STRONG_JAW, ABILITY_SHELL_ARMOR, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_STRONG_JAW, ABILITY_SHELL_ARMOR, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_SHELL_ARMOR, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_NONE, ABILITY_SHELL_ARMOR, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -23616,9 +23616,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_WATER_1,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_STRONG_JAW, ABILITY_SHELL_ARMOR, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_STRONG_JAW, ABILITY_SHELL_ARMOR, ABILITY_PH_WEATHER_STATS},
         #else
-            .abilities = {ABILITY_NONE, ABILITY_SHELL_ARMOR, ABILITY_SWIFT_SWIM},
+            .abilities = {ABILITY_NONE, ABILITY_SHELL_ARMOR, ABILITY_PH_WEATHER_STATS},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -23952,9 +23952,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_PROPELLER_TAIL},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_PROPELLER_TAIL},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -23980,9 +23980,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_WATER_2,
         .eggGroup2 = EGG_GROUP_WATER_2,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE, ABILITY_PROPELLER_TAIL},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE, ABILITY_PROPELLER_TAIL},
         #else
-            .abilities = {ABILITY_SWIFT_SWIM, ABILITY_NONE},
+            .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_NONE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -24935,7 +24935,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_UNDISCOVERED,
         .eggGroup2 = EGG_GROUP_UNDISCOVERED,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_VOLT_ABSORB, ABILITY_STATIC, ABILITY_SLUSH_RUSH},
+            .abilities = {ABILITY_VOLT_ABSORB, ABILITY_STATIC, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2},
         #else
             .abilities = {ABILITY_VOLT_ABSORB, ABILITY_STATIC},
         #endif
@@ -24991,7 +24991,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_UNDISCOVERED,
         .eggGroup2 = EGG_GROUP_UNDISCOVERED,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_WATER_ABSORB, ABILITY_ICE_BODY, ABILITY_SLUSH_RUSH},
+            .abilities = {ABILITY_WATER_ABSORB, ABILITY_ICE_BODY, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2},
         #else
             .abilities = {ABILITY_WATER_ABSORB, ABILITY_NONE},
         #endif
@@ -25949,7 +25949,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SOLAR_POWER, ABILITY_SOLAR_POWER},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE},
         #endif
@@ -26048,7 +26048,7 @@ const struct BaseStats gBaseStats[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroup1 = EGG_GROUP_MONSTER,
         .eggGroup2 = EGG_GROUP_WATER_1,
-        .abilities = {ABILITY_SWIFT_SWIM, ABILITY_SWIFT_SWIM},
+        .abilities = {ABILITY_PH_WEATHER_STATS, ABILITY_PH_WEATHER_STATS},
         .bodyColor = BODY_COLOR_BLUE,
         .noFlip = FALSE,
     },
@@ -26884,7 +26884,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_NONE, ABILITY_SLUSH_RUSH},
+            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE},
         #endif
@@ -26913,7 +26913,7 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_NONE, ABILITY_SLUSH_RUSH},
+            .abilities = {ABILITY_SNOW_CLOAK, ABILITY_NONE, ABILITY_PH_WEATHER_STATS},
         #else
             .abilities = {ABILITY_NONE, ABILITY_NONE},
         #endif
@@ -30018,9 +30018,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_GREEN,
         .noFlip = FALSE,
@@ -30046,9 +30046,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_RED,
         .noFlip = FALSE,
@@ -30074,9 +30074,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -30102,9 +30102,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -30130,9 +30130,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
@@ -30158,9 +30158,9 @@ const struct BaseStats gBaseStats[] =
         .eggGroup1 = EGG_GROUP_FIELD,
         .eggGroup2 = EGG_GROUP_FIELD,
         #ifdef BATTLE_ENGINE
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_SAP_SIPPER, ABILITY_SERENE_GRACE},
         #else
-            .abilities = {ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_SERENE_GRACE},
+            .abilities = {ABILITY_PH_WEATHER_STATS + ABILITIES_PH_TYPE2, ABILITY_NONE, ABILITY_SERENE_GRACE},
         #endif
         .bodyColor = BODY_COLOR_BROWN,
         .noFlip = FALSE,
