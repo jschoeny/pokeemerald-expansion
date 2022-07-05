@@ -538,12 +538,13 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
     return TRUE;
 }
 
-static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod)
+static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod, u16 headerId)
 {
     u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
     u8 level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
+    u16 species = GetRandomizedSpeciesWild(wildMonInfo->wildPokemon[wildMonIndex].species, headerId);
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
+    CreateWildMon(species, level);
     return wildMonInfo->wildPokemon[wildMonIndex].species;
 }
 
@@ -958,8 +959,7 @@ void FishingWildEncounter(u8 rod)
     }
     else
     {
-        species = GenerateFishingWildMon(gWildMonHeaders[headerId].fishingMonsInfo, rod);
-        species = GetRandomizedSpeciesWild(species, headerId);
+        species = GenerateFishingWildMon(gWildMonHeaders[headerId].fishingMonsInfo, rod, headerId);
     }
 
     IncrementGameStat(GAME_STAT_FISHING_CAPTURES);
