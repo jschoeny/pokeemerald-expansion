@@ -65,8 +65,6 @@
 #include "cable_club.h"
 #include "data/pokemon/randomizer_table.h"
 
-#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 115) / 100) + 1) : lvl)
-
 extern const struct BgTemplate gBattleBgTemplates[];
 extern const struct WindowTemplate *const gBattleWindowTemplates[];
 

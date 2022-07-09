@@ -270,7 +270,6 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     return wildMonIndex;
 }
 
-#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 115) / 100) + 1) : lvl)
 static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
 {
     u8 min;
