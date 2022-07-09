@@ -54,6 +54,8 @@
 #include "constants/global.h"
 #include "data/pokemon/ability_placeholder_replace.h"
 #include "data/pokemon/randomizer_table.h"
+#include "data/pokemon/pokemon_type_colors.h"
+#include "mgba_printf/mgba.h"
 
 struct SpeciesItem
 {
@@ -8848,34 +8850,69 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
     }
     return newMove;
 }
+#define BASE_STAT_TOTAL(s) (gBaseStats[s].baseHP + gBaseStats[s].baseAttack + gBaseStats[s].baseDefense \
+    + gBaseStats[s].baseSpeed + gBaseStats[s].baseSpAttack + gBaseStats[s].baseSpDefense)
 
 u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId)
 {
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+    u16 baseStatTotal = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+    u16 baseStatTotalNew = 0;
+    u8 baseStatOff = 40;
+    u16 tries = 500;
+    u16 randOff = 0;
+    bool8 keepChecking = FALSE;
 
     if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
     {
         value = gSaveBlock2Ptr->optionsRandomizerSeed;
     }
 
-    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
-        || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+    if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL)
     {
-        species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        baseStatOff = 60;
     }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
-    {
-        u8 i;
-        species = (((0x1A4 * value) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        for(i = 0; i < chosenStarterId; i++) {
-            species = (((0x1A4 * species) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+
+    do {
+        keepChecking = FALSE;
+        if(gSaveBlock2Ptr->optionsRandomizerStarter == FALSE)
+            return species;
+
+        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
+            || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+        {
+            species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+        {
+            u8 i;
+            species = (((0x1A4 * (randOff + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            for(i = 0; i < chosenStarterId; i++) {
+                species = (((0x1A4 * species) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            }
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        tries--;
+        baseStatTotalNew = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+        randOff = species;
+
+        if(FlagGet(FLAG_RNDM_SIMILAR_STATS)) {
+            if(baseStatTotalNew < baseStatTotal - baseStatOff || baseStatTotalNew > baseStatTotal + baseStatOff)
+                keepChecking = TRUE;
+        }
+        if(FlagGet(FLAG_RNDM_PALETTE_READY_ONLY)) {
+            if(gMonTypeColorIndexesPrimary[species] == 0)
+                keepChecking = TRUE;
+        }
+        if(gSaveBlock2Ptr->optionsRandomizerSpeciesFilter == OPTIONS_RANDOMIZER_FILTER_HOENNDEX) {
+            if(SpeciesToHoennPokedexNum(species) == 0)
+                keepChecking = TRUE;
+        }
+    } while (tries > 0 && keepChecking);
 
     return species;
 }
@@ -8884,30 +8921,59 @@ u16 GetRandomizedSpeciesWild(u16 species, u16 headerId)
 {
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+    u16 baseStatTotal = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+    u16 baseStatTotalNew = 0;
+    u8 baseStatOff = 40;
+    u16 tries = 500;
+    bool8 keepChecking = FALSE;
 
     if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
     {
         value = gSaveBlock2Ptr->optionsRandomizerSeed;
     }
 
-    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_NORMAL)
-        return species;
+    if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL)
+    {
+        baseStatOff = 60;
+    }
 
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
-        species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP) {
-        species = (((0x1A4 * ((species + headerId + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
-    else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND) {
-        species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
+    do {
+        keepChecking = FALSE;
+        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_NORMAL)
+            return species;
+
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES) {
+            species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP) {
+            species = (((0x1A4 * ((species + headerId + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND) {
+            species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        tries--;
+        baseStatTotalNew = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+
+        if(FlagGet(FLAG_RNDM_SIMILAR_STATS)) {
+            if(baseStatTotalNew < baseStatTotal - baseStatOff || baseStatTotalNew > baseStatTotal + baseStatOff)
+                keepChecking = TRUE;
+        }
+        if(FlagGet(FLAG_RNDM_PALETTE_READY_ONLY)) {
+            if(gMonTypeColorIndexesPrimary[species] == 0)
+                keepChecking = TRUE;
+        }
+        if(gSaveBlock2Ptr->optionsRandomizerSpeciesFilter == OPTIONS_RANDOMIZER_FILTER_HOENNDEX) {
+            if(SpeciesToHoennPokedexNum(species) == 0)
+                keepChecking = TRUE;
+        }
+    } while (tries > 0 && keepChecking);
+
     return species;
 }
 
@@ -8915,29 +8981,61 @@ u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum)
 {
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
+    u16 baseStatTotal = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+    u16 baseStatTotalNew = 0;
+    u8 baseStatOff = 40;
+    u16 tries = 500;
+    bool8 keepChecking = FALSE;
 
     if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
     {
         value = gSaveBlock2Ptr->optionsRandomizerSeed;
     }
 
-    if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+    if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL)
     {
-        species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        baseStatOff = 60;
     }
-    else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
-    {
-        species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
-    else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-    {
-        species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
-        if(species >= NUM_SPECIES_RAND_START)
-            species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
-    }
+
+    do {
+        keepChecking = FALSE;
+        if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_NORMAL)
+            return species;
+
+        if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_SPECIES)
+        {
+            species = (((0x1A4 * (species + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_TRAINER)
+        {
+            species = (((0x1A4 * (species + value + trainerNum)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        else if(gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+        {
+            species = (Random() % (NUM_SPECIES_RAND - 1)) + 1;
+            if(species >= NUM_SPECIES_RAND_START)
+                species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
+        }
+        tries--;
+        baseStatTotalNew = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+
+        if(FlagGet(FLAG_RNDM_SIMILAR_STATS)) {
+            if(baseStatTotalNew < baseStatTotal - baseStatOff || baseStatTotalNew > baseStatTotal + baseStatOff)
+                keepChecking = TRUE;
+        }
+        if(FlagGet(FLAG_RNDM_PALETTE_READY_ONLY)) {
+            if(gMonTypeColorIndexesPrimary[species] == 0)
+                keepChecking = TRUE;
+        }
+        if(gSaveBlock2Ptr->optionsRandomizerSpeciesFilter == OPTIONS_RANDOMIZER_FILTER_HOENNDEX) {
+            if(SpeciesToHoennPokedexNum(species) == 0)
+                keepChecking = TRUE;
+        }
+    } while (tries > 0 && keepChecking);
+
     return species;
 }
