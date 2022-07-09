@@ -3919,7 +3919,7 @@ static void Cmd_getexp(void)
                 calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
             #endif
 
-            if(gSaveBlock2Ptr->optionsRandomizerChallenge && !NoAliveMonsForOpponent()) {
+            if(FlagGet(FLAG_DIFF_DELAYEDEXP) && !NoAliveMonsForOpponent()) {
                 gBattleStruct->storedExp += calculatedExp;
                 gBattleScripting.getexpState = 6;
                 break;

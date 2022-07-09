@@ -223,6 +223,9 @@ static void ResetRandomizerOptions(void)
     gSaveBlock2Ptr->optionsRandomizerMoves = OPTIONS_RANDOMIZER_MOVES_NORMAL;
     gSaveBlock2Ptr->optionsRandomizerWild = OPTIONS_RANDOMIZER_WILD_NORMAL;
     gSaveBlock2Ptr->optionsRandomizerTrainer = OPTIONS_RANDOMIZER_TRAINER_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerSpeciesFilter = 0;
+    gSaveBlock2Ptr->optionsChallengeLevelCap = OPTIONS_RANDOMIZER_LEVELCAP_OFF;
     gSaveBlock2Ptr->optionsRandomizerPalette = TRUE;
     gSaveBlock2Ptr->optionsRandomizerChallenge = FALSE;
+    gSaveBlock2Ptr->optionsRandomizerVersion = OPTIONS_RANDOMIZER_VERSION;
 }

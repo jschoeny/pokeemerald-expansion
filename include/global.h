@@ -509,9 +509,13 @@ struct SaveBlock2
               u16 optionsRandomizerMoves:2;     // OPTIONS_RANDOMIZER_MOVES_[NORMAL/TYPE/SPECIES/PERSONALITY]
               u16 optionsRandomizerWild:2;      // OPTIONS_RANDOMIZER_WILD_[NORMAL/SPECIES/MAP/RAND]
               u16 optionsRandomizerTrainer:2;   // OPTIONS_RANDOMIZER_TRAINER_[NORMAL/SPECIES/TRAINER/RAND]
-              u16 optionsRandomizerPalette:1;     // whether to change the palette for mon type changes
-              u16 optionsRandomizerChallenge:1;     // whether to force trainer to use champion AI
+              u16 optionsRandomizerPalette:1;   // whether to change the palette for mon type changes
+              u16 optionsRandomizerChallenge:1; // whether to force trainer to use champion AI
+              u16 optionsRandomizerStarter:1;   // whether to make the starters randomized
+              u16 optionsChallengeLevelCap:2;  // OPTIONS_RANDOMIZER_LEVELCAP_[OFF/CANDY/NORMAL/HARD]
               u16 optionsRandomizerSeed;
+              u16 optionsRandomizerSpeciesFilter;
+              u8 optionsRandomizerVersion;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
@@ -888,7 +892,7 @@ struct MysteryGiftSave
     struct WonderCardMetadata cardMetadata;
     u16 questionnaireWords[NUM_QUESTIONNAIRE_WORDS];
     struct WonderNewsMetadata newsMetadata;
-    u32 trainerIds[2][5]; // Saved ids for 10 trainers, 5 each for battles and trades 
+    u32 trainerIds[2][5]; // Saved ids for 10 trainers, 5 each for battles and trades
 }; // 0x36C 0x3598
 
 // For external event data storage. The majority of these may have never been used.

@@ -617,6 +617,10 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerChallenge: %d", gSaveBlock2Ptr->optionsRandomizerChallenge);
     MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerSeed: %d",      gSaveBlock2Ptr->optionsRandomizerSeed);
 
+    if(gSaveBlock2Ptr->optionsRandomizerChallenge && gSaveBlock2Ptr->optionsRandomizerVersion == 0) {
+        FlagSet(FLAG_DIFF_DELAYEDEXP);
+    }
+
     return 0;
 }
 
