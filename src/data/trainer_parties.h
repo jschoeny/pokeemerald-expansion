@@ -15264,6 +15264,57 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     }
 };
 
+static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
+    {
+    .iv = 255,
+    .lvl = 57,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_RAIN_DANCE, MOVE_WATER_SPOUT, MOVE_DOUBLE_EDGE, MOVE_BLIZZARD}
+    },
+    {
+    .iv = 255,
+    .lvl = 55,
+    .pid = 0,
+    .species = SPECIES_TENTACRUEL,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_TOXIC, MOVE_HYDRO_PUMP, MOVE_SLUDGE_BOMB, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 255,
+    .lvl = 56,
+    .pid = 0,
+    .species = SPECIES_LUDICOLO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_GIGA_DRAIN, MOVE_SURF, MOVE_LEECH_SEED, MOVE_DOUBLE_TEAM}
+    },
+    {
+    .iv = 255,
+    .lvl = 56,
+    .pid = 0,
+    .species = SPECIES_WHISCASH,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTHQUAKE, MOVE_SURF, MOVE_AMNESIA, MOVE_HYPER_BEAM}
+    },
+    {
+    .iv = 255,
+    .lvl = 56,
+    .pid = 0,
+    .species = SPECIES_GYARADOS,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_DRAGON_DANCE, MOVE_EARTHQUAKE, MOVE_HYPER_BEAM, MOVE_SURF}
+    },
+    {
+    .iv = 255,
+    .lvl = 58,
+    .pid = 0,
+    .species = SPECIES_MILOTIC,
+    .heldItem = ITEM_FLAME_ORB,
+    .moves = {MOVE_HYDRO_PUMP, MOVE_DISARMING_VOICE, MOVE_RECOVER, MOVE_ICE_BEAM}
+    }
+};
+
 static const struct TrainerMonItemCustomMoves sParty_Challenge_BrendanRoute103Mudkip2[] = {
     {
     .iv = 200,

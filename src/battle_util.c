@@ -10101,6 +10101,8 @@ u16 GetChallengeTrainerNum(u16 trainerNum)
             trainerNum = TRAINER_CHALLENGE_MAY_ROUTE_103_TORCHIC_2;
         else if(trainerNum == TRAINER_MAY_ROUTE_103_TREECKO_2)
             trainerNum = TRAINER_CHALLENGE_MAY_ROUTE_103_TREECKO_2;
+        else if(trainerNum == TRAINER_WALLACE)
+            trainerNum = TRAINER_CHALLENGE_WALLACE;
     }
     return trainerNum;
 }
