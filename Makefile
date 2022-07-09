@@ -238,7 +238,9 @@ clean-tools:
 clean-audio: tidynonmodern tidymodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
 	rm -f $(CRY_SUBDIR)/*.bin
+	mv $(MID_SUBDIR)/se_low_health.s $(MID_SUBDIR)/se_low_health.s.keep
 	rm -f $(MID_SUBDIR)/*.s
+	mv $(MID_SUBDIR)/se_low_health.s.keep $(MID_SUBDIR)/se_low_health.s
 
 mostlyclean: tidynonmodern tidymodern
 	rm -f $(SAMPLE_SUBDIR)/*.bin
