@@ -756,12 +756,20 @@ void FadeScreenCoeff(u8 mode, s8 delay, u8 coeffStart, u8 coeffEnd)
         fadeColor = RGB_WHITEALPHA;
         fadeOut = FALSE;
         break;
+    case FADE_FROM_GREEN:
+        fadeColor = RGB(23, 29, 26);
+        fadeOut = FALSE;
+        break;
     case FADE_TO_BLACK:
         fadeColor = RGB_BLACK;
         fadeOut = TRUE;
         break;
     case FADE_TO_WHITE:
         fadeColor = RGB_WHITEALPHA;
+        fadeOut = TRUE;
+        break;
+    case FADE_TO_GREEN:
+        fadeColor = RGB(23, 29, 26);
         fadeOut = TRUE;
         break;
     default:

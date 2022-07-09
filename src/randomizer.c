@@ -1035,7 +1035,7 @@ static void RandAction_Done(u8 taskId)
     Rand_DestroyMainMenu(taskId);
     ClearStdWindowAndFrameToTransparent(0, FALSE);
     ClearWindowTilemap(0);
-    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB(23, 29, 26));
     gTasks[taskId].func = RandAction_Exit;
 }
 

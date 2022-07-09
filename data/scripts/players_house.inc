@@ -119,7 +119,7 @@ PlayersHouse_2F_EventScript_SetWallClock::
 	return
 
 PlayersHouse_2F_EventScript_RandomizerSettings::
-	fadescreen FADE_TO_BLACK
+	fadescreen FADE_TO_GREEN
 	special Rand_ShowMainMenu
 	waitstate
 	return
