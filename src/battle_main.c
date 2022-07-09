@@ -1841,11 +1841,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
         if (firstTrainer == TRUE)
             ZeroEnemyPartyMons();
 
-        if(gSaveBlock2Ptr->optionsRandomizerChallenge)
-        {
-            if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
-                trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
-        }
+        trainerNum = GetChallengeTrainerNum(trainerNum);
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         {

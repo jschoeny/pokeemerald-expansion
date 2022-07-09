@@ -10083,3 +10083,12 @@ bool32 IsBattlerWeatherAffected(u8 battlerId, u32 weatherFlags)
     }
     return FALSE;
 }
+
+u16 GetChallengeTrainerNum(u16 trainerNum)
+{
+    if(gSaveBlock2Ptr->optionsRandomizerChallenge) {
+        if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
+            trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
+    }
+    return trainerNum;
+}

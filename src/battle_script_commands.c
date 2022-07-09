@@ -6752,11 +6752,7 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     u32 lastMonLevel = 0;
     u32 moneyReward;
 
-    if(gSaveBlock2Ptr->optionsRandomizerChallenge)
-    {
-        if(trainerId >= TRAINER_SIDNEY && trainerId <= TRAINER_JUAN_1)
-            trainerId = (trainerId - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
-    }
+    trainerId = GetChallengeTrainerNum(trainerId);
 
     if (trainerId == TRAINER_SECRET_BASE)
     {

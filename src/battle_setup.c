@@ -759,11 +759,7 @@ static u8 GetSumOfEnemyPartyLevel(u16 opponentId, u8 numMons)
     u8 sum;
     u32 count = numMons;
 
-    if(gSaveBlock2Ptr->optionsRandomizerChallenge)
-    {
-        if(opponentId >= TRAINER_SIDNEY && opponentId <= TRAINER_JUAN_1)
-            opponentId = (opponentId - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
-    }
+    opponentId = GetChallengeTrainerNum(opponentId);
 
     if (gTrainers[opponentId].partySize < count)
         count = gTrainers[opponentId].partySize;

@@ -118,10 +118,9 @@ void BattleAI_SetupItems(void)
             )
        )
     {
+        trainerNum = GetChallengeTrainerNum(trainerNum);
         if(gSaveBlock2Ptr->optionsRandomizerChallenge)
         {
-            if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
-                trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
             if(trainerNum >= TRAINER_CHALLENGE_SIDNEY)
                 disableAutoMega = TRUE;
         }
