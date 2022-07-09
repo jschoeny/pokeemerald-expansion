@@ -1831,6 +1831,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
 
+    if(gSaveBlock2Ptr->optionsRandomizerSeed != 0)
+        value = gSaveBlock2Ptr->optionsRandomizerSeed;
+
     if (trainerNum == TRAINER_SECRET_BASE)
         return 0;
 
