@@ -10089,6 +10089,18 @@ u16 GetChallengeTrainerNum(u16 trainerNum)
     if(gSaveBlock2Ptr->optionsRandomizerChallenge) {
         if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
             trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
+        else if(trainerNum == TRAINER_BRENDAN_ROUTE_103_MUDKIP_2)
+            trainerNum = TRAINER_CHALLENGE_BRENDAN_ROUTE_103_MUDKIP_2;
+        else if(trainerNum == TRAINER_BRENDAN_ROUTE_103_TORCHIC_2)
+            trainerNum = TRAINER_CHALLENGE_BRENDAN_ROUTE_103_TORCHIC_2;
+        else if(trainerNum == TRAINER_BRENDAN_ROUTE_103_TREECKO_2)
+            trainerNum = TRAINER_CHALLENGE_BRENDAN_ROUTE_103_TREECKO_2;
+        else if(trainerNum == TRAINER_MAY_ROUTE_103_MUDKIP_2)
+            trainerNum = TRAINER_CHALLENGE_MAY_ROUTE_103_MUDKIP_2;
+        else if(trainerNum == TRAINER_MAY_ROUTE_103_TORCHIC_2)
+            trainerNum = TRAINER_CHALLENGE_MAY_ROUTE_103_TORCHIC_2;
+        else if(trainerNum == TRAINER_MAY_ROUTE_103_TREECKO_2)
+            trainerNum = TRAINER_CHALLENGE_MAY_ROUTE_103_TREECKO_2;
     }
     return trainerNum;
 }

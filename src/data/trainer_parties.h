@@ -7813,6 +7813,49 @@ static const struct TrainerMonNoItemDefaultMoves sParty_BrendanRoute119Mudkip[] 
     }
 };
 
+static const struct TrainerMonItemCustomMoves sParty_BrendanRoute103Mudkip2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SCEPTILE,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_LEAF_BLADE, MOVE_X_SCISSOR, MOVE_DUAL_CHOP, MOVE_NIGHT_SLASH}
+    }
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_BrendanRoute103Treecko[] = {
     {
     .iv = 0,
@@ -7861,6 +7904,49 @@ static const struct TrainerMonNoItemDefaultMoves sParty_BrendanRoute119Treecko[]
     .lvl = 31,
     .pid = RIVAL_STARTER_PID,
     .species = SPECIES_COMBUSKEN,
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_BrendanRoute103Treecko2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_BLAZIKEN,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_BLAZE_KICK, MOVE_BRICK_BREAK, MOVE_QUICK_ATTACK, MOVE_SHADOW_CLAW}
     }
 };
 
@@ -7915,6 +8001,49 @@ static const struct TrainerMonNoItemDefaultMoves sParty_BrendanRoute119Torchic[]
     }
 };
 
+static const struct TrainerMonItemCustomMoves sParty_BrendanRoute103Torchic2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SWAMPERT,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_EARTHQUAKE, MOVE_MUDDY_WATER, MOVE_ROCK_SLIDE, MOVE_BRICK_BREAK}
+    }
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_MayRoute103Mudkip[] = {
     {
     .iv = 0,
@@ -7963,6 +8092,49 @@ static const struct TrainerMonNoItemDefaultMoves sParty_MayRoute119Mudkip[] = {
     .lvl = 31,
     .pid = RIVAL_STARTER_PID,
     .species = SPECIES_GROVYLE,
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_MayRoute103Mudkip2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SCEPTILE,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_LEAF_BLADE, MOVE_X_SCISSOR, MOVE_DUAL_CHOP, MOVE_NIGHT_SLASH}
     }
 };
 
@@ -8017,6 +8189,49 @@ static const struct TrainerMonNoItemDefaultMoves sParty_MayRoute119Treecko[] = {
     }
 };
 
+static const struct TrainerMonItemCustomMoves sParty_MayRoute103Treecko2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_BLAZIKEN,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_BLAZE_KICK, MOVE_BRICK_BREAK, MOVE_QUICK_ATTACK, MOVE_SHADOW_CLAW}
+    }
+};
+
 static const struct TrainerMonNoItemDefaultMoves sParty_MayRoute103Torchic[] = {
     {
     .iv = 0,
@@ -8065,6 +8280,49 @@ static const struct TrainerMonNoItemDefaultMoves sParty_MayRoute119Torchic[] = {
     .lvl = 31,
     .pid = RIVAL_STARTER_PID,
     .species = SPECIES_MARSHTOMP,
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_MayRoute103Torchic2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SWAMPERT,
+    .heldItem = ITEM_SITRUS_BERRY,
+    .moves = {MOVE_EARTHQUAKE, MOVE_MUDDY_WATER, MOVE_ROCK_SLIDE, MOVE_BRICK_BREAK}
     }
 };
 
@@ -15003,5 +15261,263 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     .species = SPECIES_SHARPEDO,
     .heldItem = ITEM_SHARPEDONITE,
     .moves = {MOVE_SUBSTITUTE, MOVE_CRUNCH, MOVE_WATERFALL, MOVE_ICE_FANG}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Challenge_BrendanRoute103Mudkip2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SCEPTILE,
+    .heldItem = ITEM_SCEPTILITE,
+    .moves = {MOVE_LEAF_BLADE, MOVE_X_SCISSOR, MOVE_DUAL_CHOP, MOVE_NIGHT_SLASH}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Challenge_BrendanRoute103Treecko2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_BLAZIKEN,
+    .heldItem = ITEM_BLAZIKENITE,
+    .moves = {MOVE_BLAZE_KICK, MOVE_BRICK_BREAK, MOVE_QUICK_ATTACK, MOVE_SHADOW_CLAW}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Challenge_BrendanRoute103Torchic2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SWAMPERT,
+    .heldItem = ITEM_SWAMPERTITE,
+    .moves = {MOVE_EARTHQUAKE, MOVE_MUDDY_WATER, MOVE_ROCK_SLIDE, MOVE_BRICK_BREAK}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Challenge_MayRoute103Mudkip2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SCEPTILE,
+    .heldItem = ITEM_SCEPTILITE,
+    .moves = {MOVE_LEAF_BLADE, MOVE_X_SCISSOR, MOVE_DUAL_CHOP, MOVE_NIGHT_SLASH}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Challenge_MayRoute103Treecko2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_WAILORD,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SURF, MOVE_HEAVY_SLAM, MOVE_BULLDOZE, MOVE_ICE_BEAM}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_BLAZIKEN,
+    .heldItem = ITEM_BLAZIKENITE,
+    .moves = {MOVE_BLAZE_KICK, MOVE_BRICK_BREAK, MOVE_QUICK_ATTACK, MOVE_SHADOW_CLAW}
+    }
+};
+
+static const struct TrainerMonItemCustomMoves sParty_Challenge_MayRoute103Torchic2[] = {
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_SWELLOW,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_AERIAL_ACE, MOVE_QUICK_ATTACK, MOVE_U_TURN, MOVE_STEEL_WING}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_RAICHU,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_THUNDER_WAVE, MOVE_THUNDERBOLT, MOVE_QUICK_ATTACK, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_BRELOOM,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_SEED_BOMB, MOVE_FORCE_PALM, MOVE_VENOSHOCK, MOVE_ROCK_TOMB}
+    },
+    {
+    .iv = 200,
+    .lvl = 48,
+    .pid = 0,
+    .species = SPECIES_MAGCARGO,
+    .heldItem = ITEM_NONE,
+    .moves = {MOVE_EARTH_POWER, MOVE_LAVA_PLUME, MOVE_BODY_SLAM, MOVE_ROCK_SLIDE}
+    },
+    {
+    .iv = 220,
+    .lvl = 50,
+    .pid = RIVAL_STARTER_PID,
+    .species = SPECIES_SWAMPERT,
+    .heldItem = ITEM_SWAMPERTITE,
+    .moves = {MOVE_EARTHQUAKE, MOVE_MUDDY_WATER, MOVE_ROCK_SLIDE, MOVE_BRICK_BREAK}
     }
 };

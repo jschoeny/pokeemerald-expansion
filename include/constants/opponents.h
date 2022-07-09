@@ -859,25 +859,37 @@
 #define TRAINER_CYNTHIA_1                   855
 #define TRAINER_CYNTHIA_2                   856
 #define TRAINER_CYNTHIA_3                   857
+#define TRAINER_BRENDAN_ROUTE_103_MUDKIP_2  858
+#define TRAINER_BRENDAN_ROUTE_103_TREECKO_2 859
+#define TRAINER_BRENDAN_ROUTE_103_TORCHIC_2 860
+#define TRAINER_MAY_ROUTE_103_MUDKIP_2      861
+#define TRAINER_MAY_ROUTE_103_TREECKO_2     862
+#define TRAINER_MAY_ROUTE_103_TORCHIC_2     863
 
 // NOTE: Because each Trainer uses a flag to determine when they are defeated, there is only space for 9 additional trainers before trainer flag space overflows
 //       More space can be made by shifting flags around in constants/flags.h or changing how trainer flags are handled
 //       MAX_TRAINERS_COUNT can be increased but will take up additional saveblock space
 
-#define TRAINERS_COUNT                      858
+#define TRAINERS_COUNT                      864
 #define MAX_TRAINERS_COUNT                  864
 
-#define TRAINER_CHALLENGE_SIDNEY            TRAINERS_COUNT
-#define TRAINER_CHALLENGE_PHOEBE            TRAINERS_COUNT + 1
-#define TRAINER_CHALLENGE_GLACIA            TRAINERS_COUNT + 2
-#define TRAINER_CHALLENGE_DRAKE             TRAINERS_COUNT + 3
-#define TRAINER_CHALLENGE_ROXANNE_1         TRAINERS_COUNT + 4
-#define TRAINER_CHALLENGE_BRAWLY_1          TRAINERS_COUNT + 5
-#define TRAINER_CHALLENGE_WATTSON_1         TRAINERS_COUNT + 6
-#define TRAINER_CHALLENGE_FLANNERY_1        TRAINERS_COUNT + 7
-#define TRAINER_CHALLENGE_NORMAN_1          TRAINERS_COUNT + 8
-#define TRAINER_CHALLENGE_WINONA_1          TRAINERS_COUNT + 9
-#define TRAINER_CHALLENGE_TATE_AND_LIZA_1   TRAINERS_COUNT + 10
-#define TRAINER_CHALLENGE_JUAN_1            TRAINERS_COUNT + 11
+#define TRAINER_CHALLENGE_SIDNEY                        TRAINERS_COUNT
+#define TRAINER_CHALLENGE_PHOEBE                        TRAINERS_COUNT + 1
+#define TRAINER_CHALLENGE_GLACIA                        TRAINERS_COUNT + 2
+#define TRAINER_CHALLENGE_DRAKE                         TRAINERS_COUNT + 3
+#define TRAINER_CHALLENGE_ROXANNE_1                     TRAINERS_COUNT + 4
+#define TRAINER_CHALLENGE_BRAWLY_1                      TRAINERS_COUNT + 5
+#define TRAINER_CHALLENGE_WATTSON_1                     TRAINERS_COUNT + 6
+#define TRAINER_CHALLENGE_FLANNERY_1                    TRAINERS_COUNT + 7
+#define TRAINER_CHALLENGE_NORMAN_1                      TRAINERS_COUNT + 8
+#define TRAINER_CHALLENGE_WINONA_1                      TRAINERS_COUNT + 9
+#define TRAINER_CHALLENGE_TATE_AND_LIZA_1               TRAINERS_COUNT + 10
+#define TRAINER_CHALLENGE_JUAN_1                        TRAINERS_COUNT + 11
+#define TRAINER_CHALLENGE_BRENDAN_ROUTE_103_MUDKIP_2    TRAINERS_COUNT + 13
+#define TRAINER_CHALLENGE_BRENDAN_ROUTE_103_TREECKO_2   TRAINERS_COUNT + 14
+#define TRAINER_CHALLENGE_BRENDAN_ROUTE_103_TORCHIC_2   TRAINERS_COUNT + 15
+#define TRAINER_CHALLENGE_MAY_ROUTE_103_MUDKIP_2        TRAINERS_COUNT + 16
+#define TRAINER_CHALLENGE_MAY_ROUTE_103_TREECKO_2       TRAINERS_COUNT + 17
+#define TRAINER_CHALLENGE_MAY_ROUTE_103_TORCHIC_2       TRAINERS_COUNT + 18
 
 #endif  // GUARD_CONSTANTS_OPPONENTS_H
