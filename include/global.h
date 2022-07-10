@@ -510,7 +510,7 @@ struct SaveBlock2
               u16 optionsRandomizerWild:2;      // OPTIONS_RANDOMIZER_WILD_[NORMAL/SPECIES/MAP/RAND]
               u16 optionsRandomizerTrainer:2;   // OPTIONS_RANDOMIZER_TRAINER_[NORMAL/SPECIES/TRAINER/RAND]
               u16 optionsRandomizerPalette:1;   // whether to change the palette for mon type changes
-              u16 optionsRandomizerChallenge:1; // whether to force trainer to use champion AI
+              u16 optionsChallengeStrongerTeams:1; // whether to force trainer to use champion AI
               u16 optionsRandomizerStarter:1;   // whether to make the starters randomized
               u16 optionsChallengeLevelCap:2;  // OPTIONS_RANDOMIZER_LEVELCAP_[OFF/CANDY/NORMAL/HARD]
               u16 optionsRandomizerSeed;

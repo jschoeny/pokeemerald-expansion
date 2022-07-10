@@ -10086,7 +10086,7 @@ bool32 IsBattlerWeatherAffected(u8 battlerId, u32 weatherFlags)
 
 u16 GetChallengeTrainerNum(u16 trainerNum)
 {
-    if(gSaveBlock2Ptr->optionsRandomizerChallenge) {
+    if(gSaveBlock2Ptr->optionsChallengeStrongerTeams) {
         if(trainerNum >= TRAINER_SIDNEY && trainerNum <= TRAINER_JUAN_1)
             trainerNum = (trainerNum - TRAINER_SIDNEY) + TRAINER_CHALLENGE_SIDNEY;
         else if(trainerNum == TRAINER_BRENDAN_ROUTE_103_MUDKIP_2)

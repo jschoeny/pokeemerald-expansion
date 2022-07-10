@@ -14,7 +14,7 @@
 #define RAND_TYPE1_OFF 8
 #define RAND_TYPE2_OFF 13
 
-#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsRandomizerChallenge ? (((lvl * 113) / 100) + 1) : lvl)
+#define CHALLENGE_LEVEL(lvl) (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? (((lvl * 113) / 100) + 1) : lvl)
 
 struct PokemonSubstruct0
 {

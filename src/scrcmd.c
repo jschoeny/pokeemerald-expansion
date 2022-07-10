@@ -2379,6 +2379,6 @@ bool8 ScrCmd_warpwhitefade(struct ScriptContext *ctx)
 
 bool8 ScrCmd_checkchallengemode(struct ScriptContext *ctx)
 {
-    gSpecialVar_Result = (gSaveBlock2Ptr->optionsRandomizerChallenge ? TRUE : FALSE);
+    gSpecialVar_Result = (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? TRUE : FALSE);
     return FALSE;
 }

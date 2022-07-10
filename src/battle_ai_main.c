@@ -119,7 +119,7 @@ void BattleAI_SetupItems(void)
        )
     {
         trainerNum = GetChallengeTrainerNum(trainerNum);
-        if(gSaveBlock2Ptr->optionsRandomizerChallenge)
+        if(gSaveBlock2Ptr->optionsChallengeStrongerTeams)
         {
             if(trainerNum >= TRAINER_CHALLENGE_SIDNEY)
                 disableAutoMega = TRUE;
@@ -133,7 +133,7 @@ void BattleAI_SetupItems(void)
                 BATTLE_HISTORY->itemsNo++;
             }
         }
-        if(gSaveBlock2Ptr->optionsRandomizerChallenge)
+        if(gSaveBlock2Ptr->optionsChallengeStrongerTeams)
         {
             u8 i, j, avgLevel;
             u16 species;
@@ -217,12 +217,12 @@ void BattleAI_SetupFlags(void)
         AI_THINKING_STRUCT->aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
     else if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS) {
         AI_THINKING_STRUCT->aiFlags = gTrainers[gTrainerBattleOpponent_A].aiFlags | gTrainers[gTrainerBattleOpponent_B].aiFlags;
-        if (gSaveBlock2Ptr->optionsRandomizerChallenge)
+        if (gSaveBlock2Ptr->optionsChallengeStrongerTeams)
             AI_THINKING_STRUCT->aiFlags |= AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING;
     }
     else {
         AI_THINKING_STRUCT->aiFlags = gTrainers[gTrainerBattleOpponent_A].aiFlags;
-        if (gSaveBlock2Ptr->optionsRandomizerChallenge)
+        if (gSaveBlock2Ptr->optionsChallengeStrongerTeams)
             AI_THINKING_STRUCT->aiFlags |= AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY | AI_FLAG_SMART_SWITCHING;
     }
 

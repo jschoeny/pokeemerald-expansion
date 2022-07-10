@@ -236,7 +236,7 @@ void Rand_ShowMainMenuView(bool8 changeSettings) {
     MgbaPrintf(MGBA_LOG_INFO, "    Similar Stats: %d", FlagGet(FLAG_RNDM_SIMILAR_STATS));
     MgbaPrintf(MGBA_LOG_INFO, "  Palette: %d", gSaveBlock2Ptr->optionsRandomizerPalette);
     MgbaPrintf(MGBA_LOG_INFO, "  --CHALLENGE--");
-    MgbaPrintf(MGBA_LOG_INFO, "    Stronger Teams: %d", gSaveBlock2Ptr->optionsRandomizerChallenge);
+    MgbaPrintf(MGBA_LOG_INFO, "    Stronger Teams: %d", gSaveBlock2Ptr->optionsChallengeStrongerTeams);
     MgbaPrintf(MGBA_LOG_INFO, "    Level Cap: %d", gSaveBlock2Ptr->optionsChallengeLevelCap);
     MgbaPrintf(MGBA_LOG_INFO, "    Delayed Exp: %d", FlagGet(FLAG_DIFF_DELAYEDEXP));
 
@@ -1028,7 +1028,7 @@ static void RandAction_Done(u8 taskId)
     MgbaPrintf(MGBA_LOG_INFO, "    Similar Stats: %d", FlagGet(FLAG_RNDM_SIMILAR_STATS));
     MgbaPrintf(MGBA_LOG_INFO, "  Palette: %d", gSaveBlock2Ptr->optionsRandomizerPalette);
     MgbaPrintf(MGBA_LOG_INFO, "  --CHALLENGE--");
-    MgbaPrintf(MGBA_LOG_INFO, "    Stronger Teams: %d", gSaveBlock2Ptr->optionsRandomizerChallenge);
+    MgbaPrintf(MGBA_LOG_INFO, "    Stronger Teams: %d", gSaveBlock2Ptr->optionsChallengeStrongerTeams);
     MgbaPrintf(MGBA_LOG_INFO, "    Level Cap: %d", gSaveBlock2Ptr->optionsChallengeLevelCap);
     MgbaPrintf(MGBA_LOG_INFO, "    Delayed Exp: %d", FlagGet(FLAG_DIFF_DELAYEDEXP));
 
@@ -1115,7 +1115,7 @@ static void RandHelper_SetSaveBlockOption(u8 moreTaskId, u8 option, u16 value)
             switch(posWinMore)
             {
                 case RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES:
-                    gSaveBlock2Ptr->optionsRandomizerChallenge = (value == 0 ? TRUE : FALSE);
+                    gSaveBlock2Ptr->optionsChallengeStrongerTeams = (value == 0 ? TRUE : FALSE);
                     break;
                 case RAND_MENU_ITEM_CHALLENGE_LEVELCAP:
                     gSaveBlock2Ptr->optionsChallengeLevelCap = value;
@@ -1175,12 +1175,12 @@ static u16 RandHelper_GetSaveBlockOptionMore(u8 posWin, u8 option)
         switch(option)
         {
             case RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES:
-                return (gSaveBlock2Ptr->optionsRandomizerChallenge ? 0 : 1);
+                return (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? 0 : 1);
             case RAND_MENU_ITEM_CHALLENGE_LEVELCAP:
                 return gSaveBlock2Ptr->optionsChallengeLevelCap;
             case RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP:
                 if(gSaveBlock2Ptr->optionsRandomizerVersion == 0)
-                    return (gSaveBlock2Ptr->optionsRandomizerChallenge ? 0 : 1);
+                    return (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? 0 : 1);
                 else
                     return (FlagGet(FLAG_DIFF_DELAYEDEXP) ? 0 : 1);
         }

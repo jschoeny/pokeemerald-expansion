@@ -226,6 +226,6 @@ static void ResetRandomizerOptions(void)
     gSaveBlock2Ptr->optionsRandomizerSpeciesFilter = 0;
     gSaveBlock2Ptr->optionsChallengeLevelCap = OPTIONS_RANDOMIZER_LEVELCAP_OFF;
     gSaveBlock2Ptr->optionsRandomizerPalette = TRUE;
-    gSaveBlock2Ptr->optionsRandomizerChallenge = FALSE;
+    gSaveBlock2Ptr->optionsChallengeStrongerTeams = FALSE;
     gSaveBlock2Ptr->optionsRandomizerVersion = OPTIONS_RANDOMIZER_VERSION;
 }

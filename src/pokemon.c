@@ -9063,11 +9063,11 @@ u8 GetLevelCap(bool8 isRareCandy)
     }
 
     if(gSaveBlock2Ptr->optionsChallengeLevelCap == OPTIONS_RANDOMIZER_LEVELCAP_CANDY && isRareCandy)
-        levelCap = CHALLENGE_LEVEL(badgeLevelCaps[gSaveBlock2Ptr->optionsRandomizerChallenge][nBadges]);
+        levelCap = CHALLENGE_LEVEL(badgeLevelCaps[gSaveBlock2Ptr->optionsChallengeStrongerTeams][nBadges]);
     else if(gSaveBlock2Ptr->optionsChallengeLevelCap == OPTIONS_RANDOMIZER_LEVELCAP_NORMAL)
-        levelCap = CHALLENGE_LEVEL(badgeLevelCaps[gSaveBlock2Ptr->optionsRandomizerChallenge][nBadges]);
+        levelCap = CHALLENGE_LEVEL(badgeLevelCaps[gSaveBlock2Ptr->optionsChallengeStrongerTeams][nBadges]);
     else if(gSaveBlock2Ptr->optionsChallengeLevelCap == OPTIONS_RANDOMIZER_LEVELCAP_HARD)
-        levelCap = CHALLENGE_LEVEL(badgeLevelCaps[2 + gSaveBlock2Ptr->optionsRandomizerChallenge][nBadges]);
+        levelCap = CHALLENGE_LEVEL(badgeLevelCaps[2 + gSaveBlock2Ptr->optionsChallengeStrongerTeams][nBadges]);
 
     return levelCap;
 }
