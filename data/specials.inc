@@ -541,3 +541,4 @@ gSpecials::
 	def_special TrySetBattleTowerLinkType
 	def_special SetTotemBoost
 	def_special IsSlateInBag
+	def_special IsSpeciesWildRandomized

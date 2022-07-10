@@ -4263,3 +4263,12 @@ u8 Script_TryGainNewFanFromCounter(void)
 {
     return TryGainNewFanFromCounter(gSpecialVar_0x8004);
 }
+
+bool8 IsSpeciesWildRandomized(void)
+{
+    if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_NORMAL
+     || gSaveBlock2Ptr->optionsRandomizerSpeciesFilter == OPTIONS_RANDOMIZER_FILTER_HOENNDEX)
+        return FALSE;
+
+    return TRUE;
+}
