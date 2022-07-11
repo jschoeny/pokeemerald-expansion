@@ -197,6 +197,7 @@ Route103_EventScript_RivalMay_PostGame::
 
 Route103_EventScript_RivalMay_PostGame_Decline::
 	msgbox Route103_Text_MayRoute103PostGame_Waiting, MSGBOX_AUTOCLOSE
+	savebgm MUS_DUMMY
 	fadedefaultbgm
 	applymovement LOCALID_RIVAL, Common_Movement_FaceOriginalDirection
 	waitmovement 0
@@ -236,6 +237,7 @@ Route103_EventScript_RivalBrendan_PostGame::
 
 Route103_EventScript_RivalBrendan_PostGame_Decline::
 	msgbox Route103_Text_BrendanRoute103PostGame_Waiting, MSGBOX_AUTOCLOSE
+	savebgm MUS_DUMMY
 	fadedefaultbgm
 	applymovement LOCALID_RIVAL, Common_Movement_FaceOriginalDirection
 	waitmovement 0
@@ -288,6 +290,8 @@ Route103_EventScript_AfterMayBattle_PostGame::
 	msgbox Route103_Text_MayPostBattle_PostGame3, MSGBOX_DEFAULT
 	waitmessage
 	giveitem ITEM_EON_TICKET
+	setflag FLAG_ENABLE_SHIP_SOUTHERN_ISLAND
+	setvar VAR_DISTRIBUTE_EON_TICKET, 0
 	waitmessage
 	msgbox Route103_Text_BrendanPostBattle_PostGame4, MSGBOX_DEFAULT
 	closemessage
@@ -296,6 +300,7 @@ Route103_EventScript_AfterMayBattle_PostGame::
 	setflag FLAG_DEFEATED_RIVAL_ROUTE103_2
 	setflag FLAG_HIDE_ROUTE_103_RIVAL
 	clearflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_RIVAL
+	savebgm MUS_DUMMY
 	fadedefaultbgm
 	releaseall
 	end
@@ -330,6 +335,7 @@ Route103_EventScript_AfterBrendanBattle_PostGame::
 	setflag FLAG_HIDE_ROUTE_103_RIVAL
 	setvar VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 4
 	clearflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_RIVAL
+	savebgm MUS_DUMMY
 	fadedefaultbgm
 	releaseall
 	end
