@@ -97,7 +97,7 @@
 #define FLAG_LEGENDARIES_IN_SOOTOPOLIS           0x53
 
 #define FLAG_DEFEATED_RIVAL_ROUTE103_2       0x54
-#define FLAG_UNUSED_0x055                    0x55  // Unused Flag
+#define FLAG_ENCOUNTERED_CYNTHIA             0x55
 
 #define FLAG_HIDE_CONTEST_POKE_BALL          0x56  // Always set after new game, object it hides is added directly
 #define FLAG_MET_RIVAL_MOM                   0x57
@@ -1340,6 +1340,9 @@
 // See constants/opponents.h. The values there + FLAG_TRAINER_FLAG_START are the flag IDs
 
 #define TRAINER_FLAGS_START                                         0x500
+#define TRAINER_FLAG_CYNTHIA_1                                      TRAINER_FLAGS_START + TRAINER_CYNTHIA_1
+#define TRAINER_FLAG_CYNTHIA_2                                      TRAINER_FLAGS_START + TRAINER_CYNTHIA_2
+#define TRAINER_FLAG_CYNTHIA_3                                      TRAINER_FLAGS_START + TRAINER_CYNTHIA_3
 #define TRAINER_FLAGS_END                                           (TRAINER_FLAGS_START + MAX_TRAINERS_COUNT - 1) // 0x85F
 
 // System Flags
