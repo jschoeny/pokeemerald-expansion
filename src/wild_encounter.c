@@ -552,6 +552,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     u16 i, item1, item2;
     u8 setting = gSaveBlock2Ptr->optionsRandomizerMoves;
     u8 level = gSaveBlock1Ptr->outbreakPokemonLevel + (Random() % 3);
+    u8 chanceShard = Random() % 100;
 
     if (flags & WILD_CHECK_REPEL && !IsWildLevelAllowedByRepel(level))
         return FALSE;
@@ -562,17 +563,43 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     item1 = gBaseStats[gSaveBlock1Ptr->outbreakPokemonSpecies].item1;
     item2 = gBaseStats[gSaveBlock1Ptr->outbreakPokemonSpecies].item2;
 
-    if(item1 != ITEM_NONE && item2 != ITEM_NONE) {
-        if(Random() % 100 < 33)
-            SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item2);
-        else
+    if(chanceShard < 10 && FlagGet(FLAG_SYS_GAME_CLEAR)) {
+        item1 = ITEM_MYSTERIOUS_SHARD;
+        SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
+    }
+    else if(chanceShard < 30) {
+        u8 type1 = GetMonType(&gEnemyParty[0], FALSE);
+        u8 type2 = GetMonType(&gEnemyParty[0], TRUE);
+        item1 = ITEM_NONE;
+        if(type1 == TYPE_FIRE || type2 == TYPE_FIRE) {
+            item1 = ITEM_RED_SHARD;
+        }
+        else if(type1 == TYPE_WATER || type2 == TYPE_WATER) {
+            item1 = ITEM_BLUE_SHARD;
+        }
+        else if(type1 == TYPE_GRASS || type2 == TYPE_GRASS) {
+            item1 = ITEM_GREEN_SHARD;
+        }
+        else if(type1 == TYPE_ELECTRIC || type2 == TYPE_ELECTRIC) {
+            item1 = ITEM_YELLOW_SHARD;
+        }
+
+        if(item1 != ITEM_NONE)
             SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
     }
-    else if(item2 != ITEM_NONE) {
-        SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item2);
-    }
-    else if(item1 != ITEM_NONE) {
-        SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
+    else if(chanceShard < 90) {
+        if(item1 != ITEM_NONE && item2 != ITEM_NONE) {
+            if(Random() % 100 < 33)
+                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item2);
+            else
+                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
+        }
+        else if(item2 != ITEM_NONE) {
+            SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item2);
+        }
+        else if(item1 != ITEM_NONE) {
+            SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
+        }
     }
 
     if(Random() % 100 < 50) {
