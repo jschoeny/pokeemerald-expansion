@@ -538,7 +538,7 @@ static u8 CreateShopMenu(u8 martType)
     ScriptContext2_Enable();
     sMartInfo.martType = martType;
 
-    if (martType == MART_TYPE_NORMAL || martType == MART_TYPE_SLATE)
+    if (martType == MART_TYPE_NORMAL || (martType == MART_TYPE_SLATE && FlagGet(FLAG_VISITED_SLATE_SALESMAN)))
     {
         struct WindowTemplate winTemplate;
         winTemplate = sShopMenuWindowTemplates[0];

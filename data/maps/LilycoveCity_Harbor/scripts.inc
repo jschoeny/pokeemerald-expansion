@@ -9,7 +9,12 @@ LilycoveCity_Harbor_MapScripts::
 
 LilycoveCity_Harbor_OnTransition:
 	setescapewarp MAP_LILYCOVE_CITY, 12, 33
+	call_if_unset FLAG_CAUGHT_MEW, LilycoveCity_Harbor_EventScript_HideSlateSalesman
 	end
+
+LilycoveCity_Harbor_EventScript_HideSlateSalesman::
+	setflag FLAG_TEMP_1
+	return
 
 LilycoveCity_Harbor_EventScript_FerryAttendant::
 	lock
@@ -540,6 +545,59 @@ LilycoveCity_Harbor_Movement_SailorBoardWithBrineyEast:
 	delay_16
 	set_invisible
 	step_end
+
+LilycoveCity_Harbor_EventScript_SlateSeller::
+	lockall
+	faceplayer
+	goto_if_unset FLAG_VISITED_SLATE_SALESMAN, LilycoveCity_Harbor_EventScript_SlateSeller_FirstTime
+	giveitem ITEM_MYSTERIOUS_SHARD, 9
+	message LilycoveCity_Harbor_Text_SlateSeller_WelcomeBack
+	waitmessage
+	slatemart
+	msgbox LilycoveCity_Harbor_Text_SlateSeller_ComeAgain, MSGBOX_DEFAULT
+	waitmessage
+	releaseall
+	end
+
+LilycoveCity_Harbor_EventScript_SlateSeller_FirstTime::
+	msgbox LilycoveCity_Harbor_Text_SlateSeller_SearchingTheWorld, MSGBOX_DEFAULT
+	waitmessage
+	checkitem ITEM_MYSTERIOUS_SHARD
+	goto_if_eq VAR_RESULT, TRUE, LilycoveCity_Harbor_EventScript_SlateSeller_FirstTimeHasShard
+	releaseall
+	end
+
+LilycoveCity_Harbor_EventScript_SlateSeller_FirstTimeHasShard::
+	message LilycoveCity_Harbor_Text_SlateSeller_OhThatsIt
+	waitmessage
+	slatemart
+	msgbox LilycoveCity_Harbor_Text_SlateSeller_ComeAgain, MSGBOX_DEFAULT
+	waitmessage
+	setflag FLAG_VISITED_SLATE_SALESMAN
+	releaseall
+	end
+
+LilycoveCity_Harbor_Text_SlateSeller_SearchingTheWorld:
+	.string "I am roaming the world in search\n"
+	.string "of a very rare artifact.$"
+
+LilycoveCity_Harbor_Text_SlateSeller_OhThatsIt:
+	.string "Oh! That's it! That is what I've\n"
+	.string "been looking for!\p"
+	.string "I can offer you some peculiar\n"
+	.string "slates in exchange for some of\l"
+	.string "your Mystery Shards.\p"
+	.string "Go ahead and see if there's\n"
+	.string "anything you like.$"
+
+LilycoveCity_Harbor_Text_SlateSeller_ComeAgain:
+	.string "I have different Slates daily,\n"
+	.string "so come back anytime!$"
+
+LilycoveCity_Harbor_Text_SlateSeller_WelcomeBack:
+	.string "Welcome back!\p"
+	.string "Interested in more Slates?\n"
+	.string "Or I can buy some back if you wish.$"
 
 LilycoveCity_Harbor_Text_FerryUnavailable:
 	.string "I beg your pardon?\n"
