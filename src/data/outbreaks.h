@@ -1,7 +1,7 @@
-#define MASS_OUTBREAK_LEVEL1 2
-#define MASS_OUTBREAK_LEVEL2 3
-#define MASS_OUTBREAK_LEVEL3 7
-#define MASS_OUTBREAK_LEVEL4 8
+#define MASS_OUTBREAK_LEVEL1 3
+#define MASS_OUTBREAK_LEVEL2 9
+#define MASS_OUTBREAK_LEVEL3 15
+#define MASS_OUTBREAK_LEVEL4 16
 static const struct {
     u16 species;
     u16 moves[MAX_MON_MOVES];
@@ -20,8 +20,8 @@ static const struct {
         .location = MAP_NUM(ROUTE102),
         .locationGroup = MAP_GROUP(ROUTE102),
         .onWater = FALSE,
-        .probability = 50,
-        .numEncounters = 15
+        .probability = 30,
+        .numEncounters = 12
     },
     {   // 1
         .species = SPECIES_SURSKIT,
@@ -33,9 +33,19 @@ static const struct {
         .probability = 50,
         .numEncounters = 15
     },
+    {   // 2
+        .species = SPECIES_FLETCHLING,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_SWORDS_DANCE},
+        .level = 9,
+        .location = MAP_NUM(ROUTE116),
+        .locationGroup = MAP_GROUP(ROUTE116),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 10
+    },
 
     // MASS_OUTBREAK_LEVEL2 - 5 badges or less
-    {   // 2
+    {   // 3
         .species = SPECIES_ZANGOOSE,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_BELLY_DRUM},
         .level = 21,
@@ -45,9 +55,59 @@ static const struct {
         .probability = 50,
         .numEncounters = 15
     },
+    {   // 4
+        .species = SPECIES_BUNEARY,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_SWITCHEROO},
+        .level = 7,
+        .location = MAP_NUM(ROUTE104),
+        .locationGroup = MAP_GROUP(ROUTE104),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 10
+    },
+    {   // 5
+        .species = SPECIES_MURKROW,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_BRAVE_BIRD},
+        .level = 16,
+        .location = MAP_NUM(ROUTE110),
+        .locationGroup = MAP_GROUP(ROUTE110),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 10
+    },
+    {   // 6
+        .species = SPECIES_FLETCHINDER,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_SWORDS_DANCE},
+        .level = 20,
+        .location = MAP_NUM(ROUTE114),
+        .locationGroup = MAP_GROUP(ROUTE114),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 10
+    },
+    {   // 7
+        .species = SPECIES_LARVESTA,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_WILD_CHARGE},
+        .level = 18,
+        .location = MAP_NUM(ROUTE112),
+        .locationGroup = MAP_GROUP(ROUTE112),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 10
+    },
+    {   // 8
+        .species = SPECIES_TYROGUE,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_BULLET_PUNCH},
+        .level = 17,
+        .location = MAP_NUM(ROUTE112),
+        .locationGroup = MAP_GROUP(ROUTE112),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 10
+    },
 
     // MASS_OUTBREAK_LEVEL3 - 7 badges or less
-    {   // 3
+    {   // 9
         .species = SPECIES_MEDITITE,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DRAIN_PUNCH},
         .level = 31,
@@ -57,7 +117,7 @@ static const struct {
         .probability = 50,
         .numEncounters = 15
     },
-    {   // 4
+    {   // 10
         .species = SPECIES_TREECKO,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_CRUNCH},
         .level = 30,
@@ -67,7 +127,7 @@ static const struct {
         .probability = 20,
         .numEncounters = 7
     },
-    {   // 5
+    {   // 11
         .species = SPECIES_TORCHIC,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_BATON_PASS},
         .level = 20,
@@ -77,7 +137,7 @@ static const struct {
         .probability = 20,
         .numEncounters = 7
     },
-    {   // 6
+    {   // 12
         .species = SPECIES_MUDKIP,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_AVALANCHE},
         .level = 17,
@@ -87,9 +147,29 @@ static const struct {
         .probability = 20,
         .numEncounters = 7
     },
+    {   // 13
+        .species = SPECIES_ROTOM,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_RISING_VOLTAGE},
+        .level = 31,
+        .location = MAP_NUM(ROUTE123),
+        .locationGroup = MAP_GROUP(ROUTE123),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 7
+    },
+    {   // 14
+        .species = SPECIES_RIOLU,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_VACUUM_WAVE},
+        .level = 19,
+        .location = MAP_NUM(ROUTE112),
+        .locationGroup = MAP_GROUP(ROUTE112),
+        .onWater = FALSE,
+        .probability = 30,
+        .numEncounters = 7
+    },
 
     // MASS_OUTBREAK_LEVEL4 - Not yet defeated champion
-    {   // 7
+    {   // 15
         .species = SPECIES_GEODUDE_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_MAGNET_RISE},
         .level = 21,
@@ -101,7 +181,7 @@ static const struct {
     },
 
     // Defeated champion
-    {   // 8
+    {   // 16
         .species = SPECIES_MAROWAK_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_CURSE},
         .level = 31,
@@ -111,7 +191,7 @@ static const struct {
         .probability = 10,
         .numEncounters = 5
     },
-    {   // 9
+    {   // 17
         .species = SPECIES_EXEGGUTOR_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_GRASSY_TERRAIN},
         .level = 56,
@@ -121,7 +201,7 @@ static const struct {
         .probability = 10,
         .numEncounters = 5
     },
-    {   // 10
+    {   // 18
         .species = SPECIES_RAICHU_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_ALLY_SWITCH},
         .level = 56,
