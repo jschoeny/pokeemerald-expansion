@@ -1722,9 +1722,6 @@ void CB2_ContinueSavedGame(void)
     else
         LoadSaveblockObjEventScripts();
 
-    if(FlagGet(FLAG_DAILY_OUTBREAK) != TRUE) {
-        TryStartRandomMassOutbreakExternal();
-    }
     UnfreezeObjectEvents();
     DoTimeBasedEvents();
     UpdateMiscOverworldStates();

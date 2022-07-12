@@ -764,7 +764,7 @@ u8 GetRandomActiveShowIdx(void)
         else
         {
             show = &gSaveBlock1Ptr->tvShows[j];
-            if (show->massOutbreak.daysLeft == 0 && show->massOutbreak.active == TRUE)
+            if (show->massOutbreak.daysLeft == 1 && show->massOutbreak.active == TRUE)
                 return j;
         }
 
@@ -1705,7 +1705,7 @@ static void TryStartRandomMassOutbreak(void)
                     show->massOutbreak.unused4 = 0;
                     show->massOutbreak.probability = sPokeOutbreakSpeciesList[outbreakIdx].probability;
                     show->massOutbreak.unused5 = 0;
-                    show->massOutbreak.daysLeft = 0;
+                    show->massOutbreak.daysLeft = 1;
                     StorePlayerIdInNormalShow(show);
                     show->massOutbreak.language = gGameLanguage;
                 }
@@ -1749,7 +1749,7 @@ static void TryStartRandomMassOutbreak(void)
                         show->massOutbreak.unused4 = 0;
                         show->massOutbreak.probability = 50;
                         show->massOutbreak.unused5 = 0;
-                        show->massOutbreak.daysLeft = 0;
+                        show->massOutbreak.daysLeft = 1;
                         StorePlayerIdInNormalShow(show);
                         show->massOutbreak.language = gGameLanguage;
                     }
@@ -1771,6 +1771,7 @@ static void TryStartRandomMassOutbreak(void)
 
 void EndMassOutbreak(void)
 {
+    u8 i, j;
     gSaveBlock1Ptr->outbreakPokemonSpecies = SPECIES_NONE;
     gSaveBlock1Ptr->outbreakLocationMapNum = 0;
     gSaveBlock1Ptr->outbreakLocationMapGroup = 0;
@@ -1784,7 +1785,22 @@ void EndMassOutbreak(void)
     gSaveBlock1Ptr->outbreakSpecial = 0;
     gSaveBlock1Ptr->outbreakPokemonProbability = 0;
     gSaveBlock1Ptr->outbreakDaysLeft = 0;
+
+    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->tvShows); i++)
+    {
+        if (gSaveBlock1Ptr->tvShows[i].massOutbreak.kind == TVSHOW_MASS_OUTBREAK)
+        {
+            gSaveBlock1Ptr->tvShows[i].commonInit.kind = 0;
+            gSaveBlock1Ptr->tvShows[i].commonInit.active = 0;
+            for (j = 0; j < ARRAY_COUNT(gSaveBlock1Ptr->tvShows[i].commonInit.data); j++)
+                gSaveBlock1Ptr->tvShows[i].commonInit.data[j] = 0;
+
+            break;
+        }
+    }
+
     FlagClear(FLAG_OUTBREAK_ONGOING);
+    TryStartRandomMassOutbreak();
 }
 
 void EndMassOutbreakToday(void)
