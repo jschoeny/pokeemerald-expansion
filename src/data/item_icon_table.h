@@ -166,6 +166,7 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_BLUE_SHARD] = {gItemIcon_Shard, gItemIconPalette_BlueShard},
     [ITEM_YELLOW_SHARD] = {gItemIcon_Shard, gItemIconPalette_YellowShard},
     [ITEM_GREEN_SHARD] = {gItemIcon_Shard, gItemIconPalette_GreenShard},
+    [ITEM_MYSTERIOUS_SHARD] = {gItemIcon_MysteriousShard, gItemIconPalette_MysteriousShard},
     [ITEM_HEART_SCALE] = {gItemIcon_HeartScale, gItemIconPalette_HeartScale},
     [ITEM_HONEY] = {gItemIcon_Honey, gItemIconPalette_Honey},
     [ITEM_RARE_BONE] = {gItemIcon_RareBone, gItemIconPalette_RareBone},

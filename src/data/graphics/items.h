@@ -380,6 +380,9 @@ const u32 gItemIconPalette_YellowShard[] = INCBIN_U32("graphics/items/icon_palet
 
 const u32 gItemIconPalette_GreenShard[] = INCBIN_U32("graphics/items/icon_palettes/green_shard.gbapal.lz");
 
+const u32 gItemIcon_MysteriousShard[] = INCBIN_U32("graphics/items/icons/mystery_shard.4bpp.lz");
+const u32 gItemIconPalette_MysteriousShard[] = INCBIN_U32("graphics/items/icons/mystery_shard.gbapal.lz");
+
 const u32 gItemIcon_HeartScale[] = INCBIN_U32("graphics/items/icons/heart_scale.4bpp.lz");
 const u32 gItemIconPalette_HeartScale[] = INCBIN_U32("graphics/items/icon_palettes/heart_scale.gbapal.lz");
 

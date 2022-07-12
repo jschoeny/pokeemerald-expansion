@@ -2011,6 +2011,18 @@ const struct Item gItems[] =
         .flingPower = 30,
     },
 
+    [ITEM_MYSTERIOUS_SHARD] =
+    {
+        .name = _("Mystery Shard"),
+        .itemId = ITEM_MYSTERIOUS_SHARD,
+        .price = 2000,
+        .description = sMysteryShardDesc,
+        .pocket = POCKET_TREASURES,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_CannotUse,
+        .flingPower = 30,
+    },
+
     [ITEM_HEART_SCALE] =
     {
         .name = _("Heart Scale"),

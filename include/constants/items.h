@@ -949,8 +949,9 @@
 #define SLATE_ITEMS_COUNT       (ITEM_SLATE_GALAR - ITEM_SLATE_KANTO + 1)
 
 #define ITEM_TYPE_CHARM 775
+#define ITEM_MYSTERIOUS_SHARD 776
 
-#define ITEMS_COUNT 776
+#define ITEMS_COUNT 777
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS

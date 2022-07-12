@@ -826,6 +826,11 @@ static const u8 sGreenShardDesc[] = _(
     "ancient item. Can\n"
     "be sold cheaply.");
 
+static const u8 sMysteryShardDesc[] = _(
+    "Small shard that\n"
+    "emanates an\n"
+    "enigmatic power.");
+
 static const u8 sHeartScaleDesc[] = _(
     "A lovely scale.\n"
     "It is coveted by\n"
