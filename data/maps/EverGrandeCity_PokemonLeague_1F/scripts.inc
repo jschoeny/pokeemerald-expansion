@@ -29,7 +29,7 @@ EverGrandeCity_PokemonLeague_1F_EventScript_Nurse::
 EverGrandeCity_PokemonLeague_1F_EventScript_Clerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart 0
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

@@ -16,7 +16,7 @@ LilycoveCity_DepartmentStore_2F_EventScript_Sailor::
 LilycoveCity_DepartmentStore_2F_EventScript_ClerkLeft::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart LilycoveCity_DepartmentStore_2F_Pokemart1
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -43,7 +43,7 @@ LilycoveCity_DepartmentStore_2F_Pokemart1:
 LilycoveCity_DepartmentStore_2F_EventScript_ClerkRight::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart LilycoveCity_DepartmentStore_2F_Pokemart2
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

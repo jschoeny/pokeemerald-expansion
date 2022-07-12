@@ -6,7 +6,7 @@ BattleFrontier_Mart_MapScripts::
 BattleFrontier_Mart_EventScript_Clerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart BattleFrontier_Mart_Pokemart
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

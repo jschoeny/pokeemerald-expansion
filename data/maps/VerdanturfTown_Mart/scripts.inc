@@ -4,7 +4,7 @@ VerdanturfTown_Mart_MapScripts::
 VerdanturfTown_Mart_EventScript_Clerk_Bottom::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart 0
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -14,7 +14,7 @@ VerdanturfTown_Mart_EventScript_Clerk_Bottom::
 VerdanturfTown_Mart_EventScript_Clerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart VerdanturfTown_Mart_Pokemart
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

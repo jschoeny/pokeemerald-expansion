@@ -20,7 +20,7 @@ LilycoveCity_DepartmentStore_5F_EventScript_BlockRoofStairs::
 LilycoveCity_DepartmentStore_5F_EventScript_ClerkFarLeft::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration2 LilycoveCity_DepartmentStore_5F_Pokemart_Dolls
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -48,7 +48,7 @@ LilycoveCity_DepartmentStore_5F_Pokemart_Dolls:
 LilycoveCity_DepartmentStore_5F_EventScript_ClerkMidLeft::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration2 LilycoveCity_DepartmentStore_5F_Pokemart_Cushions
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -73,7 +73,7 @@ LilycoveCity_DepartmentStore_5F_Pokemart_Cushions:
 LilycoveCity_DepartmentStore_5F_EventScript_ClerkMidRight::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration2 LilycoveCity_DepartmentStore_5F_Pokemart_Posters
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -98,7 +98,7 @@ LilycoveCity_DepartmentStore_5F_Pokemart_Posters:
 LilycoveCity_DepartmentStore_5F_EventScript_ClerkFarRight::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration2 LilycoveCity_DepartmentStore_5F_Pokemart_Mats
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

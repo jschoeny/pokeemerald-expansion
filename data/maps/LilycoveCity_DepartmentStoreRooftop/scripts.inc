@@ -19,7 +19,7 @@ LilycoveCity_DepartmentStoreRooftop_EventScript_HideSaleWoman::
 LilycoveCity_DepartmentStoreRooftop_EventScript_SaleWoman::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration LilycoveCity_DepartmentStoreRooftop_PokemartDecor_ClearOutSale
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -49,7 +49,7 @@ LilycoveCity_DepartmentStoreRooftop_PokemartDecor_ClearOutSale:
 LilycoveCity_DepartmentStoreRooftop_EventScript_SketchyMan::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart LilycoveCity_DepartmentStoreRooftop_Pokemart_SketchyManGoods
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

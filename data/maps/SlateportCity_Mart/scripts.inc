@@ -4,7 +4,7 @@ SlateportCity_Mart_MapScripts::
 SlateportCity_Mart_EventScript_Clerk_Bottom::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart 0
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -14,7 +14,7 @@ SlateportCity_Mart_EventScript_Clerk_Bottom::
 SlateportCity_Mart_EventScript_Clerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart SlateportCity_Mart_Pokemart
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

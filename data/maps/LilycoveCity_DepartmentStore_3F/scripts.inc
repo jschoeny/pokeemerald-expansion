@@ -4,7 +4,7 @@ LilycoveCity_DepartmentStore_3F_MapScripts::
 LilycoveCity_DepartmentStore_3F_EventScript_ClerkLeft::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart LilycoveCity_DepartmentStore_3F_Pokemart_Vitamins
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -26,7 +26,7 @@ LilycoveCity_DepartmentStore_3F_Pokemart_Vitamins:
 LilycoveCity_DepartmentStore_3F_EventScript_ClerkRight::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart LilycoveCity_DepartmentStore_3F_Pokemart_StatBoosters
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

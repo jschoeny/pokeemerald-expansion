@@ -502,7 +502,7 @@ SlateportCity_EventScript_AquaGrunt11::
 SlateportCity_EventScript_DollClerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration SlateportCity_PokemartDecor_Dolls
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -527,7 +527,7 @@ SlateportCity_EventScript_DecorClerk::
 	lock
 	faceplayer
 	goto_if_unset FLAG_RECEIVED_SECRET_POWER, SlateportCity_EventScript_ComeBackWithSecretPower
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemartdecoration SlateportCity_PokemartDecor
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -557,7 +557,7 @@ SlateportCity_PokemartDecor:
 SlateportCity_EventScript_PowerTMClerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart SlateportCity_Pokemart_PowerTMs
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT

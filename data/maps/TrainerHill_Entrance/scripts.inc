@@ -244,7 +244,7 @@ TrainerHill_Entrance_EventScript_GirlTrainerHillClosed::
 TrainerHill_Entrance_EventScript_Clerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	goto_if_set FLAG_SYS_GAME_CLEAR, TrainerHill_Entrance_EventScript_ExpandedPokemart
 	pokemart TrainerHill_Entrance_Pokemart_Basic

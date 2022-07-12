@@ -4,7 +4,7 @@ PetalburgCity_Mart_MapScripts::
 PetalburgCity_Mart_EventScript_Clerk_Bottom::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart 0
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
@@ -14,7 +14,7 @@ PetalburgCity_Mart_EventScript_Clerk_Bottom::
 PetalburgCity_Mart_EventScript_Clerk::
 	lock
 	faceplayer
-	message gText_HowMayIServeYou
+	call Mart_Clerk_EventScript_HowMayIServeYou
 	waitmessage
 	pokemart PetalburgCity_Mart_Pokemart_Basic
 	msgbox gText_PleaseComeAgain, MSGBOX_DEFAULT
