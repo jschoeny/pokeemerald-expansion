@@ -1274,7 +1274,7 @@ static void Task_BuyMenu(u8 taskId)
             {
                 if (CountTotalItemQuantityInBag(ITEM_MYSTERIOUS_SHARD) < SLATE_SHARD_COST)
                 {
-                    BuyMenuDisplayMessage(taskId, gText_YouDontHaveMoney, BuyMenuReturnToItemList);
+                    BuyMenuDisplayMessage(taskId, gText_YouDontHaveShards, BuyMenuReturnToItemList);
                 }
                 else
                 {
