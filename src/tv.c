@@ -1608,21 +1608,6 @@ static void TryStartRandomMassOutbreak(void)
     u16 outbreakIdx;
     TVShow *show;
 
-    // FlagSet(FLAG_BADGE01_GET);
-    // FlagSet(FLAG_BADGE02_GET);
-    // FlagSet(FLAG_BADGE03_GET);
-    // FlagSet(FLAG_BADGE04_GET);
-    // FlagSet(FLAG_BADGE05_GET);
-    // FlagSet(FLAG_BADGE06_GET);
-    // FlagSet(FLAG_BADGE07_GET);
-    // FlagSet(FLAG_BADGE08_GET);
-    // for(i = 0; i < 16; i++) {
-    //     FlagSet(FLAG_VISITED_LITTLEROOT_TOWN + i);
-    // }
-    // gSaveBlock2Ptr->optionsRandomizerWild = OPTIONS_RANDOMIZER_WILD_SPECIES;
-    // gSaveBlock2Ptr->optionsRandomizerMoves = OPTIONS_RANDOMIZER_MOVES_PERSONALITY;
-    // gSaveBlock2Ptr->optionsRandomizerType = OPTIONS_RANDOMIZER_TYPE_1_2;
-
     if (FlagGet(FLAG_BADGE03_GET))
     {
         for (i = 0; i < LAST_TVSHOW_IDX; i++)
@@ -1758,12 +1743,6 @@ static void TryStartRandomMassOutbreak(void)
                     }
                 }
                 FlagSet(FLAG_OUTBREAK_CALL);
-                // FlagSet(FLAG_SYS_TV_START);
-                // FlagSet(FLAG_SYS_POKENAV_GET);
-                // FlagSet(FLAG_RECEIVED_POKENAV);
-                // FlagSet(FLAG_HAS_MATCH_CALL);
-                // FlagSet(FLAG_ENABLE_MOM_MATCH_CALL);
-                // FlagSet(FLAG_ADDED_MATCH_CALL_TO_POKENAV);
             }
         }
     }
