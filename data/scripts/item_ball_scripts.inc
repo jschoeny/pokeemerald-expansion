@@ -658,6 +658,6 @@ MagmaHideout_3F_3R_EventScript_ItemEscapeRope::
 	finditem ITEM_ESCAPE_ROPE
 	end
 
-FarawayIsland_Entrance_EventScript_EonTicket::
-	finditem ITEM_EON_TICKET
+FarawayIsland_Entrance_EventScript_MysteriousShard::
+	finditem ITEM_MYSTERIOUS_SHARD
 	end
