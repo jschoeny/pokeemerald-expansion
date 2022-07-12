@@ -4,6 +4,8 @@
 #include "item.h"
 #include "menu_helpers.h"
 
+#define SLATE_SELL_PRICE 500
+
 enum {
     ITEMMENULOCATION_FIELD,
     ITEMMENULOCATION_BATTLE,
@@ -17,6 +19,7 @@ enum {
     ITEMMENULOCATION_APPRENTICE,
     ITEMMENULOCATION_WALLY,
     ITEMMENULOCATION_PCBOX,
+    ITEMMENULOCATION_SLATESHOP,
     ITEMMENULOCATION_LAST,
 };
 
@@ -96,6 +99,7 @@ void CB2_BagMenuFromStartMenu(void);
 u8 GetItemListPosition(u8 pocketId);
 bool8 UseRegisteredKeyItemOnField(void);
 void CB2_GoToSellMenu(void);
+void CB2_GoToSlateSellMenu(void);
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *exitCallback)());
 void DoWallyTutorialBagMenu(void);
 void ResetBagScrollPositions(void);

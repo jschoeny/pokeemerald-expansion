@@ -175,11 +175,16 @@ static void HandleErrorMessage(u8);
 static void PrintItemCantBeHeld(u8);
 static void DisplayCurrentMoneyWindow(void);
 static void DisplaySellItemPriceAndConfirm(u8);
+static void DisplaySlateSellItemPriceAndConfirm(u8);
 static void InitSellHowManyInput(u8);
+static void InitSlateSellHowManyInput(u8);
 static void AskSellItems(u8);
+static void AskSellSlateItems(u8);
 static void RemoveMoneyWindow(void);
 static void Task_ChooseHowManyToSell(u8);
+static void Task_ChooseHowManySlateToSell(u8);
 static void SellItem(u8);
+static void SellSlateItem(u8);
 static void WaitAfterItemSell(u8);
 static void TryDepositItem(u8);
 static void Task_ChooseHowManyToDeposit(u8 taskId);
@@ -207,11 +212,13 @@ static void ItemMenu_ConfirmQuizLady(u8);
 static void Task_ItemContext_Normal(u8);
 static void Task_ItemContext_GiveToParty(u8);
 static void Task_ItemContext_Sell(u8);
+static void Task_ItemContext_SlateSell(u8);
 static void Task_ItemContext_Deposit(u8);
 static void Task_ItemContext_GiveToPC(u8);
 static void ConfirmToss(u8);
 static void CancelToss(u8);
 static void ConfirmSell(u8);
+static void ConfirmSlateSell(u8);
 static void CancelSell(u8);
 
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
@@ -354,12 +361,15 @@ static const TaskFunc sContextMenuFuncs[] = {
     [ITEMMENULOCATION_QUIZ_LADY] =              Task_ItemContext_Normal,
     [ITEMMENULOCATION_APPRENTICE] =             Task_ItemContext_Normal,
     [ITEMMENULOCATION_WALLY] =                  NULL,
-    [ITEMMENULOCATION_PCBOX] =                  Task_ItemContext_GiveToPC
+    [ITEMMENULOCATION_PCBOX] =                  Task_ItemContext_GiveToPC,
+    [ITEMMENULOCATION_SLATESHOP] =              Task_ItemContext_SlateSell,
 };
 
 static const struct YesNoFuncTable sYesNoTossFunctions = {ConfirmToss, CancelToss};
 
 static const struct YesNoFuncTable sYesNoSellItemFunctions = {ConfirmSell, CancelSell};
+
+static const struct YesNoFuncTable sYesNoSellSlateItemFunctions = {ConfirmSlateSell, CancelSell};
 
 static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate = {
     .firstArrowType = SCROLL_ARROW_LEFT,
@@ -591,6 +601,11 @@ void CB2_GoToSellMenu(void)
     GoToBagMenu(ITEMMENULOCATION_SHOP, POCKETS_COUNT, CB2_ExitSellMenu);
 }
 
+void CB2_GoToSlateSellMenu(void)
+{
+    GoToBagMenu(ITEMMENULOCATION_SLATESHOP, TREASURES_POCKET, CB2_ExitSellMenu);
+}
+
 void CB2_GoToItemDepositMenu(void)
 {
     GoToBagMenu(ITEMMENULOCATION_ITEMPC, POCKETS_COUNT, CB2_PlayerPCExitBagMenu);
@@ -632,7 +647,8 @@ void GoToBagMenu(u8 location, u8 pocket, void ( *exitCallback)())
         if (pocket < POCKETS_COUNT)
             gBagPosition.pocket = pocket;
         if (gBagPosition.location == ITEMMENULOCATION_BERRY_TREE ||
-            gBagPosition.location == ITEMMENULOCATION_BERRY_BLENDER_CRUSH)
+            gBagPosition.location == ITEMMENULOCATION_BERRY_BLENDER_CRUSH ||
+            gBagPosition.location == ITEMMENULOCATION_SLATESHOP)
             gBagMenu->pocketSwitchDisabled = TRUE;
         gBagMenu->newScreenCallback = NULL;
         gBagMenu->toSwapPos = NOT_SWAPPING;
@@ -2216,6 +2232,111 @@ static void WaitAfterItemSell(u8 taskId)
         RemoveMoneyWindow();
         CloseItemMessage(taskId);
     }
+}
+
+static void Task_ItemContext_SlateSell(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+
+    if (gSpecialVar_ItemId >= ITEM_SLATE_KANTO && gSpecialVar_ItemId < ITEM_SLATE_KANTO + SLATE_ITEMS_COUNT)
+    {
+        tItemCount = 1;
+        if (tQuantity == 1)
+        {
+            DisplayCurrentMoneyWindow();
+            DisplaySlateSellItemPriceAndConfirm(taskId);
+        }
+        else
+        {
+            CopyItemName(gSpecialVar_ItemId, gStringVar2);
+            StringExpandPlaceholders(gStringVar4, gText_HowManyToSell);
+            DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, InitSlateSellHowManyInput);
+        }
+    }
+    else
+    {
+        CopyItemName(gSpecialVar_ItemId, gStringVar2);
+        StringExpandPlaceholders(gStringVar4, gText_CantBuyKeyItem);
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, CloseItemMessage);
+    }
+}
+
+static void DisplaySlateSellItemPriceAndConfirm(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+
+    ConvertIntToDecimalStringN(gStringVar1, SLATE_SELL_PRICE * tItemCount, STR_CONV_MODE_LEFT_ALIGN, 6);
+    StringExpandPlaceholders(gStringVar4, gText_ICanPayVar1);
+    DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, AskSellSlateItems);
+}
+
+static void AskSellSlateItems(u8 taskId)
+{
+    BagMenu_YesNo(taskId, ITEMWIN_YESNO_HIGH, &sYesNoSellSlateItemFunctions);
+}
+
+static void InitSlateSellHowManyInput(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+    u8 windowId = BagMenu_AddWindow(ITEMWIN_QUANTITY_WIDE);
+
+    PrintItemSoldAmount(windowId, 1, SLATE_SELL_PRICE * tItemCount * 10);
+    DisplayCurrentMoneyWindow();
+    gTasks[taskId].func = Task_ChooseHowManySlateToSell;
+}
+
+static void Task_ChooseHowManySlateToSell(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+
+    if (AdjustQuantityAccordingToDPadInput(&tItemCount, tQuantity) == TRUE)
+    {
+        PrintItemSoldAmount(gBagMenu->windowIds[ITEMWIN_QUANTITY_WIDE], tItemCount, SLATE_SELL_PRICE * tItemCount * 10);
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        BagMenu_RemoveWindow(ITEMWIN_QUANTITY_WIDE);
+        DisplaySlateSellItemPriceAndConfirm(taskId);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        BagMenu_PrintCursor(tListTaskId, COLORID_NORMAL);
+        RemoveMoneyWindow();
+        BagMenu_RemoveWindow(ITEMWIN_QUANTITY_WIDE);
+        RemoveItemMessageWindow(ITEMWIN_MESSAGE);
+        ReturnToItemList(taskId);
+    }
+}
+
+static void ConfirmSlateSell(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+
+    CopyItemName(gSpecialVar_ItemId, gStringVar2);
+    ConvertIntToDecimalStringN(gStringVar1, SLATE_SELL_PRICE * tItemCount, STR_CONV_MODE_LEFT_ALIGN, 6);
+    StringExpandPlaceholders(gStringVar4, gText_TurnedOverVar1ForVar2);
+    DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, SellSlateItem);
+}
+
+static void SellSlateItem(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+    u16* scrollPos = &gBagPosition.scrollPosition[gBagPosition.pocket];
+    u16* cursorPos = &gBagPosition.cursorPosition[gBagPosition.pocket];
+
+    PlaySE(SE_SHOP);
+    RemoveBagItem(gSpecialVar_ItemId, tItemCount);
+    AddMoney(&gSaveBlock1Ptr->money, SLATE_SELL_PRICE * tItemCount);
+    DestroyListMenuTask(tListTaskId, scrollPos, cursorPos);
+    UpdatePocketItemList(gBagPosition.pocket);
+    UpdatePocketListPosition(gBagPosition.pocket);
+    LoadBagItemListBuffers(gBagPosition.pocket);
+    tListTaskId = ListMenuInit(&gMultiuseListMenuTemplate, *scrollPos, *cursorPos);
+    BagMenu_PrintCursor(tListTaskId, COLORID_GRAY_CURSOR);
+    PrintMoneyAmountInMoneyBox(gBagMenu->windowIds[ITEMWIN_MONEY], GetMoney(&gSaveBlock1Ptr->money), 0);
+    gTasks[taskId].func = WaitAfterItemSell;
 }
 
 static void Task_ItemContext_Deposit(u8 taskId)

@@ -1760,6 +1760,11 @@
 	.2byte \item
 	.endm
 
+	@ Opens the Slatemart system, offering the slates for purchase with Mystery Shards.
+	.macro slatemart
+	.byte 0xe6
+	.endm
+
 
 @ Supplementary
 

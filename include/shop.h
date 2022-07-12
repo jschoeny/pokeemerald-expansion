@@ -3,11 +3,14 @@
 
 extern EWRAM_DATA struct ItemSlot gMartPurchaseHistory[3];
 
+#define SLATE_SHARD_COST 3
+
 enum
 {
     MART_TYPE_NORMAL, // normal mart
     MART_TYPE_DECOR,
     MART_TYPE_DECOR2,
+    MART_TYPE_SLATE,
 };
 
 // shop view window NPC info enum
@@ -47,6 +50,7 @@ struct ShopData
 void CreatePokemartMenu(const u16 *);
 void CreateDecorationShop1Menu(const u16 *);
 void CreateDecorationShop2Menu(const u16 *);
+void CreateSlateShopMenu(void);
 void CB2_ExitSellMenu(void);
 
 #endif // GUARD_SHOP_H
