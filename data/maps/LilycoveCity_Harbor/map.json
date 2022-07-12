@@ -97,5 +97,14 @@
     }
   ],
   "coord_events": [],
-  "bg_events": []
+  "bg_events": [
+    {
+      "type": "hidden_item",
+      "x": 0,
+      "y": 4,
+      "elevation": 3,
+      "item": "ITEM_MYSTERIOUS_SHARD",
+      "flag": "FLAG_DAILY_HIDDEN_MYSTERIOUS_SHARD"
+    }
+  ]
 }
