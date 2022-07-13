@@ -229,9 +229,11 @@ FarawayIsland_Interior_EventScript_GotoSlateSelection::
 	case 0, FarawayIsland_Interior_EventScript_AskUseSlateKanto
 	case 1, FarawayIsland_Interior_EventScript_AskUseSlateGenome
 	case 2, FarawayIsland_Interior_EventScript_AskUseSlateJohto
+	case 3, FarawayIsland_Interior_EventScript_AskUseSlateGuardian
 	case 4, FarawayIsland_Interior_EventScript_AskUseSlateTime
 	case 5, FarawayIsland_Interior_EventScript_AskUseSlateSpace
 	case 6, FarawayIsland_Interior_EventScript_AskUseSlateDistortion
+	case 7, FarawayIsland_Interior_EventScript_AskUseSlateLunar
 	case SLATE_ITEMS_COUNT, FarawayIsland_Interior_EventScript_ExitSlateSelect
 	case MULTI_B_PRESSED, FarawayIsland_Interior_EventScript_ExitSlateSelect
 	return
@@ -241,9 +243,11 @@ FarawayIsland_Interior_EventScript_GotoSlateSelectionFromBag::
 	case ITEM_SLATE_KANTO, FarawayIsland_Interior_EventScript_UseSlateKanto
 	case ITEM_SLATE_GENOME, FarawayIsland_Interior_EventScript_UseSlateGenome
 	case ITEM_SLATE_JOHTO, FarawayIsland_Interior_EventScript_UseSlateJohto
+	case ITEM_SLATE_GUARDIAN, FarawayIsland_Interior_EventScript_UseSlateGuardian
 	case ITEM_SLATE_TIME, FarawayIsland_Interior_EventScript_UseSlateTime
 	case ITEM_SLATE_SPACE, FarawayIsland_Interior_EventScript_UseSlateSpace
 	case ITEM_SLATE_DISTORTION, FarawayIsland_Interior_EventScript_UseSlateDistortion
+	case ITEM_SLATE_LUNAR, FarawayIsland_Interior_EventScript_UseSlateLunar
 	return
 
 FarawayIsland_Interior_EventScript_AskUseSlate::
@@ -335,6 +339,41 @@ FarawayIsland_Interior_EventScript_UseSlateJohto3::
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
+FarawayIsland_Interior_EventScript_AskUseSlateGuardian::
+	setvar ITEMID, ITEM_SLATE_GUARDIAN
+	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateGuardian
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateGuardian::
+	random 3
+	switch VAR_RESULT
+	case 0, FarawayIsland_Interior_EventScript_UseSlateGuardian1
+	case 1, FarawayIsland_Interior_EventScript_UseSlateGuardian2
+	case 2, FarawayIsland_Interior_EventScript_UseSlateGuardian3
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateGuardian1::
+	goto_if_unset FLAG_CAUGHT_UXIE, FarawayIsland_Interior_EventScript_Uxie
+	goto_if_unset FLAG_CAUGHT_MESPRIT, FarawayIsland_Interior_EventScript_Mesprit
+	goto_if_unset FLAG_CAUGHT_AZELF, FarawayIsland_Interior_EventScript_Azelf
+	goto FarawayIsland_Interior_EventScript_SlateNoEffect
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateGuardian2::
+	goto_if_unset FLAG_CAUGHT_MESPRIT, FarawayIsland_Interior_EventScript_Mesprit
+	goto_if_unset FLAG_CAUGHT_AZELF, FarawayIsland_Interior_EventScript_Azelf
+	goto_if_unset FLAG_CAUGHT_UXIE, FarawayIsland_Interior_EventScript_Uxie
+	goto FarawayIsland_Interior_EventScript_SlateNoEffect
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateGuardian3::
+	goto_if_unset FLAG_CAUGHT_AZELF, FarawayIsland_Interior_EventScript_Azelf
+	goto_if_unset FLAG_CAUGHT_UXIE, FarawayIsland_Interior_EventScript_Uxie
+	goto_if_unset FLAG_CAUGHT_MESPRIT, FarawayIsland_Interior_EventScript_Mesprit
+	goto FarawayIsland_Interior_EventScript_SlateNoEffect
+	end
+
 FarawayIsland_Interior_EventScript_AskUseSlateTime::
 	setvar ITEMID, ITEM_SLATE_TIME
 	call FarawayIsland_Interior_EventScript_AskUseSlate
@@ -365,6 +404,17 @@ FarawayIsland_Interior_EventScript_AskUseSlateDistortion::
 
 FarawayIsland_Interior_EventScript_UseSlateDistortion::
 	goto_if_unset FLAG_CAUGHT_GIRATINA, FarawayIsland_Interior_EventScript_Giratina
+	goto FarawayIsland_Interior_EventScript_SlateNoEffect
+	end
+
+FarawayIsland_Interior_EventScript_AskUseSlateLunar::
+	setvar ITEMID, ITEM_SLATE_LUNAR
+	call FarawayIsland_Interior_EventScript_AskUseSlate
+	goto FarawayIsland_Interior_EventScript_UseSlateLunar
+	end
+
+FarawayIsland_Interior_EventScript_UseSlateLunar::
+	goto_if_unset FLAG_CAUGHT_CRESSELIA, FarawayIsland_Interior_EventScript_Cresselia
 	goto FarawayIsland_Interior_EventScript_SlateNoEffect
 	end
 
@@ -561,6 +611,36 @@ FarawayIsland_Interior_EventScript_Entei::
 	release
 	end
 
+FarawayIsland_Interior_EventScript_Uxie::
+	setweather WEATHER_FOG_DIAGONAL
+	setvar VAR_SPECIES_ID, SPECIES_UXIE
+	setvar MONLEVEL, 65
+	setvar HELDITEM, ITEM_NONE
+	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
+	setflag FLAG_CAUGHT_UXIE
+	release
+	end
+
+FarawayIsland_Interior_EventScript_Mesprit::
+	setweather WEATHER_FOG_DIAGONAL
+	setvar VAR_SPECIES_ID, SPECIES_MESPRIT
+	setvar MONLEVEL, 65
+	setvar HELDITEM, ITEM_NONE
+	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
+	setflag FLAG_CAUGHT_MESPRIT
+	release
+	end
+
+FarawayIsland_Interior_EventScript_Azelf::
+	setweather WEATHER_FOG_DIAGONAL
+	setvar VAR_SPECIES_ID, SPECIES_AZELF
+	setvar MONLEVEL, 65
+	setvar HELDITEM, ITEM_NONE
+	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
+	setflag FLAG_CAUGHT_AZELF
+	release
+	end
+
 FarawayIsland_Interior_EventScript_Dialga::
 	setweather WEATHER_FOG_HORIZONTAL
 	setvar VAR_SPECIES_ID, SPECIES_DIALGA
@@ -601,6 +681,16 @@ FarawayIsland_Interior_EventScript_Giratina::
 	setvar VAR_BATTLEBG_BLEND, BG_FADE_GIRATINA
 	call FarawayIsland_Interior_EventScript_SlateEncounterStart
 	setflag FLAG_CAUGHT_GIRATINA
+	release
+	end
+
+FarawayIsland_Interior_EventScript_Cresselia::
+	setweather WEATHER_FOG_DIAGONAL
+	setvar VAR_SPECIES_ID, SPECIES_CRESSELIA
+	setvar MONLEVEL, 70
+	setvar HELDITEM, ITEM_NONE
+	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
+	setflag FLAG_CAUGHT_CRESSELIA
 	release
 	end
 
