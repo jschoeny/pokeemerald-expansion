@@ -58,8 +58,8 @@ BattleFrontier_CynthiasHouse_EventScript_Cynthia::
 	applymovement LOCALID_CYNTHIA, Common_Movement_FacePlayer
 	waitmovement 0
 	goto_if_unset FLAG_RECEIVED_CYNTHIA_EGG, BattleFrontier_CynthiasHouse_EventScript_CynthiaEggNotReceived
-	goto_if_set FLAG_SHOWN_AURORA_TICKET, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch1
-	msgbox BattleFrontier_Text_CynthiaAuroraTicketDesc, MSGBOX_AUTOCLOSE
+	goto_if_set FLAG_SHOWN_OLD_SEA_MAP, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch1
+	msgbox BattleFrontier_Text_CynthiaOldSeaMapDesc, MSGBOX_AUTOCLOSE
 	releaseall
 	end
 
@@ -74,12 +74,12 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaRetry::
 BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch1::
 	goto_if_set FLAG_SHOWN_MYSTIC_TICKET, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch2
 	goto_if_unset TRAINER_FLAG_CYNTHIA_2, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch1_Battle
-	msgbox BattleFrontier_Text_CynthiaHopeToBattleAgain, MSGBOX_AUTOCLOSE
+	msgbox BattleFrontier_Text_CynthiaMysticTicketDesc, MSGBOX_AUTOCLOSE
 	end
 
 
 BattleFrontier_CynthiasHouse_EventScript_CynthiaIntro3::
-	setvar VAR_TEMP_0, 1
+	setvar VAR_TEMP_0, 2
 	msgbox BattleFrontier_Text_CynthiaIntro3, MSGBOX_DEFAULT
 	return
 
@@ -87,7 +87,7 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaIntro3::
 BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch1_Battle::
 	lockall
 	playbgm DP_SEQ_EYE_CHAMP, TRUE
-	call_if_eq VAR_TEMP_0, 0, BattleFrontier_CynthiasHouse_EventScript_CynthiaIntro3
+	call_if_eq VAR_TEMP_0, 1, BattleFrontier_CynthiasHouse_EventScript_CynthiaIntro3
 	msgbox BattleFrontier_Text_CynthiaBeMyOpponent, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch_Decline
 	msgbox BattleFrontier_Text_CynthiaIntro3_Yes, MSGBOX_AUTOCLOSE
@@ -100,7 +100,7 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch1_Battle::
 
 BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch2::
 	goto_if_unset TRAINER_FLAG_CYNTHIA_3, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch2_Battle
-	msgbox BattleFrontier_Text_CynthiaHopeToBattleAgain, MSGBOX_AUTOCLOSE
+	msgbox BattleFrontier_Text_CynthiaAuroraTicketDesc, MSGBOX_AUTOCLOSE
 	releaseall
 	end
 
@@ -108,7 +108,7 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch2::
 BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch2_Battle::
 	lockall
 	playbgm DP_SEQ_EYE_CHAMP, TRUE
-	call_if_eq VAR_TEMP_0, 0, BattleFrontier_CynthiasHouse_EventScript_CynthiaIntro3
+	call_if_eq VAR_TEMP_0, 1, BattleFrontier_CynthiasHouse_EventScript_CynthiaIntro3
 	msgbox BattleFrontier_Text_CynthiaBeMyOpponent, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, FALSE, BattleFrontier_CynthiasHouse_EventScript_CynthiaRematch_Decline
 	msgbox BattleFrontier_Text_CynthiaIntro3_Yes, MSGBOX_AUTOCLOSE
@@ -143,10 +143,10 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaGiveEgg::
 	playfanfare MUS_OBTAIN_ITEM
 	message BattleFrontier_Text_ReceivedTheEgg
 	waitfanfare
-	giveitem ITEM_AURORA_TICKET
-	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
-	setflag FLAG_RECEIVED_AURORA_TICKET
-	msgbox BattleFrontier_Text_CynthiaAuroraTicketDesc
+	giveitem ITEM_OLD_SEA_MAP
+	setflag FLAG_ENABLE_SHIP_FARAWAY_ISLAND
+	setflag FLAG_RECEIVED_OLD_SEA_MAP
+	msgbox BattleFrontier_Text_CynthiaOldSeaMapDesc
 	specialvar VAR_GIFT_UNUSED_1, CalculatePlayerPartyCount
 	giveegg SPECIES_TOGEPI
 	setmonmetlocation VAR_GIFT_UNUSED_1, 0xFC
@@ -202,10 +202,10 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaDefeated3::
 	closemessage
 	call Common_EventScript_OutOfCenterPartyHeal
 	msgbox BattleFrontier_Text_CynthiaReward2
-	giveitem ITEM_OLD_SEA_MAP
-	setflag FLAG_ENABLE_SHIP_FARAWAY_ISLAND
-	setflag FLAG_RECEIVED_OLD_SEA_MAP
-	msgbox BattleFrontier_Text_CynthiaOldSeaMapDesc
+	giveitem ITEM_AURORA_TICKET
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
+	setflag FLAG_RECEIVED_AURORA_TICKET
+	msgbox BattleFrontier_Text_CynthiaAuroraTicketDesc
 	release
 	end
 
@@ -314,9 +314,6 @@ BattleFrontier_Text_CynthiaOldSeaMapDesc:
 	.string "Try showing that OLD SEA MAP\n"
 	.string "at the FERRY in LILYCOVE.\p"
 	.string "Who knows where it might lead!$"
-
-BattleFrontier_Text_CynthiaHopeToBattleAgain:
-	.string "I hope to battle again soon!$"
 
 BattleFrontier_Text_CynthiaIntro3:
 	.string "How terrific to see you again!\p"

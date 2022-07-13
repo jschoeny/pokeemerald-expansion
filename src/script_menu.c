@@ -475,6 +475,7 @@ static void CreateLilycoveSSTidalMultichoice(void)
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BIRTH_ISLAND;
             selectionCount++;
             FlagSet(FLAG_SHOWN_AURORA_TICKET);
+            FlagSet(FLAG_HIDE_CYNTHIA);
         }
     }
 
@@ -491,7 +492,6 @@ static void CreateLilycoveSSTidalMultichoice(void)
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_FARAWAY_ISLAND;
             selectionCount++;
             FlagSet(FLAG_SHOWN_OLD_SEA_MAP);
-            FlagSet(FLAG_HIDE_CYNTHIA);
         }
     }
 
