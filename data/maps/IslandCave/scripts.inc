@@ -180,7 +180,6 @@ IslandCave_EventScript_Regigigas::
 	waitstate
 	delay 30
 	message IslandCave_Text_RegigigasCry
-	waitse
 	playmoncry SPECIES_REGIGIGAS, CRY_MODE_ENCOUNTER
 	waitmoncry
 	checkchallengemode
