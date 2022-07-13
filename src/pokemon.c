@@ -8911,14 +8911,13 @@ u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId)
         if(gSaveBlock2Ptr->optionsRandomizerStarter == FALSE)
             return species;
 
-        if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_SPECIES
-            || gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_MAP)
+        if(gSaveBlock2Ptr->optionsRandomizerWild != OPTIONS_RANDOMIZER_WILD_RAND)
         {
             species = (((0x1A4 * ((species + value) % (NUM_SPECIES_RAND - 1))) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;
             if(species >= NUM_SPECIES_RAND_START)
                 species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
-        else if(gSaveBlock2Ptr->optionsRandomizerWild == OPTIONS_RANDOMIZER_WILD_RAND)
+        else
         {
             u8 i;
             species = (((0x1A4 * (randOff + value)) + 0xB2) % (NUM_SPECIES_RAND - 1)) + 1;

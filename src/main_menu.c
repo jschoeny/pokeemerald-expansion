@@ -617,8 +617,12 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
     MgbaPrintf(MGBA_LOG_INFO, "optionsChallengeStrongerTeams: %d", gSaveBlock2Ptr->optionsChallengeStrongerTeams);
     MgbaPrintf(MGBA_LOG_INFO, "optionsRandomizerSeed: %d",      gSaveBlock2Ptr->optionsRandomizerSeed);
 
-    if(gSaveBlock2Ptr->optionsChallengeStrongerTeams && gSaveBlock2Ptr->optionsRandomizerVersion == 0) {
-        FlagSet(FLAG_DIFF_DELAYEDEXP);
+    if(gSaveBlock2Ptr->optionsRandomizerVersion == 0) {
+        if(gSaveBlock2Ptr->optionsChallengeStrongerTeams)
+            FlagSet(FLAG_DIFF_DELAYEDEXP);
+
+        if(gSaveBlock2Ptr->optionsRandomizerWild != OPTIONS_RANDOMIZER_WILD_NORMAL)
+            gSaveBlock2Ptr->optionsRandomizerStarter = TRUE;
     }
 
     {
