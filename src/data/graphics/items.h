@@ -1947,6 +1947,8 @@ const u32 gItemIcon_GenomeSlate[] = INCBIN_U32("graphics/items/icons/genome_slat
 const u32 gItemIconPalette_GenomeSlate[] = INCBIN_U32("graphics/items/icon_palettes/genome_slate.gbapal.lz");
 
 const u32 gItemIcon_DistortionSlate[] = INCBIN_U32("graphics/items/icons/distortion_slate.4bpp.lz");
+const u32 gItemIcon_GuardianSlate[] = INCBIN_U32("graphics/items/icons/guardian_slate.4bpp.lz");
 const u32 gItemIconPalette_DistortionSlate[] = INCBIN_U32("graphics/items/icon_palettes/distortion_slate.gbapal.lz");
 const u32 gItemIconPalette_TimeSlate[] = INCBIN_U32("graphics/items/icon_palettes/time_slate.gbapal.lz");
 const u32 gItemIconPalette_SpaceSlate[] = INCBIN_U32("graphics/items/icon_palettes/space_slate.gbapal.lz");
+const u32 gItemIconPalette_LunarSlate[] = INCBIN_U32("graphics/items/icon_palettes/lunar_slate.gbapal.lz");
