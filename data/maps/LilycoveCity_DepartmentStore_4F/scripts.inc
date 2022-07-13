@@ -76,6 +76,8 @@ LilycoveCity_DepartmentStore_4F_Pokemart_EvolutionItems:
 	.2byte ITEM_DUSK_STONE
 	.2byte ITEM_DAWN_STONE
 	.2byte ITEM_LINKING_CORD
+	.2byte ITEM_RAZOR_FANG
+	.2byte ITEM_RAZOR_CLAW
 	.2byte ITEM_SWEET_APPLE
 	.2byte ITEM_TART_APPLE
 	.2byte ITEM_CRACKED_POT
@@ -93,13 +95,6 @@ LilycoveCity_DepartmentStore_4F_Pokemart_EvolutionItems:
 	.2byte ITEM_WHIPPED_DREAM
 	.2byte ITEM_SACHET
 	.2byte ITEM_OVAL_STONE
-	.2byte ITEM_STRAWBERRY_SWEET
-	.2byte ITEM_LOVE_SWEET
-	.2byte ITEM_BERRY_SWEET
-	.2byte ITEM_CLOVER_SWEET
-	.2byte ITEM_FLOWER_SWEET
-	.2byte ITEM_STAR_SWEET
-	.2byte ITEM_RIBBON_SWEET
 	.2byte ITEM_NONE
 	release
 	end
