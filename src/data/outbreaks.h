@@ -210,6 +210,66 @@ static const struct {
         .onWater = TRUE,
         .probability = 10,
         .numEncounters = 5
+    },
+    {   // 19
+        .species = SPECIES_BULBASAUR,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_WEATHER_BALL},
+        .level = 24,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = TRUE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 20
+        .species = SPECIES_CHARMANDER,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DRAGON_DANCE},
+        .level = 24,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = TRUE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 21
+        .species = SPECIES_SQUIRTLE,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_SHELL_SMASH},
+        .level = 24,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = TRUE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 22
+        .species = SPECIES_TURTWIG,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_STEALTH_ROCK},
+        .level = 24,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = TRUE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 23
+        .species = SPECIES_CHIMCHAR,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_U_TURN},
+        .level = 24,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = TRUE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 24
+        .species = SPECIES_PIPLUP,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DEFOG},
+        .level = 24,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = TRUE,
+        .probability = 15,
+        .numEncounters = 5
     }
 };
 
