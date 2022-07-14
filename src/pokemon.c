@@ -7339,14 +7339,50 @@ bool8 TryIncrementMonLevel(struct Pokemon *mon)
     }
 }
 
+#define _TMHM(tmhm) (ITEM_##tmhm - ITEM_TM01_FOCUS_PUNCH - (ITEM_##tmhm > ITEM_TM100 ? NUM_TECHNICAL_MACHINES : 0))
 u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES2, 0);
     if (species == SPECIES_EGG)
-    {
         return 0;
+
+    if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL)
+    {
+        u8 type1 = GetMonType(mon, FALSE);
+        u8 type2 = GetMonType(mon, TRUE);
+        if(type1 == TYPE_WATER || type2 == TYPE_WATER)
+        {
+            if(tm == _TMHM(HM03_SURF) || tm == _TMHM(HM08_DIVE) || tm == _TMHM(HM07_WATERFALL))
+                return TRUE;
+        }
+        else if(type1 == TYPE_FIGHTING || type2 == TYPE_FIGHTING)
+        {
+            if(tm == _TMHM(HM01_CUT) || tm == _TMHM(HM04_STRENGTH) || tm == _TMHM(HM06_ROCK_SMASH))
+                return TRUE;
+        }
+        else if(type1 == TYPE_ELECTRIC || type2 == TYPE_ELECTRIC)
+        {
+            if(tm == _TMHM(HM05_FLASH))
+                return TRUE;
+        }
+        else if(type1 == TYPE_PSYCHIC || type2 == TYPE_PSYCHIC)
+        {
+            if(tm == _TMHM(HM05_FLASH))
+                return TRUE;
+        }
+        else if(type1 == TYPE_STEEL || type2 == TYPE_STEEL)
+        {
+            if(tm == _TMHM(HM01_CUT))
+                return TRUE;
+        }
+        else if(type1 == TYPE_FLYING || type2 == TYPE_FLYING)
+        {
+            if(tm == _TMHM(HM02_FLY))
+                return TRUE;
+        }
     }
-    else if (tm < 32)
+
+    if (tm < 32)
     {
         u32 mask = 1 << tm;
         return gTMHMLearnsets[species][0] & mask;
@@ -7357,6 +7393,7 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
         return gTMHMLearnsets[species][1] & mask;
     }
 }
+#undef _TMHM
 
 u32 CanSpeciesLearnTMHM(u16 species, u8 tm)
 {
