@@ -542,3 +542,4 @@ gSpecials::
 	def_special SetTotemBoost
 	def_special IsSlateInBag
 	def_special IsSpeciesWildRandomized
+	def_special HideMapNamePopUpWindow
