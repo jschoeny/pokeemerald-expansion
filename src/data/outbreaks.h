@@ -12,7 +12,7 @@ static const struct {
     u8 probability;
     u8 numEncounters;
 } sPokeOutbreakSpeciesList[] = {
-    // MASS_OUTBREAK_LEVEL1 - 3 badges or less
+    // MASS_OUTBREAK_LEVEL1 - 0-4 badges
     {   // 0
         .species = SPECIES_BUDEW,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_LIFE_DEW},
@@ -44,7 +44,7 @@ static const struct {
         .numEncounters = 10
     },
 
-    // MASS_OUTBREAK_LEVEL2 - 5 badges or less
+    // MASS_OUTBREAK_LEVEL2 - 5-6 badges
     {   // 3
         .species = SPECIES_ZANGOOSE,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_BELLY_DRUM},
@@ -106,7 +106,7 @@ static const struct {
         .numEncounters = 10
     },
 
-    // MASS_OUTBREAK_LEVEL3 - 7 badges or less
+    // MASS_OUTBREAK_LEVEL3 - 7 badges
     {   // 9
         .species = SPECIES_MEDITITE,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DRAIN_PUNCH},
@@ -168,7 +168,7 @@ static const struct {
         .numEncounters = 7
     },
 
-    // MASS_OUTBREAK_LEVEL4 - Not yet defeated champion
+    // MASS_OUTBREAK_LEVEL4 - 8 badges
     {   // 15
         .species = SPECIES_GEODUDE_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_MAGNET_RISE},
@@ -275,7 +275,7 @@ static const struct {
 
 static const u8 NumOutbreakRoutesByBadge[NUM_BADGES + 1] =
 {
-    4, 5, 6, 7, 11, 18, 20, 26, 37
+    4, 5, 6, 7, 11, 18, 20, 27, 38
 };
 static const u16 OutbreakRoutesByBadge[] =
 {
@@ -303,7 +303,7 @@ static const u16 OutbreakRoutesByBadge[] =
 
     // 7 Badges (Mossdeep City Gym)
     MAP_ROUTE120, MAP_ROUTE121, MAP_ROUTE122, MAP_MT_PYRE_EXTERIOR,
-    MAP_MT_PYRE_SUMMIT, MAP_ROUTE124,
+    MAP_MT_PYRE_SUMMIT, MAP_ROUTE123, MAP_ROUTE124,
 
     // 8 Badges (Sootopolis City Gym)
     MAP_ROUTE125, MAP_ROUTE126, MAP_ROUTE127, MAP_ROUTE128,

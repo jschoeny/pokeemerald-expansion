@@ -1631,16 +1631,16 @@ static void TryStartRandomMassOutbreak(void)
                     }
                 }
                 badgeLevel = (nBadges * 3);
-                if(!rbernoulli(1, 20) && gSaveBlock2Ptr->optionsRandomizerWild != OPTIONS_RANDOMIZER_WILD_RAND) { // Custom Outbreak
+                if(!rbernoulli(2, 25) && gSaveBlock2Ptr->optionsRandomizerWild != OPTIONS_RANDOMIZER_WILD_RAND) { // Custom Outbreak
                     u16 headerId;
                     u8 levelNew;
-                    if(nBadges <= 3) {
+                    if(nBadges < 5) {
                         outbreakIdx = Random() % MASS_OUTBREAK_LEVEL1;
                     }
-                    else if(nBadges <= 5) {
+                    else if(nBadges < 7) {
                         outbreakIdx = Random() % MASS_OUTBREAK_LEVEL2;
                     }
-                    else if(nBadges <= 7) {
+                    else if(nBadges < 8) {
                         outbreakIdx = Random() % MASS_OUTBREAK_LEVEL3;
                     }
                     else if(FlagGet(FLAG_SYS_GAME_CLEAR) == FALSE) {
