@@ -214,6 +214,7 @@ LilycoveCity_Harbor_EventScript_GoToSouthernIslandFirstTime::
 
 LilycoveCity_Harbor_EventScript_AuroraTicketFirstTime::
 	setflag FLAG_SHOWN_AURORA_TICKET
+	setflag FLAG_HIDE_CYNTHIA
 	msgbox EventTicket_Text_ThatPass, MSGBOX_DEFAULT
 	closemessage
 	call LilycoveCity_Harbor_EventScript_GetEventTicketSailor
