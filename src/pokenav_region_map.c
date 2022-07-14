@@ -655,13 +655,44 @@ static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
     return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
 }
 
-static bool8 CheckCursorIsOverMtPyreOutbreak(int mapSecId, int pos)
+static bool8 CheckCursorIsOverSpecialLocation(int mapSecId, int pos)
 {
-    return (
+    if (
         mapSecId == MAPSEC_ROUTE_122
         && pos == 0
         && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_MT_PYRE
-    );
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_104
+        && pos == 1
+        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_PETALBURG_WOODS
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_112
+        && pos == 0
+        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_JAGGED_PASS
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_124
+        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_UNDERWATER_124
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_126
+        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_UNDERWATER_126
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_125
+        && pos == 2
+        && GetRegionMapSectionId(
+            gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_SHOAL_CAVE
+    ) return TRUE;
+
+    return FALSE;
 }
 
 static const u8 LandmarkName_Outbreak[] = _(" Outbreak");
@@ -679,7 +710,7 @@ static void PrintLandmarkNames(struct Pokenav_RegionMapGfx *state, int mapSecId,
         if (!landmarkName) {
             if(gSaveBlock1Ptr->outbreakPokemonSpecies != SPECIES_NONE) {
                 outbreakMapSection = GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum);
-                if(mapSecId == outbreakMapSection || CheckCursorIsOverMtPyreOutbreak(mapSecId, pos)) {
+                if(mapSecId == outbreakMapSection || CheckCursorIsOverSpecialLocation(mapSecId, pos)) {
                     u8 outputString[30];
                     isOutbreak = TRUE;
 

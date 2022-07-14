@@ -275,12 +275,13 @@ static const struct {
 
 static const u8 NumOutbreakRoutesByBadge[NUM_BADGES + 1] =
 {
-    4, 5, 6, 7, 11, 18, 20, 27, 38
+    5, 6, 7, 8, 12, 19, 21, 28, 40
 };
 static const u16 OutbreakRoutesByBadge[] =
 {
     // No badges
     MAP_ROUTE101, MAP_ROUTE102, MAP_ROUTE103, MAP_ROUTE104,
+    MAP_PETALBURG_WOODS,
 
     // 1 Badge (Rustboro City Gym)
     MAP_ROUTE116,
@@ -309,4 +310,5 @@ static const u16 OutbreakRoutesByBadge[] =
     MAP_ROUTE125, MAP_ROUTE126, MAP_ROUTE127, MAP_ROUTE128,
     MAP_ROUTE129, MAP_ROUTE131, MAP_ROUTE132, MAP_ROUTE133,
     MAP_ROUTE134, MAP_UNDERWATER_ROUTE124, MAP_UNDERWATER_ROUTE126,
+    MAP_SHOAL_CAVE_LOW_TIDE_ENTRANCE_ROOM,
 };
