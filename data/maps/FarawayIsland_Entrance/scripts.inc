@@ -20,7 +20,7 @@ FarawayIsland_Entrance_EventScript_Quake::
 	delay 20
 	setvar VAR_0x8004, 1  @ vertical pan
 	setvar VAR_0x8005, 1  @ horizontal pan
-	setvar VAR_0x8006, 10  @ num shakes
+	setvar VAR_0x8006, 20  @ num shakes
 	setvar VAR_0x8007, 5  @ shake delay
 	special ShakeCamera
 	waitstate
