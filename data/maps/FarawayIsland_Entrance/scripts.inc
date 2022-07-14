@@ -3,10 +3,32 @@
 
 FarawayIsland_Entrance_MapScripts::
 	map_script MAP_SCRIPT_ON_TRANSITION, FarawayIsland_Entrance_OnTransition
+	map_script MAP_SCRIPT_ON_FRAME_TABLE, FarawayIsland_Entrance_OnFrame
 	.byte 0
 
 FarawayIsland_Entrance_OnTransition:
 	setflag FLAG_ARRIVED_ON_FARAWAY_ISLAND
+	end
+
+FarawayIsland_Entrance_OnFrame:
+	map_script_2 VAR_FARAWAY_ISLAND_STATE, 1, FarawayIsland_Entrance_EventScript_Quake
+	.2byte 0
+
+FarawayIsland_Entrance_EventScript_Quake::
+	lockall
+	special HideMapNamePopUpWindow
+	delay 20
+	setvar VAR_0x8004, 1  @ vertical pan
+	setvar VAR_0x8005, 1  @ horizontal pan
+	setvar VAR_0x8006, 10  @ num shakes
+	setvar VAR_0x8007, 5  @ shake delay
+	special ShakeCamera
+	waitstate
+	delay 20
+	msgbox FarawayIsland_Entrance_Text_Quake, MSGBOX_DEFAULT
+	waitmessage
+	setvar VAR_FARAWAY_ISLAND_STATE, 2
+	releaseall
 	end
 
 FarawayIsland_Entrance_EventScript_SetCloudsWeather::
@@ -46,3 +68,6 @@ FarawayIsland_Entrance_EventScript_Sign::
 	msgbox FarawayIsland_Entrance_Text_Sign, MSGBOX_SIGN
 	end
 
+FarawayIsland_Entrance_Text_Quake:
+	.string "Something seemed to move from back\n"
+	.string "within the forest…$"
