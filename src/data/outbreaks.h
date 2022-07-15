@@ -217,7 +217,7 @@ static const struct {
         .level = 24,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = TRUE,
+        .onWater = FALSE,
         .probability = 15,
         .numEncounters = 5
     },
@@ -227,7 +227,7 @@ static const struct {
         .level = 24,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = TRUE,
+        .onWater = FALSE,
         .probability = 15,
         .numEncounters = 5
     },
@@ -237,7 +237,7 @@ static const struct {
         .level = 24,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = TRUE,
+        .onWater = FALSE,
         .probability = 15,
         .numEncounters = 5
     },
@@ -247,7 +247,7 @@ static const struct {
         .level = 24,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = TRUE,
+        .onWater = FALSE,
         .probability = 15,
         .numEncounters = 5
     },
@@ -257,7 +257,7 @@ static const struct {
         .level = 24,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = TRUE,
+        .onWater = FALSE,
         .probability = 15,
         .numEncounters = 5
     },
@@ -267,7 +267,7 @@ static const struct {
         .level = 24,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = TRUE,
+        .onWater = FALSE,
         .probability = 15,
         .numEncounters = 5
     }
