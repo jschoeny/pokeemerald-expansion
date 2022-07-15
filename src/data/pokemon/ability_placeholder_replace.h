@@ -52,5 +52,31 @@ const struct PlaceholderAbility gPlaceholderAbilities[ABILITIES_PH_COUNT] =
             ABILITY_GUTS,       // Dark
             ABILITY_GUTS        // Fairy
         }
+    },
+
+    [PH_ABILITY(ABILITY_PH_STATUS)] =
+    {
+        .ability =
+        {
+            ABILITY_ROUGH_SKIN, // Normal
+            ABILITY_ROUGH_SKIN, // Fighting
+            ABILITY_KEEN_EYE,   // Flying
+            ABILITY_POISON_POINT,// Poison
+            ABILITY_SAND_VEIL,  // Ground
+            ABILITY_SAND_VEIL,  // Rock
+            ABILITY_COMPOUND_EYES,// Bug
+            ABILITY_CURSED_BODY,// Ghost
+            ABILITY_IRON_BARBS, // Steel
+            ABILITY_NONE,       // Mystery
+            ABILITY_FLAME_BODY, // Fire
+            ABILITY_DAMP,       // Water
+            ABILITY_EFFECT_SPORE,// Grass
+            ABILITY_STATIC,     // Electric
+            ABILITY_SYNCHRONIZE,// Psychic
+            ABILITY_ICE_BODY,   // Ice
+            ABILITY_INTIMIDATE, // Dragon
+            ABILITY_INTIMIDATE, // Dark
+            ABILITY_CUTE_CHARM  // Fairy
+        }
     }
 };
