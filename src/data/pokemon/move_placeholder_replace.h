@@ -702,5 +702,57 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             MOVE_RAZOR_WIND,    // Dark
             MOVE_RAZOR_WIND     // Fairy
         }
+    },
+
+    [PH_MOVE(MOVE_PH_THRASH)] =
+    {
+        .move =
+        {
+            MOVE_THRASH,        // Normal
+            MOVE_SUPERPOWER,    // Fighting
+            MOVE_SKY_ATTACK,    // Flying
+            MOVE_GUNK_SHOT,     // Poison
+            MOVE_EARTHQUAKE,    // Ground
+            MOVE_ROCK_WRECKER,  // Rock
+            MOVE_MEGAHORN,      // Bug
+            MOVE_POLTERGEIST,   // Ghost
+            MOVE_STEEL_ROLLER,  // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_OVERHEAT,      // Fire
+            MOVE_WATER_SPOUT,   // Water
+            MOVE_PETAL_DANCE,   // Grass
+            MOVE_VOLT_TACKLE,   // Electric
+            MOVE_FUTURE_SIGHT,  // Psychic
+            MOVE_ICE_HAMMER,    // Ice
+            MOVE_OUTRAGE,       // Dragon
+            MOVE_FOUL_PLAY,     // Dark
+            MOVE_MISTY_EXPLOSION // Fairy
+        }
+    },
+
+    [PH_MOVE(MOVE_PH_BODY_2TURN)] =
+    {
+        .move =
+        {
+            MOVE_SLAM,          // Normal
+            MOVE_SUBMISSION,    // Fighting
+            MOVE_FLY,           // Flying
+            MOVE_GUNK_SHOT,     // Poison
+            MOVE_DIG,           // Ground
+            MOVE_METEOR_BEAM,   // Rock
+            MOVE_LUNGE,         // Bug
+            MOVE_PHANTOM_FORCE, // Ghost
+            MOVE_HEAVY_SLAM,    // Steel
+            MOVE_SKETCH,        // Mystery
+            MOVE_FLARE_BLITZ,   // Fire
+            MOVE_DIVE,          // Water
+            MOVE_SOLAR_BLADE,   // Grass
+            MOVE_VOLT_TACKLE,   // Electric
+            MOVE_ZEN_HEADBUTT,  // Psychic
+            MOVE_ICICLE_CRASH,  // Ice
+            MOVE_DRAGON_RUSH,   // Dragon
+            MOVE_FOUL_PLAY,     // Dark
+            MOVE_PLAY_ROUGH     // Fairy
+        }
     }
 };

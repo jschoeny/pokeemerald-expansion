@@ -815,8 +815,10 @@
 #define MOVE_PH_RECOVER 825
 #define MOVE_PH_RECOVER2 826
 #define MOVE_PH_STRONGWIND 827
+#define MOVE_PH_THRASH 828
+#define MOVE_PH_BODY_2TURN 829
 // LIMIT AT 2047 - leftmost 5 bits used for type flagging
-#define MOVES_COUNT_PH 27
+#define MOVES_COUNT_PH 29
 
 #define MOVES_PH_TYPE2 MOVES_COUNT_PH
 #define PH_MOVE_FLAG 0xF800
