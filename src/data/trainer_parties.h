@@ -14695,7 +14695,7 @@ static const struct TrainerMonItemCustomMoves sParty_Cynthia3[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     {
     .iv = 255,
-    .lvl = 46,
+    .lvl = 46, //52
     .pid = 0,
     .species = SPECIES_MIGHTYENA,
     .heldItem = ITEM_LIFE_ORB,
@@ -14704,7 +14704,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     },
     {
     .iv = 255,
-    .lvl = 48,
+    .lvl = 48, //55
     .pid = 0,
     .species = SPECIES_SHIFTRY,
     .heldItem = ITEM_BLACK_GLASSES,
@@ -14713,7 +14713,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     },
     {
     .iv = 255,
-    .lvl = 46,
+    .lvl = 46, //52
     .pid = 0,
     .species = SPECIES_CACTURNE,
     .heldItem = ITEM_LEFTOVERS,
@@ -14722,7 +14722,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     },
     {
     .iv = 255,
-    .lvl = 48,
+    .lvl = 48, //55
     .pid = 0,
     .species = SPECIES_CRAWDAUNT,
     .heldItem = ITEM_CHOICE_BAND,
@@ -14731,7 +14731,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     },
     {
     .iv = 255,
-    .lvl = 48,
+    .lvl = 48, //55
     .pid = 0,
     .species = SPECIES_OBSTAGOON,
     .heldItem = ITEM_FLAME_ORB,
@@ -14740,7 +14740,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
     },
     {
     .iv = 255,
-    .lvl = 49,
+    .lvl = 49, //56
     .pid = 0,
     .species = SPECIES_ABSOL,
     .heldItem = ITEM_ABSOLITE,
@@ -14752,7 +14752,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Sidney[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
     {
     .iv = 255,
-    .lvl = 48,
+    .lvl = 48, //55
     .pid = 0,
     .species = SPECIES_DUSCLOPS,
     .heldItem = ITEM_EVIOLITE,
@@ -14761,7 +14761,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
     },
     {
     .iv = 255,
-    .lvl = 49,
+    .lvl = 49, //56
     .pid = 0,
     .species = SPECIES_BANETTE,
     .heldItem = ITEM_FOCUS_SASH,
@@ -14770,7 +14770,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
     },
     {
     .iv = 255,
-    .lvl = 49,
+    .lvl = 49, //56
     .pid = 0,
     .species = SPECIES_ROTOM_HEAT,
     .heldItem = ITEM_HEAVY_DUTY_BOOTS,
@@ -14778,7 +14778,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
     },
     {
     .iv = 255,
-    .lvl = 50,
+    .lvl = 50, //57
     .pid = 0,
     .species = SPECIES_DUSKNOIR,
     .heldItem = ITEM_ASSAULT_VEST,
@@ -14786,7 +14786,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
     },
     {
     .iv = 255,
-    .lvl = 50,
+    .lvl = 50, //57
     .pid = 0,
     .species = SPECIES_CURSOLA,
     .heldItem = ITEM_LEFTOVERS,
@@ -14794,7 +14794,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
     },
     {
     .iv = 255,
-    .lvl = 51,
+    .lvl = 51, //58
     .pid = 0,
     .species = SPECIES_SABLEYE,
     .heldItem = ITEM_SABLENITE,
@@ -14805,7 +14805,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Phoebe[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
     {
     .iv = 255,
-    .lvl = 50,
+    .lvl = 50, //57
     .pid = 0,
     .species = SPECIES_SEALEO,
     .heldItem = ITEM_EVIOLITE,
@@ -14813,7 +14813,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
     },
     {
     .iv = 255,
-    .lvl = 50,
+    .lvl = 50, //57
     .pid = 0,
     .species = SPECIES_SANDSLASH_ALOLAN,
     .heldItem = ITEM_WIDE_LENS,
@@ -14822,7 +14822,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
     },
     {
     .iv = 255,
-    .lvl = 52,
+    .lvl = 52, //59
     .pid = 0,
     .species = SPECIES_MAMOSWINE,
     .heldItem = ITEM_LIFE_ORB,
@@ -14831,7 +14831,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
     },
     {
     .iv = 255,
-    .lvl = 52,
+    .lvl = 52, //59
     .pid = 0,
     .species = SPECIES_FROSLASS,
     .heldItem = ITEM_FOCUS_SASH,
@@ -14840,7 +14840,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
     },
     {
     .iv = 255,
-    .lvl = 52,
+    .lvl = 52, //59
     .pid = 0,
     .species = SPECIES_WALREIN,
     .heldItem = ITEM_HEAVY_DUTY_BOOTS,
@@ -14848,7 +14848,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
     },
     {
     .iv = 255,
-    .lvl = 53,
+    .lvl = 53, //60
     .pid = 0,
     .species = SPECIES_GLALIE,
     .heldItem = ITEM_GLALITITE,
@@ -14859,7 +14859,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Glacia[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Drake[] = {
     {
     .iv = 255,
-    .lvl = 52,
+    .lvl = 52, //59
     .pid = 0,
     .species = SPECIES_SHELGON,
     .heldItem = ITEM_EVIOLITE,
@@ -14868,7 +14868,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Drake[] = {
     },
     {
     .iv = 255,
-    .lvl = 53,
+    .lvl = 53, //60
     .pid = 0,
     .species = SPECIES_KINGDRA,
     .heldItem = ITEM_CHOICE_SPECS,
@@ -14877,7 +14877,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Drake[] = {
     },
     {
     .iv = 255,
-    .lvl = 53,
+    .lvl = 53, //60
     .pid = 0,
     .species = SPECIES_FLYGON,
     .heldItem = ITEM_LIFE_ORB,
@@ -14885,7 +14885,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Drake[] = {
     },
     {
     .iv = 255,
-    .lvl = 54,
+    .lvl = 54, //62
     .pid = 0,
     .species = SPECIES_ALTARIA,
     .heldItem = ITEM_HEAVY_DUTY_BOOTS,
@@ -14893,7 +14893,15 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Drake[] = {
     },
     {
     .iv = 255,
-    .lvl = 55,
+    .lvl = 54, //62
+    .pid = 0,
+    .species = SPECIES_AMPHAROS,
+    .heldItem = ITEM_LEFTOVERS,
+    .moves = {MOVE_VOLT_SWITCH, MOVE_FOCUS_BLAST, MOVE_DRAGON_PULSE, MOVE_LIGHT_SCREEN}
+    },
+    {
+    .iv = 255,
+    .lvl = 55, //63
     .pid = 0,
     .species = SPECIES_SALAMENCE,
     .heldItem = ITEM_SALAMENCITE,
@@ -14904,7 +14912,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Drake[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
     {
     .iv = 100,
-    .lvl = 11,
+    .lvl = 11, //13
     .pid = 0,
     .species = SPECIES_GEODUDE,
     .heldItem = ITEM_NONE,
@@ -14912,7 +14920,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
     },
     {
     .iv = 100,
-    .lvl = 11,
+    .lvl = 11, //13
     .pid = 0,
     .species = SPECIES_KABUTO,
     .heldItem = ITEM_NONE,
@@ -14920,7 +14928,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
     },
     {
     .iv = 100,
-    .lvl = 12,
+    .lvl = 12, //14
     .pid = 0,
     .species = SPECIES_GEODUDE_ALOLAN,
     .heldItem = ITEM_NONE,
@@ -14928,7 +14936,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
     },
     {
     .iv = 200,
-    .lvl = 14,
+    .lvl = 14, //16
     .pid = 0,
     .species = SPECIES_NOSEPASS,
     .heldItem = ITEM_ORAN_BERRY,
@@ -14939,7 +14947,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Roxanne1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Brawly1[] = {
     {
     .iv = 100,
-    .lvl = 15,
+    .lvl = 15, //17
     .pid = 0,
     .species = SPECIES_MACHOP,
     .heldItem = ITEM_NONE,
@@ -14947,7 +14955,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Brawly1[] = {
     },
     {
     .iv = 100,
-    .lvl = 15,
+    .lvl = 15, //17
     .pid = 0,
     .species = SPECIES_TYROGUE,
     .heldItem = ITEM_NONE,
@@ -14955,7 +14963,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Brawly1[] = {
     },
     {
     .iv = 100,
-    .lvl = 15,
+    .lvl = 15, //17
     .pid = 0,
     .species = SPECIES_MEDITITE,
     .heldItem = ITEM_NONE,
@@ -14963,7 +14971,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Brawly1[] = {
     },
     {
     .iv = 100,
-    .lvl = 16,
+    .lvl = 16, //19
     .pid = 0,
     .species = SPECIES_RIOLU,
     .heldItem = ITEM_NONE,
@@ -14971,7 +14979,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Brawly1[] = {
     },
     {
     .iv = 200,
-    .lvl = 19,
+    .lvl = 19, //22
     .pid = 0,
     .species = SPECIES_MAKUHITA,
     .heldItem = ITEM_SITRUS_BERRY,
@@ -14982,7 +14990,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Brawly1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Wattson1[] = {
     {
     .iv = 200,
-    .lvl = 20,
+    .lvl = 20, //23
     .pid = 0,
     .species = SPECIES_VOLTORB,
     .heldItem = ITEM_NONE,
@@ -14990,7 +14998,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wattson1[] = {
     },
     {
     .iv = 200,
-    .lvl = 20,
+    .lvl = 20, //23
     .pid = 0,
     .species = SPECIES_ELECTRIKE,
     .heldItem = ITEM_NONE,
@@ -14998,7 +15006,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wattson1[] = {
     },
     {
     .iv = 220,
-    .lvl = 22,
+    .lvl = 22, //25
     .pid = 0,
     .species = SPECIES_MAGNETON,
     .heldItem = ITEM_NONE,
@@ -15006,7 +15014,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wattson1[] = {
     },
     {
     .iv = 220,
-    .lvl = 22,
+    .lvl = 22, //25
     .pid = 0,
     .species = SPECIES_ROTOM,
     .heldItem = ITEM_NONE,
@@ -15014,7 +15022,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wattson1[] = {
     },
     {
     .iv = 250,
-    .lvl = 24,
+    .lvl = 24, //28
     .pid = 0,
     .species = SPECIES_MANECTRIC,
     .heldItem = ITEM_MANECTITE,
@@ -15025,7 +15033,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wattson1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
     {
     .iv = 200,
-    .lvl = 24,
+    .lvl = 24, //28
     .pid = 0,
     .species = SPECIES_NUMEL,
     .heldItem = ITEM_NONE,
@@ -15033,7 +15041,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
     },
     {
     .iv = 200,
-    .lvl = 24,
+    .lvl = 24, //28
     .pid = 0,
     .species = SPECIES_SLUGMA,
     .heldItem = ITEM_NONE,
@@ -15041,7 +15049,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
     },
     {
     .iv = 200,
-    .lvl = 26,
+    .lvl = 26, //30
     .pid = 0,
     .species = SPECIES_LARVESTA,
     .heldItem = ITEM_NONE,
@@ -15049,7 +15057,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
     },
     {
     .iv = 250,
-    .lvl = 26,
+    .lvl = 26, //30
     .pid = 0,
     .species = SPECIES_TORKOAL,
     .heldItem = ITEM_NONE,
@@ -15057,7 +15065,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
     },
     {
     .iv = 250,
-    .lvl = 27,
+    .lvl = 27, //31
     .pid = 0,
     .species = SPECIES_FLETCHINDER,
     .heldItem = ITEM_NONE,
@@ -15065,7 +15073,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
     },
     {
     .iv = 250,
-    .lvl = 29,
+    .lvl = 29, //33
     .pid = 0,
     .species = SPECIES_CAMERUPT,
     .heldItem = ITEM_CAMERUPTITE,
@@ -15076,7 +15084,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Flannery1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
     {
     .iv = 200,
-    .lvl = 27,
+    .lvl = 27, //31
     .pid = 0,
     .species = SPECIES_SPINDA,
     .heldItem = ITEM_NONE,
@@ -15084,7 +15092,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
     },
     {
     .iv = 200,
-    .lvl = 27,
+    .lvl = 27, //31
     .pid = 0,
     .species = SPECIES_VIGOROTH,
     .heldItem = ITEM_NONE,
@@ -15092,7 +15100,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
     },
     {
     .iv = 200,
-    .lvl = 29,
+    .lvl = 29, //33
     .pid = 0,
     .species = SPECIES_LINOONE,
     .heldItem = ITEM_NONE,
@@ -15100,7 +15108,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
     },
     {
     .iv = 200,
-    .lvl = 29,
+    .lvl = 29, //33
     .pid = 0,
     .species = SPECIES_LINOONE_GALARIAN,
     .heldItem = ITEM_NONE,
@@ -15108,7 +15116,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
     },
     {
     .iv = 250,
-    .lvl = 30,
+    .lvl = 30, //34
     .pid = 0,
     .species = SPECIES_SLAKING,
     .heldItem = ITEM_SITRUS_BERRY,
@@ -15116,7 +15124,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
     },
     {
     .iv = 250,
-    .lvl = 31,
+    .lvl = 31, //36
     .pid = 0,
     .species = SPECIES_LOPUNNY,
     .heldItem = ITEM_LOPUNNITE,
@@ -15127,7 +15135,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Norman1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
     {
     .iv = 210,
-    .lvl = 29,
+    .lvl = 29, //33
     .pid = 0,
     .species = SPECIES_SWABLU,
     .heldItem = ITEM_NONE,
@@ -15135,7 +15143,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
     },
     {
     .iv = 210,
-    .lvl = 29,
+    .lvl = 29, //33
     .pid = 0,
     .species = SPECIES_TROPIUS,
     .heldItem = ITEM_NONE,
@@ -15143,7 +15151,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
     },
     {
     .iv = 210,
-    .lvl = 30,
+    .lvl = 30, //34
     .pid = 0,
     .species = SPECIES_PELIPPER,
     .heldItem = ITEM_NONE,
@@ -15151,7 +15159,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
     },
     {
     .iv = 220,
-    .lvl = 30,
+    .lvl = 30, //34
     .pid = 0,
     .species = SPECIES_SKARMORY,
     .heldItem = ITEM_NONE,
@@ -15159,7 +15167,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
     },
     {
     .iv = 220,
-    .lvl = 31,
+    .lvl = 31, //36
     .pid = 0,
     .species = SPECIES_HONCHKROW,
     .heldItem = ITEM_ORAN_BERRY,
@@ -15167,7 +15175,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
     },
     {
     .iv = 255,
-    .lvl = 33,
+    .lvl = 33, //38
     .pid = 0,
     .species = SPECIES_ALTARIA,
     .heldItem = ITEM_ALTARIANITE,
@@ -15178,7 +15186,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Winona1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = {
     {
     .iv = 250,
-    .lvl = 38,
+    .lvl = 38, //43
     .pid = 0,
     .species = SPECIES_CLAYDOL,
     .heldItem = ITEM_NONE,
@@ -15186,7 +15194,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = 
     },
     {
     .iv = 250,
-    .lvl = 38,
+    .lvl = 38, //43
     .pid = 0,
     .species = SPECIES_XATU,
     .heldItem = ITEM_NONE,
@@ -15194,7 +15202,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = 
     },
     {
     .iv = 250,
-    .lvl = 39,
+    .lvl = 39, //45
     .pid = 0,
     .species = SPECIES_LUNATONE,
     .heldItem = ITEM_SITRUS_BERRY,
@@ -15202,7 +15210,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = 
     },
     {
     .iv = 250,
-    .lvl = 39,
+    .lvl = 39, //45
     .pid = 0,
     .species = SPECIES_SOLROCK,
     .heldItem = ITEM_SITRUS_BERRY,
@@ -15210,7 +15218,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = 
     },
     {
     .iv = 250,
-    .lvl = 41,
+    .lvl = 41, //47
     .pid = 0,
     .species = SPECIES_GARDEVOIR,
     .heldItem = ITEM_SITRUS_BERRY,
@@ -15218,7 +15226,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = 
     },
     {
     .iv = 250,
-    .lvl = 41,
+    .lvl = 41, //47
     .pid = 0,
     .species = SPECIES_GALLADE,
     .heldItem = ITEM_GALLADITE,
@@ -15229,7 +15237,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_TateAndLiza1[] = 
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     {
     .iv = 200,
-    .lvl = 41,
+    .lvl = 41, //47
     .pid = 0,
     .species = SPECIES_LUVDISC,
     .heldItem = ITEM_NONE,
@@ -15237,7 +15245,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     },
     {
     .iv = 200,
-    .lvl = 41,
+    .lvl = 41, //47
     .pid = 0,
     .species = SPECIES_WHISCASH,
     .heldItem = ITEM_NONE,
@@ -15245,7 +15253,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     },
     {
     .iv = 200,
-    .lvl = 43,
+    .lvl = 43, //49
     .pid = 0,
     .species = SPECIES_SEALEO,
     .heldItem = ITEM_NONE,
@@ -15253,7 +15261,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     },
     {
     .iv = 200,
-    .lvl = 43,
+    .lvl = 43, //49
     .pid = 0,
     .species = SPECIES_CRAWDAUNT,
     .heldItem = ITEM_NONE,
@@ -15261,7 +15269,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     },
     {
     .iv = 250,
-    .lvl = 44,
+    .lvl = 44, //50
     .pid = 0,
     .species = SPECIES_KINGDRA,
     .heldItem = ITEM_CHESTO_BERRY,
@@ -15269,7 +15277,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
     },
     {
     .iv = 250,
-    .lvl = 46,
+    .lvl = 46, //52
     .pid = 0,
     .species = SPECIES_SHARPEDO,
     .heldItem = ITEM_SHARPEDONITE,
@@ -15280,7 +15288,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Juan1[] = {
 static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
     {
     .iv = 255,
-    .lvl = 57,
+    .lvl = 57, //65
     .pid = 0,
     .species = SPECIES_WAILORD,
     .heldItem = ITEM_DAMP_ROCK,
@@ -15289,7 +15297,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
     },
     {
     .iv = 255,
-    .lvl = 55,
+    .lvl = 55, //63
     .pid = 0,
     .species = SPECIES_TENTACRUEL,
     .heldItem = ITEM_BLACK_SLUDGE,
@@ -15298,7 +15306,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
     },
     {
     .iv = 255,
-    .lvl = 56,
+    .lvl = 56, //64
     .pid = 0,
     .species = SPECIES_LUDICOLO,
     .heldItem = ITEM_LIFE_ORB,
@@ -15307,7 +15315,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
     },
     {
     .iv = 255,
-    .lvl = 56,
+    .lvl = 56, //64
     .pid = 0,
     .species = SPECIES_WHISCASH,
     .heldItem = ITEM_FOCUS_SASH,
@@ -15316,7 +15324,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
     },
     {
     .iv = 255,
-    .lvl = 56,
+    .lvl = 56, //64
     .pid = 0,
     .species = SPECIES_GYARADOS,
     .heldItem = ITEM_HEAVY_DUTY_BOOTS,
@@ -15325,7 +15333,7 @@ static const struct TrainerMonItemCustomMoves sParty_Challenge_Wallace[] = {
     },
     {
     .iv = 255,
-    .lvl = 58,
+    .lvl = 58, //66
     .pid = 0,
     .species = SPECIES_MILOTIC,
     .heldItem = ITEM_FLAME_ORB,
