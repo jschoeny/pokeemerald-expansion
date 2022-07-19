@@ -8785,6 +8785,7 @@ u8 GetMonTypeFromPersonality(u16 species, u32 personality, bool8 secondType)
         return type;
     }
 
+    type = 0xFF;
     if(setting != OPTIONS_RANDOMIZER_TYPE_RAND)
         type = GetSpeciesTypeException(species, personality, secondType);
     if(type != 0xFF)
