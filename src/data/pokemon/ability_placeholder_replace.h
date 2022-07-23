@@ -78,5 +78,57 @@ const struct PlaceholderAbility gPlaceholderAbilities[ABILITIES_PH_COUNT] =
             ABILITY_INTIMIDATE, // Dark
             ABILITY_CUTE_CHARM  // Fairy
         }
+    },
+
+    [PH_ABILITY(ABILITY_PH_PREVENT)] =
+    {
+        .ability =
+        {
+            ABILITY_LIMBER,     // Normal
+            ABILITY_INNER_FOCUS,// Fighting
+            ABILITY_KEEN_EYE,   // Flying
+            ABILITY_STICKY_HOLD,// Poison
+            ABILITY_LIGHTNING_ROD,// Ground
+            ABILITY_SOLID_ROCK, // Rock
+            ABILITY_SHIELD_DUST,// Bug
+            ABILITY_IMMUNITY,   // Ghost
+            ABILITY_BULLETPROOF,// Steel
+            ABILITY_NONE,       // Mystery
+            ABILITY_MAGMA_ARMOR,// Fire
+            ABILITY_DAMP,       // Water
+            ABILITY_LEAF_GUARD, // Grass
+            ABILITY_LIGHTNING_ROD,// Electric
+            ABILITY_TELEPATHY,  // Psychic
+            ABILITY_CLEAR_BODY, // Ice
+            ABILITY_MULTISCALE, // Dragon
+            ABILITY_INNER_FOCUS,// Dark
+            ABILITY_AROMA_VEIL  // Fairy
+        }
+    },
+
+    [PH_ABILITY(ABILITY_PH_PREVENT2)] =
+    {
+        .ability =
+        {
+            ABILITY_LIMBER,     // Normal
+            ABILITY_VITAL_SPIRIT,// Fighting
+            ABILITY_KEEN_EYE,   // Flying
+            ABILITY_STICKY_HOLD,// Poison
+            ABILITY_SAND_VEIL,  // Ground
+            ABILITY_STURDY,     // Rock
+            ABILITY_WONDER_SKIN,// Bug
+            ABILITY_CLEAR_BODY, // Ghost
+            ABILITY_HEAVY_METAL,// Steel
+            ABILITY_NONE,       // Mystery
+            ABILITY_FLASH_FIRE, // Fire
+            ABILITY_WATER_ABSORB,// Water
+            ABILITY_SAP_SIPPER, // Grass
+            ABILITY_VOLT_ABSORB,// Electric
+            ABILITY_MAGIC_BOUNCE,// Psychic
+            ABILITY_DRY_SKIN,   // Ice
+            ABILITY_MARVEL_SCALE,// Dragon
+            ABILITY_TELEPATHY,  // Dark
+            ABILITY_DAZZLING    // Fairy
+        }
     }
 };
