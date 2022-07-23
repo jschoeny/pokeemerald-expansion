@@ -57,6 +57,8 @@
 #include "data/pokemon/pokemon_type_colors.h"
 #include "mgba_printf/mgba.h"
 
+extern const u16 sTMHMMoves[];
+
 struct SpeciesItem
 {
     u16 species;
@@ -7350,36 +7352,53 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
     {
         u8 type1 = GetMonType(mon, FALSE);
         u8 type2 = GetMonType(mon, TRUE);
-        if(type1 == TYPE_WATER || type2 == TYPE_WATER)
+
+        if(tm == _TMHM(HM01_CUT))
         {
-            if(tm == _TMHM(HM03_SURF) || tm == _TMHM(HM08_DIVE) || tm == _TMHM(HM07_WATERFALL))
+            if(type1 == TYPE_FIGHTING || type2 == TYPE_FIGHTING
+             || type1 == TYPE_STEEL || type2 == TYPE_STEEL
+             || type1 == TYPE_FLYING || type2 == TYPE_FLYING)
                 return TRUE;
         }
-        else if(type1 == TYPE_FIGHTING || type2 == TYPE_FIGHTING)
+        else if(tm == _TMHM(HM02_FLY))
         {
-            if(tm == _TMHM(HM01_CUT) || tm == _TMHM(HM04_STRENGTH) || tm == _TMHM(HM06_ROCK_SMASH))
+            if(type1 == TYPE_FLYING || type2 == TYPE_FLYING)
                 return TRUE;
         }
-        else if(type1 == TYPE_ELECTRIC || type2 == TYPE_ELECTRIC)
+        else if(tm == _TMHM(HM03_SURF))
         {
-            if(tm == _TMHM(HM05_FLASH))
+            if(type1 == TYPE_WATER || type2 == TYPE_WATER)
                 return TRUE;
         }
-        else if(type1 == TYPE_PSYCHIC || type2 == TYPE_PSYCHIC)
+        else if(tm == _TMHM(HM04_STRENGTH))
         {
-            if(tm == _TMHM(HM05_FLASH))
+            if(type1 == TYPE_FIGHTING || type2 == TYPE_FIGHTING)
                 return TRUE;
         }
-        else if(type1 == TYPE_STEEL || type2 == TYPE_STEEL)
+        else if(tm == _TMHM(HM05_FLASH))
         {
-            if(tm == _TMHM(HM01_CUT))
+            if(type1 == TYPE_ELECTRIC || type2 == TYPE_ELECTRIC
+             || type1 == TYPE_PSYCHIC || type2 == TYPE_PSYCHIC
+             || type1 == TYPE_STEEL || type2 == TYPE_STEEL)
                 return TRUE;
         }
-        else if(type1 == TYPE_FLYING || type2 == TYPE_FLYING)
+        else if(tm == _TMHM(HM06_ROCK_SMASH))
         {
-            if(tm == _TMHM(HM02_FLY))
+            if(type1 == TYPE_FIGHTING || type2 == TYPE_FIGHTING)
                 return TRUE;
         }
+        else if(tm == _TMHM(HM07_WATERFALL))
+        {
+            if(type1 == TYPE_WATER || type2 == TYPE_WATER)
+                return TRUE;
+        }
+        else if(tm == _TMHM(HM08_DIVE))
+        {
+            if(type1 == TYPE_WATER || type2 == TYPE_WATER)
+                return TRUE;
+        }
+        else if(type1 == gBattleMoves[sTMHMMoves[tm]].type || type2 == gBattleMoves[sTMHMMoves[tm]].type)
+            return TRUE;
     }
 
     if (tm < 32)
