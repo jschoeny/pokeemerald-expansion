@@ -13507,6 +13507,7 @@ static void Cmd_handleballthrow(void)
 {
     u8 ballMultiplier = 10;
     s8 ballAddition = 0;
+    u16 speciesLimit = VarGet(VAR_RNDM_SPECIES_LIMIT);
 
     if (gBattleControllerExecFlags)
         return;
@@ -13525,6 +13526,12 @@ static void Cmd_handleballthrow(void)
         BtlController_EmitBallThrowAnim(BUFFER_A, BALL_3_SHAKES_SUCCESS);
         MarkBattlerForControllerExec(gActiveBattler);
         gBattlescriptCurrInstr = BattleScript_WallyBallThrow;
+    }
+    else if(speciesLimit != SPECIES_NONE && speciesLimit != gBattleMons[gBattlerTarget].species)
+    {
+        BtlController_EmitBallThrowAnim(BUFFER_A, BALL_TRAINER_BLOCK);
+        MarkBattlerForControllerExec(gActiveBattler);
+        gBattlescriptCurrInstr = BattleScript_MonBallBlock;
     }
     else
     {

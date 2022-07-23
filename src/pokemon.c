@@ -6456,6 +6456,9 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 mode, u16 evolutionItem, u
     else
         holdEffect = ItemId_GetHoldEffect(heldItem);
 
+    if(species == VarGet(VAR_RNDM_SPECIES_LIMIT))
+        return SPECIES_NONE;
+
     // Prevent evolution with Everstone, unless we're just viewing the party menu with an evolution item
     if (holdEffect == HOLD_EFFECT_PREVENT_EVOLVE && mode != EVO_MODE_ITEM_CHECK)
         return SPECIES_NONE;
@@ -8958,6 +8961,9 @@ u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId)
         value = gSaveBlock2Ptr->optionsRandomizerSeed;
     }
 
+    if(VarGet(VAR_RNDM_SPECIES_LIMIT) != 0)
+        return VarGet(VAR_RNDM_SPECIES_LIMIT);
+
     if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL)
     {
         baseStatOff = 60;
@@ -9019,6 +9025,9 @@ u16 GetRandomizedSpeciesWild(u16 species, u16 headerId)
     {
         value = gSaveBlock2Ptr->optionsRandomizerSeed;
     }
+
+    if(VarGet(VAR_RNDM_SPECIES_LIMIT) != 0 && (Random() % 100 < 15))
+        return VarGet(VAR_RNDM_SPECIES_LIMIT);
 
     if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL)
     {
