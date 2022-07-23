@@ -8890,7 +8890,7 @@ u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8
 
     if(setting == OPTIONS_RANDOMIZER_MOVES_NORMAL || setting == OPTIONS_RANDOMIZER_MOVES_TYPE)
     {
-        if(move >= MOVES_PH_START + MOVES_PH_TYPE2)
+        if(move > MOVES_PH_START + MOVES_PH_TYPE2)
             newMove = gPlaceholderMoves[PH_MOVE(move - MOVES_PH_TYPE2)].move[type2];
         else if(type1 != type2 && gBaseStats[species].type1 == gBaseStats[species].type2) {
             if((personality + offset) % 3 > 0)
