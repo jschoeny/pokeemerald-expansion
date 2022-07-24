@@ -2,9 +2,20 @@ Eris Emerald Changelog
 
 Go to bit.ly/ErisDoc for documentation and more info about the hack
 
-v0.3.0 - (14 July 2022)
+v0.3.1 - (23 July 2022)
 =======================
+- Palette shifting implemented for 87 more Pokemon/forms
+  - All starters now implemented
+- Type-randomized Pokemon can now learn any TM of a matching type
+- Trainer parties with customized moves now match randomized type
+- Learnsets updated with more moves to match randomized types
+- Fixed Pure Random for Type randomization
+- Fixed some type combinations being unable to learns HMs that they should
+- Fixed Static wild Pokemon species not being randomized
+- Fixed occasional issues with Match Type setting for randomized moves
 
+v0.3.0 - (15 July 2022)
+=======================
 Mass Outbreaks:
 - Unlocked after beating the 3rd Gym
 - Species/Location/Levels based on number of badges
