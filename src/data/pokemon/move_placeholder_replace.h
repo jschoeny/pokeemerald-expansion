@@ -136,7 +136,7 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
     {
         .move =
         {
-            [TYPE_NORMAL]   = MOVE_SONIC_BOOM,
+            [TYPE_NORMAL]   = MOVE_ECHOED_VOICE,
             [TYPE_FIGHTING] = MOVE_BULK_UP,
             [TYPE_FLYING]   = MOVE_GUST,
             [TYPE_POISON]   = MOVE_ACID,
@@ -162,7 +162,7 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
     {
         .move =
         {
-            [TYPE_NORMAL]   = MOVE_SONIC_BOOM,
+            [TYPE_NORMAL]   = MOVE_ECHOED_VOICE,
             [TYPE_FIGHTING] = MOVE_BULK_UP,
             [TYPE_FLYING]   = MOVE_GUST,
             [TYPE_POISON]   = MOVE_SMOG,
@@ -1154,13 +1154,13 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             [TYPE_FIGHTING] = MOVE_MACH_PUNCH,
             [TYPE_FLYING]   = MOVE_QUICK_ATTACK,
             [TYPE_POISON]   = MOVE_POISON_JAB,
-            [TYPE_GROUND]   = MOVE_QUICK_ATTACK,
+            [TYPE_GROUND]   = MOVE_BULLDOZE,
             [TYPE_ROCK]     = MOVE_ACCELEROCK,
             [TYPE_BUG]      = MOVE_SKITTER_SMACK,
             [TYPE_GHOST]    = MOVE_SHADOW_SNEAK,
             [TYPE_STEEL]    = MOVE_BULLET_PUNCH,
             [TYPE_MYSTERY]  = MOVE_SKETCH,
-            [TYPE_FIRE]     = MOVE_FIRE_PUNCH,
+            [TYPE_FIRE]     = MOVE_FLAME_CHARGE,
             [TYPE_WATER]    = MOVE_AQUA_JET,
             [TYPE_GRASS]    = MOVE_NEEDLE_ARM,
             [TYPE_ELECTRIC] = MOVE_THUNDER_PUNCH,
