@@ -3129,6 +3129,8 @@ void CreateAbilityPopUp(u8 battlerId, u32 ability, bool32 isDoubleBattle)
     gBattleStruct->activeAbilityPopUps |= gBitTable[battlerId];
     battlerPosition = GetBattlerPosition(battlerId);
 
+    gAbilityRevealed[battlerId] = TRUE;
+
     if (isDoubleBattle)
         coords = sAbilityPopUpCoordsDoubles;
     else

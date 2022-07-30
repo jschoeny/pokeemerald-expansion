@@ -5,5 +5,7 @@ gLeveledUpInBattle
 gBattlerControllerFuncs
 gHealthboxSpriteIds
 gMultiUsePlayerCursor
+gStatPreviewScroll
+gAbilityRevealed
 gNumberOfMovesToChoose
 gBattleControllerData

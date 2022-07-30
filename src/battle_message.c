@@ -430,6 +430,8 @@ static const u8 sText_ExclamationMark4[] = _("!");
 static const u8 sText_ExclamationMark5[] = _("!");
 static const u8 sText_Accuracy[] = _("accuracy");
 static const u8 sText_Evasiveness[] = _("evasiveness");
+static const u8 sText_Accuracy2[] = _("ACC.");
+static const u8 sText_Evasiveness2[] = _("EVASION");
 static const u8 sText_PkmnTookTargetHigh[] = _("{B_ATK_NAME_WITH_PREFIX} took {B_DEF_NAME_WITH_PREFIX}\ninto the air!");
 static const u8 sText_TargetTooHeavy[] = _("But the target\nwas too heavy!");
 
@@ -438,6 +440,13 @@ const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
     gText_HP3, gText_Attack, gText_Defense,
     gText_Speed, gText_SpAtk, gText_SpDef,
     sText_Accuracy, sText_Evasiveness
+};
+
+const u8 * const gStatPreviewNamesTable[NUM_BATTLE_STATS] =
+{
+    gText_HP3, gText_Attack, gText_Defense,
+    gText_Speed, gText_SpAtk, gText_SpDef,
+    sText_Accuracy2, sText_Evasiveness2
 };
 
 static const u8 sText_PokeblockWasTooSpicy[] = _("was too spicy!");

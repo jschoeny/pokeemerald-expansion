@@ -93,12 +93,14 @@ static void PlayerHandleLinkStandbyMsg(void);
 static void PlayerHandleResetActionMoveSelection(void);
 static void PlayerHandleEndLinkBattle(void);
 static void PlayerHandleBattleDebug(void);
+static void PlayerHandleShowMonSummaries(void);
 static void PlayerCmdEnd(void);
 
 static void PlayerBufferRunCommand(void);
 static void HandleInputChooseTarget(void);
 static void HandleInputChooseTarget_Step1(void);
 static void HandleInputChooseMove(void);
+static void HandleInputShowMonSummaries(void);
 static void MoveSelectionCreateCursorAt(u8 cursorPos, u8 arg1);
 static void MoveSelectionDestroyCursorAt(u8 cursorPos);
 static void MoveSelectionDisplayPpNumber(void);
@@ -122,6 +124,10 @@ static void DoSwitchOutAnimation(void);
 static void PlayerDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8 taskId);
 static void EndDrawPartyStatusSummary(void);
+static void InitStatPreviewVarsAndStrings(void);
+static void StatPreviewDisplayStats(void);
+static void StatPreviewDisplayTypes(void);
+static void StatPreviewDisplayAbility(void);
 
 static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
@@ -182,6 +188,7 @@ static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     [CONTROLLER_RESETACTIONMOVESELECTION] = PlayerHandleResetActionMoveSelection,
     [CONTROLLER_ENDLINKBATTLE]            = PlayerHandleEndLinkBattle,
     [CONTROLLER_DEBUGMENU]                = PlayerHandleBattleDebug,
+    [CONTROLLER_SHOWMONSUMMARIES]         = PlayerHandleShowMonSummaries,
     [CONTROLLER_TERMINATOR_NOP]           = PlayerCmdEnd
 };
 
@@ -248,7 +255,7 @@ static void HandleInputChooseAction(void)
     {
         PlaySE(SE_SELECT);
         TryHideLastUsedBall();
-        
+
         switch (gActionSelectionCursor[gActiveBattler])
         {
         case 0: // Top left
@@ -337,10 +344,30 @@ static void HandleInputChooseAction(void)
     {
         SwapHpBarsWithHpText();
     }
-    else if (B_ENABLE_DEBUG && gMain.newKeys & SELECT_BUTTON)
+    else if (gMain.newKeys & SELECT_BUTTON)
     {
-        BtlController_EmitTwoReturnValues(BUFFER_B, B_ACTION_DEBUG, 0);
-        PlayerBufferExecCompleted();
+        if(B_ENABLE_DEBUG)
+        {
+            BtlController_EmitTwoReturnValues(BUFFER_B, B_ACTION_DEBUG, 0);
+            PlayerBufferExecCompleted();
+        }
+        else
+        {
+            s32 i = 0;
+            gMultiUsePlayerCursor = gActiveBattler;
+            for (i = 0; i < gBattlersCount; i++)
+            {
+                if (i != gMultiUsePlayerCursor)
+                    EndBounceEffect(i, BOUNCE_HEALTHBOX);
+                    EndBounceEffect(i, BOUNCE_MON);
+            }
+            gStatPreviewScroll = 0;
+            MoveSelectionDestroyCursorAt(gMoveSelectionCursor[gActiveBattler]);
+            DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX, 7, 1);
+            DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON, 7, 2);
+            BtlController_EmitTwoReturnValues(BUFFER_B, B_ACTION_MON_SUMMARIES, 0);
+            PlayerBufferExecCompleted();
+        }
     }
     #if B_LAST_USED_BALL == TRUE
     else if (JOY_NEW(B_LAST_USED_BALL_BUTTON) && CanThrowLastUsedBall())
@@ -3391,6 +3418,275 @@ static void PlayerHandleBattleDebug(void)
     BeginNormalPaletteFade(-1, 0, 0, 0x10, 0);
     SetMainCallback2(CB2_BattleDebugMenu);
     gBattlerControllerFuncs[gActiveBattler] = WaitForDebug;
+}
+
+static void HandleShowMonSummariesAfterDma3(void)
+{
+    if (!IsDma3ManagerBusyWithBgCopy())
+    {
+        gBattle_BG0_X = 0;
+        gBattle_BG0_Y = DISPLAY_HEIGHT * 2;
+        gBattlerControllerFuncs[gActiveBattler] = HandleInputShowMonSummaries;
+    }
+}
+
+static void PlayerHandleShowMonSummaries(void)
+{
+    InitStatPreviewVarsAndStrings();
+    gBattlerControllerFuncs[gActiveBattler] = HandleShowMonSummariesAfterDma3;
+}
+
+static void InitStatPreviewVarsAndStrings(void)
+{
+    StatPreviewDisplayStats();
+    StatPreviewDisplayTypes();
+    StatPreviewDisplayAbility();
+}
+
+extern const u8 gText_Space2[];
+extern const u8 gText_NewLine2[];
+
+static void StatPreviewDisplayStats(void)
+{
+    s32 i, j;
+    u8 text_LRedDownArrow[] = _("{COLOR DYNAMIC_COLOR6}{DOWN_ARROW}");
+    u8 text_RedDownArrow[] = _("{COLOR RED}{DOWN_ARROW}");
+    u8 text_LGreenUpArrow[] = _("{COLOR DYNAMIC_COLOR6}{UP_ARROW}");
+    u8 text_GreenUpArrow[] = _("{COLOR RED}{UP_ARROW}");
+    u8 text_Dash[] = _("{COLOR DYNAMIC_COLOR6}-");
+    u8 text_Blank[] = _("");
+    struct BattlePokemon *mon = &gBattleMons[gMultiUsePlayerCursor];
+
+
+    for (i = 1 + (gStatPreviewScroll * 2); i <= 4 + (gStatPreviewScroll * 2); i++)
+    {
+        StringCopy(gDisplayedStringBattle, gStatPreviewNamesTable[i]);
+        StringAppend(gDisplayedStringBattle, gText_Space2);
+
+        if(i < NUM_BATTLE_STATS)
+        {
+            if (mon->statStages[i] < 6)
+            {
+                j = 0;
+                for(j = mon->statStages[i] % 2; j < 6 - mon->statStages[i]; j+=2)
+                    StringAppend(gDisplayedStringBattle, text_RedDownArrow);
+                if(mon->statStages[i] % 2 == 1) {
+                    StringAppend(gDisplayedStringBattle, text_LRedDownArrow);
+                    j += 2;
+                }
+                for(; j < 6; j += 2)
+                    StringAppend(gDisplayedStringBattle, text_Dash);
+            }
+            else
+            {
+                j = 0;
+                if(mon->statStages[i] - 6 != 0)
+                {
+                    for(j = mon->statStages[i] % 2; j < mon->statStages[i] - 6; j+=2)
+                        StringAppend(gDisplayedStringBattle, text_GreenUpArrow);
+                    if(mon->statStages[i] % 2 == 1) {
+                        StringAppend(gDisplayedStringBattle, text_LGreenUpArrow);
+                        j += 2;
+                    }
+                }
+                for(; j < 6; j += 2)
+                    StringAppend(gDisplayedStringBattle, text_Dash);
+            }
+        }
+        else
+        {
+            StringCopy(gDisplayedStringBattle, text_Blank);
+        }
+        BattlePutTextOnWindow(gDisplayedStringBattle, i - (gStatPreviewScroll * 2) - 1 + B_WIN_MOVE_NAME_1);
+    }
+
+}
+
+static void StatPreviewDisplayTypes(void)
+{
+    struct BattlePokemon *mon = &gBattleMons[gMultiUsePlayerCursor];
+    u8 text_narrowFont[] = _("{FONT_NARROW}{COLOR DYNAMIC_COLOR3}{SHADOW DYNAMIC_COLOR6}");
+    u8 text_empty[] = _("");
+
+    StringCopy(gDisplayedStringBattle, text_narrowFont);
+    StringAppend(gDisplayedStringBattle, gTypeNames[mon->type1]);
+    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP);
+
+    if(mon->type1 != mon->type2)
+    {
+        StringCopy(gDisplayedStringBattle, text_narrowFont);
+        StringAppend(gDisplayedStringBattle, gTypeNames[mon->type2]);
+        BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
+    }
+    else
+    {
+        StringCopy(gDisplayedStringBattle, text_empty);
+        BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_PP_REMAINING);
+    }
+}
+
+static void StatPreviewDisplayAbility(void)
+{
+    struct BattlePokemon *mon = &gBattleMons[gMultiUsePlayerCursor];
+    u8 text_narrowFont[] = _("{FONT_NARROW}{COLOR DYNAMIC_COLOR3}{SHADOW DYNAMIC_COLOR6}");
+    u8 text_2QMarks[] = _("??");
+    bool8 showAbility = gAbilityRevealed[gMultiUsePlayerCursor];
+
+    switch (GetBattlerPosition(gMultiUsePlayerCursor))
+    {
+    case B_POSITION_PLAYER_LEFT:
+    case B_POSITION_PLAYER_RIGHT:
+        showAbility = TRUE;
+        break;
+    }
+
+    StringCopy(gDisplayedStringBattle, text_narrowFont);
+    if(showAbility)
+        StringAppend(gDisplayedStringBattle, gAbilityNames[mon->ability]);
+    else
+        StringAppend(gDisplayedStringBattle, text_2QMarks);
+    BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
+}
+
+static void HandleInputShowMonSummaries(void)
+{
+    s32 i;
+    static const u8 identities[MAX_BATTLERS_COUNT] = {B_POSITION_PLAYER_LEFT, B_POSITION_PLAYER_RIGHT, B_POSITION_OPPONENT_RIGHT, B_POSITION_OPPONENT_LEFT};
+
+    if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gBattle_BG0_X = 0;
+        gBattle_BG0_Y = DISPLAY_HEIGHT;
+
+        EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
+        EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON);
+        DoBounceEffect(gActiveBattler, BOUNCE_HEALTHBOX, 7, 1);
+        DoBounceEffect(gActiveBattler, BOUNCE_MON, 7, 1);
+
+        BtlController_EmitTwoReturnValues(BUFFER_B, 10, 0xFFFF);
+        PlayerBufferExecCompleted();
+    }
+    else if (JOY_NEW(DPAD_LEFT))
+    {
+        PlaySE(SE_SELECT);
+        EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
+        EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON);
+        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
+        {
+            do
+            {
+                u8 currSelIdentity = GetBattlerPosition(gMultiUsePlayerCursor);
+
+                for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+                {
+                    if (currSelIdentity == identities[i])
+                        break;
+                }
+                do
+                {
+                    if (--i < 0)
+                        i = MAX_BATTLERS_COUNT - 1;
+                    gMultiUsePlayerCursor = GetBattlerAtPosition(identities[i]);
+                } while (gMultiUsePlayerCursor == gBattlersCount);
+
+                i = 0;
+                switch (GetBattlerPosition(gMultiUsePlayerCursor))
+                {
+                case B_POSITION_PLAYER_LEFT:
+                case B_POSITION_PLAYER_RIGHT:
+                    i++;
+                    break;
+                case B_POSITION_OPPONENT_LEFT:
+                case B_POSITION_OPPONENT_RIGHT:
+                    i++;
+                    break;
+                }
+
+                if (gAbsentBattlerFlags & gBitTable[gMultiUsePlayerCursor])
+                    i = 0;
+            } while (i == 0);
+        }
+        else
+        {
+            gMultiUsePlayerCursor = (gMultiUsePlayerCursor + 1) % 2;
+        }
+
+        gStatPreviewScroll = 0;
+
+        StatPreviewDisplayStats();
+        StatPreviewDisplayTypes();
+        StatPreviewDisplayAbility();
+        DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX, 7, 1);
+        DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON, 7, 2);
+    }
+    else if (JOY_NEW(DPAD_RIGHT))
+    {
+        PlaySE(SE_SELECT);
+        EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
+        EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON);
+        if ((gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
+        {
+            do
+            {
+                u8 currSelIdentity = GetBattlerPosition(gMultiUsePlayerCursor);
+
+                for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+                {
+                    if (currSelIdentity == identities[i])
+                        break;
+                }
+                do
+                {
+                    if (++i > 3)
+                        i = 0;
+                    gMultiUsePlayerCursor = GetBattlerAtPosition(identities[i]);
+                } while (gMultiUsePlayerCursor == gBattlersCount);
+
+                i = 0;
+                switch (GetBattlerPosition(gMultiUsePlayerCursor))
+                {
+                case B_POSITION_PLAYER_LEFT:
+                case B_POSITION_PLAYER_RIGHT:
+                    i++;
+                    break;
+                case B_POSITION_OPPONENT_LEFT:
+                case B_POSITION_OPPONENT_RIGHT:
+                    i++;
+                    break;
+                }
+
+                if (gAbsentBattlerFlags & gBitTable[gMultiUsePlayerCursor])
+                    i = 0;
+            } while (i == 0);
+        }
+        else
+        {
+            gMultiUsePlayerCursor = (gMultiUsePlayerCursor + 1) % 2;
+        }
+
+        gStatPreviewScroll = 0;
+
+        StatPreviewDisplayStats();
+        StatPreviewDisplayTypes();
+        StatPreviewDisplayAbility();
+        DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX, 7, 1);
+        DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON, 7, 2);
+    }
+    else if(JOY_NEW(DPAD_UP))
+    {
+        if(gStatPreviewScroll > 0)
+            gStatPreviewScroll--;
+
+        StatPreviewDisplayStats();
+    }
+    else if(JOY_NEW(DPAD_DOWN))
+    {
+        if(gStatPreviewScroll < 2)
+            gStatPreviewScroll++;
+
+        StatPreviewDisplayStats();
+    }
 }
 
 static void PlayerCmdEnd(void)

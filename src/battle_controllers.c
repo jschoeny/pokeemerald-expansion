@@ -1178,6 +1178,17 @@ void BtlController_EmitChooseMove(u8 bufferId, bool8 isDoubleBattle, bool8 NoPpN
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, sizeof(*movePpData) + 4);
 }
 
+void BtlController_EmitShowMonSummaries(u8 bufferId)
+{
+    s32 i;
+
+    sBattleBuffersTransferData[0] = CONTROLLER_SHOWMONSUMMARIES;
+    sBattleBuffersTransferData[1] = 0;
+    sBattleBuffersTransferData[2] = 0;
+    sBattleBuffersTransferData[3] = 0;
+    PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 4);
+}
+
 void BtlController_EmitChooseItem(u8 bufferId, u8 *arg1)
 {
     s32 i;

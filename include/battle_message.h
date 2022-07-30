@@ -246,6 +246,7 @@ extern struct BattleMsgData *gBattleMsgDataPtr;
 
 extern const u8* const gBattleStringsTable[];
 extern const u8* const gStatNamesTable[];
+extern const u8* const gStatPreviewNamesTable[];
 extern const u8* const gPokeblockWasTooXStringTable[];
 extern const u8* const gRefereeStringsTable[];
 extern const u8 *const gRoundsStringTable[];

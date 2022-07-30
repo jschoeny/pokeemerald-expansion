@@ -246,6 +246,8 @@ u8 gLeveledUpInBattle;
 void (*gBattlerControllerFuncs[MAX_BATTLERS_COUNT])(void);
 u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT];
 u8 gMultiUsePlayerCursor;
+u8 gStatPreviewScroll;
+bool8 gAbilityRevealed[MAX_BATTLERS_COUNT];
 u8 gNumberOfMovesToChoose;
 u8 gBattleControllerData[MAX_BATTLERS_COUNT]; // Used by the battle controllers to store misc sprite/task IDs for each battler
 
@@ -409,6 +411,7 @@ static void (* const sTurnActionsFuncsTable[])(void) =
     [B_ACTION_FINISHED]               = HandleAction_ActionFinished,
     [B_ACTION_NOTHING_FAINTED]        = HandleAction_NothingIsFainted,
     [B_ACTION_THROW_BALL]             = HandleAction_ThrowBall,
+    [B_ACTION_MON_SUMMARIES]          = HandleAction_ShowMonSummaries,
 };
 
 static void (* const sEndTurnFuncsTable[])(void) =
@@ -4056,6 +4059,10 @@ static void HandleTurnActionSelectionState(void)
                         MarkBattlerForControllerExec(gActiveBattler);
                     }
                     break;
+                case B_ACTION_MON_SUMMARIES:
+                    BtlController_EmitShowMonSummaries(BUFFER_A);
+                    MarkBattlerForControllerExec(gActiveBattler);
+                    break;
                 case B_ACTION_USE_ITEM:
                     if ((gBattleTypeFlags & (BATTLE_TYPE_LINK
                                             | BATTLE_TYPE_FRONTIER_NO_PYRAMID
@@ -4301,6 +4308,7 @@ static void HandleTurnActionSelectionState(void)
                     gBattleCommunication[gActiveBattler]++;
                     break;
                 case B_ACTION_DEBUG:
+                case B_ACTION_MON_SUMMARIES:
                     gBattleCommunication[gActiveBattler] = STATE_BEFORE_ACTION_CHOSEN;
                     break;
                 }
