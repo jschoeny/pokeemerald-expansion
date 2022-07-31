@@ -346,6 +346,8 @@ static void HandleInputChooseAction(void)
     }
     else if (gMain.newKeys & SELECT_BUTTON)
     {
+        PlaySE(SE_SELECT);
+
         if(B_ENABLE_DEBUG)
         {
             BtlController_EmitTwoReturnValues(BUFFER_B, B_ACTION_DEBUG, 0);
@@ -3553,7 +3555,7 @@ static void HandleInputShowMonSummaries(void)
     s32 i;
     static const u8 identities[MAX_BATTLERS_COUNT] = {B_POSITION_PLAYER_LEFT, B_POSITION_PLAYER_RIGHT, B_POSITION_OPPONENT_RIGHT, B_POSITION_OPPONENT_LEFT};
 
-    if (JOY_NEW(B_BUTTON))
+    if (JOY_NEW(B_BUTTON | SELECT_BUTTON))
     {
         PlaySE(SE_SELECT);
         gBattle_BG0_X = 0;
@@ -3676,16 +3678,20 @@ static void HandleInputShowMonSummaries(void)
     else if(JOY_NEW(DPAD_UP))
     {
         if(gStatPreviewScroll > 0)
+        {
+            PlaySE(SE_SELECT);
             gStatPreviewScroll--;
-
-        StatPreviewDisplayStats();
+            StatPreviewDisplayStats();
+        }
     }
     else if(JOY_NEW(DPAD_DOWN))
     {
         if(gStatPreviewScroll < 2)
+        {
+            PlaySE(SE_SELECT);
             gStatPreviewScroll++;
-
-        StatPreviewDisplayStats();
+            StatPreviewDisplayStats();
+        }
     }
 }
 
