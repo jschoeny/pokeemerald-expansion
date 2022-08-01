@@ -5858,6 +5858,9 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                     {
                     case 0: // ITEM4_EV_HP
                     case 1: // ITEM4_EV_ATK
+                        if(FlagGet(FLAG_DIFF_NOEVS))
+                            return TRUE;
+                            
                         evCount = GetMonEVCount(mon);
                         temp2 = itemEffect[itemEffectParam];
                         dataSigned = GetMonData(mon, sGetMonDataEVConstants[temp1], NULL);
@@ -6095,6 +6098,9 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
                     case 1: // ITEM5_EV_SPEED
                     case 2: // ITEM5_EV_SPDEF
                     case 3: // ITEM5_EV_SPATK
+                        if(FlagGet(FLAG_DIFF_NOEVS))
+                            return TRUE;
+
                         evCount = GetMonEVCount(mon);
                         temp2 = itemEffect[itemEffectParam];
                         dataSigned = GetMonData(mon, sGetMonDataEVConstants[temp1 + 2], NULL);
@@ -7070,6 +7076,9 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
     int i, multiplier;
     u8 stat;
     u8 bonus;
+
+    if(FlagGet(FLAG_DIFF_NOEVS))
+        return;
 
     heldItem = GetMonData(mon, MON_DATA_HELD_ITEM, 0);
     if (heldItem == ITEM_ENIGMA_BERRY)

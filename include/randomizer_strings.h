@@ -22,6 +22,7 @@ enum {  // CHALLENGE
     RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES,
     RAND_MENU_ITEM_CHALLENGE_LEVELCAP,
     RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP,
+    RAND_MENU_ITEM_CHALLENGE_NOEVS,
     RAND_MENU_ITEM_CHALLENGE_DONE
 };
 
@@ -46,6 +47,7 @@ static const u8 gRandText_Species_Similar[] = _("Similar Stats");
 static const u8 gRandText_Challenge_StrongerEnemies[] = _("Stronger Enemies");
 static const u8 gRandText_Challenge_LevelCap[] = _("Level Cap");
 static const u8 gRandText_Challenge_DelayedExp[] = _("EXP After Battle");
+static const u8 gRandText_Challenge_NoEVsMode[] = _("No EVs Mode");
 
 static const u8 gRandText_Option_NoChange[] = _("No change");
 static const u8 gRandText_Option_PureRandom[] = _("Pure random");
@@ -117,12 +119,16 @@ static const u8 gRandMenuDesc_Species_Filter_Options_2[] = _("Only POKéMON that
 static const u8 gRandMenuDesc_Challenge_StrongerEnemies[] = _("Trainers are smarter, teams and wild\nPOKéMON are stronger.");
 static const u8 gRandMenuDesc_Challenge_LevelCap[] = _("Limits ability to level up by the\nnumber of gym badges.");
 static const u8 gRandMenuDesc_Challenge_DelayedExp[] = _("Experience not earned until after\nthe battle is won.");
+static const u8 gRandMenuDesc_Challenge_NoEVsMode[] = _("Disables earning Effort Values.");
 static const u8 gRandMenuDesc_Challenge_Done[] = _("Finish adjusting Challenge Mode\nsettings.");
 
 static const u8 gRandMenuDesc_Challenge_LevelCap_Options_0[] = _("POKéMON can level up like normal.");
 static const u8 gRandMenuDesc_Challenge_LevelCap_Options_1[] = _("Rare Candies useless at the highest\nPOKéMON level of the next GYM.");
 static const u8 gRandMenuDesc_Challenge_LevelCap_Options_2[] = _("Cannot level up past the highest\nPOKéMON level of the next GYM.");
 static const u8 gRandMenuDesc_Challenge_LevelCap_Options_3[] = _("Cannot level up past the lowest\nPOKéMON level of the next GYM.");
+
+static const u8 gRandMenuDesc_Challenge_NoEVsMode_Options_0[] = _("POKéMON will not earn Effort Values.");
+static const u8 gRandMenuDesc_Challenge_NoEVsMode_Options_1[] = _("POKéMON will earn Effort Values\nlike normal.");
 
 static const u8 gRandText_Seed_Value0[]     = _("0");
 static const u8 gRandText_Seed_Value1[]     = _("1");
@@ -175,6 +181,7 @@ static const u8 *const sRandMenuDescPointers_Challenge[] =
     [RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES] = gRandMenuDesc_Challenge_StrongerEnemies,
     [RAND_MENU_ITEM_CHALLENGE_LEVELCAP] = gRandMenuDesc_Challenge_LevelCap,
     [RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP] = gRandMenuDesc_Challenge_DelayedExp,
+    [RAND_MENU_ITEM_CHALLENGE_NOEVS] = gRandMenuDesc_Challenge_NoEVsMode,
     [RAND_MENU_ITEM_CHALLENGE_DONE] = gRandMenuDesc_Challenge_Done,
 };
 
@@ -244,6 +251,11 @@ static const u8 *const sRandOptionMenuDescPointers_Challenge_LevelCap[] =
     [1] = gRandMenuDesc_Challenge_LevelCap_Options_1,
     [2] = gRandMenuDesc_Challenge_LevelCap_Options_2,
     [3] = gRandMenuDesc_Challenge_LevelCap_Options_3,
+};
+static const u8 *const sRandOptionMenuDescPointers_Challenge_NoEVsMode[] =
+{
+    [0] = gRandMenuDesc_Challenge_NoEVsMode_Options_0,
+    [1] = gRandMenuDesc_Challenge_NoEVsMode_Options_1,
 };
 
 
@@ -326,5 +338,6 @@ static const struct ListMenuItem sRandMenuItems_Challenge[] =
     [RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES] = {gRandText_Challenge_StrongerEnemies, RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES},
     [RAND_MENU_ITEM_CHALLENGE_LEVELCAP] = {gRandText_Challenge_LevelCap, RAND_MENU_ITEM_CHALLENGE_LEVELCAP},
     [RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP] = {gRandText_Challenge_DelayedExp, RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP},
+    [RAND_MENU_ITEM_CHALLENGE_NOEVS] = {gRandText_Challenge_NoEVsMode, RAND_MENU_ITEM_CHALLENGE_NOEVS},
     [RAND_MENU_ITEM_CHALLENGE_DONE] = {gRandText_Back, RAND_MENU_ITEM_CHALLENGE_DONE},
 };

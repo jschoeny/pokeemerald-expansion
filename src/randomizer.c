@@ -92,6 +92,7 @@ static void (*const sRandMenuActions_Challenge[])(u8) =
     [RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES] = RandAction_OpenOption,
     [RAND_MENU_ITEM_CHALLENGE_LEVELCAP] = RandAction_OpenOption,
     [RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP] = RandAction_OpenOption,
+    [RAND_MENU_ITEM_CHALLENGE_NOEVS] = RandAction_OpenOption,
     [RAND_MENU_ITEM_CHALLENGE_DONE] = NULL,
 };
 
@@ -239,6 +240,7 @@ void Rand_ShowMainMenuView(bool8 changeSettings) {
     MgbaPrintf(MGBA_LOG_INFO, "    Stronger Teams: %d", gSaveBlock2Ptr->optionsChallengeStrongerTeams);
     MgbaPrintf(MGBA_LOG_INFO, "    Level Cap: %d", gSaveBlock2Ptr->optionsChallengeLevelCap);
     MgbaPrintf(MGBA_LOG_INFO, "    Delayed Exp: %d", FlagGet(FLAG_DIFF_DELAYEDEXP));
+    MgbaPrintf(MGBA_LOG_INFO, "    No EVs: %d", FlagGet(FLAG_DIFF_NOEVS));
 
     // create window
     HideMapNamePopUpWindow();
@@ -960,6 +962,8 @@ static void RandHelper_OptionDescText(u8 helpWindowId, u8 posWin, u8 pos, u8 mor
                 AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, sRandOptionMenuDescPointers_Challenge_LevelCap[pos], 0, 1, 0, NULL);
             else if(posWinMore == RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP)
                 AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, gRandMenuDesc_Challenge_DelayedExp, 0, 1, 0, NULL);
+            else if(posWinMore == RAND_MENU_ITEM_CHALLENGE_NOEVS)
+                AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, sRandOptionMenuDescPointers_Challenge_NoEVsMode[pos], 0, 1, 0, NULL);
         }
     }
 
@@ -1031,6 +1035,7 @@ static void RandAction_Done(u8 taskId)
     MgbaPrintf(MGBA_LOG_INFO, "    Stronger Teams: %d", gSaveBlock2Ptr->optionsChallengeStrongerTeams);
     MgbaPrintf(MGBA_LOG_INFO, "    Level Cap: %d", gSaveBlock2Ptr->optionsChallengeLevelCap);
     MgbaPrintf(MGBA_LOG_INFO, "    Delayed Exp: %d", FlagGet(FLAG_DIFF_DELAYEDEXP));
+    MgbaPrintf(MGBA_LOG_INFO, "    No EVs: %d", FlagGet(FLAG_DIFF_NOEVS));
 
     Rand_DestroyMainMenu(taskId);
     ClearStdWindowAndFrameToTransparent(0, FALSE);
@@ -1122,6 +1127,9 @@ static void RandHelper_SetSaveBlockOption(u8 moreTaskId, u8 option, u16 value)
                 case RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP:
                     value == 0 ? FlagSet(FLAG_DIFF_DELAYEDEXP) : FlagClear(FLAG_DIFF_DELAYEDEXP);
                     break;
+                case RAND_MENU_ITEM_CHALLENGE_NOEVS:
+                    value == 0 ? FlagSet(FLAG_DIFF_NOEVS) : FlagClear(FLAG_DIFF_NOEVS);
+                    break;
             }
 
         }
@@ -1183,6 +1191,8 @@ static u16 RandHelper_GetSaveBlockOptionMore(u8 posWin, u8 option)
                     return (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? 0 : 1);
                 else
                     return (FlagGet(FLAG_DIFF_DELAYEDEXP) ? 0 : 1);
+            case RAND_MENU_ITEM_CHALLENGE_NOEVS:
+                return (FlagGet(FLAG_DIFF_NOEVS) ? 0 : 1);
         }
     }
 
