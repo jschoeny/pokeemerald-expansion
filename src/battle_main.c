@@ -1863,34 +1863,51 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
 
         for (i = 0; i < monsCount; i++)
         {
+            u8 trainerType = TYPE_NONE;
+            bool8 keepChecking = FALSE;
+            u32 personalityValueStart;
+
+            if(gTrainers[trainerNum].partyFlags & F_TRAINER_PARTY_HAS_TYPE)
+                trainerType = (gTrainers[trainerNum].partyFlags & F_TRAINER_PARTY_HAS_TYPE) >> 2;
 
             if (gTrainers[trainerNum].doubleBattle == TRUE)
-                personalityValue = 0x80;
+                personalityValueStart = 0x80;
             else if (gTrainers[trainerNum].encounterMusic_gender & F_TRAINER_FEMALE)
-                personalityValue = 0x78; // Use personality more likely to result in a female Pokémon
+                personalityValueStart = 0x78; // Use personality more likely to result in a female Pokémon
             else
-                personalityValue = 0x88; // Use personality more likely to result in a male Pokémon
+                personalityValueStart = 0x88; // Use personality more likely to result in a male Pokémon
 
             for (j = 0; gTrainers[trainerNum].trainerName[j] != EOS; j++)
                 nameHash += gTrainers[trainerNum].trainerName[j];
 
-            switch (gTrainers[trainerNum].partyFlags)
+            switch (gTrainers[trainerNum].partyFlags & 0x3)
             {
             case 0:
             {
                 const struct TrainerMonNoItemDefaultMoves *partyData = gTrainers[trainerNum].party.NoItemDefaultMoves;
                 species = partyData[i].species;
-                species = GetRandomizedSpeciesTrainer(species, trainerNum);
+                species = GetRandomizedSpeciesTrainer(species, trainerNum, trainerType);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
-                else
-                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
+                do {
+                    keepChecking = FALSE;
+                    if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                        nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                    else
+                        nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
-                personalityValue += nameHash << 8;
+                    personalityValue = personalityValueStart + (nameHash << 8);
+
+                    if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
+                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                            keepChecking = TRUE;
+                    }
+
+                } while (keepChecking);
+
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
                 CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
@@ -1911,17 +1928,28 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonNoItemCustomMoves *partyData = gTrainers[trainerNum].party.NoItemCustomMoves;
                 species = partyData[i].species;
-                species = GetRandomizedSpeciesTrainer(species, trainerNum);
+                species = GetRandomizedSpeciesTrainer(species, trainerNum, trainerType);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
-                else
-                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
+                do {
+                    keepChecking = FALSE;
+                    if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                        nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                    else
+                        nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
-                personalityValue += nameHash << 8;
+                    personalityValue = personalityValueStart + (nameHash << 8);
+
+                    if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
+                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                            keepChecking = TRUE;
+                    }
+
+                } while (keepChecking);
+
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
                 CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
@@ -1940,17 +1968,28 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonItemDefaultMoves *partyData = gTrainers[trainerNum].party.ItemDefaultMoves;
                 species = partyData[i].species;
-                species = GetRandomizedSpeciesTrainer(species, trainerNum);
+                species = GetRandomizedSpeciesTrainer(species, trainerNum, trainerType);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
-                else
-                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
+                do {
+                    keepChecking = FALSE;
+                    if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                        nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                    else
+                        nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
-                personalityValue += nameHash << 8;
+                    personalityValue = personalityValueStart + (nameHash << 8);
+
+                    if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
+                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                            keepChecking = TRUE;
+                    }
+
+                } while (keepChecking);
+
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
                 CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
@@ -1961,17 +2000,28 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             {
                 const struct TrainerMonItemCustomMoves *partyData = gTrainers[trainerNum].party.ItemCustomMoves;
                 species = partyData[i].species;
-                species = GetRandomizedSpeciesTrainer(species, trainerNum);
+                species = GetRandomizedSpeciesTrainer(species, trainerNum, trainerType);
 
                 for (j = 0; gSpeciesNames[species][j] != EOS; j++)
                     nameHash += gSpeciesNames[species][j];
 
-                if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
-                    nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
-                else
-                    nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
+                do {
+                    keepChecking = FALSE;
+                    if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                        nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
+                    else
+                        nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
 
-                personalityValue += nameHash << 8;
+                    personalityValue = personalityValueStart + (nameHash << 8);
+
+                    if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
+                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                            keepChecking = TRUE;
+                    }
+
+                } while (keepChecking);
+
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
                 CreateMon(&party[i], species, CHALLENGE_LEVEL(partyData[i].lvl), fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 

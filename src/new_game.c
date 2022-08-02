@@ -218,14 +218,22 @@ static void ResetMiniGamesRecords(void)
 
 static void ResetRandomizerOptions(void)
 {
+    gSaveBlock2Ptr->optionsRandomizerSeed = 0;
     gSaveBlock2Ptr->optionsRandomizerType = OPTIONS_RANDOMIZER_TYPE_NORMAL;
     gSaveBlock2Ptr->optionsRandomizerAbility = OPTIONS_RANDOMIZER_ABILITY_NORMAL;
     gSaveBlock2Ptr->optionsRandomizerMoves = OPTIONS_RANDOMIZER_MOVES_NORMAL;
     gSaveBlock2Ptr->optionsRandomizerWild = OPTIONS_RANDOMIZER_WILD_NORMAL;
     gSaveBlock2Ptr->optionsRandomizerTrainer = OPTIONS_RANDOMIZER_TRAINER_NORMAL;
+    gSaveBlock2Ptr->optionsRandomizerStarter = FALSE;
     gSaveBlock2Ptr->optionsRandomizerSpeciesFilter = 0;
     gSaveBlock2Ptr->optionsChallengeLevelCap = OPTIONS_RANDOMIZER_LEVELCAP_OFF;
     gSaveBlock2Ptr->optionsRandomizerPalette = TRUE;
     gSaveBlock2Ptr->optionsChallengeStrongerTeams = FALSE;
     gSaveBlock2Ptr->optionsRandomizerVersion = OPTIONS_RANDOMIZER_VERSION;
+
+    FlagClear(FLAG_RNDM_PALETTE_READY_ONLY);
+    FlagClear(FLAG_RNDM_SIMILAR_STATS);
+    FlagSet(FLAG_DIFF_KEEP_TRAINER_TYPES);
+    FlagClear(FLAG_DIFF_DELAYEDEXP);
+    FlagClear(FLAG_DIFF_NOEVS);
 }

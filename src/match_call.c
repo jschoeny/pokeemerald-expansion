@@ -1794,25 +1794,29 @@ static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
     union TrainerMonPtr party;
     u8 monId;
     const u8 *speciesName;
+    u8 trainerType = TYPE_NONE;
 
     trainerId = GetLastBeatenRematchTrainerId(sMatchCallTrainers[matchCallId].trainerId);
     party = gTrainers[trainerId].party;
     monId = Random() % gTrainers[trainerId].partySize;
 
+    if(gTrainers[trainerId].partyFlags & F_TRAINER_PARTY_HAS_TYPE)
+        trainerType = (gTrainers[trainerId].partyFlags & F_TRAINER_PARTY_HAS_TYPE) >> 2;
+
     switch (gTrainers[trainerId].partyFlags)
     {
     case 0:
     default:
-        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.NoItemDefaultMoves[monId].species, trainerId)];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.NoItemDefaultMoves[monId].species, trainerId, trainerType)];
         break;
     case F_TRAINER_PARTY_CUSTOM_MOVESET:
-        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.NoItemCustomMoves[monId].species, trainerId)];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.NoItemCustomMoves[monId].species, trainerId, trainerType)];
         break;
     case F_TRAINER_PARTY_HELD_ITEM:
-        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.ItemDefaultMoves[monId].species, trainerId)];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.ItemDefaultMoves[monId].species, trainerId, trainerType)];
         break;
     case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
-        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.ItemCustomMoves[monId].species, trainerId)];
+        speciesName = gSpeciesNames[GetRandomizedSpeciesTrainer(party.ItemCustomMoves[monId].species, trainerId, trainerType)];
         break;
     }
 

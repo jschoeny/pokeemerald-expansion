@@ -90,6 +90,7 @@ static void (*const sRandMenuActions_Species[])(u8) =
 static void (*const sRandMenuActions_Challenge[])(u8) =
 {
     [RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES] = RandAction_OpenOption,
+    [RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE] = RandAction_OpenOption,
     [RAND_MENU_ITEM_CHALLENGE_LEVELCAP] = RandAction_OpenOption,
     [RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP] = RandAction_OpenOption,
     [RAND_MENU_ITEM_CHALLENGE_NOEVS] = RandAction_OpenOption,
@@ -958,6 +959,8 @@ static void RandHelper_OptionDescText(u8 helpWindowId, u8 posWin, u8 pos, u8 mor
         else if(posWin == RAND_MENU_ITEM_CHALLENGE) {
             if(posWinMore == RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES)
                 AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, gRandMenuDesc_Challenge_StrongerEnemies, 0, 1, 0, NULL);
+            else if(posWinMore == RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE)
+                AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, gRandMenuDesc_Challenge_Trainer_KeepType, 0, 1, 0, NULL);
             else if(posWinMore == RAND_MENU_ITEM_CHALLENGE_LEVELCAP)
                 AddTextPrinterParameterized(helpWindowId, FONT_NORMAL, sRandOptionMenuDescPointers_Challenge_LevelCap[pos], 0, 1, 0, NULL);
             else if(posWinMore == RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP)
@@ -1122,6 +1125,9 @@ static void RandHelper_SetSaveBlockOption(u8 moreTaskId, u8 option, u16 value)
                 case RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES:
                     gSaveBlock2Ptr->optionsChallengeStrongerTeams = (value == 0 ? TRUE : FALSE);
                     break;
+                case RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE:
+                    value == 0 ? FlagSet(FLAG_DIFF_KEEP_TRAINER_TYPES) : FlagClear(FLAG_DIFF_KEEP_TRAINER_TYPES);
+                    break;
                 case RAND_MENU_ITEM_CHALLENGE_LEVELCAP:
                     gSaveBlock2Ptr->optionsChallengeLevelCap = value;
                 case RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP:
@@ -1184,6 +1190,8 @@ static u16 RandHelper_GetSaveBlockOptionMore(u8 posWin, u8 option)
         {
             case RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES:
                 return (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? 0 : 1);
+            case RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE:
+                return (FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) ? 0 : 1);
             case RAND_MENU_ITEM_CHALLENGE_LEVELCAP:
                 return gSaveBlock2Ptr->optionsChallengeLevelCap;
             case RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP:

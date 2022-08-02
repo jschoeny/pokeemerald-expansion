@@ -9083,7 +9083,7 @@ u16 GetRandomizedSpeciesWild(u16 species, u16 headerId)
     return species;
 }
 
-u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum)
+u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum, u8 trainerType)
 {
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
@@ -9139,6 +9139,11 @@ u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum)
         }
         if(gSaveBlock2Ptr->optionsRandomizerSpeciesFilter == OPTIONS_RANDOMIZER_FILTER_HOENNDEX) {
             if(SpeciesToHoennPokedexNum(species) == 0)
+                keepChecking = TRUE;
+        }
+        if(gSaveBlock2Ptr->optionsRandomizerType == OPTIONS_RANDOMIZER_TYPE_NORMAL
+         && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
+            if(gBaseStats[species].type1 != trainerType && gBaseStats[species].type2 != trainerType)
                 keepChecking = TRUE;
         }
     } while (tries > 0 && keepChecking);

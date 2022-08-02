@@ -20,6 +20,7 @@ enum {  // SPECIES
 
 enum {  // CHALLENGE
     RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES,
+    RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE,
     RAND_MENU_ITEM_CHALLENGE_LEVELCAP,
     RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP,
     RAND_MENU_ITEM_CHALLENGE_NOEVS,
@@ -45,6 +46,7 @@ static const u8 gRandText_Species_Filter[] = _("Filter");
 static const u8 gRandText_Species_Similar[] = _("Similar Stats");
 
 static const u8 gRandText_Challenge_StrongerEnemies[] = _("Stronger Enemies");
+static const u8 gRandText_Challenge_Trainer_KeepType[] = _("Keep Type-Themes");
 static const u8 gRandText_Challenge_LevelCap[] = _("Level Cap");
 static const u8 gRandText_Challenge_DelayedExp[] = _("EXP After Battle");
 static const u8 gRandText_Challenge_NoEVsMode[] = _("No EVs Mode");
@@ -117,6 +119,7 @@ static const u8 gRandMenuDesc_Species_Filter_Options_1[] = _("Only POKéMON with
 static const u8 gRandMenuDesc_Species_Filter_Options_2[] = _("Only POKéMON that are in the\nHoenn dex are used.");
 
 static const u8 gRandMenuDesc_Challenge_StrongerEnemies[] = _("Trainers are smarter, teams and wild\nPOKéMON are stronger.");
+static const u8 gRandMenuDesc_Challenge_Trainer_KeepType[] = _("Set whether Trainer teams will keep\ntype-themes when randomized.");
 static const u8 gRandMenuDesc_Challenge_LevelCap[] = _("Limits ability to level up by the\nnumber of gym badges.");
 static const u8 gRandMenuDesc_Challenge_DelayedExp[] = _("Experience not earned until after\nthe battle is won.");
 static const u8 gRandMenuDesc_Challenge_NoEVsMode[] = _("Disables earning Effort Values.");
@@ -179,6 +182,7 @@ static const u8 *const sRandMenuDescPointers_Species[] =
 static const u8 *const sRandMenuDescPointers_Challenge[] =
 {
     [RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES] = gRandMenuDesc_Challenge_StrongerEnemies,
+    [RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE] = gRandMenuDesc_Challenge_Trainer_KeepType,
     [RAND_MENU_ITEM_CHALLENGE_LEVELCAP] = gRandMenuDesc_Challenge_LevelCap,
     [RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP] = gRandMenuDesc_Challenge_DelayedExp,
     [RAND_MENU_ITEM_CHALLENGE_NOEVS] = gRandMenuDesc_Challenge_NoEVsMode,
@@ -336,6 +340,7 @@ static const struct ListMenuItem sRandMenuItems_Species[] =
 static const struct ListMenuItem sRandMenuItems_Challenge[] =
 {
     [RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES] = {gRandText_Challenge_StrongerEnemies, RAND_MENU_ITEM_CHALLENGE_STRONGERENEMIES},
+    [RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE] = {gRandText_Challenge_Trainer_KeepType, RAND_MENU_ITEM_CHALLENGE_TRAINER_KEEPTYPE},
     [RAND_MENU_ITEM_CHALLENGE_LEVELCAP] = {gRandText_Challenge_LevelCap, RAND_MENU_ITEM_CHALLENGE_LEVELCAP},
     [RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP] = {gRandText_Challenge_DelayedExp, RAND_MENU_ITEM_CHALLENGE_DELAYEDEXP},
     [RAND_MENU_ITEM_CHALLENGE_NOEVS] = {gRandText_Challenge_NoEVsMode, RAND_MENU_ITEM_CHALLENGE_NOEVS},

@@ -492,7 +492,7 @@ u32 GetPlaceholderMoveBoxMon(struct BoxPokemon *boxMon, u32 move, u8 offset);
 u32 GetPlaceholderMoveFromPersonality(u16 species, u32 personality, u32 move, u8 offset);
 u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId);
 u16 GetRandomizedSpeciesWild(u16 species, u16 headerId);
-u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum);
+u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum, u8 trainerType);
 u8 GetLevelCap(bool8 isRareCandy);
 
 #endif // GUARD_POKEMON_H
