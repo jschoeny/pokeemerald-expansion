@@ -31,6 +31,7 @@ static void SetInitialEggData(struct Pokemon *mon, u16 species, struct DayCare *
 static u8 GetDaycareCompatibilityScore(struct DayCare *daycare);
 static void DaycarePrintMonInfo(u8 windowId, u32 daycareSlotId, u8 y);
 static u8 ModifyBreedingScoreForOvalCharm(u8 score);
+static u16 DetermineEggSpeciesAndParentSlots(struct DayCare *daycare, u8 *parentSlots);
 
 // RAM buffers used to assist with BuildEggMoveset()
 EWRAM_DATA static u16 sHatchedEggLevelUpMoves[EGG_LVL_UP_MOVES_ARRAY_COUNT] = {0};
@@ -463,33 +464,66 @@ static s32 GetParentToInheritNature(struct DayCare *daycare)
     return parent;
 }
 
+
+static u8 _GetTypeToInherit(struct DayCare *daycare)
+{
+    u8 type;
+
+    if(gSaveBlock2Ptr->optionsRandomizerType == OPTIONS_RANDOMIZER_TYPE_NORMAL)
+        return TYPE_NONE;
+
+    if(GetBoxMonData(&daycare->mons[0].mon, MON_DATA_HELD_ITEM) == ITEM_TYPE_CHARM
+     && GetBoxMonData(&daycare->mons[1].mon, MON_DATA_HELD_ITEM) == ITEM_TYPE_CHARM) {
+        type = GetBoxMonType(&daycare->mons[Random() % 2].mon, Random() % 2);
+    }
+    else if(GetBoxMonData(&daycare->mons[0].mon, MON_DATA_HELD_ITEM) == ITEM_TYPE_CHARM) {
+        type = GetBoxMonType(&daycare->mons[0].mon, Random() % 2);
+    }
+    else if(GetBoxMonData(&daycare->mons[1].mon, MON_DATA_HELD_ITEM) == ITEM_TYPE_CHARM) {
+        type = GetBoxMonType(&daycare->mons[1].mon, Random() % 2);
+    }
+    return type;
+}
+
 static void _TriggerPendingDaycareEgg(struct DayCare *daycare)
 {
     s32 parent;
     s32 natureTries = 0;
+    u8 wantedType = _GetTypeToInherit(daycare);
+    u8 wantedNature = 0xFF;
 
     SeedRng2(gMain.vblankCounter2);
     parent = GetParentToInheritNature(daycare);
 
-    // don't inherit nature
-    if (parent < 0)
+    // don't inherit nature or type
+    if (parent < 0 && wantedType == TYPE_NONE)
     {
         daycare->offspringPersonality = (Random2() << 16) | ((Random() % 0xfffe) + 1);
     }
-    // inherit nature
+    // inherit nature and/or type
     else
     {
-        u8 wantedNature = GetNatureFromPersonality(GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_PERSONALITY, NULL));
         u32 personality;
+        u8 parentSlots[DAYCARE_MON_COUNT];
+        bool8 keepChecking = FALSE;
+
+        if(parent >= 0)
+            wantedNature = GetNatureFromPersonality(GetBoxMonData(&daycare->mons[parent].mon, MON_DATA_PERSONALITY, NULL));
 
         do
         {
+            keepChecking = FALSE;
             personality = (Random2() << 16) | (Random());
-            if (wantedNature == GetNatureFromPersonality(personality) && personality != 0)
-                break; // found a personality with the same nature
-
+            if (wantedNature != 0xFF) {
+                if(wantedNature != GetNatureFromPersonality(personality) || personality == 0)
+                    keepChecking = TRUE;    // Matching nature not found
+            }
+            if (wantedType != TYPE_NONE) {
+                if(GetMonTypeFromPersonality(DetermineEggSpeciesAndParentSlots(daycare, parentSlots), personality, FALSE) != wantedType)
+                    keepChecking = TRUE;    // Matching type not found
+            }
             natureTries++;
-        } while (natureTries <= 2400);
+        } while (natureTries <= 2400 && keepChecking);
 
         daycare->offspringPersonality = personality;
     }

@@ -3277,7 +3277,7 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
             } while (shinyValue >= SHINY_ODDS && rolls < bonus);
         }
 
-        if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL) {
+        if(gSaveBlock2Ptr->optionsRandomizerType != OPTIONS_RANDOMIZER_TYPE_NORMAL && !hasFixedPersonality) {
             u8 partyIndex;
             for(partyIndex = 0; partyIndex < PARTY_SIZE; partyIndex++) {
                 if(GetMonData(&gPlayerParty[partyIndex], MON_DATA_HELD_ITEM) == ITEM_TYPE_CHARM)
