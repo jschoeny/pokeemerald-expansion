@@ -10345,4 +10345,15 @@ const struct Item gItems[] =
         .type = ITEM_USE_FIELD,
         .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
+
+    [ITEM_GRIT_PEBBLE] =
+    {
+        .name = _("Grit Pebble"),
+        .itemId = ITEM_GRIT_PEBBLE,
+        .price = 400,
+        .description = sGritPebbleDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_GritPebble,
+    }
 };

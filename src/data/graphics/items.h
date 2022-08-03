@@ -1952,3 +1952,6 @@ const u32 gItemIconPalette_DistortionSlate[] = INCBIN_U32("graphics/items/icon_p
 const u32 gItemIconPalette_TimeSlate[] = INCBIN_U32("graphics/items/icon_palettes/time_slate.gbapal.lz");
 const u32 gItemIconPalette_SpaceSlate[] = INCBIN_U32("graphics/items/icon_palettes/space_slate.gbapal.lz");
 const u32 gItemIconPalette_LunarSlate[] = INCBIN_U32("graphics/items/icon_palettes/lunar_slate.gbapal.lz");
+
+const u32 gItemIcon_GritPebble[] = INCBIN_U32("graphics/items/icons/grit_pebble.4bpp.lz");
+const u32 gItemIconPalette_GritPebble[] = INCBIN_U32("graphics/items/icon_palettes/grit_pebble.gbapal.lz");

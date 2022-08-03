@@ -8523,6 +8523,8 @@ extern const u32 gItemIconPalette_DistortionSlate[];
 extern const u32 gItemIconPalette_TimeSlate[];
 extern const u32 gItemIconPalette_SpaceSlate[];
 extern const u32 gItemIconPalette_LunarSlate[];
+extern const u32 gItemIcon_GritPebble[];
+extern const u32 gItemIconPalette_GritPebble[];
 
 extern const u32 gItemIcon_ReturnToFieldArrow[];
 extern const u32 gItemIconPalette_ReturnToFieldArrow[];

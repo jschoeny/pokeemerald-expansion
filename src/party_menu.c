@@ -410,6 +410,14 @@ static bool8 SetUpFieldMove_Fly(void);
 static bool8 SetUpFieldMove_Waterfall(void);
 static bool8 SetUpFieldMove_Dive(void);
 void TryItemHoldFormChange(struct Pokemon *mon);
+static void ShowStatSelectWindow(u8 slot);
+static void Task_HandleWhichStatInput(u8 taskId);
+static u8 SetSelectedStatForIVItem(u8 taskId);
+static void Task_ChooseHowManyToUse(u8 taskId);
+static void TryUseIVItem(u8 taskId);
+static void Task_DisplayUpdatedStatsPg1(u8 taskId);
+static void Task_DisplayUpdatedStatsPg2(u8 taskId);
+static void Task_WaitCloseUpdatedStatsWindow(u8 taskId);
 
 // static const data
 #include "data/pokemon/tutor_learnsets.h"
@@ -2416,6 +2424,9 @@ void DisplayPartyMenuStdMessage(u32 stringId)
         case PARTY_MSG_ALREADY_HOLDING_ONE:
             *windowPtr = AddWindow(&sAlreadyHoldingOneMsgWindowTemplate);
             break;
+        case PARTY_MSG_BOOST_IV_WHICH_STAT:
+            *windowPtr = AddWindow(&sWhichStatMsgWindowTemplate);
+            break;
         default:
             *windowPtr = AddWindow(&sDefaultPartyMsgWindowTemplate);
             break;
@@ -2475,6 +2486,12 @@ static u8 DisplaySelectionWindow(u8 windowType)
     case SELECTWINDOW_MAIL:
         window = sMailReadTakeWindowTemplate;
         break;
+    case SELECTWINDOW_STATS:
+        SetWindowTemplateFields(&window, 2, 21, 19 - (sPartyMenuInternal->numActions * 2), 8, sPartyMenuInternal->numActions * 2, 14, 0x1DF);
+        break;
+    case SELECTWINDOW_QUANTITY:
+        window = sHowManyWindowTemplate;
+        break;
     default: // SELECTWINDOW_MOVES
         window = sMoveSelectWindowTemplate;
         break;
@@ -2482,7 +2499,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
 
     sPartyMenuInternal->windowId[0] = AddWindow(&window);
     DrawStdFrameWithCustomTileAndPalette(sPartyMenuInternal->windowId[0], FALSE, 0x4F, 13);
-    if (windowType == SELECTWINDOW_MOVES)
+    if (windowType == SELECTWINDOW_MOVES || windowType == SELECTWINDOW_STATS || windowType == SELECTWINDOW_QUANTITY)
         return sPartyMenuInternal->windowId[0];
     cursorDimension = GetMenuCursorDimensionByFont(FONT_NORMAL, 0);
     letterSpacing = GetFontAttribute(FONT_NORMAL, FONTATTR_LETTER_SPACING);
@@ -6810,3 +6827,208 @@ void IsLastMonThatKnowsSurf(void)
             gSpecialVar_Result = TRUE;
     }
 }
+
+#define tQuantity data[5]
+#define tItemCount data[6]
+static void ShowStatSelectWindow(u8 slot)
+{
+    u8 i;
+    u8 statCount = 0;
+    u8 fontId = FONT_NORMAL;
+    u8 windowId = DisplaySelectionWindow(SELECTWINDOW_STATS);
+    u8 ivAmount;
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        ivAmount = GetMonData(&gPlayerParty[slot], MON_DATA_HP_IV + i);
+        if (ivAmount < MAX_PER_STAT_IVS) {
+            AddTextPrinterParameterized(windowId, fontId, gStatNamesTable[i], 8, (statCount * 16) + 1, TEXT_SKIP_DRAW, NULL);
+            statCount++;
+        }
+    }
+    InitMenuInUpperLeftCornerNormal(windowId, statCount, 0);
+    ScheduleBgCopyTilemapToVram(2);
+}
+
+static void PrintItemQuantity(u8 windowId, s16 quantity)
+{
+    u8 numDigits = 2;
+    ConvertIntToDecimalStringN(gStringVar1, quantity, STR_CONV_MODE_LEADING_ZEROS, numDigits);
+    StringExpandPlaceholders(gStringVar4, gText_xVar1);
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, gStringVar4, GetStringCenterAlignXOffset(FONT_NORMAL, gStringVar4, 0x28), 2, 0, 0);
+}
+
+#define GET_REMAINING_GRIT_ITEMS(ivs, increment) (((MAX_PER_STAT_IVS - ivs) / increment) + (((MAX_PER_STAT_IVS - ivs) % increment) == 0 ? 0 : 1))
+static void Task_HandleWhichStatInput(u8 taskId)
+{
+    s8 input = Menu_ProcessInput();
+    s16* data = gTasks[taskId].data;
+
+    if (input != MENU_NOTHING_CHOSEN)
+    {
+        if (input == MENU_B_PRESSED)
+        {
+            PlaySE(SE_SELECT);
+            ReturnToUseOnWhichMon(taskId);
+        }
+        else
+        {
+            u8 ivAmount = 0;
+            PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+            ivAmount = SetSelectedStatForIVItem(taskId);
+            tQuantity = CountTotalItemQuantityInBag(gSpecialVar_ItemId);
+            if(tQuantity > GET_REMAINING_GRIT_ITEMS(ivAmount, I_GRIT_PEBBLE_INCR))
+                tQuantity = GET_REMAINING_GRIT_ITEMS(ivAmount, I_GRIT_PEBBLE_INCR);
+            tItemCount = 1;
+            DisplaySelectionWindow(SELECTWINDOW_QUANTITY);
+            PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount);
+            StringCopy(gStringVar1, gItems[gSpecialVar_ItemId].name);
+            DisplayPartyMenuStdMessage(PARTY_MSG_HOW_MANY_ITEM);
+            gTasks[taskId].func = Task_ChooseHowManyToUse;
+        }
+    }
+}
+
+void ItemUseCB_IVIncrease(u8 taskId, TaskFunc task)
+{
+    u16 item = gSpecialVar_ItemId;
+    u8 i, numStats = 0;
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        if(GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HP_IV + i) < MAX_PER_STAT_IVS)
+            numStats++;
+    }
+
+    if(numStats > 0)
+    {
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuStdMessage(PARTY_MSG_BOOST_IV_WHICH_STAT);
+        sPartyMenuInternal->numActions = numStats;
+        ShowStatSelectWindow(gPartyMenu.slotId);
+        gTasks[taskId].func = Task_HandleWhichStatInput;
+    }
+    else
+    {
+        gPartyMenuUseExitCallback = FALSE;
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+    }
+}
+
+static u8 SetSelectedStatForIVItem(u8 taskId)
+{
+    u8 i;
+    u8 ivAmount;
+    u8 menuPos = Menu_GetCursorPos();
+    u8 statNum = 0;
+
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+
+    for (i = 0; i < NUM_STATS; i++)
+    {
+        ivAmount = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HP_IV + i);
+        if (ivAmount < MAX_PER_STAT_IVS)
+            statNum++;
+        if (statNum - 1 == menuPos)
+            break;
+    }
+    gPartyMenu.data1 = i;
+
+    return ivAmount;
+    //TryUseIVItem(taskId);
+}
+
+static void Task_ChooseHowManyToUse(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+
+    if (AdjustQuantityAccordingToDPadInput(&tItemCount, tQuantity) == TRUE)
+    {
+        PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount);
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        TryUseIVItem(taskId);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+        ItemUseCB_IVIncrease(taskId, NULL);
+    }
+}
+
+static void TryUseIVItem(u8 taskId)
+{
+    s16* data = gTasks[taskId].data;
+    u8 ivs = 0;
+    s16 *statNum = &gPartyMenu.data1;
+    u16 item = gSpecialVar_ItemId;
+    struct PartyMenu *ptr = &gPartyMenu;
+    struct Pokemon *mon;
+    struct PartyMenuInternal *ptr2 = sPartyMenuInternal;
+    s16 *arrayPtr = ptr2->data;
+
+    gPartyMenuUseExitCallback = TRUE;
+    mon = &gPlayerParty[ptr->slotId];
+    PlaySE(SE_USE_ITEM);
+    RemoveBagItem(item, tItemCount);
+
+    BufferMonStatsToTaskData(mon, arrayPtr);
+    ivs = GetMonData(mon, MON_DATA_HP_IV + *statNum) + (tItemCount * I_GRIT_PEBBLE_INCR);
+    if(ivs > MAX_PER_STAT_IVS)
+        ivs = MAX_PER_STAT_IVS;
+    SetMonData(mon, MON_DATA_HP_IV + *statNum, &ivs);
+    CalculateMonStats(mon);
+    UpdateMonDisplayInfoAfterRareCandy(ptr->slotId, mon);
+    BufferMonStatsToTaskData(mon, &ptr2->data[NUM_STATS]);
+
+    GetMonNickname(mon, gStringVar1);
+    StringCopy(gStringVar2, gStatNamesTable[*statNum]);
+    StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+    DisplayPartyMenuMessage(gStringVar4, TRUE);
+    ScheduleBgCopyTilemapToVram(2);
+
+    gTasks[taskId].func = Task_DisplayUpdatedStatsPg1;
+}
+
+static void Task_DisplayUpdatedStatsPg1(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE && ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON))))
+    {
+        PlaySE(SE_SELECT);
+        DisplayLevelUpStatsPg1(taskId);
+        gTasks[taskId].func = Task_DisplayLevelUpStatsPg2;
+    }
+}
+
+static void Task_DisplayUpdatedStatsPg2(u8 taskId)
+{
+    if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON)))
+    {
+        PlaySE(SE_SELECT);
+        DisplayLevelUpStatsPg2(taskId);
+        gTasks[taskId].func = Task_WaitCloseUpdatedStatsWindow;
+    }
+}
+
+static void Task_WaitCloseUpdatedStatsWindow(u8 taskId)
+{
+    u16 item = gSpecialVar_ItemId;
+
+    if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON)))
+    {
+        PlaySE(SE_SELECT);
+        RemoveLevelUpStatsWindow();
+        if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(item, 1))
+            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        else
+            gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+    }
+}
+#undef tQuantity

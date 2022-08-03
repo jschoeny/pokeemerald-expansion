@@ -950,8 +950,9 @@
 
 #define ITEM_TYPE_CHARM 775
 #define ITEM_MYSTERIOUS_SHARD 776
+#define ITEM_GRIT_PEBBLE 777
 
-#define ITEMS_COUNT 777
+#define ITEMS_COUNT 778
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // Range of berries given out by various NPCS

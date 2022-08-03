@@ -823,6 +823,8 @@ const u32 *const gItemIconTable[][2] =
     [ITEM_SLATE_COSMOS] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
     [ITEM_SLATE_BLINDING] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
     [ITEM_SLATE_GALAR] = {gItemIcon_KantoSlate, gItemIconPalette_KantoSlate},
+    // Grit Items
+    [ITEM_GRIT_PEBBLE] = {gItemIcon_GritPebble, gItemIconPalette_GritPebble},
     // Return to field arrow
     [ITEM_FIELD_ARROW] = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
 };

@@ -483,6 +483,28 @@ static const struct WindowTemplate sWhichMoveMsgWindowTemplate =
     .baseBlock = 0x299,
 };
 
+static const struct WindowTemplate sWhichStatMsgWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 1,
+    .tilemapTop = 17,
+    .width = 18,
+    .height = 2,
+    .paletteNum = 15,
+    .baseBlock = 0x299,
+};
+
+static const struct WindowTemplate sHowManyWindowTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 24,
+    .tilemapTop = 17,
+    .width = 5,
+    .height = 2,
+    .paletteNum = 15,
+    .baseBlock = 0x299,
+};
+
 static const struct WindowTemplate sAlreadyHoldingOneMsgWindowTemplate =
 {
     .bg = 2,
@@ -636,6 +658,8 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_DO_WHAT_WITH_ITEM]      = gText_DoWhatWithItem,
     [PARTY_MSG_DO_WHAT_WITH_MAIL]      = gText_DoWhatWithMail,
     [PARTY_MSG_ALREADY_HOLDING_ONE]    = gText_AlreadyHoldingOne,
+    [PARTY_MSG_BOOST_IV_WHICH_STAT]    = gText_BoostIv,
+    [PARTY_MSG_HOW_MANY_ITEM]          = gText_UseHowManyItems,
 };
 
 static const u8 *const sDescriptionStringTable[] =

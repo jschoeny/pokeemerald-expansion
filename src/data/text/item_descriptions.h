@@ -3807,3 +3807,8 @@ static const u8 sSlateDesc[] = _(
     "A slate overflowing\n"
     "with enigmatic\n"
     "energy.");
+
+static const u8 sGritPebbleDesc[] = _(
+    "A mysterious pebble\n"
+    "that can raise the\n"
+    "IV stat of a {PKMN}.");
