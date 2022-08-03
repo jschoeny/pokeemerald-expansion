@@ -98,6 +98,8 @@
     #define GEN_8 5
 #endif
 
+#define B_NUM_FIND_WILD_ITEMS       3
+
 // Calculation settings
 #define B_CRIT_CHANCE               GEN_7 // Chances of a critical hit landing. See CalcCritChanceStage.
 #define B_CRIT_MULTIPLIER           GEN_7 // In Gen6+, critical hits multiply damage by 1.5 instead of 2.

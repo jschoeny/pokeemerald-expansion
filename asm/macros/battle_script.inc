@@ -1968,6 +1968,11 @@
 	various \battler, VARIOUS_BATTLER_ITEM_TO_LAST_USED_ITEM
 	.endm
 
+	@ Player will pick up item drops if available and if bag is not full
+	.macro trypickupwilditems
+	various BS_ATTACKER, VARIOUS_TRY_PICKUP_WILD_ITEMS
+	.endm
+
 @ helpful macros
 	.macro setstatchanger stat:req, stages:req, down:req
 	setbyte sSTATCHANGER, \stat | \stages << 3 | \down << 7

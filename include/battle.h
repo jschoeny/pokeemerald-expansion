@@ -355,6 +355,7 @@ struct BattleResults
     u8 caughtMonNick[POKEMON_NAME_LENGTH + 1];     // 0x2A
     u8 filler35;           // 0x35
     u8 catchAttempts[POKEBALL_COUNT];     // 0x36
+    u16 itemsFound[B_NUM_FIND_WILD_ITEMS];
 };
 
 struct BattleTv_Side
@@ -933,5 +934,7 @@ extern bool8 gHasFetchedBall;
 extern u8 gLastUsedBall;
 extern u16 gLastThrownBall;
 extern bool8 gSwapDamageCategory; // Photon Geyser, Shell Side Arm, Light That Burns the Sky
+
+extern u8 gWildItemFoundCount;
 
 #endif // GUARD_BATTLE_H

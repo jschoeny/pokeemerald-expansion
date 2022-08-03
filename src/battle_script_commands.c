@@ -3589,6 +3589,62 @@ static void Cmd_clearstatusfromeffect(void)
     gBattleScripting.multihitMoveEffect = 0;
 }
 
+#define ITEMFIND_TABLE_SIZE 6
+static void GetItemsToFind(u16 species)
+{
+    if(!(gBattleTypeFlags &
+         (BATTLE_TYPE_LINK
+          | BATTLE_TYPE_RECORDED_LINK
+          | BATTLE_TYPE_TRAINER_HILL
+          | BATTLE_TYPE_FRONTIER
+          | BATTLE_TYPE_SAFARI
+          | BATTLE_TYPE_BATTLE_TOWER
+          | BATTLE_TYPE_EREADER_TRAINER))) {
+
+        u16 items[ITEMFIND_TABLE_SIZE] = {
+            gBaseStats[species].item1,
+            gBaseStats[species].item2,
+            gBaseStats[species].item1,
+            gBaseStats[species].item2,
+            gBaseStats[species].item1,
+            gBaseStats[species].item2
+        };
+        u8 itemCount = 0;
+        u8 i = 0;
+        u8 factor = 40;
+
+        if(FlagGet(FLAG_OUTBREAK_ENCOUNTER)) {
+            items[0] = ITEM_GRIT_PEBBLE;
+            items[1] = ITEM_GRIT_PEBBLE;
+            if(gBaseStats[species].item1 == 0 && gBaseStats[species].item2 != 0) {
+                items[2] = gBaseStats[species].item2;
+                items[4] = gBaseStats[species].item2;
+            }
+            else if(gBaseStats[species].item1 != 0 && gBaseStats[species].item2 == 0) {
+                items[3] = gBaseStats[species].item1;
+                items[5] = gBaseStats[species].item1;
+            }
+            factor = 120;
+        }
+        else if(items[0] == 0 && items[1] == 0) {
+            items[2] = ITEM_GRIT_PEBBLE;
+            items[3] = ITEM_GRIT_PEBBLE;
+        }
+
+        if(items[0] == items[1] && items[0] != 0 && Random() % 100 < 80) {
+            gBattleResults.itemsFound[0] = items[0];
+            itemCount++;
+            i++;
+        }
+        for( ; i < ITEMFIND_TABLE_SIZE; i++) {
+            if(itemCount >= B_NUM_FIND_WILD_ITEMS)
+                break;
+            if(items[i] != 0 && Random() % 100 < (factor / ((i + 1) * 2)))
+                gBattleResults.itemsFound[itemCount++] = items[i];
+        }
+    }
+}
+
 static void Cmd_tryfaintmon(void)
 {
     const u8 *BS_ptr;
@@ -3644,6 +3700,8 @@ static void Cmd_tryfaintmon(void)
                 if (gBattleResults.opponentFaintCounter < 255)
                     gBattleResults.opponentFaintCounter++;
                 gBattleResults.lastOpponentSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES, NULL);
+                GetItemsToFind(gBattleResults.lastOpponentSpecies);
+                gWildItemFoundCount = 0;
                 gSideTimers[1].retaliateTimer = 2;
             }
             if ((gHitMarker & HITMARKER_DESTINYBOND) && gBattleMons[gBattlerAttacker].hp != 0)
@@ -9566,6 +9624,25 @@ static void Cmd_various(void)
         break;
     case VARIOUS_BATTLER_ITEM_TO_LAST_USED_ITEM:
         gBattleMons[gActiveBattler].item = gLastUsedItem;
+        break;
+    case VARIOUS_TRY_PICKUP_WILD_ITEMS:
+        if(gWildItemFoundCount < B_NUM_FIND_WILD_ITEMS
+         && gBattleResults.itemsFound[gWildItemFoundCount] != 0
+         && CheckBagHasSpace(gBattleResults.itemsFound[gWildItemFoundCount], 1)) {
+            AddBagItem(gBattleResults.itemsFound[gWildItemFoundCount], 1);
+            StringCopy(gBattleTextBuff1, gItems[gBattleResults.itemsFound[gWildItemFoundCount]].name);
+            gWildItemFoundCount++;
+            gBattlescriptCurrInstr = BattleScript_PrintItemFoundString;
+            return;
+        }
+        else if(gWildItemFoundCount > 0){
+            if(gWildItemFoundCount == 1)
+                gBattlescriptCurrInstr = BattleScript_PrintItemInBagString;
+            else
+                gBattlescriptCurrInstr = BattleScript_PrintItemsInBagString;
+            gWildItemFoundCount = 0;
+            return;
+        }
         break;
     } // End of switch (gBattlescriptCurrInstr[2])
 

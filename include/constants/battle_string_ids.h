@@ -613,8 +613,11 @@
 #define STRINGID_PLAYERPAIDPRIZEMONEY                 611
 #define STRINGID_TEAMGAINEDEXP                        612
 #define STRINGID_PKMNSTOLEITEMBAG                     613
+#define STRINGID_PLAYERFOUNDITEM                      614
+#define STRINGID_PLACEDITEMINBAG                      615
+#define STRINGID_PLACEDITEMSINBAG                     616
 
-#define BATTLESTRINGS_COUNT                           614
+#define BATTLESTRINGS_COUNT                           617
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,

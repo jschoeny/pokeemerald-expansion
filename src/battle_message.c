@@ -434,6 +434,9 @@ static const u8 sText_Accuracy2[] = _("ACC.");
 static const u8 sText_Evasiveness2[] = _("EVASION");
 static const u8 sText_PkmnTookTargetHigh[] = _("{B_ATK_NAME_WITH_PREFIX} took {B_DEF_NAME_WITH_PREFIX}\ninto the air!");
 static const u8 sText_TargetTooHeavy[] = _("But the target\nwas too heavy!");
+static const u8 sText_PlayerFoundItem[] = _("{B_PLAYER_NAME} found\na {B_BUFF1}!");
+static const u8 sText_PlacedItemInBag[] = _("The item was placed\nin the BAG.");
+static const u8 sText_PlacedItemsInBag[] = _("The items were placed\nin the BAG.");
 
 const u8 * const gStatNamesTable[NUM_BATTLE_STATS] =
 {
@@ -1352,6 +1355,9 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_PLAYERPAIDPRIZEMONEY - BATTLESTRINGS_TABLE_START] = sText_PlayerPaidPrizeMoney,
     [STRINGID_TEAMGAINEDEXP - BATTLESTRINGS_TABLE_START] = sText_TeamGainedEXP,
     [STRINGID_PKMNSTOLEITEMBAG - BATTLESTRINGS_TABLE_START] = sText_PkmnStoleItemBag,
+    [STRINGID_PLAYERFOUNDITEM - BATTLESTRINGS_TABLE_START] = sText_PlayerFoundItem,
+    [STRINGID_PLACEDITEMINBAG - BATTLESTRINGS_TABLE_START] = sText_PlacedItemInBag,
+    [STRINGID_PLACEDITEMSINBAG - BATTLESTRINGS_TABLE_START] = sText_PlacedItemsInBag,
 };
 
 const u16 gMentalHerbCureStringIds[] =
