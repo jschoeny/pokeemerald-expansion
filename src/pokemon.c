@@ -3390,6 +3390,31 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_SPDEF_IV, &iv);
     }
 
+    if(fixedIV == USE_3_MAX_IVS)
+    {
+        u8 numLeft = 3;
+        u8 i, rand = 0;
+        u8 iv = MAX_PER_STAT_IVS;
+        value = 0;
+
+        do {
+            // Bitwise choose random stats
+            rand = Random() % NUM_STATS;
+            if(!(value & (1 << rand))) // Check against repeats
+            {
+                value |= (1 << rand);
+                numLeft--;
+            }
+        } while (numLeft > 0);
+
+        for (i = 0; i < NUM_STATS; i++)
+        {
+            if(value & (1 << i))
+                SetBoxMonData(boxMon, MON_DATA_HP_IV + i, &iv);
+        }
+
+    }
+
     if (gBaseStats[species].abilities[1])
     {
         value = personality & 1;

@@ -211,6 +211,7 @@
 #define B_FLAG_INVERSE_BATTLE       0     // If this flag is set, the battle's type effectiveness are inversed. For example, fire is super effective against water.
 #define B_FLAG_FORCE_DOUBLE_WILD    0     // If this flag is set, all land and surfing wild battles will be double battles.
 #define B_SMART_WILD_AI_FLAG        FLAG_SMART_WILD_AI     // If not 0, you can set this flag in a script to enable smart wild pokemon
+#define B_FLAG_3_MAX_IVS            FLAG_WILD_3_MAX_IVS     // If not 0, you can set this flag in a script to make the next wild pokemon have 3 max ivs
 
 // Var Settings
 // To use the following features in scripting, replace the 0s with the var ID you're assigning it to.
