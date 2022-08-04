@@ -37,6 +37,7 @@ MarineCave_End_EventScript_Kyogre::
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, MarineCave_End_EventScript_TotemKyogre
 	setvar VAR_LAST_TALKED, LOCALID_KYOGRE
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_KYOGRE, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle

@@ -50,6 +50,7 @@ SkyPillar_Top_EventScript_Rayquaza::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, SkyPillar_Top_EventScript_TotemRayquaza
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_RAYQUAZA, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle

@@ -195,6 +195,7 @@ Route120_EventScript_StevenBattleKecleon::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, Route120_EventScript_TotemKecleon
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_KECLEON, 30
 	setvar VAR_0x8009, 0
 	setflag FLAG_SYS_CTRL_OBJ_DELETE

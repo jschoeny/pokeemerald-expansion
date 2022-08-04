@@ -37,6 +37,7 @@ TerraCave_End_EventScript_Groudon::
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, TerraCave_End_EventScript_TotemGroudon
 	setvar VAR_LAST_TALKED, LOCALID_GROUDON
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_GROUDON, 70
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle

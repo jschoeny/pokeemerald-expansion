@@ -149,24 +149,35 @@ bool8 DoesPartyHaveEnigmaBerry(void)
 void CreateScriptedWildMon(u16 species, u8 level, u16 item)
 {
     u8 heldItem[2];
+    u8 ivs = USE_RANDOM_IVS;
+
+    if(B_FLAG_3_MAX_IVS != 0 && FlagGet(B_FLAG_3_MAX_IVS))
+        ivs = USE_3_MAX_IVS;
 
     ZeroEnemyPartyMons();
-    CreateMon(&gEnemyParty[0], species, level, USE_RANDOM_IVS, 0, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[0], species, level, ivs, 0, 0, OT_ID_PLAYER_ID, 0);
     if (item)
     {
         heldItem[0] = item;
         heldItem[1] = item >> 8;
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem);
     }
+    
+    if(B_FLAG_3_MAX_IVS != 0)
+        FlagClear(B_FLAG_3_MAX_IVS);
 }
 void CreateScriptedDoubleWildMon(u16 species1, u8 level1, u16 item1, u16 species2, u8 level2, u16 item2)
 {
     u8 heldItem1[2];
     u8 heldItem2[2];
+    u8 ivs = USE_RANDOM_IVS;
+
+    if(B_FLAG_3_MAX_IVS != 0 && FlagGet(B_FLAG_3_MAX_IVS))
+        ivs = USE_3_MAX_IVS;
 
     ZeroEnemyPartyMons();
 
-    CreateMon(&gEnemyParty[0], species1, level1, 32, 0, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[0], species1, level1, ivs, 0, 0, OT_ID_PLAYER_ID, 0);
     if (item1)
     {
         heldItem1[0] = item1;
@@ -174,13 +185,16 @@ void CreateScriptedDoubleWildMon(u16 species1, u8 level1, u16 item1, u16 species
         SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, heldItem1);
     }
 
-    CreateMon(&gEnemyParty[3], species2, level2, 32, 0, 0, OT_ID_PLAYER_ID, 0);
+    CreateMon(&gEnemyParty[3], species2, level2, ivs, 0, 0, OT_ID_PLAYER_ID, 0);
     if (item2)
     {
         heldItem2[0] = item2;
         heldItem2[1] = item2 >> 8;
         SetMonData(&gEnemyParty[3], MON_DATA_HELD_ITEM, heldItem2);
     }
+
+    if(B_FLAG_3_MAX_IVS != 0)
+        FlagClear(B_FLAG_3_MAX_IVS);
 }
 
 void ScriptSetMonMoveSlot(u8 monIndex, u16 move, u8 slot)

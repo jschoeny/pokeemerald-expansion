@@ -143,6 +143,7 @@ FarawayIsland_Interior_EventScript_Mew::
 	special DestroyMewEmergingGrassSprite
 	delay 40
 	waitmoncry
+	setflag B_FLAG_3_MAX_IVS
 	seteventmon SPECIES_MEW, 30
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special BattleSetup_StartLegendaryBattle
@@ -495,6 +496,7 @@ FarawayIsland_Interior_EventScript_SlateEncounterStart::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, FarawayIsland_Interior_EventScript_TotemLegendary1
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattlevars VAR_SPECIES_ID, MONLEVEL, HELDITEM
 	special BattleSetup_StartLegendaryBattle
 	waitstate
@@ -519,6 +521,7 @@ FarawayIsland_Interior_EventScript_SlateEncounterWeather::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, FarawayIsland_Interior_EventScript_TotemLegendary1
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattlevars VAR_SPECIES_ID, MONLEVEL, HELDITEM
 	special BattleSetup_StartLegendaryBattle
 	waitstate

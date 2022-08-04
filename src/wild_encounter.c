@@ -415,6 +415,10 @@ static u8 PickWildMonNature(void)
 static void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm;
+    u8 ivs = USE_RANDOM_IVS;
+
+    if(B_FLAG_3_MAX_IVS != 0 && FlagGet(B_FLAG_3_MAX_IVS))
+        ivs = USE_3_MAX_IVS;
 
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
@@ -443,11 +447,14 @@ static void CreateWildMon(u16 species, u8 level)
         else
             gender = MON_FEMALE;
 
-        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
+        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, ivs, gender, PickWildMonNature(), 0);
         return;
     }
 
-    CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
+    CreateMonWithNature(&gEnemyParty[0], species, level, ivs, PickWildMonNature());
+
+    if(B_FLAG_3_MAX_IVS != 0)
+        FlagClear(B_FLAG_3_MAX_IVS);
 }
 
 static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 flags)
@@ -558,6 +565,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
         return FALSE;
 
     FlagSet(FLAG_OUTBREAK_ENCOUNTER);
+    FlagSet(B_FLAG_3_MAX_IVS);
 
     CreateWildMon(gSaveBlock1Ptr->outbreakPokemonSpecies, level);
     item1 = gBaseStats[gSaveBlock1Ptr->outbreakPokemonSpecies].item1;

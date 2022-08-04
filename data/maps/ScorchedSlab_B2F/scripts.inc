@@ -75,6 +75,7 @@ ScorchedSlab_B2F_EventScript_Heatran::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, ScorchedSlab_B2F_EventScript_TotemLegendary
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_HEATRAN, 70
 	special BattleSetup_StartLegendaryBattle
 	waitstate

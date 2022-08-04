@@ -104,6 +104,7 @@ IslandCave_EventScript_Regice::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, IslandCave_EventScript_TotemLegendary
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_REGICE, 40
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
@@ -184,6 +185,7 @@ IslandCave_EventScript_Regigigas::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, IslandCave_EventScript_TotemLegendary
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_REGIGIGAS, 70
 	special BattleSetup_StartLegendaryBattle
 	waitstate

@@ -63,6 +63,7 @@ AncientTomb_EventScript_Registeel::
 	waitmoncry
 	checkchallengemode
 	call_if_eq VAR_RESULT, TRUE, AncientTomb_EventScript_TotemRegisteel
+	setflag B_FLAG_3_MAX_IVS
 	setwildbattle SPECIES_REGISTEEL, 40
 	setflag FLAG_SYS_CTRL_OBJ_DELETE
 	special StartRegiBattle
