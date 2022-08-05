@@ -7097,7 +7097,7 @@ static void Task_DisplayUpdatedStatsPg1(u8 taskId)
     {
         PlaySE(SE_SELECT);
         DisplayLevelUpStatsPg1(taskId);
-        gTasks[taskId].func = Task_DisplayLevelUpStatsPg2;
+        gTasks[taskId].func = Task_DisplayUpdatedStatsPg2;
     }
 }
 
