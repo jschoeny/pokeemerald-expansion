@@ -364,7 +364,9 @@ static void HandleInputChooseAction(void)
                     EndBounceEffect(i, BOUNCE_MON);
             }
             gStatPreviewScroll = 0;
-            MoveSelectionDestroyCursorAt(gMoveSelectionCursor[gActiveBattler]);
+            MoveSelectionDestroyCursorAt(gMoveSelectionCursor[B_POSITION_PLAYER_LEFT]);
+            if(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+                MoveSelectionDestroyCursorAt(gMoveSelectionCursor[B_POSITION_PLAYER_RIGHT]);
             DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX, 7, 1);
             DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_MON, 7, 2);
             BtlController_EmitTwoReturnValues(BUFFER_B, B_ACTION_MON_SUMMARIES, 0);
