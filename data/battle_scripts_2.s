@@ -56,6 +56,9 @@ BattleScript_PrintCaughtMonInfo::
 	getexp BS_TARGET
 	sethword gBattle_BG2_X, 0
 BattleScript_TryPrintCaughtMonInfo:
+	givepaydaymoney
+	trypickupwilditems
+	pickup
 	trysetcaughtmondexflags BattleScript_TryNicknameCaughtMon
 	printstring STRINGID_PKMNDATAADDEDTODEX
 	waitstate
