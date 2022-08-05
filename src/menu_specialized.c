@@ -1512,7 +1512,7 @@ static const u8 *const sLvlUpStatStrings[NUM_STATS] =
 
 void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bgClr, u8 fgClr, u8 shadowClr)
 {
-    u16 i, x;
+    u16 i, numDigits, x;
     s16 statsDiff[NUM_STATS];
     u8 text[12];
     u8 color[3];
@@ -1532,6 +1532,12 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bg
 
     for (i = 0; i < NUM_STATS; i++)
     {
+        if (statsDiff[i] > 99)
+            numDigits = 3;
+        else if (statsDiff[i] > 9)
+            numDigits = 2;
+        else
+            numDigits = 1;
 
         AddTextPrinterParameterized3(windowId,
                                      FONT_NORMAL,
@@ -1544,17 +1550,14 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bg
         StringCopy(text, (statsDiff[i] >= 0) ? gText_Plus : gText_Dash);
         AddTextPrinterParameterized3(windowId,
                                      FONT_NORMAL,
-                                     56,
+                                     numDigits <= 2 ? 56 : 50,
                                      15 * i,
                                      color,
                                      -1,
                                      text);
-        if (abs(statsDiff[i]) <= 9)
-            x = 18;
-        else
-            x = 12;
+        x = 6 * (4 - numDigits);
 
-        ConvertIntToDecimalStringN(text, abs(statsDiff[i]), STR_CONV_MODE_LEFT_ALIGN, 2);
+        ConvertIntToDecimalStringN(text, abs(statsDiff[i]), STR_CONV_MODE_LEFT_ALIGN, 3);
         AddTextPrinterParameterized3(windowId,
                                      FONT_NORMAL,
                                      56 + x,
