@@ -410,7 +410,7 @@ static bool8 SetUpFieldMove_Fly(void);
 static bool8 SetUpFieldMove_Waterfall(void);
 static bool8 SetUpFieldMove_Dive(void);
 void TryItemHoldFormChange(struct Pokemon *mon);
-static void ShowStatSelectWindow(u8 slot);
+static void ShowStatSelectWindow(u8 slot, u8 statPos);
 static void Task_HandleWhichStatInput(u8 taskId);
 static u8 SetSelectedStatForIVItem(u8 taskId);
 static void Task_ChooseHowManyToUse(u8 taskId);
@@ -6830,7 +6830,8 @@ void IsLastMonThatKnowsSurf(void)
 
 #define tQuantity data[5]
 #define tItemCount data[6]
-static void ShowStatSelectWindow(u8 slot)
+#define tStatPos data[7]
+static void ShowStatSelectWindow(u8 slot, u8 statPos)
 {
     u8 i;
     u8 statCount = 0;
@@ -6840,13 +6841,18 @@ static void ShowStatSelectWindow(u8 slot)
 
     for (i = 0; i < NUM_STATS; i++)
     {
-        ivAmount = GetMonData(&gPlayerParty[slot], MON_DATA_HP_IV + i);
+        u8 stat = i;
+        if(i >= MON_DATA_SPEED_IV - MON_DATA_HP_IV)
+            stat++;
+        if(i == NUM_STATS - 1)
+            stat = MON_DATA_SPEED_IV - MON_DATA_HP_IV;
+        ivAmount = GetMonData(&gPlayerParty[slot], MON_DATA_HP_IV + stat);
         if (ivAmount < MAX_PER_STAT_IVS) {
-            AddTextPrinterParameterized(windowId, fontId, gStatNamesTable[i], 8, (statCount * 16) + 1, TEXT_SKIP_DRAW, NULL);
+            AddTextPrinterParameterized(windowId, fontId, gStatNamesTable[stat], 8, (statCount * 16) + 1, TEXT_SKIP_DRAW, NULL);
             statCount++;
         }
     }
-    InitMenuInUpperLeftCornerNormal(windowId, statCount, 0);
+    InitMenuInUpperLeftCornerNormal(windowId, statCount, statPos);
     ScheduleBgCopyTilemapToVram(2);
 }
 
@@ -6869,6 +6875,7 @@ static void Task_HandleWhichStatInput(u8 taskId)
         if (input == MENU_B_PRESSED)
         {
             PlaySE(SE_SELECT);
+            tStatPos = 0;
             ReturnToUseOnWhichMon(taskId);
         }
         else
@@ -6893,6 +6900,7 @@ void ItemUseCB_IVIncrease(u8 taskId, TaskFunc task)
 {
     u16 item = gSpecialVar_ItemId;
     u8 i, numStats = 0;
+    s16* data = gTasks[taskId].data;
 
     for (i = 0; i < NUM_STATS; i++)
     {
@@ -6905,7 +6913,7 @@ void ItemUseCB_IVIncrease(u8 taskId, TaskFunc task)
         PlaySE(SE_SELECT);
         DisplayPartyMenuStdMessage(PARTY_MSG_BOOST_IV_WHICH_STAT);
         sPartyMenuInternal->numActions = numStats;
-        ShowStatSelectWindow(gPartyMenu.slotId);
+        ShowStatSelectWindow(gPartyMenu.slotId, tStatPos);
         gTasks[taskId].func = Task_HandleWhichStatInput;
     }
     else
@@ -6922,23 +6930,29 @@ static u8 SetSelectedStatForIVItem(u8 taskId)
 {
     u8 i;
     u8 ivAmount;
-    u8 menuPos = Menu_GetCursorPos();
     u8 statNum = 0;
+    s16* data = gTasks[taskId].data;
+
+    tStatPos = Menu_GetCursorPos();
 
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
 
     for (i = 0; i < NUM_STATS; i++)
     {
-        ivAmount = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HP_IV + i);
+        u8 stat = i;
+        if(i >= MON_DATA_SPEED_IV - MON_DATA_HP_IV)
+            stat++;
+        if(i == NUM_STATS - 1)
+            stat = MON_DATA_SPEED_IV - MON_DATA_HP_IV;
+        ivAmount = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HP_IV + stat);
         if (ivAmount < MAX_PER_STAT_IVS)
             statNum++;
-        if (statNum - 1 == menuPos)
+        if (statNum - 1 == tStatPos)
             break;
     }
     gPartyMenu.data1 = i;
 
     return ivAmount;
-    //TryUseIVItem(taskId);
 }
 
 static void Task_ChooseHowManyToUse(u8 taskId)
@@ -6973,6 +6987,12 @@ static void TryUseIVItem(u8 taskId)
     struct Pokemon *mon;
     struct PartyMenuInternal *ptr2 = sPartyMenuInternal;
     s16 *arrayPtr = ptr2->data;
+    u8 stat = *statNum;
+
+    if(*statNum >= MON_DATA_SPEED_IV - MON_DATA_HP_IV)
+        stat++;
+    if(*statNum == NUM_STATS - 1)
+        stat = MON_DATA_SPEED_IV - MON_DATA_HP_IV;
 
     gPartyMenuUseExitCallback = TRUE;
     mon = &gPlayerParty[ptr->slotId];
@@ -6980,19 +7000,21 @@ static void TryUseIVItem(u8 taskId)
     RemoveBagItem(item, tItemCount);
 
     BufferMonStatsToTaskData(mon, arrayPtr);
-    ivs = GetMonData(mon, MON_DATA_HP_IV + *statNum) + (tItemCount * I_GRIT_PEBBLE_INCR);
+    ivs = GetMonData(mon, MON_DATA_HP_IV + stat) + (tItemCount * I_GRIT_PEBBLE_INCR);
     if(ivs > MAX_PER_STAT_IVS)
         ivs = MAX_PER_STAT_IVS;
-    SetMonData(mon, MON_DATA_HP_IV + *statNum, &ivs);
+    SetMonData(mon, MON_DATA_HP_IV + stat, &ivs);
     CalculateMonStats(mon);
     UpdateMonDisplayInfoAfterRareCandy(ptr->slotId, mon);
     BufferMonStatsToTaskData(mon, &ptr2->data[NUM_STATS]);
 
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gStatNamesTable[*statNum]);
+    StringCopy(gStringVar2, gStatNamesTable[stat]);
     StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
+
+    tStatPos = 0;
 
     gTasks[taskId].func = Task_DisplayUpdatedStatsPg1;
 }
