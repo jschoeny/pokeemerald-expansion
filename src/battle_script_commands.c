@@ -9632,15 +9632,16 @@ static void Cmd_various(void)
             AddBagItem(gBattleResults.itemsFound[gWildItemFoundCount], 1);
             StringCopy(gBattleTextBuff1, gItems[gBattleResults.itemsFound[gWildItemFoundCount]].name);
             gWildItemFoundCount++;
+            BattleScriptPush(gBattlescriptCurrInstr + 3);
             gBattlescriptCurrInstr = BattleScript_PrintItemFoundString;
             return;
         }
         else if(gWildItemFoundCount > 0){
+            BattleScriptPush(gBattlescriptCurrInstr + 3);
             if(gWildItemFoundCount == 1)
                 gBattlescriptCurrInstr = BattleScript_PrintItemInBagString;
             else
                 gBattlescriptCurrInstr = BattleScript_PrintItemsInBagString;
-            gWildItemFoundCount = 0;
             return;
         }
         break;
@@ -13827,6 +13828,7 @@ static void Cmd_handleballthrow(void)
             BtlController_EmitBallThrowAnim(BUFFER_A, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);
             UndoFormChange(gBattlerPartyIndexes[gBattlerTarget], GET_BATTLER_SIDE(gBattlerTarget), FALSE);
+            GetItemsToFind(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL));
             gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
             SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
 
@@ -13873,6 +13875,7 @@ static void Cmd_handleballthrow(void)
                     gBattleSpritesDataPtr->animationData->criticalCaptureSuccess = 1;
 
                 UndoFormChange(gBattlerPartyIndexes[gBattlerTarget], GET_BATTLER_SIDE(gBattlerTarget), FALSE);
+                GetItemsToFind(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL));
                 gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                 SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
 

@@ -3109,6 +3109,8 @@ static void BattleStartClearSetData(void)
     }
 
     gSwapDamageCategory = FALSE; // Photon Geyser, Shell Side Arm, Light That Burns the Sky
+    
+    gWildItemFoundCount = 0;
 }
 
 void SwitchInClearSetData(void)

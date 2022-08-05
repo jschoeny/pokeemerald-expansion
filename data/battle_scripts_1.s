@@ -7617,17 +7617,17 @@ BattleScript_PrintItemFoundString::
 	printstring STRINGID_PLAYERFOUNDITEM
 	waitmessage B_WAIT_TIME_LONG
 	trypickupwilditems
-	end2
+	return
 
 BattleScript_PrintItemInBagString::
 	printstring STRINGID_PLACEDITEMINBAG
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_PrintItemsInBagString::
 	printstring STRINGID_PLACEDITEMSINBAG
 	waitmessage B_WAIT_TIME_LONG
-	end2
+	return
 
 BattleScript_WrapTurnDmg::
 	jumpifability BS_ATTACKER, ABILITY_MAGIC_GUARD, BattleScript_DoTurnDmgEnd
