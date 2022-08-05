@@ -1,7 +1,7 @@
 #define MASS_OUTBREAK_LEVEL1 3
 #define MASS_OUTBREAK_LEVEL2 9
 #define MASS_OUTBREAK_LEVEL3 15
-#define MASS_OUTBREAK_LEVEL4 16
+#define MASS_OUTBREAK_LEVEL4 17
 static const struct {
     u16 species;
     u16 moves[MAX_MON_MOVES];
@@ -179,9 +179,19 @@ static const struct {
         .probability = 15,
         .numEncounters = 15
     },
+    {   // 16
+        .species = SPECIES_BELDUM,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_STEALTH_ROCK},
+        .level = 21,
+        .location = MAP_NUM(ROUTE112),
+        .locationGroup = MAP_GROUP(ROUTE112),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 7
+    },
 
     // Defeated champion
-    {   // 16
+    {   // 17
         .species = SPECIES_MAROWAK_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_CURSE},
         .level = 31,
@@ -191,7 +201,7 @@ static const struct {
         .probability = 10,
         .numEncounters = 5
     },
-    {   // 17
+    {   // 18
         .species = SPECIES_EXEGGUTOR_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_GRASSY_TERRAIN},
         .level = 56,
@@ -201,7 +211,7 @@ static const struct {
         .probability = 10,
         .numEncounters = 5
     },
-    {   // 18
+    {   // 19
         .species = SPECIES_RAICHU_ALOLAN,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_ALLY_SWITCH},
         .level = 56,
@@ -211,20 +221,10 @@ static const struct {
         .probability = 10,
         .numEncounters = 5
     },
-    {   // 19
+    {   // 20
         .species = SPECIES_BULBASAUR,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_WEATHER_BALL},
-        .level = 24,
-        .location = MAP_NUM(ROUTE121),
-        .locationGroup = MAP_GROUP(ROUTE121),
-        .onWater = FALSE,
-        .probability = 15,
-        .numEncounters = 5
-    },
-    {   // 20
-        .species = SPECIES_CHARMANDER,
-        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DRAGON_DANCE},
-        .level = 24,
+        .level = 10,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
         .onWater = FALSE,
@@ -232,9 +232,9 @@ static const struct {
         .numEncounters = 5
     },
     {   // 21
-        .species = SPECIES_SQUIRTLE,
-        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_SHELL_SMASH},
-        .level = 24,
+        .species = SPECIES_CHARMANDER,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DRAGON_DANCE},
+        .level = 10,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
         .onWater = FALSE,
@@ -242,9 +242,9 @@ static const struct {
         .numEncounters = 5
     },
     {   // 22
-        .species = SPECIES_TURTWIG,
-        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_STEALTH_ROCK},
-        .level = 24,
+        .species = SPECIES_SQUIRTLE,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_SHELL_SMASH},
+        .level = 10,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
         .onWater = FALSE,
@@ -252,9 +252,9 @@ static const struct {
         .numEncounters = 5
     },
     {   // 23
-        .species = SPECIES_CHIMCHAR,
-        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_U_TURN},
-        .level = 24,
+        .species = SPECIES_TURTWIG,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_STEALTH_ROCK},
+        .level = 10,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
         .onWater = FALSE,
@@ -262,9 +262,79 @@ static const struct {
         .numEncounters = 5
     },
     {   // 24
+        .species = SPECIES_CHIMCHAR,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_U_TURN},
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 25
         .species = SPECIES_PIPLUP,
         .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DEFOG},
-        .level = 24,
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 26
+        .species = SPECIES_SNIVY,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_GLARE},
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 27
+        .species = SPECIES_TEPIG,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_WILD_CHARGE},
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 28
+        .species = SPECIES_OSHAWOTT,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_GRASS_KNOT},
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 29
+        .species = SPECIES_CHESPIN,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_DRAIN_PUNCH},
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 30
+        .species = SPECIES_FENNEKIN,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_GRASS_KNOT},
+        .level = 10,
+        .location = MAP_NUM(ROUTE121),
+        .locationGroup = MAP_GROUP(ROUTE121),
+        .onWater = FALSE,
+        .probability = 15,
+        .numEncounters = 5
+    },
+    {   // 31
+        .species = SPECIES_FROAKIE,
+        .moves = {MOVE_NONE, MOVE_NONE, MOVE_NONE, MOVE_GUNK_SHOT},
+        .level = 10,
         .location = MAP_NUM(ROUTE121),
         .locationGroup = MAP_GROUP(ROUTE121),
         .onWater = FALSE,
