@@ -23,6 +23,7 @@
 #define FANFARE_OBTAIN_B_POINTS     19
 #define FANFARE_REGISTER_MATCH_CALL 20
 #define FANFARE_OBTAIN_SYMBOL       21
+#define FANFARE_GAIN_EXP            22
 
 #define CRY_MODE_NORMAL        0 // Default
 #define CRY_MODE_DOUBLES       1 // Shortened cry for double battles

@@ -154,6 +154,7 @@ static EWRAM_DATA u16 sPartyMenuItemId = 0;
 static EWRAM_DATA u16 sUnused = 0;
 EWRAM_DATA u8 gBattlePartyCurrentOrder[PARTY_SIZE / 2] = {0}; // bits 0-3 are the current pos of Slot 1, 4-7 are Slot 2, and so on
 EWRAM_DATA u16 gItemsLeftToUse = 0;
+EWRAM_DATA u8 gLevelStart = 0;
 
 // IWRAM common
 void (*gItemUseCB)(u8, TaskFunc);
@@ -5187,11 +5188,13 @@ static void Task_TryLearningNextMoveAfterText(u8 taskId)
         Task_TryLearningNextMove(taskId);
 }
 
-#define tQuantity data[5]
-#define tExpYield (gSpecialVar_ItemId - ITEM_RARE_CANDY)
+#define tWaitFrames data[4]
+#define tMaxFrames data[5]
+#define tQuantity data[6]
 #define tExpState data[7]
-#define tLevelStart data[8]
+#define tLevelStart gLevelStart
 #define tExpStart data[9]
+#define tExpYield (gSpecialVar_ItemId - ITEM_RARE_CANDY)
 void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -5204,6 +5207,8 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     u8 levelCap = GetLevelCap(TRUE);
 
     tExpState = 0;
+    tMaxFrames = 30;
+    tWaitFrames = tMaxFrames;
 
     if (level != MAX_LEVEL && level < levelCap)
     {
@@ -5258,6 +5263,8 @@ void ItemUseCB_ExpCandy(u8 taskId, TaskFunc task)
     u8 levelCap = GetLevelCap(TRUE);
 
     tExpState = 0;
+    tMaxFrames = 30;
+    tWaitFrames = tMaxFrames;
 
     if (GetMonData(mon, MON_DATA_EXP) < gExperienceTables[gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][levelCap])
     {
@@ -5314,12 +5321,14 @@ static void Task_ChooseHowManyCandyToUse(u8 taskId)
         {
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
             if (tExpYield == 0) {
-                PlaySE(SE_SELECT);
+                PlayFanfareByFanfareNum(FANFARE_GAIN_EXP);
                 TryUseRareCandy(taskId);
             }
             else {
                 tExpState = 1;
-                PlaySE(SE_EXP);
+                tMaxFrames = 30;
+                tWaitFrames = tMaxFrames;
+                PlaySE(SE_SELECT);
                 UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
                 GetMonNickname(mon, gStringVar1);
                 ConvertIntToDecimalStringN(gStringVar2, gItemsLeftToUse * gExpCandyAmounts[tExpYield], STR_CONV_MODE_LEFT_ALIGN, 7);
@@ -5338,8 +5347,14 @@ static void Task_ChooseHowManyCandyToUse(u8 taskId)
     }
     else if(tExpState == 1)
     {
-        if(!IsSEPlaying()) {
+        if(tWaitFrames > 0) {
+            tWaitFrames--;
+        }
+        else if(!IsSEPlaying()) {
             tExpState = 0;
+            tMaxFrames = 30;
+            tWaitFrames = tMaxFrames;
+            PlayFanfareByFanfareNum(FANFARE_GAIN_EXP);
             TryUseExpCandy(taskId);
         }
     }
@@ -5357,13 +5372,17 @@ static void TryUseRareCandy(u8 taskId)
     BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
 
     gPartyMenuUseExitCallback = TRUE;
-    PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
     UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
     RemoveBagItem(gSpecialVar_ItemId, 1);
-    GetMonNickname(mon, gStringVar1);
-    ConvertIntToDecimalStringN(gStringVar2, GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
-    DisplayPartyMenuMessage(gStringVar4, TRUE);
+    if(gItemsLeftToUse == 1)
+    {
+        StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+        GetMonNickname(mon, gStringVar1);
+        ConvertIntToDecimalStringN(gStringVar2, GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
+        StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+        DisplayPartyMenuMessage(gStringVar4, TRUE);
+    }
     ScheduleBgCopyTilemapToVram(2);
 
     gItemsLeftToUse--;
@@ -5392,6 +5411,9 @@ static void TryUseExpCandy(u8 taskId)
         leveledUp = FALSE;
         RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
         gItemsLeftToUse = 0;
+        if(!WaitFanfare(FALSE))
+            StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
     }
     else if((gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp >=
      gExperienceTables[gBaseStats[species].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1])
@@ -5403,6 +5425,9 @@ static void TryUseExpCandy(u8 taskId)
         if(dataUnsigned == (gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp) {
             RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
             gItemsLeftToUse = 0;
+            if(!WaitFanfare(FALSE))
+                StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+            PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
         }
     }
     else
@@ -5412,6 +5437,9 @@ static void TryUseExpCandy(u8 taskId)
         leveledUp = FALSE;
         RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
         gItemsLeftToUse = 0;
+        if(!WaitFanfare(FALSE))
+            StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
     }
 
     BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
@@ -5419,12 +5447,14 @@ static void TryUseExpCandy(u8 taskId)
     if(leveledUp)
     {
         gPartyMenuUseExitCallback = TRUE;
-        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
         UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
-        GetMonNickname(mon, gStringVar1);
-        ConvertIntToDecimalStringN(gStringVar2, GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
-        DisplayPartyMenuMessage(gStringVar4, TRUE);
+        if(gItemsLeftToUse == 0)
+        {
+            GetMonNickname(mon, gStringVar1);
+            ConvertIntToDecimalStringN(gStringVar2, GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
+            StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+            DisplayPartyMenuMessage(gStringVar4, TRUE);
+        }
         ScheduleBgCopyTilemapToVram(2);
 
         if(gItemsLeftToUse > 0)
@@ -5434,8 +5464,18 @@ static void TryUseExpCandy(u8 taskId)
     }
     else
     {
-        if(GetMonData(mon, MON_DATA_LEVEL, NULL) > tLevelStart)
+        if(GetMonData(mon, MON_DATA_LEVEL, NULL) > tLevelStart) {
+            if(gItemsLeftToUse == 0)
+            {
+                UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
+                GetMonNickname(mon, gStringVar1);
+                ConvertIntToDecimalStringN(gStringVar2, GetMonData(mon, MON_DATA_LEVEL), STR_CONV_MODE_LEFT_ALIGN, 3);
+                StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+                DisplayPartyMenuMessage(gStringVar4, TRUE);
+                ScheduleBgCopyTilemapToVram(2);
+            }
             gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
+        }
         else if(CheckBagHasItem(gSpecialVar_ItemId, 1))
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
         else
@@ -5497,17 +5537,40 @@ static void DisplayLevelUpStatsPg2(u8 taskId)
 
 static void Task_TryLearnNewMoves(u8 taskId)
 {
+    s16* data = gTasks[taskId].data;
     u16 learnMove;
 
-    if (WaitFanfare(0) && ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON)) || (gItemsLeftToUse > 0)))
+    if (gItemsLeftToUse > 0)
     {
-        RemoveLevelUpStatsWindow();
-        learnMove = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], TRUE);
+        if(tWaitFrames > 0) {
+            tWaitFrames--;
+            return;
+        }
+        if(tMaxFrames > 2)
+            tMaxFrames /= 2;
+        tWaitFrames = tMaxFrames;
+        if (tExpYield == 0)
+            TryUseRareCandy(taskId);
+        else
+            TryUseExpCandy(taskId);
+    }
+    else if (WaitFanfare(0))
+    {
+        u8 levelCheck = tLevelStart;
+        u8 monLevel = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_LEVEL, NULL);
+        if(gPartyMenu.learnMoveState == 0)
+            RemoveLevelUpStatsWindow();
+        learnMove = MonTryLearningNewMoveAtLevel(&gPlayerParty[gPartyMenu.slotId], TRUE, levelCheck);
         gPartyMenu.learnMoveState = 1;
         switch (learnMove)
         {
         case 0: // No moves to learn
-            PartyMenuTryEvolution(taskId);
+            if(levelCheck < monLevel) {
+                tLevelStart = levelCheck + 1;
+                gTasks[taskId].func = Task_TryLearnNewMoves;
+            }
+            else
+                PartyMenuTryEvolution(taskId);
             break;
         case MON_HAS_MAX_MOVES:
             DisplayMonNeedsToReplaceMove(taskId);
@@ -5524,12 +5587,19 @@ static void Task_TryLearnNewMoves(u8 taskId)
 
 static void Task_TryLearningNextMove(u8 taskId)
 {
-    u16 result = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], FALSE);
+    s16* data = gTasks[taskId].data;
+    u8 monLevel = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_LEVEL, NULL);
+    u16 result = MonTryLearningNewMoveAtLevel(&gPlayerParty[gPartyMenu.slotId], FALSE, tLevelStart);
 
     switch (result)
     {
     case 0: // No moves to learn
-        PartyMenuTryEvolution(taskId);
+        if(tLevelStart < monLevel) {
+            tLevelStart++;
+            gTasks[taskId].func = Task_TryLearnNewMoves;
+        }
+        else
+            PartyMenuTryEvolution(taskId);
         break;
     case MON_HAS_MAX_MOVES:
         DisplayMonNeedsToReplaceMove(taskId);
@@ -5548,14 +5618,8 @@ static void PartyMenuTryEvolution(u8 taskId)
     s16* data = gTasks[taskId].data;
     u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, SPECIES_NONE);
 
-    if (gItemsLeftToUse > 0)
-    {
-        if (tExpYield == 0)
-            TryUseRareCandy(taskId);
-        else
-            TryUseExpCandy(taskId);
-    }
-    else if (targetSpecies != SPECIES_NONE)
+    gPartyMenu.learnMoveState = 0;
+    if (targetSpecies != SPECIES_NONE)
     {
         FreePartyPointers();
         if (gSpecialVar_ItemId == ITEM_RARE_CANDY && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
@@ -5622,6 +5686,8 @@ static void BufferMonStatsToTaskData(struct Pokemon *mon, s16 *data)
     data[5] = GetMonData(mon, MON_DATA_SPDEF);
     data[3] = GetMonData(mon, MON_DATA_SPEED);
 }
+#undef tWaitFrames
+#undef tMaxFrames
 #undef tQuantity
 #undef tExpYield
 #undef tExpState
