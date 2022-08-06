@@ -469,6 +469,10 @@ const u8 gItemEffect_TamatoBerry[10] = {
     EV_BERRY_FRIENDSHIP_CHANGE,
 };
 
+const u8 gItemEffect_ExpCandy[10] = {
+    [2] = ITEM2_EXP_UP,
+};
+
 const u8 *const gItemEffectTable[] =
 {
     // Medicine
@@ -532,11 +536,11 @@ const u8 *const gItemEffectTable[] =
 
     // Candy
     [ITEM_RARE_CANDY - ITEM_POTION]       = gItemEffect_RareCandy,
-    //[ITEM_EXP_CANDY_XS - ITEM_POTION]     = gItemEffect_ExpCandy, // Todo
-    //[ITEM_EXP_CANDY_S - ITEM_POTION]      = gItemEffect_ExpCandy, // Todo
-    //[ITEM_EXP_CANDY_M - ITEM_POTION]      = gItemEffect_ExpCandy, // Todo
-    //[ITEM_EXP_CANDY_L - ITEM_POTION]      = gItemEffect_ExpCandy, // Todo
-    //[ITEM_EXP_CANDY_XL - ITEM_POTION]     = gItemEffect_ExpCandy, // Todo
+    [ITEM_EXP_CANDY_XS - ITEM_POTION]     = gItemEffect_ExpCandy,
+    [ITEM_EXP_CANDY_S - ITEM_POTION]      = gItemEffect_ExpCandy,
+    [ITEM_EXP_CANDY_M - ITEM_POTION]      = gItemEffect_ExpCandy,
+    [ITEM_EXP_CANDY_L - ITEM_POTION]      = gItemEffect_ExpCandy,
+    [ITEM_EXP_CANDY_XL - ITEM_POTION]     = gItemEffect_ExpCandy,
     //[ITEM_DYNAMAX_CANDY - ITEM_POTION]    = gItemEffect_DynamaxCandy, // Todo
 
     // Medicinal Flutes

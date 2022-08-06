@@ -25,6 +25,8 @@
 #define ITEM1_X_SPATK           0x8
 #define ITEM1_X_SPDEF           0x10
 #define ITEM1_X_ACCURACY        0x20
+
+#define ITEM2_EXP_UP            0x1
 #endif
 
 // field 3 masks

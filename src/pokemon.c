@@ -5805,6 +5805,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             break;
         // Formerly used by the item effects of the X Sp. Atk and the X Accuracy
         case 2:
+            if ((itemEffect[i] & ITEM2_EXP_UP))
+            {
+                
+            }
             break;
         #endif
         // Handle ITEM3 effects (Guard Spec, Rare Candy, cure status)
