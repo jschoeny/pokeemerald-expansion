@@ -1358,7 +1358,7 @@ const struct Item gItems[] =
     {
         .name = _("Rare Candy"),
         .itemId = ITEM_RARE_CANDY,
-        .price = 400,
+        .price = 10000,
         .description = sRareCandyDesc,
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_PARTY_MENU,
@@ -1370,11 +1370,11 @@ const struct Item gItems[] =
     {
         .name = _("Exp.Candy XS"),
         .itemId = ITEM_EXP_CANDY_XS,
-        .price = 20,
+        .price = 500,
         .description = sExpCandyXSDesc,
         .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ExpCandy,
         .flingPower = 30,
     },
 
@@ -1382,11 +1382,11 @@ const struct Item gItems[] =
     {
         .name = _("Exp.Candy S"),
         .itemId = ITEM_EXP_CANDY_S,
-        .price = 240,
+        .price = 900,
         .description = sExpCandyXSDesc,
         .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ExpCandy,
         .flingPower = 30,
     },
 
@@ -1394,11 +1394,11 @@ const struct Item gItems[] =
     {
         .name = _("Exp.Candy M"),
         .itemId = ITEM_EXP_CANDY_M,
-        .price = 1000,
+        .price = 3000,
         .description = sExpCandyMDesc,
         .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ExpCandy,
         .flingPower = 30,
     },
 
@@ -1406,11 +1406,11 @@ const struct Item gItems[] =
     {
         .name = _("Exp.Candy L"),
         .itemId = ITEM_EXP_CANDY_L,
-        .price = 3000,
+        .price = 9000,
         .description = sExpCandyLDesc,
         .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ExpCandy,
         .flingPower = 30,
     },
 
@@ -1418,11 +1418,11 @@ const struct Item gItems[] =
     {
         .name = _("Exp.Candy XL"),
         .itemId = ITEM_EXP_CANDY_XL,
-        .price = 10000,
+        .price = 25000,
         .description = sExpCandyXLDesc,
         .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_CannotUse, // Todo
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_ExpCandy,
         .flingPower = 30,
     },
 
