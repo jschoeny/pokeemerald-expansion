@@ -3590,7 +3590,7 @@ static void Cmd_clearstatusfromeffect(void)
 }
 
 #define ITEMFIND_TABLE_SIZE 6
-static void GetItemsToFind(u16 species)
+static void GetItemsToFind(u16 species, u8 level)
 {
     if(!(gBattleTypeFlags &
          (BATTLE_TYPE_LINK
@@ -3614,8 +3614,23 @@ static void GetItemsToFind(u16 species)
         u8 factor = 40;
 
         if(FlagGet(FLAG_OUTBREAK_ENCOUNTER)) {
+            u8 rand1 = Random() % 100;
+            u8 rand2 = Random() % 100;
             items[0] = ITEM_GRIT_PEBBLE;
             items[1] = ITEM_GRIT_PEBBLE;
+
+            if(FlagGet(FLAG_SYS_GAME_CLEAR))
+                items[5] = ITEM_MYSTERIOUS_SHARD;
+
+            if(rand1 < 10)
+                items[0] = level > 40 ? ITEM_EXP_CANDY_L : ITEM_EXP_CANDY_M;
+            else if(rand1 < 25)
+                items[0] = level > 20 ? ITEM_EXP_CANDY_M : ITEM_EXP_CANDY_S;
+            if(rand2 < 10)
+                items[1] = level > 40 ? ITEM_EXP_CANDY_L : ITEM_EXP_CANDY_M;
+            else if(rand2 < 25)
+                items[1] = level > 20 ? ITEM_EXP_CANDY_M : ITEM_EXP_CANDY_S;
+
             if(gBaseStats[species].item1 == 0 && gBaseStats[species].item2 != 0) {
                 items[2] = gBaseStats[species].item2;
                 items[4] = gBaseStats[species].item2;
@@ -3623,6 +3638,10 @@ static void GetItemsToFind(u16 species)
             else if(gBaseStats[species].item1 != 0 && gBaseStats[species].item2 == 0) {
                 items[3] = gBaseStats[species].item1;
                 items[5] = gBaseStats[species].item1;
+            }
+            else if(gBaseStats[species].item1 == 0 && gBaseStats[species].item2 == 0) {
+                items[2] = ITEM_GRIT_PEBBLE;
+                items[4] = level > 40 ? ITEM_EXP_CANDY_L : ITEM_EXP_CANDY_M;
             }
             factor = 120;
         }
@@ -3700,7 +3719,8 @@ static void Cmd_tryfaintmon(void)
                 if (gBattleResults.opponentFaintCounter < 255)
                     gBattleResults.opponentFaintCounter++;
                 gBattleResults.lastOpponentSpecies = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES, NULL);
-                GetItemsToFind(gBattleResults.lastOpponentSpecies);
+                GetItemsToFind(gBattleResults.lastOpponentSpecies,
+                    GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_LEVEL, NULL));
                 gWildItemFoundCount = 0;
                 gSideTimers[1].retaliateTimer = 2;
             }
@@ -13828,7 +13848,8 @@ static void Cmd_handleballthrow(void)
             BtlController_EmitBallThrowAnim(BUFFER_A, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);
             UndoFormChange(gBattlerPartyIndexes[gBattlerTarget], GET_BATTLER_SIDE(gBattlerTarget), FALSE);
-            GetItemsToFind(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL));
+            GetItemsToFind(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL),
+                GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_LEVEL, NULL));
             gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
             SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
 
@@ -13875,7 +13896,8 @@ static void Cmd_handleballthrow(void)
                     gBattleSpritesDataPtr->animationData->criticalCaptureSuccess = 1;
 
                 UndoFormChange(gBattlerPartyIndexes[gBattlerTarget], GET_BATTLER_SIDE(gBattlerTarget), FALSE);
-                GetItemsToFind(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL));
+                GetItemsToFind(GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_SPECIES, NULL),
+                    GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_LEVEL, NULL));
                 gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                 SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
 
