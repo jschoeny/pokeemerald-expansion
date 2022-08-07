@@ -5439,7 +5439,8 @@ static void TryUseExpCandy(u8 taskId)
         gItemsLeftToUse = 0;
         if(!WaitFanfare(FALSE))
             StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
-        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+        if(GetMonData(mon, MON_DATA_LEVEL, NULL) > tLevelStart)
+            PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
     }
 
     BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
