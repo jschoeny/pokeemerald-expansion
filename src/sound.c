@@ -635,3 +635,8 @@ bool8 IsSpecialSEPlaying(void)
         return FALSE;
     return TRUE;
 }
+
+void ResumeBGM(void)
+{
+    m4aMPlayContinue(&gMPlayInfo_BGM);
+}
