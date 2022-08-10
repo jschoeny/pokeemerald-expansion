@@ -292,6 +292,7 @@ static const u16 sShopInventory_SixBadges[] = {
     ITEM_SUPER_REPEL,
     ITEM_EXP_CANDY_XS,
     ITEM_EXP_CANDY_S,
+    ITEM_EXP_CANDY_M,
     ITEM_POKE_DOLL,
     ITEM_NONE
 };
