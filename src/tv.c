@@ -1621,9 +1621,7 @@ static void TryStartRandomMassOutbreak(void)
             if (sCurTVShowSlot != -1)
             {
                 u8 n, nBadges, badgeLevel;
-                u8 badgeLevelCap[NUM_BADGES + 1] = {
-                    12, 16, 20, 24, 27, 29, 37, 41, 100
-                };
+                u8 levelCap = GetLevelCapByOption(TRUE, OPTIONS_RANDOMIZER_LEVELCAP_HARD) - 3;
                 for (n = 0, nBadges = 0; n < NUM_BADGES; n++)
                 {
                     if (FlagGet(n + FLAG_BADGE01_GET) == TRUE) {
@@ -1662,8 +1660,8 @@ static void TryStartRandomMassOutbreak(void)
                         sPokeOutbreakSpeciesList[outbreakIdx].locationGroup
                     );
                     levelNew = sPokeOutbreakSpeciesList[outbreakIdx].level + badgeLevel;
-                    if(levelNew > badgeLevelCap[nBadges])
-                        levelNew = badgeLevelCap[nBadges];
+                    if(levelNew > levelCap)
+                        levelNew = levelCap;
                     show = &gSaveBlock1Ptr->tvShows[sCurTVShowSlot];
                     show->massOutbreak.kind = TVSHOW_MASS_OUTBREAK;
                     show->massOutbreak.active = TRUE;
@@ -1712,8 +1710,8 @@ static void TryStartRandomMassOutbreak(void)
                     }
                     if(BuildWildMonForOutbreak(location, &level, &species, &eggMove, &onWater) && species != SPECIES_NONE) {
                         level += badgeLevel;
-                        if(level > badgeLevelCap[nBadges])
-                            level = badgeLevelCap[nBadges];
+                        if(level > levelCap)
+                            level = levelCap;
 
                         if(onWater && onWater == gSaveBlock1Ptr->outbreakOnWater)
                             return;

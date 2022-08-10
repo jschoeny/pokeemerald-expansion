@@ -495,5 +495,6 @@ u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId);
 u16 GetRandomizedSpeciesWild(u16 species, u16 headerId);
 u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum, u8 trainerType);
 u8 GetLevelCap(bool8 isRareCandy);
+u8 GetLevelCapByOption(bool8 isRareCandy, u8 option);
 
 #endif // GUARD_POKEMON_H

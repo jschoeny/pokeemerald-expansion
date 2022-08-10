@@ -9186,6 +9186,11 @@ u16 GetRandomizedSpeciesTrainer(u16 species, u16 trainerNum, u8 trainerType)
 
 u8 GetLevelCap(bool8 isRareCandy)
 {
+    return GetLevelCapByOption(isRareCandy, 0xFF);
+}
+
+u8 GetLevelCapByOption(bool8 isRareCandy, u8 option)
+{
     u8 badgeLevelCaps[4][NUM_BADGES + 1] =
     {
         {15, 19, 24, 29, 31, 33, 42, 46, 58},
@@ -9195,6 +9200,8 @@ u8 GetLevelCap(bool8 isRareCandy)
     };
     u8 n, nBadges;
     u8 levelCap = MAX_LEVEL;
+    if(option == 0xFF)
+        option = gSaveBlock2Ptr->optionsChallengeLevelCap;
 
     if(FlagGet(FLAG_SYS_GAME_CLEAR))
         return MAX_LEVEL;
@@ -9206,11 +9213,11 @@ u8 GetLevelCap(bool8 isRareCandy)
         }
     }
 
-    if(gSaveBlock2Ptr->optionsChallengeLevelCap == OPTIONS_RANDOMIZER_LEVELCAP_CANDY && isRareCandy)
+    if(option == OPTIONS_RANDOMIZER_LEVELCAP_CANDY && isRareCandy)
         levelCap = CHALLENGE_LEVEL(badgeLevelCaps[gSaveBlock2Ptr->optionsChallengeStrongerTeams][nBadges]);
-    else if(gSaveBlock2Ptr->optionsChallengeLevelCap == OPTIONS_RANDOMIZER_LEVELCAP_NORMAL)
+    else if(option == OPTIONS_RANDOMIZER_LEVELCAP_NORMAL)
         levelCap = CHALLENGE_LEVEL(badgeLevelCaps[gSaveBlock2Ptr->optionsChallengeStrongerTeams][nBadges]);
-    else if(gSaveBlock2Ptr->optionsChallengeLevelCap == OPTIONS_RANDOMIZER_LEVELCAP_HARD)
+    else if(option == OPTIONS_RANDOMIZER_LEVELCAP_HARD)
         levelCap = CHALLENGE_LEVEL(badgeLevelCaps[2 + gSaveBlock2Ptr->optionsChallengeStrongerTeams][nBadges]);
 
     return levelCap;
