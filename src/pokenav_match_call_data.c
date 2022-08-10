@@ -221,9 +221,9 @@ static const struct MatchCallBirch sProfBirchMatchCallHeader =
 
 static const match_call_text_data_t sMomTextScripts[] = {
     { MatchCall_Text_Mom1, 0xFFFF,                      0xFFFF },
-    { MatchCall_Text_MomOutbreak, FLAG_OUTBREAK_ONGOING,0xFFFF },
     { MatchCall_Text_Mom2, FLAG_DEFEATED_PETALBURG_GYM, 0xFFFF },
     { MatchCall_Text_Mom3, FLAG_SYS_GAME_CLEAR,         0xFFFF },
+    { MatchCall_Text_MomOutbreak, FLAG_OUTBREAK_ONGOING,0xFFFF },
     { NULL,                0xFFFF,                      0xFFFF }
 };
 
