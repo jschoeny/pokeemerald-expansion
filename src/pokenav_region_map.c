@@ -550,7 +550,8 @@ static void UpdateMapSecInfoWindow(struct Pokenav_RegionMapGfx *state)
         FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(1));
         PutWindowRectTilemap(state->infoWindowId, 0, 0, 12, 2);
         AddTextPrinterParameterized(state->infoWindowId, FONT_NARROW, regionMap->mapSecName, 0, 1, TEXT_SKIP_DRAW, NULL);
-        FillBgTilemapBufferRect(1, 0x1041, 17, 6, 12, 11, 17);
+        //FillBgTilemapBufferRect(1, 0x1041, 17, 6, 12, 11, 17);
+        PrintLandmarkNames(state, regionMap->mapSecId, regionMap->posWithinMapSec);
         CopyWindowToVram(state->infoWindowId, COPYWIN_FULL);
         SetCityZoomTextInvisibility(TRUE);
         break;
@@ -657,39 +658,67 @@ static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
 
 static bool8 CheckCursorIsOverSpecialLocation(int mapSecId, int pos)
 {
+    u16 outbreakMapSecId = GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum);
     if (
         mapSecId == MAPSEC_ROUTE_122
         && pos == 0
-        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_MT_PYRE
+        && outbreakMapSecId == MAPSEC_MT_PYRE
     ) return TRUE;
 
     else if (
         mapSecId == MAPSEC_ROUTE_104
         && pos == 1
-        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_PETALBURG_WOODS
+        && outbreakMapSecId == MAPSEC_PETALBURG_WOODS
     ) return TRUE;
 
     else if (
         mapSecId == MAPSEC_ROUTE_112
         && pos == 0
-        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_JAGGED_PASS
+        && outbreakMapSecId == MAPSEC_JAGGED_PASS
     ) return TRUE;
 
     else if (
         mapSecId == MAPSEC_ROUTE_124
-        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_UNDERWATER_124
+        && outbreakMapSecId == MAPSEC_UNDERWATER_124
     ) return TRUE;
 
     else if (
         mapSecId == MAPSEC_ROUTE_126
-        && GetRegionMapSectionId(gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_UNDERWATER_126
+        && outbreakMapSecId == MAPSEC_UNDERWATER_126
     ) return TRUE;
 
     else if (
         mapSecId == MAPSEC_ROUTE_125
         && pos == 2
-        && GetRegionMapSectionId(
-            gSaveBlock1Ptr->outbreakLocationMapGroup, gSaveBlock1Ptr->outbreakLocationMapNum) == MAPSEC_SHOAL_CAVE
+        && outbreakMapSecId == MAPSEC_SHOAL_CAVE
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_106
+        && pos == 1
+        && outbreakMapSecId == MAPSEC_GRANITE_CAVE
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_112
+        && outbreakMapSecId == MAPSEC_FIERY_PATH
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_115
+        && (pos == 0 || pos == 1)
+        && outbreakMapSecId == MAPSEC_METEOR_FALLS
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_ROUTE_114
+        && pos == 3
+        && outbreakMapSecId == MAPSEC_METEOR_FALLS
+    ) return TRUE;
+
+    else if (
+        mapSecId == MAPSEC_EVER_GRANDE_CITY
+        && outbreakMapSecId == MAPSEC_VICTORY_ROAD
     ) return TRUE;
 
     return FALSE;
