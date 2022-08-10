@@ -341,6 +341,7 @@ static void Task_ChooseHowManyCandyToUse(u8);
 static void TryUseRareCandy(u8);
 static void TryUseExpCandy(u8);
 static void BufferMonStatsToTaskData(struct Pokemon*, s16*);
+static void Task_WaitExpCandyFanfare(u8);
 static void UpdateMonDisplayInfoAfterRareCandy(u8, struct Pokemon*);
 static void Task_DisplayLevelUpStatsPg1(u8);
 static void DisplayLevelUpStatsPg1(u8);
@@ -424,7 +425,7 @@ static void TryUseIVItem(u8 taskId);
 static void Task_DisplayUpdatedStatsPg1(u8 taskId);
 static void Task_DisplayUpdatedStatsPg2(u8 taskId);
 static void Task_WaitCloseUpdatedStatsWindow(u8 taskId);
-static void PrintItemQuantity(u8 windowId, s16 quantity);
+static void PrintItemQuantity(u8 windowId, s16 quantity, u8 numDigits);
 
 // static const data
 #include "data/pokemon/tutor_learnsets.h"
@@ -5244,7 +5245,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
             tQuantity = maxLevels;
         gItemsLeftToUse = 1;
         DisplaySelectionWindow(SELECTWINDOW_QUANTITY);
-        PrintItemQuantity(sPartyMenuInternal->windowId[0], gItemsLeftToUse);
+        PrintItemQuantity(sPartyMenuInternal->windowId[0], gItemsLeftToUse, 3);
         StringCopy(gStringVar1, gItems[gSpecialVar_ItemId].name);
         DisplayPartyMenuStdMessage(PARTY_MSG_HOW_MANY_ITEM);
         gTasks[taskId].func = Task_ChooseHowManyCandyToUse;
@@ -5289,8 +5290,8 @@ void ItemUseCB_ExpCandy(u8 taskId, TaskFunc task)
         u16 itemQuantity = CountTotalItemQuantityInBag(gSpecialVar_ItemId);
         PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
         maxExp = gExperienceTables[gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][levelCap] - GetMonData(mon, MON_DATA_EXP);
-        if(itemQuantity >= 100)
-            tQuantity = 100;
+        if(itemQuantity > MAX_BAG_ITEM_CAPACITY)
+            tQuantity = MAX_BAG_ITEM_CAPACITY;
         else
             tQuantity = itemQuantity;
         if(tQuantity > (maxExp / gExpCandyAmounts[tExpYield]) + (maxExp % gExpCandyAmounts[tExpYield] == 0 ? 0 : 1))
@@ -5299,7 +5300,7 @@ void ItemUseCB_ExpCandy(u8 taskId, TaskFunc task)
         tLevelStart = level;
         tExpStart = GetMonData(mon, MON_DATA_EXP) - gExperienceTables[gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate][level];
         DisplaySelectionWindow(SELECTWINDOW_QUANTITY);
-        PrintItemQuantity(sPartyMenuInternal->windowId[0], gItemsLeftToUse);
+        PrintItemQuantity(sPartyMenuInternal->windowId[0], gItemsLeftToUse, 3);
         StringCopy(gStringVar1, gItems[gSpecialVar_ItemId].name);
         DisplayPartyMenuStdMessage(PARTY_MSG_HOW_MANY_ITEM);
         gTasks[taskId].func = Task_ChooseHowManyCandyToUse;
@@ -5315,7 +5316,7 @@ static void Task_ChooseHowManyCandyToUse(u8 taskId)
     {
         if (AdjustQuantityAccordingToDPadInput(&gItemsLeftToUse, tQuantity) == TRUE)
         {
-            PrintItemQuantity(sPartyMenuInternal->windowId[0], gItemsLeftToUse);
+            PrintItemQuantity(sPartyMenuInternal->windowId[0], gItemsLeftToUse, 3);
         }
         else if (JOY_NEW(A_BUTTON))
         {
@@ -5401,46 +5402,74 @@ static void TryUseExpCandy(u8 taskId)
     s16 *arrayPtr = ptr->data;
     u16 *itemPtr = &gSpecialVar_ItemId;
     u32 dataUnsigned;
-    bool8 leveledUp;
+    bool8 leveledUp = FALSE;
     u8 levelCap = GetLevelCap(TRUE);
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u32 startingExp = gExperienceTables[gBaseStats[species].growthRate][tLevelStart] + tExpStart;
 
-    if(GetMonData(mon, MON_DATA_LEVEL, NULL) >= levelCap)
+    if(gItemsLeftToUse > 0)
     {
-        leveledUp = FALSE;
-        RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
-        gItemsLeftToUse = 0;
-        if(!WaitFanfare(FALSE))
-            StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
-        PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
-    }
-    else if((gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp >=
-     gExperienceTables[gBaseStats[species].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1])
-    {
-        dataUnsigned = gExperienceTables[gBaseStats[species].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1];
-        SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
-        CalculateMonStats(mon);
-        leveledUp = TRUE;
-        if(dataUnsigned == (gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp) {
+        if(GetMonData(mon, MON_DATA_LEVEL, NULL) >= levelCap)
+        {
+            leveledUp = FALSE;
             RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
             gItemsLeftToUse = 0;
-            if(!WaitFanfare(FALSE))
-                StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+            StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
             PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+        }
+        else if((gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp >=
+         gExperienceTables[gBaseStats[species].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1])
+        {
+            dataUnsigned = gExperienceTables[gBaseStats[species].growthRate][GetMonData(mon, MON_DATA_LEVEL, NULL) + 1];
+            SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
+            CalculateMonStats(mon);
+            leveledUp = TRUE;
+            if(dataUnsigned == (gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp) {
+                RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
+                gItemsLeftToUse = 0;
+                StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+                PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+            }
+        }
+        else
+        {
+            dataUnsigned = (gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp;
+            SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
+            leveledUp = FALSE;
+            RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
+            if(GetMonData(mon, MON_DATA_LEVEL, NULL) > tLevelStart)
+            {
+                gItemsLeftToUse = 0;
+                StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
+                PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+            }
+            else
+            {
+                tMaxFrames = 5 + (gItemsLeftToUse * 5);
+                if(tMaxFrames > 100)
+                    tMaxFrames = 100;
+                tWaitFrames = tMaxFrames;
+                gItemsLeftToUse = 0;
+                gTasks[taskId].func = Task_WaitExpCandyFanfare;
+                return;
+            }
         }
     }
     else
     {
-        dataUnsigned = (gExpCandyAmounts[tExpYield] * gItemsLeftToUse) + startingExp;
-        SetMonData(mon, MON_DATA_EXP, &dataUnsigned);
-        leveledUp = FALSE;
-        RemoveBagItem(gSpecialVar_ItemId, gItemsLeftToUse);
-        gItemsLeftToUse = 0;
-        if(!WaitFanfare(FALSE))
+        //Countdown
+        if(tWaitFrames > 0)
+        {
+            tWaitFrames--;
+            gTasks[taskId].func = Task_WaitExpCandyFanfare;
+            return;
+        }
+        else
+        {
             StopFanfareByFanfareNum(FANFARE_GAIN_EXP);
-        if(GetMonData(mon, MON_DATA_LEVEL, NULL) > tLevelStart)
-            PlayFanfareByFanfareNum(FANFARE_LEVEL_UP);
+            ResumeBGM();
+            leveledUp = FALSE;
+        }
     }
 
     BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
@@ -5482,6 +5511,11 @@ static void TryUseExpCandy(u8 taskId)
         else
             gTasks[taskId].func = Task_ClosePartyMenuAfterText;
     }
+}
+
+static void Task_WaitExpCandyFanfare(u8 taskId)
+{
+    TryUseExpCandy(taskId);
 }
 
 static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon)
@@ -7169,9 +7203,8 @@ static void ShowStatSelectWindow(u8 slot, u8 statPos)
     ScheduleBgCopyTilemapToVram(2);
 }
 
-static void PrintItemQuantity(u8 windowId, s16 quantity)
+static void PrintItemQuantity(u8 windowId, s16 quantity, u8 numDigits)
 {
-    u8 numDigits = 2;
     ConvertIntToDecimalStringN(gStringVar1, quantity, STR_CONV_MODE_LEADING_ZEROS, numDigits);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
     AddTextPrinterParameterized(windowId, FONT_NORMAL, gStringVar4, GetStringCenterAlignXOffset(FONT_NORMAL, gStringVar4, 0x28), 2, 0, 0);
@@ -7201,7 +7234,7 @@ static void Task_HandleWhichStatInput(u8 taskId)
                 tQuantity = GET_REMAINING_GRIT_ITEMS(ivAmount, I_GRIT_PEBBLE_INCR);
             tItemCount = 1;
             DisplaySelectionWindow(SELECTWINDOW_QUANTITY);
-            PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount);
+            PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount, 2);
             StringCopy(gStringVar1, gItems[gSpecialVar_ItemId].name);
             DisplayPartyMenuStdMessage(PARTY_MSG_HOW_MANY_ITEM);
             gTasks[taskId].func = Task_ChooseHowManyToUse;
@@ -7274,7 +7307,7 @@ static void Task_ChooseHowManyToUse(u8 taskId)
 
     if (AdjustQuantityAccordingToDPadInput(&tItemCount, tQuantity) == TRUE)
     {
-        PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount);
+        PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount, 2);
     }
     else if (JOY_NEW(A_BUTTON))
     {
