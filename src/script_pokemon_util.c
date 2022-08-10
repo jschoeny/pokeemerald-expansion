@@ -99,10 +99,13 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, u32 allowRandomized, u32 unuse
     return sentToPc;
 }
 
-u8 ScriptGiveEgg(u16 species)
+u8 ScriptGiveEgg(u16 species, u8 randomize)
 {
     struct Pokemon mon;
     u8 isEgg;
+
+    if(randomize)
+        species = GetRandomizedSpeciesWild(species, GetCurrentRegionMapSectionId());
 
     CreateEgg(&mon, species, TRUE);
     isEgg = TRUE;

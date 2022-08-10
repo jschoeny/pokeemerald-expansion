@@ -148,7 +148,7 @@ BattleFrontier_CynthiasHouse_EventScript_CynthiaGiveEgg::
 	setflag FLAG_RECEIVED_OLD_SEA_MAP
 	msgbox BattleFrontier_Text_CynthiaOldSeaMapDesc
 	specialvar VAR_GIFT_UNUSED_1, CalculatePlayerPartyCount
-	giveegg SPECIES_TOGEPI
+	giveegg SPECIES_TOGEPI, TRUE
 	setmonmetlocation VAR_GIFT_UNUSED_1, 0xFC
 	vgoto_if_eq VAR_GIFT_UNUSED_1, 1, BattleFrontier_CynthiasHouse_Egg_Slot1
 	vgoto_if_eq VAR_GIFT_UNUSED_1, 2, BattleFrontier_CynthiasHouse_Egg_Slot2

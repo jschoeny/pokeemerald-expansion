@@ -1705,8 +1705,9 @@ bool8 ScrCmd_givemon(struct ScriptContext *ctx)
 bool8 ScrCmd_giveegg(struct ScriptContext *ctx)
 {
     u16 species = VarGet(ScriptReadHalfword(ctx));
+    u8 randomize = ScriptReadByte(ctx);
 
-    gSpecialVar_Result = ScriptGiveEgg(species);
+    gSpecialVar_Result = ScriptGiveEgg(species, randomize);
     return FALSE;
 }
 
