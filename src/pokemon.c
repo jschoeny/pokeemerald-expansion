@@ -5417,11 +5417,19 @@ u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
     if(ability <= ABILITIES_PH_START)
         return ability;
 
-    if(setting == OPTIONS_RANDOMIZER_ABILITY_NORMAL)
-        return gPlaceholderAbilities[PH_ABILITY(ability)].ability[gBaseStats[species].type1];
+    if(setting == OPTIONS_RANDOMIZER_ABILITY_NORMAL) {
+        if(ability - ABILITIES_PH_START < ABILITIES_PH_TYPE2)
+            return gPlaceholderAbilities[PH_ABILITY(ability)].ability[gBaseStats[species].type1];
+        else
+            return gPlaceholderAbilities[PH_ABILITY(ability - ABILITIES_PH_TYPE2)].ability[gBaseStats[species].type2];
+    }
 
-    if(setting == OPTIONS_RANDOMIZER_ABILITY_TYPE)
-        return gPlaceholderAbilities[PH_ABILITY(ability)].ability[GetMonTypeFromPersonality(species, personality, FALSE)];
+    if(setting == OPTIONS_RANDOMIZER_ABILITY_TYPE) {
+        if(ability - ABILITIES_PH_START < ABILITIES_PH_TYPE2)
+            return gPlaceholderAbilities[PH_ABILITY(ability)].ability[GetMonTypeFromPersonality(species, personality, FALSE)];
+        else
+            return gPlaceholderAbilities[PH_ABILITY(ability - ABILITIES_PH_TYPE2)].ability[GetMonTypeFromPersonality(species, personality, TRUE)];
+    }
 }
 
 u16 GetMonAbility(struct Pokemon *mon)
