@@ -9110,7 +9110,9 @@ u16 GetRandomizedSpeciesStarter(u16 species, u16 chosenStarterId)
                 species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
         tries--;
-        baseStatTotalNew = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+        baseStatTotalNew = BASE_STAT_TOTAL(species)
+            + ((species == SPECIES_COSMOG || species == SPECIES_COSMOEM) ? 100 : 0)
+            + (255 - gBaseStats[species].catchRate)/4;
         randOff = species;
 
         if(FlagGet(FLAG_RNDM_SIMILAR_STATS)) {
@@ -9174,7 +9176,9 @@ u16 GetRandomizedSpeciesWild(u16 species, u16 headerId)
                 species = sRandomizerFormSpecies[species - NUM_SPECIES_RAND_START];
         }
         tries--;
-        baseStatTotalNew = BASE_STAT_TOTAL(species) + (255 - gBaseStats[species].catchRate)/4;
+        baseStatTotalNew = BASE_STAT_TOTAL(species)
+            + ((species == SPECIES_COSMOG || species == SPECIES_COSMOEM) ? 100 : 0)
+            + (255 - gBaseStats[species].catchRate)/4;
 
         if(FlagGet(FLAG_RNDM_SIMILAR_STATS)) {
             if(baseStatTotalNew < baseStatTotal - baseStatOff || baseStatTotalNew > baseStatTotal + baseStatOff)
