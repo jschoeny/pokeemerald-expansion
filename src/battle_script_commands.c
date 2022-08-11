@@ -3619,9 +3619,6 @@ static void GetItemsToFind(u16 species, u8 level)
             items[0] = ITEM_GRIT_PEBBLE;
             items[1] = ITEM_GRIT_PEBBLE;
 
-            if(FlagGet(FLAG_SYS_GAME_CLEAR))
-                items[5] = ITEM_MYSTERIOUS_SHARD;
-
             if(rand1 < 10)
                 items[0] = level > 40 ? ITEM_EXP_CANDY_L : ITEM_EXP_CANDY_M;
             else if(rand1 < 25)
@@ -3630,6 +3627,8 @@ static void GetItemsToFind(u16 species, u8 level)
                 items[1] = level > 40 ? ITEM_EXP_CANDY_L : ITEM_EXP_CANDY_M;
             else if(rand2 < 25)
                 items[1] = level > 20 ? ITEM_EXP_CANDY_M : ITEM_EXP_CANDY_S;
+            else if(rand2 < 50 && FlagGet(FLAG_SYS_GAME_CLEAR))
+                items[1] = ITEM_MYSTERIOUS_SHARD;
 
             if(gBaseStats[species].item1 == 0 && gBaseStats[species].item2 != 0) {
                 items[2] = gBaseStats[species].item2;
@@ -3643,6 +3642,10 @@ static void GetItemsToFind(u16 species, u8 level)
                 items[2] = ITEM_GRIT_PEBBLE;
                 items[4] = level > 40 ? ITEM_EXP_CANDY_L : ITEM_EXP_CANDY_M;
             }
+
+            if(FlagGet(FLAG_SYS_GAME_CLEAR))
+                items[5] = ITEM_MYSTERIOUS_SHARD;
+                
             factor = 120;
         }
         else if(items[0] == 0 && items[1] == 0) {

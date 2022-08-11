@@ -571,11 +571,7 @@ static bool8 SetUpMassOutbreakEncounter(u8 flags)
     item1 = gBaseStats[gSaveBlock1Ptr->outbreakPokemonSpecies].item1;
     item2 = gBaseStats[gSaveBlock1Ptr->outbreakPokemonSpecies].item2;
 
-    if(chanceShard < 10 && FlagGet(FLAG_SYS_GAME_CLEAR)) {
-        item1 = ITEM_MYSTERIOUS_SHARD;
-        SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &item1);
-    }
-    else if(chanceShard < 30) {
+    if(chanceShard < 30) {
         u8 type1 = GetMonType(&gEnemyParty[0], FALSE);
         u8 type2 = GetMonType(&gEnemyParty[0], TRUE);
         item1 = ITEM_NONE;
