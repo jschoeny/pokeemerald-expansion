@@ -483,6 +483,8 @@ extern const u8 gText_PkmnCuredOfParalysis[];
 extern const u8 gText_PkmnGotOverInfatuation[];
 extern const u8 gText_PkmnTransformed[];
 extern const u8 gText_PkmnBecameHealthy[];
+extern const u8 gText_MightAffectPkmnStats[];
+extern const u8 gText_PkmnStatsMayHaveChanged[];
 extern const u8 gText_HP3[];
 extern const u8 gText_SpAtk3[];
 extern const u8 gText_SpDef3[];
@@ -3043,5 +3045,7 @@ extern const u8 gText_Summary2[];
 extern const u8 gText_PkmnForSwap[];
 extern const u8 gText_SamePkmnInPartyAlready[];
 extern const u8 gText_Cancel3[];
+
+extern const u8 gText_MintNatureIndicator[];
 
 #endif // GUARD_STRINGS_H

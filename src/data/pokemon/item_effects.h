@@ -473,6 +473,10 @@ const u8 gItemEffect_ExpCandy[10] = {
     [2] = ITEM2_EXP_UP,
 };
 
+const u8 gItemEffect_NatureMint[10] = {
+    [2] = ITEM2_NATURE_MINT,
+};
+
 const u8 *const gItemEffectTable[] =
 {
     // Medicine
@@ -533,6 +537,29 @@ const u8 *const gItemEffectTable[] =
     [ITEM_GENIUS_FEATHER - ITEM_POTION]   = gItemEffect_SpatkFeather,
     [ITEM_CLEVER_FEATHER - ITEM_POTION]   = gItemEffect_SpdefFeather,
     [ITEM_SWIFT_FEATHER - ITEM_POTION]    = gItemEffect_SpeedFeather,
+
+    // Nature Mints
+    [ITEM_LONELY_MINT - ITEM_POTION]      = gItemEffect_NatureMint,
+    [ITEM_ADAMANT_MINT - ITEM_POTION]     = gItemEffect_NatureMint,
+    [ITEM_NAUGHTY_MINT - ITEM_POTION]     = gItemEffect_NatureMint,
+    [ITEM_BRAVE_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_BOLD_MINT - ITEM_POTION]        = gItemEffect_NatureMint,
+    [ITEM_IMPISH_MINT - ITEM_POTION]      = gItemEffect_NatureMint,
+    [ITEM_LAX_MINT - ITEM_POTION]         = gItemEffect_NatureMint,
+    [ITEM_RELAXED_MINT - ITEM_POTION]     = gItemEffect_NatureMint,
+    [ITEM_MODEST_MINT - ITEM_POTION]      = gItemEffect_NatureMint,
+    [ITEM_MILD_MINT - ITEM_POTION]        = gItemEffect_NatureMint,
+    [ITEM_RASH_MINT - ITEM_POTION]        = gItemEffect_NatureMint,
+    [ITEM_QUIET_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_CALM_MINT - ITEM_POTION]        = gItemEffect_NatureMint,
+    [ITEM_GENTLE_MINT - ITEM_POTION]      = gItemEffect_NatureMint,
+    [ITEM_CAREFUL_MINT - ITEM_POTION]     = gItemEffect_NatureMint,
+    [ITEM_SASSY_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_TIMID_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_HASTY_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_JOLLY_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_NAIVE_MINT - ITEM_POTION]       = gItemEffect_NatureMint,
+    [ITEM_SERIOUS_MINT - ITEM_POTION]     = gItemEffect_NatureMint,
 
     // Candy
     [ITEM_RARE_CANDY - ITEM_POTION]       = gItemEffect_RareCandy,

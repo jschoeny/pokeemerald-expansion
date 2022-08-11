@@ -27,6 +27,7 @@
 #define ITEM1_X_ACCURACY        0x20
 
 #define ITEM2_EXP_UP            0x1
+#define ITEM2_NATURE_MINT       0x2
 #endif
 
 // field 3 masks

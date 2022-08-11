@@ -3961,7 +3961,7 @@ static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon)
 {                                                               \
     u8 baseStat = gBaseStats[species].base;                     \
     s32 n = (((2 * baseStat + iv + ev / 4) * level) / 100) + 5; \
-    u8 nature = GetNature(mon);                                 \
+    u8 nature = GetNatureForStats(mon);                         \
     n = ModifyStatByNature(nature, n, statIndex);               \
     SetMonData(mon, field, &n);                                 \
 }
@@ -4904,6 +4904,9 @@ u32 GetBoxMonData(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (substruct3->worldRibbon << 26);
         }
         break;
+    case MON_DATA_MINT_NATURE:
+        retVal = substruct0->mintNature;
+        break;
     default:
         break;
     }
@@ -5222,6 +5225,9 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         substruct3->spDefenseIV = (ivs >> 25) & MAX_IV_MASK;
         break;
     }
+    case MON_DATA_MINT_NATURE:
+        SET8(substruct0->mintNature);
+        break;
     default:
         break;
     }
@@ -5890,6 +5896,47 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             {
                 
             }
+
+            // Nature Mints
+            if ((itemEffect[i] & ITEM2_NATURE_MINT))
+            {
+                dataUnsigned = 0; // 0 is considered no nature change
+                if(item == ITEM_LONELY_MINT)        dataUnsigned = NATURE_LONELY + 1;
+                else if(item == ITEM_ADAMANT_MINT)  dataUnsigned = NATURE_ADAMANT + 1;
+                else if(item == ITEM_NAUGHTY_MINT)  dataUnsigned = NATURE_NAUGHTY + 1;
+                else if(item == ITEM_BRAVE_MINT)    dataUnsigned = NATURE_BRAVE + 1;
+                else if(item == ITEM_BOLD_MINT)     dataUnsigned = NATURE_BOLD + 1;
+                else if(item == ITEM_IMPISH_MINT)   dataUnsigned = NATURE_IMPISH + 1;
+                else if(item == ITEM_LAX_MINT)      dataUnsigned = NATURE_LAX + 1;
+                else if(item == ITEM_RELAXED_MINT)  dataUnsigned = NATURE_RELAXED + 1;
+                else if(item == ITEM_MODEST_MINT)   dataUnsigned = NATURE_MODEST + 1;
+                else if(item == ITEM_MILD_MINT)     dataUnsigned = NATURE_MILD + 1;
+                else if(item == ITEM_RASH_MINT)     dataUnsigned = NATURE_RASH + 1;
+                else if(item == ITEM_QUIET_MINT)    dataUnsigned = NATURE_QUIET + 1;
+                else if(item == ITEM_CALM_MINT)     dataUnsigned = NATURE_CALM + 1;
+                else if(item == ITEM_GENTLE_MINT)   dataUnsigned = NATURE_GENTLE + 1;
+                else if(item == ITEM_CAREFUL_MINT)  dataUnsigned = NATURE_CAREFUL + 1;
+                else if(item == ITEM_SASSY_MINT)    dataUnsigned = NATURE_SASSY + 1;
+                else if(item == ITEM_TIMID_MINT)    dataUnsigned = NATURE_TIMID + 1;
+                else if(item == ITEM_HASTY_MINT)    dataUnsigned = NATURE_HASTY + 1;
+                else if(item == ITEM_JOLLY_MINT)    dataUnsigned = NATURE_JOLLY + 1;
+                else if(item == ITEM_NAIVE_MINT)    dataUnsigned = NATURE_NAIVE + 1;
+                else if(item == ITEM_SERIOUS_MINT)  dataUnsigned = NATURE_SERIOUS + 1;
+
+                if(dataUnsigned < NUM_NATURES + 1) {
+                    u8 nature = GetNatureForStats(mon);
+                    if(nature == dataUnsigned - 1)
+                        return TRUE;
+                    else if(dataUnsigned == NATURE_SERIOUS + 1 &&
+                     (nature == NATURE_HARDY || nature == NATURE_DOCILE
+                     || nature == NATURE_BASHFUL || nature == NATURE_QUIRKY))
+                        return TRUE;
+
+                    SetMonData(mon, MON_DATA_MINT_NATURE, &dataUnsigned);
+                    CalculateMonStats(mon);
+                    retVal = FALSE;
+                }
+            }
             break;
         #endif
         // Handle ITEM3 effects (Guard Spec, Rare Candy, cure status)
@@ -6546,6 +6593,14 @@ u8 *UseStatIncreaseItem(u16 itemId)
 u8 GetNature(struct Pokemon *mon)
 {
     return GetMonData(mon, MON_DATA_PERSONALITY, 0) % NUM_NATURES;
+}
+
+u8 GetNatureForStats(struct Pokemon *mon)
+{
+    u8 nature = GetMonData(mon, MON_DATA_MINT_NATURE, 0);
+    if(nature == 0)
+        return GetNature(mon);
+    return nature - 1;
 }
 
 u8 GetNatureFromPersonality(u32 personality)

@@ -839,6 +839,12 @@ void ItemUseOutOfBattle_PPUp(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+void ItemUseOutOfBattle_NatureMint(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_NatureMint;
+    SetUpItemUseCallback(taskId);
+}
+
 void ItemUseOutOfBattle_RareCandy(u8 taskId)
 {
     gItemUseCB = ItemUseCB_RareCandy;

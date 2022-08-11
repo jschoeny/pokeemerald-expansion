@@ -17,6 +17,7 @@ void ItemUseOutOfBattle_ReduceEV(u8);
 void ItemUseOutOfBattle_SacredAsh(u8);
 void ItemUseOutOfBattle_PPRecovery(u8);
 void ItemUseOutOfBattle_PPUp(u8);
+void ItemUseOutOfBattle_NatureMint(u8);
 void ItemUseOutOfBattle_RareCandy(u8);
 void ItemUseOutOfBattle_ExpCandy(u8);
 void ItemUseOutOfBattle_GritPebble(u8);

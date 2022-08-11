@@ -337,6 +337,9 @@ static void Task_PartyMenuReplaceMove(u8);
 static void Task_StopLearningMoveYesNo(u8);
 static void Task_HandleStopLearningMoveYesNoInput(u8);
 static void Task_TryLearningNextMoveAfterText(u8);
+static void Task_NatureMintYesNo(u8);
+static void Task_HandleNatureMintYesNoInput(u8);
+static void TryUseNatureMint(u8);
 static void Task_ChooseHowManyCandyToUse(u8);
 static void TryUseRareCandy(u8);
 static void TryUseExpCandy(u8);
@@ -5187,6 +5190,80 @@ static void Task_TryLearningNextMoveAfterText(u8 taskId)
 {
     if (IsPartyMenuTextPrinterActive() != TRUE)
         Task_TryLearningNextMove(taskId);
+}
+
+void ItemUseCB_NatureMint(u8 taskId, TaskFunc task)
+{
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+    u16 item = gSpecialVar_ItemId;
+
+    GetMonNickname(mon, gStringVar1);
+    StringCopy(gStringVar2, gItems[item].name);
+    StringExpandPlaceholders(gStringVar4, gText_MightAffectPkmnStats);
+    DisplayPartyMenuMessage(gStringVar4, TRUE);
+
+    gTasks[taskId].func = Task_NatureMintYesNo;
+}
+
+static void Task_NatureMintYesNo(u8 taskId)
+{
+    if (IsPartyMenuTextPrinterActive() != TRUE)
+    {
+        PartyMenuDisplayYesNoMenu();
+        gTasks[taskId].func = Task_HandleNatureMintYesNoInput;
+    }
+}
+
+static void Task_HandleNatureMintYesNoInput(u8 taskId)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0:
+        TryUseNatureMint(taskId);
+        break;
+    case MENU_B_PRESSED:
+        PlaySE(SE_SELECT);
+        // fallthrough
+    case 1:
+        Task_ReturnToChooseMonAfterText(taskId);
+        break;
+    }
+}
+
+static void TryUseNatureMint(u8 taskId)
+{
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+    u16 item = gSpecialVar_ItemId;
+    bool8 cannotUse;
+
+    cannotUse = ExecuteTableBasedItemEffect_(gPartyMenu.slotId, item, 0);
+
+    if (cannotUse != FALSE)
+    {
+        gPartyMenuUseExitCallback = FALSE;
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        return;
+    }
+    else
+    {
+        gPartyMenuUseExitCallback = TRUE;
+        PlaySE(SE_USE_ITEM);
+        if (gPartyMenu.action != PARTY_ACTION_REUSABLE_ITEM)
+            RemoveBagItem(item, 1);
+
+        GetMonNickname(mon, gStringVar1);
+        StringCopy(gStringVar2, gItems[item].name);
+        StringExpandPlaceholders(gStringVar4, gText_PkmnStatsMayHaveChanged);
+        DisplayPartyMenuMessage(gStringVar4, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(item, 1))
+            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        else
+            gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+    }
 }
 
 #define tWaitFrames data[4]

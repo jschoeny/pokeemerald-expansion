@@ -168,6 +168,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         u8 sanity; // 0x35
         u8 OTName[17]; // 0x36
         u32 OTID; // 0x48
+        u8 natureForStats;
     } summary;
     u16 bgTilemapBuffers[PSS_PAGE_COUNT][2][0x400];
     u8 mode;
@@ -1509,6 +1510,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
             sum->spatk = GetMonData(mon, MON_DATA_SPATK);
             sum->spdef = GetMonData(mon, MON_DATA_SPDEF);
             sum->speed = GetMonData(mon, MON_DATA_SPEED);
+            sum->natureForStats = GetNatureForStats(mon);
         }
         else
         {
@@ -1520,6 +1522,7 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
             sum->spatk = GetMonData(mon, MON_DATA_SPATK2);
             sum->spdef = GetMonData(mon, MON_DATA_SPDEF2);
             sum->speed = GetMonData(mon, MON_DATA_SPEED2);
+            sum->natureForStats = GetNatureForStats(mon);
         }
         break;
     case 3:
@@ -3237,7 +3240,10 @@ static void BufferNatureString(void)
 {
     struct PokemonSummaryScreenData *sumStruct = sMonSummaryScreen;
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gNatureNamePointers[sumStruct->summary.nature]);
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_EmptyString5);
+    if(sumStruct->summary.natureForStats == sumStruct->summary.nature)
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_EmptyString5);
+    else
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_MintNatureIndicator);
 }
 
 static void GetMetLevelString(u8 *output)
@@ -3459,7 +3465,7 @@ static void BufferLeftColumnStats(void)
     u8 *maxHPString = Alloc(20);
     u8 *attackString = Alloc(20);
     u8 *defenseString = Alloc(20);
-    const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.nature];
+    const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.natureForStats];
 
     DynamicPlaceholderTextUtil_Reset();
     BufferStat(currentHPString, 0, sMonSummaryScreen->summary.currentHP, 0, 3);
@@ -3481,7 +3487,7 @@ static void PrintLeftColumnStats(void)
 
 static void BufferRightColumnStats(void)
 {
-    const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.nature];
+    const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.natureForStats];
 
     DynamicPlaceholderTextUtil_Reset();
     BufferStat(gStringVar1, natureMod[STAT_SPATK - 1], sMonSummaryScreen->summary.spatk, 0, 3);
