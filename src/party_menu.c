@@ -7255,6 +7255,7 @@ void IsLastMonThatKnowsSurf(void)
 #define tQuantity data[5]
 #define tItemCount data[6]
 #define tStatPos data[7]
+#define tIVAmount data[8]
 static void ShowStatSelectWindow(u8 slot, u8 statPos)
 {
     u8 i;
@@ -7307,8 +7308,8 @@ static void Task_HandleWhichStatInput(u8 taskId)
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
             ivAmount = SetSelectedStatForIVItem(taskId);
             tQuantity = CountTotalItemQuantityInBag(gSpecialVar_ItemId);
-            if(tQuantity > GET_REMAINING_GRIT_ITEMS(ivAmount, I_GRIT_PEBBLE_INCR))
-                tQuantity = GET_REMAINING_GRIT_ITEMS(ivAmount, I_GRIT_PEBBLE_INCR);
+            if(tQuantity > GET_REMAINING_GRIT_ITEMS(ivAmount, tIVAmount))
+                tQuantity = GET_REMAINING_GRIT_ITEMS(ivAmount, tIVAmount);
             tItemCount = 1;
             DisplaySelectionWindow(SELECTWINDOW_QUANTITY);
             PrintItemQuantity(sPartyMenuInternal->windowId[0], tItemCount, 2);
@@ -7333,6 +7334,16 @@ void ItemUseCB_IVIncrease(u8 taskId, TaskFunc task)
 
     if(numStats > 0)
     {
+        switch(item)
+        {
+            case ITEM_GRIT_PEBBLE:
+                tIVAmount = I_GRIT_PEBBLE_INCR;
+                break;
+            case ITEM_GRIT_DUST:
+            default:
+                tIVAmount = I_GRIT_DUST_INCR;
+                break;
+        }
         PlaySE(SE_SELECT);
         DisplayPartyMenuStdMessage(PARTY_MSG_BOOST_IV_WHICH_STAT);
         sPartyMenuInternal->numActions = numStats;
@@ -7423,7 +7434,7 @@ static void TryUseIVItem(u8 taskId)
     RemoveBagItem(item, tItemCount);
 
     BufferMonStatsToTaskData(mon, arrayPtr);
-    ivs = GetMonData(mon, MON_DATA_HP_IV + stat) + (tItemCount * I_GRIT_PEBBLE_INCR);
+    ivs = GetMonData(mon, MON_DATA_HP_IV + stat) + (tItemCount * tIVAmount);
     if(ivs > MAX_PER_STAT_IVS)
         ivs = MAX_PER_STAT_IVS;
     SetMonData(mon, MON_DATA_HP_IV + stat, &ivs);

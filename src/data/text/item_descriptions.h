@@ -3808,7 +3808,12 @@ static const u8 sSlateDesc[] = _(
     "with enigmatic\n"
     "energy.");
 
+static const u8 sGritDustDesc[] = _(
+    "Mysterious dust\n"
+    "that raises the IV\n"
+    "of a stat by one.");
+
 static const u8 sGritPebbleDesc[] = _(
     "A mysterious pebble\n"
-    "that can raise the\n"
-    "IV stat of a {PKMN}.");
+    "that raises the IV\n"
+    "of a stat by five.");

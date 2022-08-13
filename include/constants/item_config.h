@@ -19,6 +19,8 @@
 #define I_HEALTH_RECOVERY       GEN_7   // In Gen7+, certain healing items recover a different amount of HP than they used to.
 #define I_SITRUS_BERRY_HEAL     GEN_7   // In Gen4+, Sitrus Berry was changed from healing 30 HP to healing 25% of Max HP.
 #define I_VITAMIN_EV_CAP        GEN_8   // In Gen8, the Vitamins no longer have a cap of 100 EV per stat.
-#define I_GRIT_PEBBLE_INCR      3
+
+#define I_GRIT_DUST_INCR        1
+#define I_GRIT_PEBBLE_INCR      5
 
 #endif // GUARD_CONSTANTS_ITEM_CONFIG_H

@@ -10346,6 +10346,17 @@ const struct Item gItems[] =
         .fieldUseFunc = ItemUseOutOfBattle_Slate,
     },
 
+    [ITEM_GRIT_DUST] =
+    {
+        .name = _("Grit Dust"),
+        .itemId = ITEM_GRIT_DUST,
+        .price = 200,
+        .description = sGritDustDesc,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_Grit,
+    },
+
     [ITEM_GRIT_PEBBLE] =
     {
         .name = _("Grit Pebble"),
@@ -10354,6 +10365,6 @@ const struct Item gItems[] =
         .description = sGritPebbleDesc,
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_PARTY_MENU,
-        .fieldUseFunc = ItemUseOutOfBattle_GritPebble,
+        .fieldUseFunc = ItemUseOutOfBattle_Grit,
     }
 };

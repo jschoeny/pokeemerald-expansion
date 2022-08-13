@@ -857,7 +857,7 @@ void ItemUseOutOfBattle_ExpCandy(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
-void ItemUseOutOfBattle_GritPebble(u8 taskId)
+void ItemUseOutOfBattle_Grit(u8 taskId)
 {
     gItemUseCB = ItemUseCB_IVIncrease;
     SetUpItemUseCallback(taskId);

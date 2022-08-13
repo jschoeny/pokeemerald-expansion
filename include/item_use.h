@@ -20,7 +20,7 @@ void ItemUseOutOfBattle_PPUp(u8);
 void ItemUseOutOfBattle_NatureMint(u8);
 void ItemUseOutOfBattle_RareCandy(u8);
 void ItemUseOutOfBattle_ExpCandy(u8);
-void ItemUseOutOfBattle_GritPebble(u8);
+void ItemUseOutOfBattle_Grit(u8);
 void ItemUseOutOfBattle_TMHM(u8);
 void ItemUseOutOfBattle_Repel(u8);
 void ItemUseOutOfBattle_EscapeRope(u8);
