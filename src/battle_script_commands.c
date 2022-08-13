@@ -3616,7 +3616,7 @@ static void GetItemsToFind(u16 species, u8 level)
         if(FlagGet(FLAG_OUTBREAK_ENCOUNTER)) {
             u8 rand1 = Random() % 100;
             u8 rand2 = Random() % 100;
-            items[0] = ITEM_GRIT_PEBBLE;
+            items[0] = ITEM_GRIT_DUST;
             items[1] = ITEM_GRIT_PEBBLE;
 
             if(rand1 < 10)
@@ -3645,12 +3645,8 @@ static void GetItemsToFind(u16 species, u8 level)
 
             if(FlagGet(FLAG_SYS_GAME_CLEAR))
                 items[5] = ITEM_MYSTERIOUS_SHARD;
-                
-            factor = 120;
-        }
-        else if(items[0] == 0 && items[1] == 0) {
-            items[2] = ITEM_GRIT_PEBBLE;
-            items[3] = ITEM_GRIT_PEBBLE;
+
+            factor = 180;
         }
 
         if(items[0] == items[1] && items[0] != 0 && Random() % 100 < 80) {
