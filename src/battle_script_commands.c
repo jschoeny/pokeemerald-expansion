@@ -3597,9 +3597,12 @@ static void GetItemsToFind(u16 species, u8 level)
           | BATTLE_TYPE_RECORDED_LINK
           | BATTLE_TYPE_TRAINER_HILL
           | BATTLE_TYPE_FRONTIER
-          | BATTLE_TYPE_SAFARI
           | BATTLE_TYPE_BATTLE_TOWER
-          | BATTLE_TYPE_EREADER_TRAINER))) {
+          | BATTLE_TYPE_EREADER_TRAINER
+          | BATTLE_TYPE_TRAINER
+          | BATTLE_TYPE_WALLY_TUTORIAL
+          | BATTLE_TYPE_SECRET_BASE
+          ))) {
 
         u16 items[ITEMFIND_TABLE_SIZE] = {
             gBaseStats[species].item1,
