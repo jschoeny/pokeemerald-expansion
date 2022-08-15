@@ -5420,21 +5420,21 @@ u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
     }
 
     ability = GetAbilityBySpecies(species, abilityNum);
-    if(ability <= ABILITIES_PH_START)
+    if(ability < ABILITIES_PH_START)
         return ability;
 
     if(setting == OPTIONS_RANDOMIZER_ABILITY_NORMAL) {
-        if(ability - ABILITIES_PH_START < ABILITIES_PH_TYPE2)
-            return gPlaceholderAbilities[PH_ABILITY(ability)].ability[gBaseStats[species].type1];
-        else
+        if(ability > ABILITIES_PH_START + ABILITIES_PH_TYPE2)
             return gPlaceholderAbilities[PH_ABILITY(ability - ABILITIES_PH_TYPE2)].ability[gBaseStats[species].type2];
+        else
+            return gPlaceholderAbilities[PH_ABILITY(ability)].ability[gBaseStats[species].type1];
     }
 
     if(setting == OPTIONS_RANDOMIZER_ABILITY_TYPE) {
-        if(ability - ABILITIES_PH_START < ABILITIES_PH_TYPE2)
-            return gPlaceholderAbilities[PH_ABILITY(ability)].ability[GetMonTypeFromPersonality(species, personality, FALSE)];
-        else
+        if(ability > ABILITIES_PH_START + ABILITIES_PH_TYPE2)
             return gPlaceholderAbilities[PH_ABILITY(ability - ABILITIES_PH_TYPE2)].ability[GetMonTypeFromPersonality(species, personality, TRUE)];
+        else
+            return gPlaceholderAbilities[PH_ABILITY(ability)].ability[GetMonTypeFromPersonality(species, personality, FALSE)];
     }
 }
 
