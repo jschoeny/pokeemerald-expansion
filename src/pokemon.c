@@ -5393,7 +5393,7 @@ u16 GetAbilityBySpecies(u16 species, u8 abilityNum)
 u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
 {
     u16 ability;
-    u8 i;
+    u8 i, abilityType;
     u8 setting = gSaveBlock2Ptr->optionsRandomizerAbility;
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
           | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
@@ -5420,6 +5420,12 @@ u16 GetAbilityBySpeciesPersonality(u16 species, u8 abilityNum, u32 personality)
     }
 
     ability = GetAbilityBySpecies(species, abilityNum);
+    abilityType = TYPE_NONE;
+    if(ability & PH_ABILITY_FLAG)
+    {
+        abilityType = ability >> 11; // Type stored first 5 bits
+        ability = ability & ~(PH_MOVE_FLAG); // Remove Type from first 5 bits
+    }
     if(ability < ABILITIES_PH_START)
         return ability;
 
