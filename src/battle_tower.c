@@ -3047,7 +3047,7 @@ static void FillPartnerParty(u16 trainerId)
                 j = Random32();
             } while (IsShinyOtIdPersonality(otID, j));
 
-            switch (gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].partyFlags)
+            switch (gTrainers[trainerId - TRAINER_CUSTOM_PARTNER].partyFlags & F_TRAINER_MASK_NO_TYPE)
             {
             case 0:
             {

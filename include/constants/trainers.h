@@ -380,5 +380,6 @@
 #define F_TRAINER_PARTY_HELD_ITEM      (1 << 1)
 #define F_TRAINER_PARTY_TYPE(type)     (type << 2)
 #define F_TRAINER_PARTY_HAS_TYPE       (0x1F << 2)
+#define F_TRAINER_MASK_NO_TYPE         (0x3)
 
 #endif  // GUARD_TRAINERS_H

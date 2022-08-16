@@ -1803,7 +1803,7 @@ static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
     if(gTrainers[trainerId].partyFlags & F_TRAINER_PARTY_HAS_TYPE)
         trainerType = (gTrainers[trainerId].partyFlags & F_TRAINER_PARTY_HAS_TYPE) >> 2;
 
-    switch (gTrainers[trainerId].partyFlags)
+    switch (gTrainers[trainerId].partyFlags & F_TRAINER_MASK_NO_TYPE)
     {
     case 0:
     default:

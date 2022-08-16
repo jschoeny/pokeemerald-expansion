@@ -1881,7 +1881,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             for (j = 0; gTrainers[trainerNum].trainerName[j] != EOS; j++)
                 nameHash += gTrainers[trainerNum].trainerName[j];
 
-            switch (gTrainers[trainerNum].partyFlags & 0x3)
+            switch (gTrainers[trainerNum].partyFlags & F_TRAINER_MASK_NO_TYPE)
             {
             case 0:
             {

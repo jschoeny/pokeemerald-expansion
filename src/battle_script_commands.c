@@ -6841,7 +6841,7 @@ static u32 GetTrainerMoneyToGive(u16 trainerId)
     }
     else
     {
-        switch (gTrainers[trainerId].partyFlags)
+        switch (gTrainers[trainerId].partyFlags & F_TRAINER_MASK_NO_TYPE)
         {
         case 0:
             {
