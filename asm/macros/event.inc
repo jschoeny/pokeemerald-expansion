@@ -1766,6 +1766,10 @@
 	.byte 0xe6
 	.endm
 
+	.macro openflymap
+	.byte 0xe7
+	.endm
+
 
 @ Supplementary
 

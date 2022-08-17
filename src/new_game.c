@@ -206,6 +206,8 @@ void NewGameInitData(void)
     ResetTrainerHillResults();
     ResetContestLinkResults();
     ResetRandomizerOptions();
+
+    FlagSet(FLAG_HIDE_FLYING_TAXI_MAN);
 }
 
 static void ResetMiniGamesRecords(void)

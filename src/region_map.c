@@ -75,6 +75,7 @@ static EWRAM_DATA struct {
     u8 tileBuffer[0x1c0];
     u8 nameBuffer[0x26]; // never read
     bool8 choseFlyLocation;
+    bool8 isTaxi;
 } *sFlyMap = NULL;
 
 static bool32 sDrawFlyDestTextWindow;
@@ -1790,6 +1791,7 @@ void CB2_OpenFlyMap(void)
         }
         else
         {
+            sFlyMap->isTaxi = FALSE;
             ResetPaletteFade();
             ResetSpriteData();
             FreeSpriteTileRanges();
@@ -1857,6 +1859,41 @@ void CB2_OpenFlyMap(void)
         SetFlyMapCallback(CB_FadeInFlyMap);
         SetMainCallback2(CB2_FlyMap);
         gMain.state++;
+        break;
+    }
+}
+
+void CB2_OpenFlyTaxiMap(void)
+{
+    switch (gMain.state)
+    {
+    case 0:
+        SetVBlankCallback(NULL);
+        SetGpuReg(REG_OFFSET_DISPCNT, 0);
+        SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+        SetGpuReg(REG_OFFSET_BG0VOFS, 0);
+        SetGpuReg(REG_OFFSET_BG1HOFS, 0);
+        SetGpuReg(REG_OFFSET_BG1VOFS, 0);
+        SetGpuReg(REG_OFFSET_BG2VOFS, 0);
+        SetGpuReg(REG_OFFSET_BG2HOFS, 0);
+        SetGpuReg(REG_OFFSET_BG3HOFS, 0);
+        SetGpuReg(REG_OFFSET_BG3VOFS, 0);
+        sFlyMap = malloc(sizeof(*sFlyMap));
+        if (sFlyMap == NULL)
+        {
+            SetMainCallback2(CB2_ReturnToField);
+        }
+        else
+        {
+            sFlyMap->isTaxi = TRUE;
+            FlagSet(FLAG_SYS_USING_FLY_TAXI);
+            ResetPaletteFade();
+            ResetSpriteData();
+            FreeSpriteTileRanges();
+            FreeAllSpritePalettes();
+            SetMainCallback2(CB2_OpenFlyMap);
+            gMain.state++;
+        }
         break;
     }
 }
@@ -2142,7 +2179,12 @@ static void CB_ExitFlyMap(void)
             }
             else
             {
-                SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
+                if(sFlyMap->isTaxi) {
+                    FlagClear(FLAG_SYS_USING_FLY_TAXI);
+                    SetMainCallback2(CB2_ReturnToField);
+                }
+                else
+                    SetMainCallback2(CB2_ReturnToPartyMenuFromFlyMap);
             }
             if (sFlyMap != NULL)
             {

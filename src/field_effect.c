@@ -1,5 +1,6 @@
 #include "global.h"
 #include "decompress.h"
+#include "event_data.h"
 #include "event_object_movement.h"
 #include "field_camera.h"
 #include "field_control_avatar.h"
@@ -3175,7 +3176,14 @@ static void Task_FlyOut(u8 taskId)
 static void FlyOutFieldEffect_FieldMovePose(struct Task *task)
 {
     struct ObjectEvent *objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if (!ObjectEventIsMovementOverridden(objectEvent) || ObjectEventClearHeldMovementIfFinished(objectEvent))
+    if (FlagGet(FLAG_SYS_USING_FLY_TAXI))
+    {
+        task->tAvatarFlags = gPlayerAvatar.flags;
+        gPlayerAvatar.preventStep = TRUE;
+        SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_ON_FOOT);
+        task->tState++;
+    }
+    else if (!ObjectEventIsMovementOverridden(objectEvent) || ObjectEventClearHeldMovementIfFinished(objectEvent))
     {
         task->tAvatarFlags = gPlayerAvatar.flags;
         gPlayerAvatar.preventStep = TRUE;
@@ -3189,7 +3197,11 @@ static void FlyOutFieldEffect_FieldMovePose(struct Task *task)
 static void FlyOutFieldEffect_ShowMon(struct Task *task)
 {
     struct ObjectEvent *objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if (ObjectEventClearHeldMovementIfFinished(objectEvent))
+    if (FlagGet(FLAG_SYS_USING_FLY_TAXI))
+    {
+        task->tState++;
+    }
+    else if (ObjectEventClearHeldMovementIfFinished(objectEvent))
     {
         task->tState++;
         gFieldEffectArguments[0] = task->tMonId;
@@ -3546,9 +3558,17 @@ static void FlyInFieldEffect_FieldMovePose(struct Task *task)
         sprite->x2 = 0;
         sprite->y2 = 0;
         sprite->coordOffsetEnabled = TRUE;
-        SetPlayerAvatarFieldMove();
-        ObjectEventSetHeldMovement(objectEvent, MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
-        task->tState++;
+        if(FlagGet(FLAG_SYS_USING_FLY_TAXI))
+        {
+            DestroySprite(&gSprites[task->tBirdSpriteId]);
+            task->tState = 6;
+        }
+        else
+        {
+            SetPlayerAvatarFieldMove();
+            ObjectEventSetHeldMovement(objectEvent, MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
+            task->tState++;
+        }
     }
 }
 
@@ -3589,6 +3609,7 @@ static void FlyInFieldEffect_End(struct Task *task)
         gPlayerAvatar.flags = task->tAvatarFlags;
         gPlayerAvatar.preventStep = FALSE;
         FieldEffectActiveListRemove(FLDEFF_FLY_IN);
+        FlagClear(FLAG_SYS_USING_FLY_TAXI);
         DestroyTask(FindTaskIdByFunc(Task_FlyIn));
     }
 }

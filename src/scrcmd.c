@@ -33,6 +33,7 @@
 #include "pokemon_storage_system.h"
 #include "random.h"
 #include "overworld.h"
+#include "region_map.h"
 #include "rotating_tile_puzzle.h"
 #include "rtc.h"
 #include "script.h"
@@ -2389,4 +2390,12 @@ bool8 ScrCmd_checkchallengemode(struct ScriptContext *ctx)
 {
     gSpecialVar_Result = (gSaveBlock2Ptr->optionsChallengeStrongerTeams ? TRUE : FALSE);
     return FALSE;
+}
+
+bool8 ScrCmd_openflymap(struct ScriptContext *ctx)
+{
+    SetMainCallback2(CB2_OpenFlyTaxiMap);
+    ScriptContext2_Enable();
+    FreezeObjectEvents();
+    return TRUE;
 }

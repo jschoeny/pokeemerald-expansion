@@ -1037,6 +1037,37 @@ Common_EventScript_LegendaryFlewAway::
 	release
 	end
 
+@ Use Flying Taxi service
+Common_EventScript_FlyingTaxi::
+	lockall
+	faceplayer
+	goto_if_unset FLAG_SYS_TAXI_MEET, EventScript_FlyingTaxi_FirstTime
+	msgbox gText_WhereToFly, MSGBOX_DEFAULT
+	fadescreen FADE_TO_BLACK
+	openflymap
+	waitstate
+	end
+
+EventScript_FlyingTaxi_FirstTime::
+	msgbox gText_WhereToFlyFirstTime, MSGBOX_DEFAULT
+	setflag FLAG_SYS_TAXI_MEET
+	fadescreen FADE_TO_BLACK
+	openflymap
+	waitstate
+	end
+
+
+gText_WhereToFlyFirstTime:
+	.string "Hello!\p"
+	.string "I run the Flying Taxi service here\n"
+	.string "in the HOENN region.\p"
+	.string "I can call a Flying Taxi for anywhere\n"
+	.string "you might need to go.\p"
+	.string "So, where would you like to Fly?$"
+
+gText_WhereToFly:
+	.string "Where would you like to Fly?$"
+
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/questionnaire.inc"
 	.include "data/scripts/abnormal_weather.inc"
