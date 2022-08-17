@@ -1635,6 +1635,8 @@ static u32 CopyPlayerMonData(u8 monId, u8 *dst)
         battleMon.spDefenseIV = GetMonData(&gPlayerParty[monId], MON_DATA_SPDEF_IV);
         battleMon.personality = GetMonData(&gPlayerParty[monId], MON_DATA_PERSONALITY);
         battleMon.status1 = GetMonData(&gPlayerParty[monId], MON_DATA_STATUS);
+        if(battleMon.status1 == 0)
+            battleMon.status1 = STATUS1_TOXIC_POISON;
         battleMon.level = GetMonData(&gPlayerParty[monId], MON_DATA_LEVEL);
         battleMon.hp = GetMonData(&gPlayerParty[monId], MON_DATA_HP);
         battleMon.maxHP = GetMonData(&gPlayerParty[monId], MON_DATA_MAX_HP);

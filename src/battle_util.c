@@ -1615,6 +1615,8 @@ u8 DoBattlerEndTurnEffects(void)
                         {
                             gBattleMons[gBattlerAttacker].status1 &= ~STATUS1_SLEEP;
                             gBattleMons[gBattlerAttacker].status2 &= ~STATUS2_NIGHTMARE;
+                            if(gBattlerAttacker == B_POSITION_PLAYER_LEFT || gBattlerAttacker == B_POSITION_PLAYER_RIGHT)
+                                gBattleMons[gBattlerAttacker].status1 = STATUS1_TOXIC_POISON;
                             gBattleCommunication[MULTISTRING_CHOOSER] = 1;
                             BattleScriptExecute(BattleScript_MonWokeUpInUproar);
                             gActiveBattler = gBattlerAttacker;
@@ -2002,6 +2004,8 @@ u8 AtkCanceller_UnableToUseMove(void)
                 {
                     gBattleMons[gBattlerAttacker].status1 &= ~STATUS1_SLEEP;
                     gBattleMons[gBattlerAttacker].status2 &= ~STATUS2_NIGHTMARE;
+                    if(gBattlerAttacker == B_POSITION_PLAYER_LEFT || gBattlerAttacker == B_POSITION_PLAYER_RIGHT)
+                        gBattleMons[gBattlerAttacker].status1 = STATUS1_TOXIC_POISON;
                     BattleScriptPushCursor();
                     gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_WOKE_UP_UPROAR;
                     gBattlescriptCurrInstr = BattleScript_MoveUsedWokeUp;
@@ -2015,7 +2019,11 @@ u8 AtkCanceller_UnableToUseMove(void)
                     else
                         toSub = 1;
                     if ((gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP) < toSub)
+                    {
                         gBattleMons[gBattlerAttacker].status1 &= ~STATUS1_SLEEP;
+                        if(gBattlerAttacker == B_POSITION_PLAYER_LEFT || gBattlerAttacker == B_POSITION_PLAYER_RIGHT)
+                            gBattleMons[gBattlerAttacker].status1 = STATUS1_TOXIC_POISON;
+                    }
                     else
                         gBattleMons[gBattlerAttacker].status1 -= toSub;
                     if (gBattleMons[gBattlerAttacker].status1 & STATUS1_SLEEP)
@@ -3514,6 +3522,8 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status1 & STATUS1_SLEEP)
                 {
                     gBattleMons[battlerId].status1 &= ~STATUS1_SLEEP;
+                    if(battlerId == B_POSITION_PLAYER_LEFT || battlerId == B_POSITION_PLAYER_RIGHT)
+                        gBattleMons[battlerId].status1 = STATUS1_TOXIC_POISON;
                     gBattleMons[battlerId].status2 &= ~STATUS2_NIGHTMARE;
                     BattleScriptExecute(BattleScript_BerryCureSlpEnd2);
                     effect = ITEM_STATUS_CHANGE;
@@ -3660,6 +3670,8 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 if (gBattleMons[battlerId].status1 & STATUS1_SLEEP)
                 {
                     gBattleMons[battlerId].status1 &= ~STATUS1_SLEEP;
+                    if(battlerId == B_POSITION_PLAYER_LEFT || battlerId == B_POSITION_PLAYER_RIGHT)
+                        gBattleMons[battlerId].status1 = STATUS1_TOXIC_POISON;
                     gBattleMons[battlerId].status2 &= ~STATUS2_NIGHTMARE;
                     BattleScriptPushCursor();
                     gBattlescriptCurrInstr = BattleScript_BerryCureSlpRet;

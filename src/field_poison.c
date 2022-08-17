@@ -123,14 +123,20 @@ s32 DoPoisonFieldEffect(void)
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES) && GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN)
+        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES))
         {
-            // Apply poison damage
-            hp = GetMonData(pokemon, MON_DATA_HP);
-            if (hp == 0 || --hp == 0)
-                numFainted++;
+            u32 status = STATUS1_TOXIC_POISON;
+            if (GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) != AILMENT_PSN)
+                SetMonData(pokemon, MON_DATA_STATUS, &status);
+            else
+            {
+                // Apply poison damage
+                hp = GetMonData(pokemon, MON_DATA_HP);
+                if (hp == 0 || --hp == 0)
+                    numFainted++;
 
-            SetMonData(pokemon, MON_DATA_HP, &hp);
+                SetMonData(pokemon, MON_DATA_HP, &hp);
+            }
             numPoisoned++;
         }
         pokemon++;

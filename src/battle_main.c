@@ -570,6 +570,19 @@ const u8 * const gStatusConditionStringsTable[][2] =
 
 void CB2_InitBattle(void)
 {
+    u8 i;
+    struct Pokemon *pokemon = gPlayerParty;
+    for(i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES))
+        {
+            u32 status = STATUS1_TOXIC_POISON;
+            if (GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) != AILMENT_PSN)
+                SetMonData(pokemon, MON_DATA_STATUS, &status);
+        }
+        pokemon++;
+    }
+
     MoveSaveBlocks_ResetHeap();
     AllocateBattleResources();
     AllocateBattleSpritesData();
