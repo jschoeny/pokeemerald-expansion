@@ -624,6 +624,9 @@ static u32 InitMainMenu(bool8 returningFromOptionsMenu)
         if(gSaveBlock2Ptr->optionsRandomizerWild != OPTIONS_RANDOMIZER_WILD_NORMAL)
             gSaveBlock2Ptr->optionsRandomizerStarter = TRUE;
     }
+    
+    if(!FlagGet(FLAG_BADGE03_GET))
+        FlagSet(FLAG_HIDE_FLYING_TAXI_MAN);
 
     {
         u8 i;
