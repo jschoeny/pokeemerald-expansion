@@ -1248,5 +1248,31 @@ const struct PlaceholderMove gPlaceholderMoves[MOVES_COUNT_PH] =
             [TYPE_DARK]     = MOVE_NIGHT_SLASH,
             [TYPE_FAIRY]    = MOVE_PLAY_ROUGH
         }
+    },
+
+    [PH_MOVE(MOVE_PH_ATK_WEAK)] =
+    {
+        .move =
+        {
+            [TYPE_NORMAL]   = MOVE_FURY_SWIPES,
+            [TYPE_FIGHTING] = MOVE_BARRAGE,
+            [TYPE_FLYING]   = MOVE_FURY_ATTACK,
+            [TYPE_POISON]   = MOVE_POISON_STING,
+            [TYPE_GROUND]   = MOVE_BONE_RUSH,
+            [TYPE_ROCK]     = MOVE_ROCK_BLAST,
+            [TYPE_BUG]      = MOVE_PIN_MISSILE,
+            [TYPE_GHOST]    = MOVE_LICK,
+            [TYPE_STEEL]    = MOVE_SPIKE_CANNON,
+            [TYPE_MYSTERY]  = MOVE_SKETCH,
+            [TYPE_FIRE]     = MOVE_FURY_SWIPES,
+            [TYPE_WATER]    = MOVE_FURY_SWIPES,
+            [TYPE_GRASS]    = MOVE_BULLET_SEED,
+            [TYPE_ELECTRIC] = MOVE_NUZZLE,
+            [TYPE_PSYCHIC]  = MOVE_FURY_SWIPES,
+            [TYPE_ICE]      = MOVE_TRIPLE_AXEL,
+            [TYPE_DRAGON]   = MOVE_SCALE_SHOT,
+            [TYPE_DARK]     = MOVE_POWER_TRIP,
+            [TYPE_FAIRY]    = MOVE_DOUBLE_SLAP
+        }
     }
 };

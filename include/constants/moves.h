@@ -836,8 +836,9 @@
 #define MOVE_PH_ELEMENT_STRONG 846
 #define MOVE_PH_ELEMENT_STRONG2 847
 #define MOVE_PH_BLADE2 848
+#define MOVE_PH_ATK_WEAK 849
 // LIMIT AT 2047 - leftmost 5 bits used for type flagging
-#define MOVES_COUNT_PH 48
+#define MOVES_COUNT_PH 49
 
 #define MOVES_PH_TYPE2 MOVES_COUNT_PH
 #define PH_MOVE_FLAG 0xF800
