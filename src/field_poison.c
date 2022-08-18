@@ -123,7 +123,7 @@ s32 DoPoisonFieldEffect(void)
 
     for (i = 0; i < PARTY_SIZE; i++)
     {
-        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES))
+        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES) && GetMonData(pokemon, MON_DATA_HP) != 0)
         {
             u32 status = STATUS1_TOXIC_POISON;
             if (GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) != AILMENT_PSN)
