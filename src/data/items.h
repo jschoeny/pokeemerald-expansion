@@ -1382,7 +1382,7 @@ const struct Item gItems[] =
     {
         .name = _("Exp.Candy S"),
         .itemId = ITEM_EXP_CANDY_S,
-        .price = 800,
+        .price = 700,
         .description = sExpCandyXSDesc,
         .pocket = POCKET_ITEMS,
         .type = ITEM_USE_PARTY_MENU,
