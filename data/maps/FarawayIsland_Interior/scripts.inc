@@ -556,6 +556,8 @@ FarawayIsland_Interior_EventScript_Articuno::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_ARTICUNO
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -566,6 +568,8 @@ FarawayIsland_Interior_EventScript_Zapdos::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_ZAPDOS
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -576,6 +580,8 @@ FarawayIsland_Interior_EventScript_Moltres::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_MOLTRES
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -586,6 +592,8 @@ FarawayIsland_Interior_EventScript_Mewtwo::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_MEWTWO
+	finditem ITEM_EXP_CANDY_XL, 3
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -596,6 +604,8 @@ FarawayIsland_Interior_EventScript_Suicune::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_SUICUNE
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -606,6 +616,8 @@ FarawayIsland_Interior_EventScript_Raikou::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_RAIKOU
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -616,6 +628,8 @@ FarawayIsland_Interior_EventScript_Entei::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_ENTEI
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -626,6 +640,8 @@ FarawayIsland_Interior_EventScript_Uxie::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_UXIE
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -636,6 +652,8 @@ FarawayIsland_Interior_EventScript_Mesprit::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_MESPRIT
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -646,6 +664,8 @@ FarawayIsland_Interior_EventScript_Azelf::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_AZELF
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -656,6 +676,8 @@ FarawayIsland_Interior_EventScript_Dialga::
 	setvar HELDITEM, ITEM_ADAMANT_ORB
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_DIALGA
+	finditem ITEM_EXP_CANDY_XL, 2
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -666,6 +688,8 @@ FarawayIsland_Interior_EventScript_Palkia::
 	setvar HELDITEM, ITEM_LUSTROUS_ORB
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_PALKIA
+	finditem ITEM_EXP_CANDY_XL, 2
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -689,6 +713,8 @@ FarawayIsland_Interior_EventScript_Giratina::
 	setvar VAR_BATTLEBG_BLEND, BG_FADE_GIRATINA
 	call FarawayIsland_Interior_EventScript_SlateEncounterStart
 	setflag FLAG_CAUGHT_GIRATINA
+	finditem ITEM_EXP_CANDY_XL, 2
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
@@ -699,6 +725,8 @@ FarawayIsland_Interior_EventScript_Cresselia::
 	setvar HELDITEM, ITEM_NONE
 	call FarawayIsland_Interior_EventScript_SlateEncounterWeather
 	setflag FLAG_CAUGHT_CRESSELIA
+	finditem ITEM_EXP_CANDY_XL
+	finditem ITEM_MYSTERIOUS_SHARD
 	release
 	end
 
