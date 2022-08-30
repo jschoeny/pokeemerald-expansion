@@ -500,9 +500,13 @@ FarawayIsland_Interior_EventScript_SlateEncounterStart::
 	setwildbattlevars VAR_SPECIES_ID, MONLEVEL, HELDITEM
 	special BattleSetup_StartLegendaryBattle
 	waitstate
+	delay 40
+	specialvar VAR_RESULT, GetBattleOutcome
+	call_if_eq VAR_RESULT, B_OUTCOME_WON, FarawayIsland_Interior_EventScript_SlateFaintCry
+	call_if_eq VAR_RESULT, B_OUTCOME_RAN, FarawayIsland_Interior_EventScript_SlateFaintCry
+	call_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, FarawayIsland_Interior_EventScript_SlateFaintCry
 	delay 20
 	call FarawayIsland_Interior_EventScript_CloseSlateHoleEffect
-	specialvar VAR_RESULT, GetBattleOutcome
 	goto_if_eq VAR_RESULT, B_OUTCOME_WON, FarawayIsland_Interior_EventScript_LegendaryFlewAway
 	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, FarawayIsland_Interior_EventScript_LegendaryFlewAway
 	goto_if_eq VAR_RESULT, B_OUTCOME_PLAYER_TELEPORTED, FarawayIsland_Interior_EventScript_LegendaryFlewAway
