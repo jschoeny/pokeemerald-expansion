@@ -2523,9 +2523,15 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
     gBattleSpritesDataPtr->healthBoxesData[battler].triedShinyMonAnim = TRUE;
     otId = GetMonData(mon, MON_DATA_OT_ID);
     personality = GetMonData(mon, MON_DATA_PERSONALITY);
-    type1 = GetMonType(mon, FALSE);
-    type2 = GetMonType(mon, TRUE);
     species = GetMonData(mon, MON_DATA_SPECIES);
+    if(gTypeRandomOverride && GetBattlerSide(battler) == B_SIDE_OPPONENT) {
+        type1 = gBaseStats[species].type1;
+        type2 = gBaseStats[species].type2;
+    }
+    else {
+        type1 = GetMonType(mon, FALSE);
+        type2 = GetMonType(mon, TRUE);
+    }
 
     if (IsBattlerSpriteVisible(battler))
     {

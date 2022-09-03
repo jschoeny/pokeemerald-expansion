@@ -936,5 +936,6 @@ extern u16 gLastThrownBall;
 extern bool8 gSwapDamageCategory; // Photon Geyser, Shell Side Arm, Light That Burns the Sky
 
 extern u8 gWildItemFoundCount;
+extern bool8 gTypeRandomOverride;
 
 #endif // GUARD_BATTLE_H

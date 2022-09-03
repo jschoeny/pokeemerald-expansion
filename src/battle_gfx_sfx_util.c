@@ -628,8 +628,14 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
         LoadPalette(gBattleStruct->castformPalette[gBattleMonForms[battlerId]], paletteOffset, 0x20);
     }
 
-    type1 = GetMonTypeFromPersonality(species, currentPersonality, FALSE);
-    type2 = GetMonTypeFromPersonality(species, currentPersonality, TRUE);
+    if(gTypeRandomOverride && opponent) {
+        type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
+        type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    }
+    else {
+        type1 = GetMonTypeFromPersonality(species, currentPersonality, FALSE);
+        type2 = GetMonTypeFromPersonality(species, currentPersonality, TRUE);
+    }
     if(type1 != gBaseStats[species].type1 || type2 != gBaseStats[species].type2)
     {
         ChangePalette(paletteOffset,

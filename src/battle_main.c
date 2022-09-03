@@ -239,6 +239,7 @@ EWRAM_DATA u8 gLastUsedBall = 0;
 EWRAM_DATA u16 gLastThrownBall = 0;
 EWRAM_DATA bool8 gSwapDamageCategory = FALSE; // Photon Geyser, Shell Side Arm, Light That Burns the Sky
 EWRAM_DATA u8 gWildItemFoundCount = 0;
+EWRAM_DATA bool8 gTypeRandomOverride = FALSE;
 
 void (*gPreBattleCallback1)(void);
 void (*gBattleMainFunc)(void);
@@ -549,6 +550,8 @@ static void CB2_InitBattleInternal(void)
     gReservedSpritePaletteCount = 4;
     SetVBlankCallback(VBlankCB_Battle);
     SetUpBattleVarsAndBirchZigzagoon();
+
+    gTypeRandomOverride = FALSE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
         SetMainCallback2(CB2_HandleStartMultiPartnerBattle);
@@ -1824,12 +1827,21 @@ static void SpriteCB_UnusedBattleInit_Main(struct Sprite *sprite)
     }
 }
 
+#define IS_IMPORTANT_TRAINER(trainerClass)          \
+    (trainerClass == TRAINER_CLASS_LEADER           \
+     || trainerClass == TRAINER_CLASS_ELITE_FOUR    \
+     || trainerClass == TRAINER_CLASS_CHAMPION      \
+     || trainerClass == TRAINER_CLASS_CYNTHIA       \
+     || trainerClass == TRAINER_CLASS_AQUA_LEADER   \
+     || trainerClass == TRAINER_CLASS_MAGMA_LEADER)
+
 static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 firstTrainer)
 {
     u32 nameHash = 0;
     u32 personalityValue;
     u8 fixedIV;
     s32 i, j;
+    bool8 isImportantTrainer = FALSE;
     u8 monsCount;
     u16 species;
     u16 value = gSaveBlock2Ptr->playerTrainerId[0]
@@ -1849,6 +1861,11 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             ZeroEnemyPartyMons();
 
         trainerNum = GetChallengeTrainerNum(trainerNum);
+        isImportantTrainer = IS_IMPORTANT_TRAINER(gTrainers[trainerNum].trainerClass);
+        if(isImportantTrainer && gSaveBlock2Ptr->optionsRandomizerType
+         && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_NORMAL) {
+            gTypeRandomOverride = TRUE;
+        }
 
         if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
         {
@@ -1901,10 +1918,15 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
 
                     personalityValue = personalityValueStart + (nameHash << 8);
 
-                    if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
-                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
-                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
-                            keepChecking = TRUE;
+                    if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES)) {
+                        if(isImportantTrainer && !gSaveBlock2Ptr->optionsRandomizerTrainer) {
+
+                        }
+                        else if(trainerType != TYPE_NONE) {
+                            if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                             && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                                keepChecking = TRUE;
+                        }
                     }
 
                 } while (keepChecking);
@@ -1944,9 +1966,14 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                     personalityValue = personalityValueStart + (nameHash << 8);
 
                     if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
-                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
-                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
-                            keepChecking = TRUE;
+                        if(isImportantTrainer && !gSaveBlock2Ptr->optionsRandomizerTrainer) {
+
+                        }
+                        else if(trainerType != TYPE_NONE) {
+                            if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                             && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                                keepChecking = TRUE;
+                        }
                     }
 
                 } while (keepChecking);
@@ -1984,9 +2011,14 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                     personalityValue = personalityValueStart + (nameHash << 8);
 
                     if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
-                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
-                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
-                            keepChecking = TRUE;
+                        if(isImportantTrainer && !gSaveBlock2Ptr->optionsRandomizerTrainer) {
+
+                        }
+                        else if(trainerType != TYPE_NONE) {
+                            if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                             && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                                keepChecking = TRUE;
+                        }
                     }
 
                 } while (keepChecking);
@@ -2000,6 +2032,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
             case F_TRAINER_PARTY_CUSTOM_MOVESET | F_TRAINER_PARTY_HELD_ITEM:
             {
                 const struct TrainerMonItemCustomMoves *partyData = gTrainers[trainerNum].party.ItemCustomMoves;
+                bool8 firstLoop = TRUE;
                 species = partyData[i].species;
                 species = GetRandomizedSpeciesTrainer(species, trainerNum, trainerType);
 
@@ -2008,7 +2041,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
 
                 do {
                     keepChecking = FALSE;
-                    if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND)
+                    if(partyData[i].pid == 0 || gSaveBlock2Ptr->optionsRandomizerTrainer == OPTIONS_RANDOMIZER_TRAINER_RAND || !firstLoop)
                         nameHash = ((0xA5F3 * (nameHash + value)) + 0xE7) % 0xFFFFF;
                     else
                         nameHash = ((0xA5F3 * (partyData[i].pid + value)) + 0xE7) % 0xFFFFF;
@@ -2016,10 +2049,16 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                     personalityValue = personalityValueStart + (nameHash << 8);
 
                     if(gSaveBlock2Ptr->optionsRandomizerType && FlagGet(FLAG_DIFF_KEEP_TRAINER_TYPES) && trainerType != TYPE_NONE) {
-                        if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
-                         && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
-                            keepChecking = TRUE;
+                        if(isImportantTrainer && !gSaveBlock2Ptr->optionsRandomizerTrainer) {
+
+                        }
+                        else if(trainerType != TYPE_NONE) {
+                            if(GetMonTypeFromPersonality(species, personalityValue, FALSE) != trainerType
+                             && GetMonTypeFromPersonality(species, personalityValue, TRUE) != trainerType)
+                                keepChecking = TRUE;
+                        }
                     }
+                    firstLoop = FALSE;
 
                 } while (keepChecking);
 
@@ -3316,8 +3355,14 @@ void FaintClearSetData(void)
 
     gBattleResources->flags->flags[gActiveBattler] = 0;
 
-    type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
-    type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+    if(gTypeRandomOverride && GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT) {
+        type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
+        type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    }
+    else {
+        type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
+        type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+    }
 
     gBattleMons[gActiveBattler].type1 = type1;
     gBattleMons[gActiveBattler].type2 = type2;
@@ -3420,8 +3465,14 @@ static void DoBattleIntro(void)
             {
                 memcpy(&gBattleMons[gActiveBattler], &gBattleResources->bufferB[gActiveBattler][4], sizeof(struct BattlePokemon));
 
-                type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
-                type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+                if(gTypeRandomOverride && GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT) {
+                    type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
+                    type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+                }
+                else {
+                    type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
+                    type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+                }
                 ability = GetAbilityBySpeciesPersonality(gBattleMons[gActiveBattler].species,gBattleMons[gActiveBattler].abilityNum,gBattleMons[gActiveBattler].personality);
 
                 gBattleMons[gActiveBattler].type1 = type1;

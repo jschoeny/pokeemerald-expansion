@@ -2013,8 +2013,14 @@ u8 GetImprisonedMovesCount(u8 battlerId, u16 move)
 
 void RestoreBattlerOriginalTypes(u8 battlerId)
 {
-    gBattleMons[battlerId].type1 = GetMonTypeFromPersonality(gBattleMons[battlerId].species, gBattleMons[battlerId].personality, FALSE);
-    gBattleMons[battlerId].type2 = GetMonTypeFromPersonality(gBattleMons[battlerId].species, gBattleMons[battlerId].personality, TRUE);
+    if(gTypeRandomOverride && GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT) {
+        gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
+        gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    }
+    else {
+        gBattleMons[battlerId].type1 = GetMonTypeFromPersonality(gBattleMons[battlerId].species, gBattleMons[battlerId].personality, FALSE);
+        gBattleMons[battlerId].type2 = GetMonTypeFromPersonality(gBattleMons[battlerId].species, gBattleMons[battlerId].personality, TRUE);
+    }
 }
 
 void TryToApplyMimicry(u8 battlerId, bool8 various)

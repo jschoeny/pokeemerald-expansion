@@ -626,6 +626,11 @@ static u32 GestBestMonOffensive(struct Pokemon *party, int firstId, int lastId, 
                 u8 defType1 = gBattleMons[opposingBattler].type1;
                 u8 defType2 = gBattleMons[opposingBattler].type2;
 
+                if(gTypeRandomOverride && GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT) {
+                    atkType1 = gBaseStats[species].type1;
+                    atkType2 = gBaseStats[species].type2;
+                }
+
                 typeDmg *= GetTypeModifier(atkType1, defType1);
                 if (atkType2 != atkType1)
                     typeDmg *= GetTypeModifier(atkType2, defType1);

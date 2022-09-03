@@ -5806,8 +5806,14 @@ static void Cmd_switchindataupdate(void)
     for (i = 0; i < sizeof(struct BattlePokemon); i++)
         monData[i] = gBattleResources->bufferB[gActiveBattler][4 + i];
 
-    gBattleMons[gActiveBattler].type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
-    gBattleMons[gActiveBattler].type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+    if(gTypeRandomOverride && GetBattlerSide(gActiveBattler) == B_SIDE_OPPONENT) {
+        gBattleMons[gActiveBattler].type1 = gBaseStats[gBattleMons[gActiveBattler].species].type1;
+        gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
+    }
+    else {
+        gBattleMons[gActiveBattler].type1 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, FALSE);
+        gBattleMons[gActiveBattler].type2 = GetMonTypeFromPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].personality, TRUE);
+    }
     gBattleMons[gActiveBattler].type3 = TYPE_MYSTERY;
     gBattleMons[gActiveBattler].ability = GetAbilityBySpeciesPersonality(gBattleMons[gActiveBattler].species, gBattleMons[gActiveBattler].abilityNum, gBattleMons[gActiveBattler].personality);
 
@@ -7759,8 +7765,14 @@ static void RecalcBattlerStats(u32 battler, struct Pokemon *mon)
     gBattleMons[battler].spAttack = GetMonData(mon, MON_DATA_SPATK);
     gBattleMons[battler].spDefense = GetMonData(mon, MON_DATA_SPDEF);
     gBattleMons[battler].ability = GetMonAbility(mon);
-    gBattleMons[battler].type1 = GetMonType(mon, FALSE);
-    gBattleMons[battler].type2 = GetMonType(mon, TRUE);
+    if(gTypeRandomOverride && GetBattlerSide(battler) == B_SIDE_OPPONENT) {
+        gBattleMons[battler].type1 = gBaseStats[gBattleMons[battler].species].type1;
+        gBattleMons[battler].type2 = gBaseStats[gBattleMons[battler].species].type2;
+    }
+    else {
+        gBattleMons[battler].type1 = GetMonType(mon, FALSE);
+        gBattleMons[battler].type2 = GetMonType(mon, TRUE);
+    }
 }
 
 static u32 GetHighestStatId(u32 battlerId)
