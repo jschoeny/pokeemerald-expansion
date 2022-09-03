@@ -434,7 +434,7 @@ static const u8 sText_Accuracy2[] = _("ACC.");
 static const u8 sText_Evasiveness2[] = _("EVASION");
 static const u8 sText_PkmnTookTargetHigh[] = _("{B_ATK_NAME_WITH_PREFIX} took {B_DEF_NAME_WITH_PREFIX}\ninto the air!");
 static const u8 sText_TargetTooHeavy[] = _("But the target\nwas too heavy!");
-static const u8 sText_PlayerFoundItem[] = _("{B_PLAYER_NAME} found\na {B_BUFF1}!");
+static const u8 sText_PlayerFoundItem[] = _("{B_PLAYER_NAME} found\nthe {B_BUFF1}!");
 static const u8 sText_PlacedItemInBag[] = _("The item was placed\nin the BAG.");
 static const u8 sText_PlacedItemsInBag[] = _("The items were placed\nin the BAG.");
 
