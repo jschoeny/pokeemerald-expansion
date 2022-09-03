@@ -1831,9 +1831,7 @@ static void SpriteCB_UnusedBattleInit_Main(struct Sprite *sprite)
     (trainerClass == TRAINER_CLASS_LEADER           \
      || trainerClass == TRAINER_CLASS_ELITE_FOUR    \
      || trainerClass == TRAINER_CLASS_CHAMPION      \
-     || trainerClass == TRAINER_CLASS_CYNTHIA       \
-     || trainerClass == TRAINER_CLASS_AQUA_LEADER   \
-     || trainerClass == TRAINER_CLASS_MAGMA_LEADER)
+     || trainerClass == TRAINER_CLASS_CYNTHIA)
 
 static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 firstTrainer)
 {
