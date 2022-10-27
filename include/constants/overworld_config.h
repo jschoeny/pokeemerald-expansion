@@ -8,6 +8,9 @@
 #define OW_FLAG_NO_ENCOUNTER             0  // If this flag is set, wild encounters will be disabled.
 #define OW_FLAG_NO_TRAINER_SEE           0  // If this flag is set, trainers will not battle the player unless they're talked to.
 
+// Flying Taxi Service flags
+#define OW_FLAG_TAXI_NPC_MET             0  // If this flag is set, the taxi npc can skip their explanatory dialogue. Set an NPC's map script to Common_EventScript_FlyingTaxi to use the taxi service.
+
 // Debug options
 #define DEBUG_SYSTEM_ENABLE         TRUE               // Enables a overworld debug menu for changing flags, variables, giving pokemon and more, accessed by holding R and pressing START while in the overworld by default.
 #define DEBUG_SYSTEM_HELD_KEYS      (R_BUTTON)         // The keys required to be held to open the debug menu.

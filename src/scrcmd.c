@@ -33,6 +33,7 @@
 #include "pokemon_storage_system.h"
 #include "random.h"
 #include "overworld.h"
+#include "region_map.h"
 #include "rotating_tile_puzzle.h"
 #include "rtc.h"
 #include "script.h"
@@ -67,6 +68,7 @@ static bool8 gIsScriptedWildDouble;
 extern const SpecialFunc gSpecials[];
 extern const u8 *gStdScripts[];
 extern const u8 *gStdScripts_End[];
+extern EWRAM_DATA bool32 gUsingTaxiService;
 
 static void CloseBrailleWindow(void);
 
@@ -2325,5 +2327,14 @@ bool8 ScrCmd_warpwhitefade(struct ScriptContext *ctx)
     SetWarpDestination(mapGroup, mapNum, warpId, x, y);
     DoWhiteFadeWarp();
     ResetInitialPlayerAvatarState();
+    return TRUE;
+}
+
+bool8 ScrCmd_openflymap(struct ScriptContext *ctx)
+{
+    gUsingTaxiService = TRUE;
+    SetMainCallback2(CB2_OpenFlyMap);
+    LockPlayerFieldControls();
+    FreezeObjectEvents();
     return TRUE;
 }

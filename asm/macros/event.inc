@@ -1735,6 +1735,12 @@
 	.2byte \quantity
 	.endm
 
+	@ Opens the Fly Map for use with the Flying Taxi service. The main difference is returning to field when
+	@ cancelling and skipping certain animations.
+	.macro openflymap
+	.byte 0xe3
+	.endm
+
 
 @ Supplementary
 

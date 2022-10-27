@@ -1003,6 +1003,37 @@ Common_EventScript_LegendaryFlewAway::
 	release
 	end
 
+Common_EventScript_FlyingTaxi::
+	lockall
+	faceplayer
+	call_if_set OW_FLAG_TAXI_NPC_MET, EventScript_FlyingTaxi_WhereToFly
+	call_if_unset OW_FLAG_TAXI_NPC_MET, EventScript_FlyingTaxi_FirstTime
+EventScript_FlyingTaxi_OpenMap::
+	fadescreen FADE_TO_BLACK
+	openflymap
+	waitstate
+	end
+
+EventScript_FlyingTaxi_FirstTime::
+	msgbox gText_FlyingTaxiIntro, MSGBOX_DEFAULT
+	setflag OW_FLAG_TAXI_NPC_MET
+	return
+
+EventScript_FlyingTaxi_WhereToFly::
+	msgbox gText_WhereToFly, MSGBOX_DEFAULT
+	return
+
+gText_FlyingTaxiIntro:
+ 	.string "Hello!\p"
+ 	.string "I run the Flying Taxi service here\n"
+ 	.string "in the HOENN region.\p"
+ 	.string "I can call a Flying Taxi for anywhere\n"
+ 	.string "you might need to go.\p"
+ 	.string "So, where would you like to Fly?$"
+
+ gText_WhereToFly:
+ 	.string "Where would you like to Fly?$"
+
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/questionnaire.inc"
 	.include "data/scripts/abnormal_weather.inc"
